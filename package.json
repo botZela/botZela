@@ -1,17 +1,24 @@
 {
+  "name": "botzela",
+  "version": "0.0.1",
+  "description": "",
+  "main": "bot.js",
   "dependencies": {
     "@discordjs/rest": "^0.3.0",
     "discord-api-types": "^0.27.2",
     "discord.js": "^13.6.0"
   },
-  "name": "ensias_bot_js",
-  "version": "1.0.0",
-  "main": "bot.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WHAT-S-N3XT/botZela.git"
+  },
   "author": "",
   "license": "ISC",
-  "description": ""
+  "bugs": {
+    "url": "https://github.com/WHAT-S-N3XT/botZela/issues"
+  },
+  "homepage": "https://github.com/WHAT-S-N3XT/botZela#readme"
 }

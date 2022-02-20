@@ -1,6 +1,6 @@
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
-const { TOKEN } = require('../config.json');
+const { TOKEN } = require('../credentials/config.json');
 const fs = require('fs');
 
 // Place your client and guild ids here
@@ -13,7 +13,7 @@ module.exports = (client) => {
         for (folder of commandFolders){
             const commandFiles = fs.readdirSync(`${path}/${folder}`).filter(file=> file.endsWith('.js'));
             for (const file of commandFiles){
-                const command = require(`../commands/${folder}/${file}`);
+                const command = require(`.${path}/${folder}/${file}`);
                 // set a new item in the Collection
                 // With the key as the command name and the value as the exported module
                 client.commands.set(command.data.name,command);

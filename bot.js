@@ -1,5 +1,5 @@
 const {Client, Intents, Collection} = require("discord.js");
-const {TOKEN} = require("./Credentials/config.json");
+const {TOKEN} = require("./credentials/config.json");
 const fs = require("fs");
 
 const myIntents = new Intents(32767);    
