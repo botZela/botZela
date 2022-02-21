@@ -1,6 +1,4 @@
-function choice(list) {
-    return list[Math.floor(Math.random() * list.length)];
-}
+const {choice} = require("./choice.js")
 
 function greetings(member) {
     const emojis = [

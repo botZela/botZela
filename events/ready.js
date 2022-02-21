@@ -2,7 +2,7 @@ module.exports = {
 	name: 'ready',
 	once: true,
 	async execute(client) {
-		client.user.setPresence({
+		await client.user.setPresence({
 			activities: [{
 				name: "with WHAT'S N3XT team",
 				type: "WATCHING"
