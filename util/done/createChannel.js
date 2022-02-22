@@ -1,10 +1,10 @@
-const { logsMessage } = require("./logsMessage");
+const { logsMessage } = require("../logsMessage");
 
-async function createCategory(guild,name,overwrites = null,channelPosition = null){
-    message = `[INFO] .${name} category in guild : .${guild.name} `
+async function createChannel(client,guild,name,channel_type,overwrites = null,category = null,channelPosition = null){
+    message = `[INFO] .${channel_type}_channel : .${name} in guild : .${guild.name}`
     try{
         out = await guild.channels.create(name,{
-            type : "GUILD_CATEGORY",
+            type : channel_type,
         })
         out.setParent(category);
         message = message+" Was Created Succesfully.";
@@ -12,7 +12,7 @@ async function createCategory(guild,name,overwrites = null,channelPosition = nul
         logsMessage(client,message,guild);
         return out;
     }catch(e){
-        message = message+"Was not created.";
+        message = message+"Was not created";
         console.log(message);
         logsMessage(client,message,guild);
         return null;
@@ -20,5 +20,5 @@ async function createCategory(guild,name,overwrites = null,channelPosition = nul
 }
 
 module.exports = {
-    createCategory,
+    createChannel,
 }
