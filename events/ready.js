@@ -1,3 +1,5 @@
+const { createChannel } = require("../util/createChannel");
+
 module.exports = {
 	name: 'ready',
 	once: true,
