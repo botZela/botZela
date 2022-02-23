@@ -1,6 +1,4 @@
-const {choice} = require("./choice.js")
-const {loadData} = require("./loadData.js");
-loadData();
+const {choice} = require("./choice.js");
 
 
 async function introduceYourSelf(message){

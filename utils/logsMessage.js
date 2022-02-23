@@ -1,6 +1,3 @@
-const {loadData} = require("./loadData.js");
-loadData();
-
 async function logsMessage(client,message,guild) {
     try{
         let channel = client.channels.cache.get(CHANNELS[`${guild.id}`]['LOGS']);

@@ -6,7 +6,6 @@ module.exports = {
 	name: 'guildCreate',
 	async execute(client,guild) {
 		console.log(`Joined server : ${guild.name}`);
-		data["ROLES"][`${guild.id}`] = {};
         const roles = guild.roles;
         for (var role in roles){
             data["ROLES"][`${guild.id}`][role.name] = role.id

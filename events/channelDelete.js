@@ -1,7 +1,5 @@
 const { createCommandsChannel } = require("../utils/createCommandsChannel");
 const { createLogsChannel } = require("../utils/createLogsChannel");
-const {loadData} = require("../utils/loadData.js");
-loadData();
 
 module.exports = {
 	name: 'channelDelete',

@@ -1,6 +1,4 @@
 const { greetings } = require("./greetings.js");
-const { loadData } = require("./loadData.js");
-loadData();
 
 function welcomeUser(member) {
     try {
