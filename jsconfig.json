@@ -1,0 +1,15 @@
+{
+    "compilerOptions":{
+        "baseUrl": ".",
+        "paths":{
+            "@utils/*" : [
+                "./utils/done/*",
+                "./utils/*"
+            ],
+            "@data/*" : [
+                "./data/*"
+            ]
+        }
+
+    }
+}

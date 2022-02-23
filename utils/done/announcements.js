@@ -1,5 +1,5 @@
 async function announcements(message){
-    if (message.guildId == '921408078983876678'){
+    if (SUPPORTED_GUILDS.includes(message.guildId)){
         const emojis = ["👍", "👎"];
         for (emoji of emojis){
             await message.react(emoji);
