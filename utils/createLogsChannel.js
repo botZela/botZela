@@ -1,5 +1,5 @@
 const { createChannel } = require("./createChannel");
-const data = require("../../data/data.json");
+const data = require("../data/data.json");
 const { saveData } = require("./saveData");
 
 async function createLogsChannel(client, guild, overwrites = null,category = null){
@@ -17,11 +17,10 @@ async function createLogsChannel(client, guild, overwrites = null,category = nul
     }
     logs = await createChannel(client,guild,"『🤖』ensias-bot-logs","GUILD_TEXT",overwrites,category)
     try{
-        data["CHANNELS"][`${guild.id}`]['LOGS1'] = logs.id;
+        data["CHANNELS"][`${guild.id}`]['LOGS'] = logs.id;
     } catch(e){
         console.log(e);
-        data["CHANNELS"][`${guild.id}`]['LOGS1'] = {};
-        data["CHANNELS"][`${guild.id}`]['LOGS1'] = logs.id;
+        data["CHANNELS"][`${guild.id}`]['LOGS'] = logs.id;
     }
     saveData();
 }

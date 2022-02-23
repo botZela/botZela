@@ -1,5 +1,6 @@
-const {saveData} = require("../utils/done/saveData.js");
+const {saveData} = require("../utils/saveData.js");
 const data = require("../data/data.json");
+const { setupLogsCommandsChannels } = require("../utils/setupLogsCommandsChannel.js");
 
 module.exports = {
 	name: 'guildCreate',
@@ -11,6 +12,6 @@ module.exports = {
             data["ROLES"][`${guild.id}`][role.name] = role.id
 		};
 		saveData()
-        //await self.setup_logs_commands_channels(guild)
+        await setupLogsCommandsChannels(client,guild);
     },  
 }

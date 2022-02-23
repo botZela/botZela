@@ -1,4 +1,4 @@
-const { saveData } = require("../utils/done/saveData");
+const { saveData } = require("../utils/saveData");
 const data = require("../data/data.json");
 module.exports = {
 	name: 'roleDelete',

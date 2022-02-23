@@ -1,9 +1,9 @@
 const { createChannel } = require("./createChannel");
-const data = require("../../data/data.json");
+const data = require("../data/data.json");
 const { saveData } = require("./saveData");
 const { MessageEmbed } = require("discord.js");
 
-function createCommandsChannel(client, guild, overwrites = null,category = null){
+async function createCommandsChannel(client, guild, overwrites = null,category = null){
     if (!overwrites){
         overwrites = [
             {

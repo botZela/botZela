@@ -2,7 +2,7 @@ function loadData() {
 
     console.log("[INFO] LOADING DATA")
 
-    const data = require("../../data/data.json");
+    const data = require("../data/data.json");
 
     ROLES = data["ROLES"];
 

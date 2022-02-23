@@ -1,5 +1,5 @@
 const fs = require('fs');
-const fileName = '../../data/data.json';
+const fileName = '../data/data.json';
 const { loadData } = require("./loadData.js")
 
 function saveData() {
