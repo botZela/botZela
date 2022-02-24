@@ -9,13 +9,13 @@ function structureSort(tab) {
         null;
       }
     }
-    for (let i = 0; i < n; i++) {
-      for (let j = 0; j < n - i - 1; j++) {
+    for (let s = 0; s < n; s++) {
+      for (let j = 0; j < n - s - 1; j++) {
         if (
           tab[j][1].toLowerCase() === "category" &&
           tab[j + 1][1].toLowerCase() === "channel"
         ) {
-          tab[j] = temp;
+          temp = tab[j];
           tab[j] = tab[j + 1];
           tab[j + 1] = temp;
         } else if (
@@ -26,7 +26,7 @@ function structureSort(tab) {
             tab[j][2].toLowerCase() == "voice" &&
             tab[j + 1][2].toLowerCase() === "text"
           ) {
-            tab[j] = temp;
+            temp = tab[j];
             tab[j] = tab[j + 1];
             tab[j + 1] = temp;
           }
@@ -34,8 +34,15 @@ function structureSort(tab) {
       }
     }
   }
-}
-
+}/* 
+t = [['name2', 'category',[
+  [ 'name', 'channel', 'voice' ],
+  [ 'name', 'channel', 'text' ],
+  [ 'name', 'channel', 'voice' ],
+  [ 'name', 'channel', 'text' ]
+]]];
+structureSort(t);
+console.log(t); */
 module.exports = {
   structureSort,
 };

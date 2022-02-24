@@ -23,11 +23,12 @@ function batchCreateVisualization(listFormat, prefix = "") {
       }
     } else if (element[1].toLowerCase() === "channel") {
       if (element[2] === "text")
+        output += newLine + branchPrefix + "# " + element[0];
+      if (["voice","stage"].includes(element[2]))
         output += newLine + branchPrefix + "🔊 " + element[0];
     }
     n -= 1;
   }
-  console.log(output);
   return output;
 }
 

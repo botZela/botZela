@@ -4,7 +4,7 @@ const { buildServer } = require("../../utils/buildServer");
 module.exports = {
     data : new SlashCommandBuilder()
             .setName('build_server')
-            .setDescription("You could buil your server structure using YAML file syntax."),
+            .setDescription("You could build your server structure using YAML file syntax."),
     async execute(interaction){
         try{
             interaction.reply({ content: 'Building Server...', ephemeral: true });

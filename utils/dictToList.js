@@ -4,11 +4,11 @@ function dictToList(structure){
     for (let i of structure){
         typeELement = Object.keys(i)[0];
         if (typeELement.toLowerCase() === "category"){
-                name = i[typeELement][0].split(',')[0];
-                t = [name,typeELement];
+            name = i[typeELement][0].split(',')[0];
+            t = [name,typeELement];
             try{
                 channels = i[typeELement][1];
-                t = t.push(dictToList(Object.values(channels)[0]));
+                t.push(dictToList(Object.values(channels)[0]));
                 l.push(t);
             } catch (e){
                 null;
@@ -16,7 +16,7 @@ function dictToList(structure){
         } else if (typeELement.toLowerCase() === "channel"){
             temp = i[typeELement].split(',').slice(0,2);
             name = temp[0];
-            subTypeElement = temp.slice(1);
+            subTypeElement = temp[1];
             t = [name,typeELement,subTypeElement];
             l.push(t);
         }
