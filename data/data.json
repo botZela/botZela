@@ -26,8 +26,8 @@
             "G3": "922625135058505809",
             "G4": "922625157275742219",
             "G5": "922625184211554334",
-            "G6": "922625216646119445",
             "G7": "922625246190772335",
+            "G6": "922625216646119445",
             "G8": "922625282698002443"
         },
         "921691565427138560": {
@@ -107,7 +107,8 @@
     },
     "WORKSHEETS_URL": {
         "921408078983876678": "https://docs.google.com/spreadsheets/d/1e501na6-SdXDegwrKMAhg1eh2X8hNtTEdLdhvwvS1wc/edit?resourcekey#gid=849928467",
-        "921691565427138560": "https://docs.google.com/spreadsheets/d/1U1_N01rmb-1d3d7ZbrZQnMu_Un1QsoDj6zwnCESYB5A"
+        "921691565427138560": "https://docs.google.com/spreadsheets/d/1U1_N01rmb-1d3d7ZbrZQnMu_Un1QsoDj6zwnCESYB5A",
+        "942172171285987370": "https://docs.google.com/spreadsheets/d/11PY-Yz1iCOrHB7WR-BGMVuIhEHMabwvz6GI9MTPgXpA/edit#gid=849928467"
     },
     "SUPPORTED_GUILDS": [
         "921408078983876678",

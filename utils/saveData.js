@@ -16,3 +16,4 @@ function saveData() {
 module.exports = {
     saveData,
 };
+saveData();
