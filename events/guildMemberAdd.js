@@ -50,8 +50,8 @@ module.exports = {
             await giveRoles(member,newMem.rolesId);
             await activeSheet.colorRow(index,"#F9BB03");
             console.log(newMem.rolesNames);
-            logs += `[INFO] .${memberUsername} got Roles ${newMem.rolesNames.toString()}\n`
-            logs += "```"
+            logs += `[INFO] .${memberUsername} got Roles `+ newMem.rolesNames+`\n`;
+            logs += "```";
             await logsMessage(client, logs,guild);
         }  catch (e) {
             console.log(`Sheet does not exist for server ${guild.name}\n${e}`);
