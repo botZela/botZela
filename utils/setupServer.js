@@ -26,7 +26,7 @@ async function setupServer(client, message) {
             });
             msg = collected.first().content.toLowerCase();
         } catch (e) {
-            let embed = createEmbed("Bot timed Out!!!" + e);
+            let embed = createEmbed("Bot timed Out !!!");
             await message.channel.send({ embeds: [embed] });
             return;
         }
@@ -64,7 +64,7 @@ async function setupServer(client, message) {
                 await message.channel.send({ embeds: [embed] });
             }
         } catch (e) {
-            let embed = createEmbed("Bot timed Out!!!" + e);
+            let embed = createEmbed("Bot timed Out !!!");
             await message.channel.send({ embeds: [embed] });
             break;
         }

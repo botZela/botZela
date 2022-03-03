@@ -47,7 +47,7 @@ async function buildServer(client, message) {
                 await message.channel.send({ embeds: [embed] });
             };
         } catch (e) {
-            let embed = createEmbed("Bot timed Out!!!" + e);
+            let embed = createEmbed("Bot timed Out!!!");
             await message.channel.send({ embeds: [embed] });
             return;
         };
