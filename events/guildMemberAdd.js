@@ -11,8 +11,6 @@ const { welcomeUser } = require("../utils/welcomeMsg.js");
 module.exports = {
     name: 'guildMemberAdd',
     async execute(client, member) {
-        let memberUsername = member.user.username + "#" + member.user.discriminator;
-        console.log(memberUsername);
         let guild = member.guild;
         let logs = "```css\n";
         try {
@@ -20,16 +18,16 @@ module.exports = {
             let gAccPath = "./credentials/google_account.json";
             let activeSheet = await GSpreadSheet.createFromUrl(url, gAccPath, 0);
             if (member.user.bot) {
-                logs += `[INFO] .${memberUsername} has got [Bots] role.\n`;
+                logs += `[INFO] .${member.user.tag} has got [Bots] role.\n`;
                 logs += "```";
                 await logsMessage(client, logs, guild);
                 await member.roles.add(ROLES[`${guild.id}`]["Bots"]);
                 return;
             }
-            let index = await activeSheet.findCellCol(`${memberUsername}`, "F");
+            let index = await activeSheet.findCellCol(`${member.user.tag}`, "F");
             if (index == 0) {
                 await kick(member);
-                logs += `[INFO] .${memberUsername} got kicked from the server\n`;
+                logs += `[INFO] .${member.user.tag} got kicked from the server\n`;
                 logs += "```";
                 await logsMessage(client, logs, guild);
                 return;
@@ -38,7 +36,7 @@ module.exports = {
             let newMem = await Person.create(index, guild, activeSheet);
             let nickName = newMem.nickName;
             await member.setNickname(nickName);
-            logs += `[INFO] .${memberUsername} nickname changed to ${nickName}\n`;
+            logs += `[INFO] .${member.user.tag} nickname changed to ${nickName}\n`;
             // Only For ENSIAS PROMO
             console.log(member.guild.id);
             if (ADMINS.includes(member.id) && member.guild.id == '921408078983876678') {

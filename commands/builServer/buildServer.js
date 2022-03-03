@@ -6,11 +6,7 @@ module.exports = {
         .setName('build_server')
         .setDescription("You could build your server structure using YAML file syntax."),
     async execute(interaction) {
-        try {
-            await interaction.reply({ content: 'Building Server...', ephemeral: true });
-            await buildServer(interaction.client, interaction);
-        } catch (e) {
-            await interaction.channel.send("Sorry, you took too long.")
-        }
+        await interaction.reply({ content: 'Building Server...', ephemeral: true });
+        await buildServer(interaction.client, interaction);
     }
 }

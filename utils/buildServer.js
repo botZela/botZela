@@ -5,7 +5,7 @@ const { convertYaml } = require("./convertYaml");
 const { createEmbed } = require("./createEmbed");
 
 async function buildServer(client, message) {
-    console.log("Building a server");
+    console.log("[INFO] Building A Server");
     let filter = (m) => {
         return m.author.id == message.user.id;
     };
@@ -17,8 +17,10 @@ async function buildServer(client, message) {
             let msg;
             msg = collected.first().content;
             let channelFormat = convertYaml(msg);
+            console.log('[INFO] Structure given');
+            console.log(channelFormat);
             if (!channelFormat) {
-                let embed = createEmbed("Please verify your structure!!!");
+                let embed = createEmbed("Please verify your structure !!!");
                 await message.channel.send({ embeds: [embed] });
                 continue;
             }
@@ -43,8 +45,9 @@ async function buildServer(client, message) {
                     break;
                 }
             } catch (e) {
-                embed = createEmbed("Can't create this sructure");
+                embed = createEmbed("Bot timed Out!!!");
                 await message.channel.send({ embeds: [embed] });
+                break;
             };
         } catch (e) {
             let embed = createEmbed("Bot timed Out!!!");
