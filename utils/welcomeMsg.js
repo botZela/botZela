@@ -8,7 +8,7 @@ function welcomeUser(member) {
         return msg;
     } catch (error) {
 
-        console.log(`Introduce Channel is not defined in ${member.guild.name}`);
+        console.log(`[INFO] Introduce Channel is not defined in ${member.guild.name}`);
         return greetings(member);
     }
 }

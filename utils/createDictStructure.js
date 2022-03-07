@@ -34,7 +34,7 @@ async function createDictStructure(client, guild, format, overwrites = null, cat
             rolesList = tempArray.slice(2);
             overwritesList = createOverwrites(client, guild, rolesList);
         } catch (e) {
-            console.log(`roles was not set for the channel ${name}`);
+            console.log(`[INFO] roles was not set for the channel ${name} in guild ${guild.name}`);
         }
         await createChannel(client, guild, name, type, overwritesList, category)
     }

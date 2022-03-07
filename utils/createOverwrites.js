@@ -17,7 +17,7 @@ function createOverwrites(client, guild, rolesList) {
                 allow: ['VIEW_CHANNEL']
             })
         } catch (e) {
-            console.log(`Role ${role} was not found`);
+            console.log(`[INFO] Role ${role} was not found for guild ${guild.name}`);
         }
     }
     return overwrites;

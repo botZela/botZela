@@ -1,6 +1,6 @@
-const { saveData } = require("../utils/saveData.js");
+/* const { saveData } = require("../utils/saveData.js");
 const { loadData } = require("../utils/loadData.js");
-const data = require("../data/data.json");
+const data = require("../data/data.json"); */
 const { GSpreadSheet } = require("../GSpreadSheet/gsp.js");
 const { logsMessage } = require("../utils/logsMessage.js");
 const { giveRoles } = require("../utils/giveRoles.js");
@@ -21,6 +21,7 @@ module.exports = {
                 logs += `[INFO] .${member.user.tag} has got [Bots] role.\n`;
                 logs += "```";
                 await logsMessage(client, logs, guild);
+                console.log(`[INFO] .${member.user.tag} has got [Bots] role.`);
                 await member.roles.add(ROLES[`${guild.id}`]["Bots"]);
                 return;
             }
@@ -30,6 +31,7 @@ module.exports = {
                 logs += `[INFO] .${member.user.tag} got kicked from the server\n`;
                 logs += "```";
                 await logsMessage(client, logs, guild);
+                console.log(`[INFO] .${member.user.tag} got kicked from the server`);
                 return;
             }
             await activeSheet.updateCell(`G${index}`, `${member.id}`);
@@ -38,19 +40,19 @@ module.exports = {
             await member.setNickname(nickName);
             logs += `[INFO] .${member.user.tag} nickname changed to ${nickName}\n`;
             // Only For ENSIAS PROMO
-            console.log(member.guild.id);
+            console.log(`[INFO] .${member.user.tag} nickname changed to ${nickName}`);
             if (ADMINS.includes(member.id) && member.guild.id == '921408078983876678') {
                 newMem.rolesId.push(PRV_ROLES[`${guild.id}`]["Admin"]);
                 newMem.rolesNames.push("Admin");
             }
             await giveRoles(member, newMem.rolesId);
             await activeSheet.colorRow(index, "#F9BB03");
-            console.log(newMem.rolesNames);
-            logs += `[INFO] .${memberUsername} got Roles ` + newMem.rolesNames + `\n`;
+            logs += `[INFO] .${memberUsername} got Roles [` + newMem.rolesNames + `]\n`;
             logs += "```";
             await logsMessage(client, logs, guild);
+            console.log(`[INFO] .${memberUsername} got Roles [` + newMem.rolesNames + `]`);
         } catch (e) {
-            console.log(`Sheet does not exist for server ${guild.name}\n${e}`);
+            console.log(`[INFO] Sheet does not exist for server ${guild.name}\n`);
         }
         if (guild.systemChannel) {
             let toSend = welcomeUser(member);

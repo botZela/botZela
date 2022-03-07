@@ -1,9 +1,8 @@
-const { loadData } = require("../utils/loadData.js");
 const { titleCase } = require("./stringFunc.js");
 
 class Person {
-    static async create (index,guild,activeSheet){
-        let out  = new Person();
+    static async create(index, guild, activeSheet) {
+        let out = new Person();
         let user = await activeSheet.getRow(index);
         out.firstName = user[1];
         out.lastName = user[2];
@@ -12,9 +11,9 @@ class Person {
         out.discordUsername = user[5];
         out.discordId = user[6];
         out.rolesNames = [];
-        for (let i = 7 ; i < user.length ; i++) {
-            for ( let role of user[i].split(", ")){
-                if (role){
+        for (let i = 7; i < user.length; i++) {
+            for (let role of user[i].split(", ")) {
+                if (role) {
                     out.rolesNames.push(role.trim());
                 }
             }
@@ -23,18 +22,18 @@ class Person {
         return out;
     }
 
-    roles (guildId) {
+    roles(guildId) {
         let roleIds = [];
-        for ( let role of this.rolesNames) {
+        for (let role of this.rolesNames) {
             try {
                 let roleId = ROLES[`${guildId}`][role];
-                if (roleId){
+                if (roleId) {
                     roleIds.push(roleId);
                 } else {
-                    console.log(`Role was not found ${role}`);
+                    console.log(`[INFO] Role was not found ${role}`);
                 };
             } catch (e) {
-                console.log(`Role was not found ${role} with Exception ${e}`);
+                console.log(`[INFO] Role was not found ${role} with Exception ${e}`);
             }
         }
         return roleIds;

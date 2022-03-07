@@ -15,7 +15,7 @@ async function createChannel(client, guild, name, channel_type = "text", overwri
         logsMessage(client, message, guild);
         return out;
     } catch (e) {
-        message = message + "Was not created";
+        message = message + " Was not created";
         console.log(message);
         logsMessage(client, message, guild);
         return null;

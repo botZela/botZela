@@ -2,7 +2,6 @@ const { logsMessage } = require("./logsMessage");
 const { sendSchedule } = require("./sendSchedule");
 
 async function getSchedule(interaction) {
-    let logs = "```css\n";
     /* if (!interaction.user.bot) {
         await interaction.delete();
     }; */
@@ -30,7 +29,6 @@ async function getSchedule(interaction) {
         "948565045858684980": "G3"
     }
     let roles = interaction.member.roles.cache.keys();
-    console.log(roles);
     let fl, grp;
     for (let role of roles) {
         if (filieres[role]) {
@@ -43,12 +41,12 @@ async function getSchedule(interaction) {
     if (grp && fl) {
         await sendSchedule(interaction.member, fl, grp);
         await interaction.channel.send({
-            content: `${interaction.user} Your Schedule for branch ${fl} and groupe ${grp} is sent to your DMs.`,
+            content: `${interaction.user}\`\`\`css\n[INFO] Your Schedule for branch .${fl.slice(1,-1)} and groupe .${grp} is sent to your DMs.\n\`\`\``,
             ephemeral: true
         })
-        logs += `[INFO] .${interaction.user.tag} got his schedule\n`;
-        logs += "```";
+        let logs = `[INFO] .${interaction.user.tag} got his schedule for branch .${fl.slice(1,-1)} and groupe .${grp}`;
         await logsMessage(interaction.client, logs, interaction.guild);
+        console.log(logs);
     }
 }
 module.exports = {

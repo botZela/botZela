@@ -1,14 +1,18 @@
 const { saveData } = require("../utils/saveData");
 const data = require("../data/data.json");
 module.exports = {
-	name: 'roleDelete',
-	async execute(client,role) {
-		try{
-			console.log(`${role.name} has been deleted.`);
-			delete data["ROLES"][`${role.guild.id}`][`${role.name}`];
-			saveData();
-		} finally{
-			console.log(`Role ${role.name} was not in data`);
-		}
-	},  
+    name: 'roleDelete',
+    async execute(client, role) {
+        try {
+            delete data["ROLES"][`${role.guild.id}`][`${role.name}`];
+            saveData();
+            console.log(`[INFO] ${role.name} has been deleted.`);
+            let log = "```css\n" + `[INFO] ${role.name} has been deleted.` + "\n```";
+            await logsMessage(client, log, role.guild);
+        } finally {
+            console.log(`[INFO] ${role.name} was not in data.`);
+            let log = "```css\n" + `[INFO] ${role.name} was not in data.` + "\n```";
+            await logsMessage(client, log, role.guild);
+        }
+    },
 }
