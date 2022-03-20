@@ -7,6 +7,7 @@ function convertYaml(message) {
             return out;
         return 0;
     } catch (e) {
+        console.log(e);
         return 0;
     }
 }

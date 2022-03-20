@@ -6,11 +6,12 @@ module.exports = {
     name: 'guildCreate',
     async execute(client, guild) {
         console.log(`[Info] Joined server : ${guild.name}`);
-        const roles = guild.roles;
-        for (var role in roles) {
+        const roles = await guild.roles.fetch();
+        for (let role of roles) {
+            role = role[1];
             data["ROLES"][`${guild.id}`][role.name] = role.id
         };
-        saveData()
+        saveData();
         await setupLogsCommandsChannels(client, guild);
     },
 }

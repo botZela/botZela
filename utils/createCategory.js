@@ -15,6 +15,7 @@ async function createCategory(client, guild, name, overwrites = null, position =
     } catch (e) {
         message = message + "Was not created.";
         console.log(message);
+        console.log(e);
         await logsMessage(client, message, guild);
         return null;
     }

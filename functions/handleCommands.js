@@ -5,7 +5,7 @@ const fs = require('fs');
 
 // Place your client and guild ids here
 const clientId = '921822005127446589';
-const guildId = '942172171285987370';
+const guildId = '921408078983876678';
 
 module.exports = (client) => {
     client.handleCommands = async(commandFolders, path) => {
