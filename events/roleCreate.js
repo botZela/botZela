@@ -7,7 +7,7 @@ module.exports = {
         data["ROLES"][`${role.guild.id}`][`${role.name}`] = role.id;
         saveData();
         console.log(`[INFO] ${role.name} has been created.`);
-        let log = "```css\n" + `[INFO] ${role.name} has been created.` + "\n```";
+        let log = `[INFO] ${role.name} has been created.`;
         await logsMessage(client, log, role.guild);
     },
 }

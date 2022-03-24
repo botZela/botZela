@@ -1,6 +1,3 @@
-/* const { saveData } = require("../utils/saveData.js");
-const { loadData } = require("../utils/loadData.js");
-const data = require("../data/data.json"); */
 const { GSpreadSheet } = require("../GSpreadSheet/gsp.js");
 const { logsMessage } = require("../utils/logsMessage.js");
 const { giveRoles } = require("../utils/giveRoles.js");
@@ -12,14 +9,13 @@ module.exports = {
     name: 'guildMemberAdd',
     async execute(client, member) {
         let guild = member.guild;
-        let logs = "```css\n";
+        let logs;
         try {
             let url = WORKSHEETS_URL[`${guild.id}`];
             let gAccPath = "./credentials/google_account.json";
             let activeSheet = await GSpreadSheet.createFromUrl(url, gAccPath, 0);
             if (member.user.bot) {
-                logs += `[INFO] .${member.user.tag} has got [Bots] role.\n`;
-                logs += "```";
+                logs = `[INFO] .${member.user.tag} has got [Bots] role.`;
                 await logsMessage(client, logs, guild);
                 console.log(`[INFO] .${member.user.tag} has got [Bots] role.`);
                 await member.roles.add(ROLES[`${guild.id}`]["Bots"]);
@@ -28,8 +24,7 @@ module.exports = {
             let index = await activeSheet.findCellCol(`${member.user.tag}`, "F");
             if (index == 0) {
                 await kick(member);
-                logs += `[INFO] .${member.user.tag} got kicked from the server\n`;
-                logs += "```";
+                logs = `[INFO] .${member.user.tag} got kicked from the server`;
                 await logsMessage(client, logs, guild);
                 console.log(`[INFO] .${member.user.tag} got kicked from the server`);
                 return;
@@ -38,7 +33,7 @@ module.exports = {
             let newMem = await Person.create(index, guild, activeSheet);
             let nickName = newMem.nickName;
             await member.setNickname(nickName);
-            logs += `[INFO] .${member.user.tag} nickname changed to ${nickName}\n`;
+            logs = `[INFO] .${member.user.tag} nickname changed to ${nickName}`;
             // Only For ENSIAS PROMO
             console.log(`[INFO] .${member.user.tag} nickname changed to ${nickName}`);
             if (ADMINS.includes(member.id) && member.guild.id == '921408078983876678') {
@@ -47,12 +42,11 @@ module.exports = {
             }
             await giveRoles(member, newMem.rolesId);
             await activeSheet.colorRow(index, "#F9BB03");
-            logs += `[INFO] .${memberUsername} got Roles [` + newMem.rolesNames + `]\n`;
-            logs += "```";
+            logs += `\n[INFO] .${member.user.tag} got Roles [` + newMem.rolesNames + `]`;
             await logsMessage(client, logs, guild);
-            console.log(`[INFO] .${memberUsername} got Roles [` + newMem.rolesNames + `]`);
+            console.log(`[INFO] .${member.user.tag} got Roles [` + newMem.rolesNames + `]`);
         } catch (e) {
-            console.log(`[INFO] Sheet does not exist for server ${guild.name}\n`);
+            console.log(`[INFO] Sheet does not exist for server ${guild.name}`);
         }
         if (guild.systemChannel) {
             let toSend = welcomeUser(member);

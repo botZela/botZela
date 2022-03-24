@@ -8,11 +8,11 @@ module.exports = {
             delete data["ROLES"][`${role.guild.id}`][`${role.name}`];
             saveData();
             console.log(`[INFO] ${role.name} has been deleted.`);
-            let log = "```css\n" + `[INFO] ${role.name} has been deleted.` + "\n```";
+            let log = `[INFO] ${role.name} has been deleted.`;
             await logsMessage(client, log, role.guild);
-        } finally {
-            console.log(`[INFO] ${role.name} was not in data.`);
-            let log = "```css\n" + `[INFO] ${role.name} was not in data.` + "\n```";
+        } catch (e) {
+            console.log(` [INFO] ${role.name} was not in data.`);
+            let log = `[INFO] ${role.name} was not in data.`;
             await logsMessage(client, log, role.guild);
         }
     },

@@ -1,4 +1,4 @@
-const { logsChannel } = require("./logsMessage");
+const { logsMessage } = require("./logsMessage");
 
 async function createRole(client, guild, name) {
     try {
