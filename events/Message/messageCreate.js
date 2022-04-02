@@ -1,9 +1,9 @@
 const { MessageEmbed, Message, Client } = require("discord.js");
-const { announcements } = require("../utils/announcements.js");
-const { introduceYourSelf } = require("../utils/introduceYouSelf.js");
-const { saveData } = require("../utils/saveData.js");
-const data = require("../data/data.json");
-const { createRole } = require("../utils/createRole.js");
+const { announcements } = require(`${process.cwd()}/utils/announcements.js`);
+const { introduceYourSelf } = require(`${process.cwd()}/utils/introduceYouSelf.js`);
+const { saveData } = require(`${process.cwd()}/utils/saveData.js`);
+const data = require(`${process.cwd()}/data/data.json`);
+const { createRole } = require(`${process.cwd()}/utils/createRole.js`);
 
 module.exports = {
     name: 'messageCreate',

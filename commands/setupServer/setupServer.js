@@ -3,6 +3,9 @@ const { setupServer } = require("../../utils/setupServer");
 
 
 module.exports = {
+    name: "setup_server",
+    description: "Setup the server with SpreadSheet",
+    permissions: ["ADMINISTRATOR","MANAGE_ROLES"],
     data: new SlashCommandBuilder()
         .setName('setup_server')
         .setDescription("Setup the server with SpreadSheet"),

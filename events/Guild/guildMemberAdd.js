@@ -1,9 +1,9 @@
-const { GSpreadSheet } = require("../src/GSpreadSheet/gsp.js");
-const { logsMessage } = require("../utils/logsMessage.js");
-const { giveRoles } = require("../utils/giveRoles.js");
-const { kick } = require("../utils/kick.js");
-const { Person } = require("../src/Member/member.js");
-const { welcomeUser } = require("../utils/welcomeMsg.js");
+const { GSpreadSheet } = require(`${process.cwd()}/src/GSpreadSheet/gsp.js`);
+const { logsMessage } = require(`${process.cwd()}/utils/logsMessage.js`);
+const { giveRoles } = require(`${process.cwd()}/utils/giveRoles.js`);
+const { kick } = require(`${process.cwd()}/utils/kick.js`);
+const { Person } = require(`${process.cwd()}/src/Member/member.js`);
+const { welcomeUser } = require(`${process.cwd()}/utils/welcomeMsg.js`);
 
 module.exports = {
     name: 'guildMemberAdd',
@@ -12,7 +12,7 @@ module.exports = {
         let logs;
         try {
             let url = WORKSHEETS_URL[`${guild.id}`];
-            let gAccPath = "./credentials/google_account.json";
+            let gAccPath = `${process.cwd()}/credentials/google_account.json`;
             let activeSheet = await GSpreadSheet.createFromUrl(url, gAccPath, 0);
             if (member.user.bot) {
                 logs = `[INFO] .${member.user.tag} has got [Bots] role.`;

@@ -1,6 +1,6 @@
 const { Client } = require("discord.js");
 const mongoose = require("mongoose");
-const { DatabaseUri } = require("../credentials/config.json");
+const { DatabaseUri } = require(`${process.cwd()}/credentials/config.json`);
 
 module.exports = {
     name: "ready",

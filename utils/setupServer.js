@@ -1,4 +1,4 @@
-const { GSpreadSheet } = require("../GSpreadSheet/gsp");
+const { GSpreadSheet } = require("../src/GSpreadSheet/gsp");
 const { createEmbed } = require("./createEmbed");
 const data = require("../data/data.json");
 const { saveData } = require("./saveData");

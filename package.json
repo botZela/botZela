@@ -6,10 +6,13 @@
   "main": "bot.js",
   "dependencies": {
     "@discordjs/rest": "^0.3.0",
+    "ascii-table": "^0.0.9",
     "discord-api-types": "^0.27.2",
     "discord.js": "^13.6.0",
+    "glob": "^7.2.0",
     "googleapis": "^95.0.0",
     "js-yaml": "^4.1.0",
+    "mongoose": "^6.2.9",
     "path": "^0.12.7"
   },
   "scripts": {
