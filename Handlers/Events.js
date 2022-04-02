@@ -1,14 +1,11 @@
 const {Events} = require("../Validation/EventNames");
 const { Client } = require("discord.js");
-const { promisify } = require("util");
-const { glob } = require("glob");
-const PG = promisify(glob);
-const Ascii = require("ascii-table");
+
 
 /**
  * @param {Client} client
  */
-module.exports = async (client) => {
+module.exports = async (client, PG, Ascii) => {
     const Table = new Ascii("Events Loaded");
 
     let eventFiles = await PG(`${process.cwd()}/events/*/*.js`);
@@ -25,7 +22,7 @@ module.exports = async (client) => {
         } else {
             client.on(event.name, (...args) => event.execute(client, ...args));
         }
-        await Table.addRow(event.name, "✅ SUCCESSFUL ");
+        await Table.addRow(event.name, "🟢 SUCCESSFUL");
     }
     console.log(Table.toString());
 }
