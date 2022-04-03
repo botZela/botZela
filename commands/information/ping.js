@@ -4,7 +4,7 @@ const { CommandInteraction } = require("discord.js");
 module.exports = {
     name: "ping",
     description: "Sends Back PONG",
-    permissions: [],
+    permissions: ["ADMINISTRATOR"],
     data : new SlashCommandBuilder()
             .setName('ping')
             .setDescription("This is a description!!!"),

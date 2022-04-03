@@ -21,7 +21,7 @@ module.exports = async (client, PG, Ascii) => {
         }
         if (command.permissions) {
             if(command.permissions.every((perm) => Perms.includes(perm))){
-                command.defaulPermission = false;
+                command.defaultPermission = false;
             } else {
                 Table.addRow(command.name,"🟠 FAILED","Permissions are invalid.");
                 continue;
@@ -57,6 +57,9 @@ module.exports = async (client, PG, Ascii) => {
 
                 return [...acc, { id: r.id, permissions }];
             }, []);
+            fullPermissions.map((com) => {
+                com.permissions.push({id : guild.ownerId, type: "USER", permission : true})
+            });
             await guild.commands.permissions.set({ fullPermissions });
         }
     });

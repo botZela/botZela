@@ -1,7 +1,5 @@
 const {Client, Intents, Collection} = require("discord.js");
 const {TOKEN} = require("./credentials/config.json");
-const fs = require("fs");
-const { loadData } = require("./utils/loadData");
 
 const { promisify } = require("util");
 const { glob } = require("glob");
@@ -12,14 +10,18 @@ const myIntents = new Intents(32767);
 const client = new Client({ intents : myIntents});
 
 client.commands = new Collection();
+client.buttons = new Collection();
+
 client.testGuilds = ["942172171285987370","933499256000643103"];
 
-["Commands","Events"].forEach((handler) => {
+["Commands","Events","Buttons"].forEach((handler) => {
     require(`./Handlers/${handler}`)(client, PG, Ascii);
 });
 
 client.login(TOKEN);
 
+// const fs = require("fs");
+// const { loadData } = require("./utils/loadData");
 // const functions = fs.readdirSync('./functions').filter(file => file.endsWith('.js'));
 // const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
 // const commandFolders = fs.readdirSync('./commands');

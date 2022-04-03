@@ -1,7 +1,7 @@
 const { ContextMenuInteraction, MessageEmbed} = require("discord.js");
 
 module.exports = {
-    name : "userinfo",
+    name : "User Info",
     type : "USER",
     context : true,
     permissions : ["ADMINISTRATOR"],
