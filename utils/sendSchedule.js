@@ -1,8 +1,8 @@
 const { createEmbed } = require("./createEmbed");
 
 async function sendSchedule(member, filiere, groupe) {
-    let fileNamePng = `Emploi${filiere}${groupe}.png`;
-    let fileNamePdf = `Emploi${filiere}${groupe}.pdf`;
+    let fileNamePng = `Emploi_${filiere}_${groupe}.png`;
+    let fileNamePdf = `Emploi_${filiere}_${groupe}.pdf`;
     let embed = createEmbed(`Schedule ${filiere} ${groupe}`, "__**Your Schedule of this week :**__ ");
     await member.send({
         embeds: [embed]

@@ -1,5 +1,5 @@
-const { createCommandsChannel } = require("../utils/createCommandsChannel");
-const { createLogsChannel } = require("../utils/createLogsChannel");
+const { createCommandsChannel } = require("../../utils/createCommandsChannel");
+const { createLogsChannel } = require("../../utils/createLogsChannel");
 
 module.exports = {
     name: 'channelDelete',

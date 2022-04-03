@@ -12,16 +12,19 @@ module.exports = {
      * @param {Message} message 
      */
     async execute(client, message) {
+        const { channel, author} = message;
         let announcementName = "announcement";
         let introduceName = "introd";
         let emploiName = "『📅』get-schedule";
         if (!message.guild || !SUPPORTED_GUILDS.includes(`${message.guildId}`)) {
             return;
-        } else if (message.channel.name.includes(announcementName)) {
+        } else if (channel.name.includes(announcementName)) {
             await announcements(message);
-        } else if (message.channel.name.includes(introduceName)) {
+        } else if (channel.name.includes(introduceName)) {
+            if(author.bot) return;
             await introduceYourSelf(message);
-        } else if (message.channel.name.includes(emploiName)) {
+        } else if (channel.name.includes(emploiName)) {
+            if(author.bot) return;
             null;
         }
         /* if (message.author.id == "892346084913975307") {
