@@ -65,8 +65,8 @@ module.exports = {
         }
 
         const { filiere:fl , groupe:grp} = flGrp(member);
-        const filiere = options.getString("filiere") || fl;
-        const groupe = options.getString("groupe") || grp;
+        const filiere = options? options.getString("filiere") || fl : fl;
+        const groupe = options? options.getString("groupe") || grp : grp;
 
         if (!filiere || !groupe) {
             return interaction.reply({
@@ -75,7 +75,7 @@ module.exports = {
             });
         }
 
-        let dm = options.getBoolean("dm") == null ? true: options.getBoolean("dm");
+        let dm = options? (options.getBoolean("dm") == null ? true: options.getBoolean("dm")) : true;
         if(dm) sendSchedule(member,filiere,groupe);
 
         let text = `__**Your Schedule of this week :**__ \n__Filiere__: ${filiere}\n__Groupe__: ${groupe}\n` ;
