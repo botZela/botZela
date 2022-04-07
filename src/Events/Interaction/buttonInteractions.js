@@ -11,6 +11,10 @@ module.exports = {
         if(!interaction.isButton()) return;
         const Button = client.buttons.get(interaction.customId);
 
+        if (!Button){
+            return interaction.reply({content: "this Button is not handle for now.", ephemeral: true});
+        }
+
         if(Button.permissions && !Button.permissions.some((perm) => interaction.member.permissions.has(perm))) {
             return interaction.reply({content: "You are missing permissions.", ephemeral: true});
         }
