@@ -1,6 +1,7 @@
 const { Message, Client } = require("discord.js");
 const { announcements } = require(`${process.cwd()}/src/utils/AutoReacts/announcements.js`);
 const { introduceYourSelf } = require(`${process.cwd()}/src/utils/AutoReacts/introduceYouSelf.js`);
+const { messageSchedule } = require(`${process.cwd()}/src/utils/Schedule/autoResponceSchedule`);
 
 module.exports = {
     name: 'messageCreate',
@@ -22,8 +23,8 @@ module.exports = {
             if(author.bot) return;
             await introduceYourSelf(client,message);
         } else if (channel.name.includes(emploiName)) {
-            if(author.bot) return;
-            null;
+            if(author.bot || message.guild.id != client.testGuilds[0].id) return;
+            messageSchedule(message);
         }
     }
 }

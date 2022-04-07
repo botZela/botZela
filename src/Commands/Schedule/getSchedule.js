@@ -48,9 +48,9 @@ module.exports = {
             required: false,
         },
     ],
-    async execute({ interaction }) {
+    async execute({ client, interaction }) {
         const { options, member,guild } = interaction;
-        if (guild.id != "921408078983876678") {
+        if (guild.id != client.testGuilds[0].id) {
             return interaction.reply({
                 content: "This command is not available for this server.",
                 ephemeral: true
@@ -87,8 +87,7 @@ module.exports = {
             files: [`./data/emploi/${fileNamePdf}`, `./data/emploi/${fileNamePng}`], 
             ephemeral: true 
         });
-        let logs = `[INFO] .${interaction.user.tag} got the schedule for branch .${filiere} and groupe .${groupe}`;
-        await logsMessage(interaction.client, logs, interaction.guild);
-        console.log(logs);
+        let logs = `[INFO] .${member.nickname} got the schedule for branch .${filiere} and groupe .${groupe}`;
+        await logsMessage(client, logs, interaction.guild);
     }
 }
