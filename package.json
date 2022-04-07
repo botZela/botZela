@@ -3,20 +3,18 @@
   "version": "0.0.1",
   "type": "commonjs",
   "description": "",
-  "main": "bot.js",
+  "main": "./src/index.js",
   "dependencies": {
-    "@discordjs/rest": "^0.3.0",
-    "ascii-table": "^0.0.9",
-    "discord-api-types": "^0.27.2",
+    "ascii-table3": "^0.7.4",
     "discord.js": "^13.6.0",
     "glob": "^7.2.0",
-    "googleapis": "^95.0.0",
+    "googleapis": "^100.0.0",
     "js-yaml": "^4.1.0",
     "mongoose": "^6.2.9",
     "path": "^0.12.7"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon ."
   },
   "repository": {
     "type": "git",
