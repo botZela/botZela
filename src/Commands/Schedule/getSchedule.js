@@ -7,7 +7,7 @@ module.exports = {
     name: "getschedule",
     description: "Get your schedule based on your group and field.",
     cooldown: 10*1000,
-    permissions: [],
+    // permissions: [],
     options : [
         {
             name: "filiere",
