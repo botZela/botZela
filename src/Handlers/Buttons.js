@@ -1,5 +1,5 @@
 const { AsciiTable3 } = require("ascii-table3");
-const { Client } = require("discord.js");
+const { Client,Collection } = require("discord.js");
 
 /**
  * @param {Client} client
@@ -21,6 +21,9 @@ module.exports = async (client, PG, Ascii) => {
                 `⛔ Button ID is missing: ${file.split("/").at(-2)}/${file.split("/").at(-1)}`
             );
             continue;
+        }
+        if (buttonFile.cooldown) {
+            client.buttonsCooldown.set(buttonFile.id, new Collection());
         }
 
         client.buttons.set(buttonFile.id, buttonFile);

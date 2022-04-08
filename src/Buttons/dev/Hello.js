@@ -1,7 +1,7 @@
 module.exports = {
     id: "Hello",
     permissions : ["ADMINISTRATOR"],
-    execute(interaction) {
+    execute({ interaction }) {
         interaction.reply({content: "YES! You just pressed Hello", ephemeral:true});
     }
 }

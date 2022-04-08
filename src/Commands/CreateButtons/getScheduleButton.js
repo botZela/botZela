@@ -1,4 +1,4 @@
-const { MessageActionRow, MessageButton, Interaction, MessageSelectMenu} = require("discord.js");
+const { MessageActionRow, MessageButton, Interaction, MessageEmbed } = require("discord.js");
 
 module.exports = {
     name: "button_schedule",
@@ -8,8 +8,17 @@ module.exports = {
      * 
      * @param {Interaction} interaction 
      */
-    execute({ interaction }){
+    async execute({ interaction }){
         const row = new MessageActionRow();
+        const embed = 
+            new MessageEmbed()
+                .setColor("RED")
+                .setTitle("Get your Schedule Customised for You")
+                .setDescription("To get your Custom Schedule just type whatever you want in this channel, you will get it in Direct Messages.\nOr just press this button `📅 Get Schedule` for more conveniance.\n")
+                .addField(
+                    "Any Suggestions",
+                    `Consider sending us your feedback in <#922875567357984768>, Thanks.`
+                )
         row.addComponents(
             new MessageButton()
                 .setCustomId("sendSchedule")
@@ -18,7 +27,9 @@ module.exports = {
         )
 
         // TODO : Hide the /button_schedule
-        interaction.reply({components: [row]});
+        await interaction.deferReply();
+        interaction.fetchReply().then(inter => inter.delete());
+        await interaction.channel.send({embeds:[embed], components: [row]});
 
     }
     

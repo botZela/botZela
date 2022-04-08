@@ -1,6 +1,3 @@
-// delete require.cache[require.resolve('../data/data.json')];
-const data = require("../data/data.json");
-
 const { Client, Intents, Collection } = require("discord.js");
 const { TOKEN } = require("../credentials/config.json");
 
@@ -14,8 +11,9 @@ const client = new Client({ intents: myIntents });
 
 client.commands = new Collection();
 client.buttons = new Collection();
+client.buttonsCooldown = new Collection();
 
-client.data = data;
+client.data = require("../data/data.json");
 
 client.testGuilds = [
     { name: "🔺▬▬ • ENSIAS • ▬▬🔺", id: "921408078983876678" },

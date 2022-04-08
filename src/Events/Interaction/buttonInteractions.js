@@ -9,10 +9,16 @@ module.exports = {
      */
     execute(client, interaction){
         if(!interaction.isButton()) return;
-        const Button = client.buttons.get(interaction.customId);
+        const {customId, guild, member} = interaction
+        const Button = client.buttons.get(customId);
 
         if (!Button){
             return interaction.reply({content: "this Button is not handle for now.", ephemeral: true});
+        }
+
+
+        if (Button.cooldown && client.buttonsCooldown.get(customId).get(guild.id)?.includes(member.id)){
+            return interaction.reply({content: "You are on cooldown. Try again later.", ephemeral: true});
         }
 
         if(Button.permissions && !Button.permissions.some((perm) => interaction.member.permissions.has(perm))) {
@@ -23,7 +29,20 @@ module.exports = {
             return interaction.reply({content: "You are not the owner.", ephemeral: true});
         }
 
-        Button.execute(interaction);
+        if (Button.cooldown){
+            if (!client.buttonsCooldown.get(customId).get(guild.id)) {
+                client.buttonsCooldown.get(customId).set(guild.id,[]);
+            }
+            client.buttonsCooldown.get(customId).get(guild.id).push(member.id);
+            setTimeout(() => {
+                const index = client.buttonsCooldown.get(customId).get(guild.id).indexOf(member.id);
+                if (index > -1){
+                    client.buttonsCooldown.get(customId).get(guild.id).splice(index,1);
+                }
+            },Button.cooldown);
+        }
+
+        Button.execute({ client,interaction });
 
         // time limit
     }
