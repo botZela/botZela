@@ -4,7 +4,7 @@ module.exports = {
     name: "User Info",
     type: "USER",
     context: true,
-    permissions: ["ADMINISTRATOR"],
+    // permissions: ["ADMINISTRATOR"],
     /**
      *
      * @param {ContextMenuInteraction} interaction

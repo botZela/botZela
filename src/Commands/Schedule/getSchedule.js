@@ -6,6 +6,8 @@ const { sendSchedule } = require("../../utils/Schedule/sendSchedule");
 module.exports = {
     name: "getschedule",
     description: "Get your schedule based on your group and field.",
+    cooldown: 10*1000,
+    permissions: [],
     options : [
         {
             name: "filiere",
