@@ -23,7 +23,7 @@ module.exports = {
             new MessageButton()
                 .setCustomId("sendSchedule")
                 .setLabel("📅 Get Schedule")
-                .setStyle("SUCCESS")
+                .setStyle("SECONDARY")
         )
 
         // TODO : Hide the /button_schedule
