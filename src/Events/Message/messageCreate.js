@@ -18,6 +18,7 @@ module.exports = {
         if (!message.guild || !SUPPORTED_GUILDS.includes(`${message.guildId}`)) {
             return;
         } else if (channel.name.includes(announcementName)) {
+            if(author.bot) return;
             await announcements(client,message);
         } else if (channel.name.includes(introduceName)) {
             if(author.bot) return;
