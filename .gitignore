@@ -1,4 +1,4 @@
 node_modules/*
 credentials/*
 test/*
-data/*
+data/data.json
