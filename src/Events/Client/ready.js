@@ -4,7 +4,7 @@ const { DatabaseUri } = require(`${process.cwd()}/credentials/config.json`);
 
 module.exports = {
     name: "ready",
-    once: true,
+    // once: true,
     /**
      * @param {Client} client
      */

@@ -28,6 +28,14 @@ module.exports = {
                 .setEmoji("📅")
         )
 
+        row.addComponents(
+            new MessageButton()
+                .setCustomId("sendOtherFlGrp")
+                .setLabel("Other choices")
+                .setStyle("SECONDARY")
+                .setEmoji("📅")
+        )
+
         // TODO : Hide the /button_schedule
         await interaction.deferReply();
         interaction.fetchReply().then(inter => inter.delete());

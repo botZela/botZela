@@ -12,6 +12,7 @@ const client = new Client({ intents: myIntents });
 client.commands = new Collection();
 client.buttons = new Collection();
 client.buttonsCooldown = new Collection();
+client.selectMenu = new Collection();
 
 client.data = require("../data/data.json");
 
@@ -21,7 +22,7 @@ client.testGuilds = [
     { name: "bot TEST WN", id: "933499256000643103" },
 ];
 
-["Events", "Commands", "Buttons"].forEach((handler) => {
+["Events", "Commands", "Buttons", "SelectMenu"].forEach((handler) => {
     require(`./Handlers/${handler}`)(client, PG, AsciiTable3);
 });
 
