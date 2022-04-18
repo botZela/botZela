@@ -89,7 +89,7 @@ module.exports = {
             files: [`./data/emploi/${fileNamePdf}`, `./data/emploi/${fileNamePng}`], 
             ephemeral: true 
         });
-        let logs = `[INFO] .${member.nickname} got the schedule for branch .${filiere} and groupe .${groupe}`;
+        let logs = `[INFO] .${member.nickname || member.user.tag} got the schedule for branch .${filiere} and groupe .${groupe}`;
         await logsMessage(client, logs, interaction.guild);
     }
 }
