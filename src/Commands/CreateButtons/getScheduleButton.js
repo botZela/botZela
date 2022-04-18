@@ -17,7 +17,7 @@ module.exports = {
                 .setDescription("To get your Custom Schedule just type whatever you want in this channel, you will get it in Direct Messages.\nOr just press the button below ,`📅 Waa Tarii9 Siift l'emploi`, for more convenience.\n")
                 .addField(
                     "`️🗑️ Delete old \"DMed\" Schedules`",
-                    `By pressing this button, all the old msgs that the bot sent you will be deleted, except the last schedule which it will not be deleted. **Use with Caution**`
+                    `By pressing this button, all the old messages that the bot sent you will be deleted, except the last two. ⚠️**Use with Caution**⚠️`
                 )
                 .addField(
                     "Any Suggestions",
