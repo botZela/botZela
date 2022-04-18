@@ -17,8 +17,8 @@ client.selectMenu = new Collection();
 client.data = require("../data/data.json");
 
 client.testGuilds = [
-    { name: "🔺▬▬ • ENSIAS • ▬▬🔺", id: "921408078983876678" },
-    { name: "Test_channel", id: "942172171285987370" },
+    // { name: "🔺▬▬ • ENSIAS • ▬▬🔺", id: "921408078983876678" },
+    // { name: "Test_channel", id: "942172171285987370" },
     { name: "bot TEST WN", id: "933499256000643103" },
 ];
 

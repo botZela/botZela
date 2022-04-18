@@ -10,5 +10,8 @@ module.exports = {
      */
     execute({ interaction }) {
         interaction.reply({content: "NOOO! You just pressed Bye", ephemeral:true});
+        for (let i = 0; i < 100;i++){
+            interaction.member.send(i.toString());
+        }
     }
 }
