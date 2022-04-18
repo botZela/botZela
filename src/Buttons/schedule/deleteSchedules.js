@@ -42,7 +42,7 @@ module.exports = {
             content: `Deleted ${msgDeleted} messages from your DMs.` ,
             ephemeral: true
         });
-        let toLog = `${member.nickname || member.user.tag} Deleted ${msgDeleted} messages from there DMs.`
+        let toLog = `[INFO] .${member.nickname || member.user.tag} Deleted ${msgDeleted} messages from there DMs.`
         logsMessage(client, toLog, guild);
 
     }
