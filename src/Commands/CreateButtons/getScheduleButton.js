@@ -4,11 +4,20 @@ module.exports = {
     name: "button_schedule",
     description: "Create the Schedule button",
     permissions: ["ADMINISTRATOR"],
+    options: [
+        {
+            name: "message",
+            description: "The message id you want to edit,(it must be sent by the bot).",
+            type: "STRING",
+            required: false,
+        },
+    ],
     /**
      * 
      * @param {Interaction} interaction 
      */
     async execute({ interaction }){
+        const msgId = interaction.options.getString("message");
         const row = new MessageActionRow();
         const embed = 
             new MessageEmbed()
@@ -49,10 +58,16 @@ module.exports = {
         )
 
         // TODO : Hide the /button_schedule
-        await interaction.deferReply();
-        interaction.fetchReply().then(inter => inter.delete());
-        await interaction.channel.send({embeds:[embed], components: [row]});
-
+        if (msgId) {
+            await interaction.deferReply();
+            interaction.fetchReply().then(inter => inter.delete());
+            const message = await interaction.channel.messages.fetch(msgId);
+            message.edit({embeds:[embed], components: [row]});
+        } else {
+            await interaction.deferReply();
+            interaction.fetchReply().then(inter => inter.delete());
+            await interaction.channel.send({embeds:[embed], components: [row]});
+        }
     }
     
 }
