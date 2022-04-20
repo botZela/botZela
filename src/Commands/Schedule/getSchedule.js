@@ -52,6 +52,7 @@ module.exports = {
     ],
     async execute({ client, interaction }) {
         const { options, member,guild } = interaction;
+        await interaction.deferReply({ephemeral:true});
         if (guild.id != client.testGuilds[0].id) {
             return interaction.reply({
                 content: "This command is not available for this server.",
@@ -83,10 +84,10 @@ module.exports = {
         let fileNamePng = `Emploi_${filiere}_${groupe}.png`;
         let fileNamePdf = `Emploi_${filiere}_${groupe}.pdf`;
         let embed = createEmbed(`Schedule ${filiere} ${groupe}`, "__**Your Schedule of this week :**__ ");
-        await interaction.reply({ 
+        await interaction.followUp({ 
             content: text, 
             embeds: [embed],
-            files: [`./data/emploi/${fileNamePdf}`, `./data/emploi/${fileNamePng}`], 
+            files: [`./data/Schedules/emploi_1A/${fileNamePdf}`, `./data/Schedules/emploi_1A/${fileNamePng}`],
             ephemeral: true 
         });
         let logs = `[INFO] .${member.nickname || member.user.tag} got the schedule for branch .${filiere} and groupe .${groupe}`;

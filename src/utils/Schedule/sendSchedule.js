@@ -16,7 +16,7 @@ async function sendSchedule(member, filiere, groupe) {
         embeds: [embed]
     })
     await member.send({
-        files: [`./data/emploi/${fileNamePdf}`, `./data/emploi/${fileNamePng}`],
+        files: [`./data/Schedules/emploi_1A/${fileNamePdf}`, `./data/Schedules/emploi_1A/${fileNamePng}`],
         // components: [row]
     })
 }
