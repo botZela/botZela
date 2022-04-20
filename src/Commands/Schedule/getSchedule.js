@@ -54,13 +54,13 @@ module.exports = {
         const { options, member,guild } = interaction;
         await interaction.deferReply({ephemeral:true});
         if (guild.id != client.testGuilds[0].id) {
-            return interaction.reply({
+            return interaction.followUp({
                 content: "This command is not available for this server.",
                 ephemeral: true
             });
         }
         if (!member.roles.cache.map((role) => role.name).includes("1A")){
-            return interaction.reply({
+            return interaction.followUp({
                 content: "This command is only available for 1A Students. Sorry!",
                 ephemeral: true
             });
@@ -71,7 +71,7 @@ module.exports = {
         const groupe = options? options.getString("groupe") || grp : grp;
 
         if (!filiere || !groupe) {
-            return interaction.reply({
+            return interaction.followUp({
                 content: "CHAFAAAAAAR",
                 ephemeral: false
             });
