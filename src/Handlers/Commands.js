@@ -69,7 +69,7 @@ module.exports = async (client, PG, Ascii) => {
             fullPermissions.map((com) => {
                 com.permissions.push({ id: guild.ownerId, type: "USER", permission: true });
             });
-            await guild.commands.permissions.set({ fullPermissions });
+            // await guild.commands.permissions.set({ fullPermissions });
         }
     });
 };

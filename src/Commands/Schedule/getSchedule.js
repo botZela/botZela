@@ -80,17 +80,26 @@ module.exports = {
         let dm = options? (options.getBoolean("dm") == null ? true: options.getBoolean("dm")) : true;
         if(dm) sendSchedule(member,filiere,groupe);
 
-        let text = `__**Your Schedule of this week :**__ \n__Filiere__: ${filiere}\n__Groupe__: ${groupe}\n` ;
-        let fileNamePng = `Emploi_${filiere}_${groupe}.png`;
-        let fileNamePdf = `Emploi_${filiere}_${groupe}.pdf`;
-        let embed = createEmbed(`Schedule ${filiere} ${groupe}`, "__**Your Schedule of this week :**__ ");
+        // let text = `__**Your Schedule of this week :**__ \n__Filiere__: ${filiere}\n__Groupe__: ${groupe}\n` ;
+        // let fileNamePng = `Emploi_${filiere}_${groupe}.png`;
+        // let fileNamePdf = `Emploi_${filiere}_${groupe}.pdf`;
+        // let embed = createEmbed(`Schedule ${filiere} ${groupe}`, "__**Your Schedule of this week :**__ ");
+        let text = `__**The Planning of S2 Finals.**__ ` ;
+        let fileNamePng1 = `Planning_examens_S2-1.png`;
+        let fileNamePng2 = `Planning_examens_S2-2.png`;
+        let fileNamePdf = `Planning_examens_S2.pdf`;
+        let embed = createEmbed(`Finals Schedule`, "__**Finals Schedule**__ ");
         await interaction.followUp({ 
             content: text, 
             embeds: [embed],
-            files: [`./data/Schedules/emploi_1A/${fileNamePdf}`, `./data/Schedules/emploi_1A/${fileNamePng}`],
+            files: [
+                `./data/Schedules/emploi_1A/${fileNamePdf}`, 
+                `./data/Schedules/emploi_1A/${fileNamePng1}`,
+                `./data/Schedules/emploi_1A/${fileNamePng2}`,
+            ],
             ephemeral: true 
         });
-        let logs = `[INFO] .${member.nickname || member.user.tag} got the schedule for branch .${filiere} and groupe .${groupe}`;
+        let logs = `[INFO] .${member.nickname || member.user.tag} got their finals Schedule.`;
         await logsMessage(client, logs, interaction.guild);
     }
 }
