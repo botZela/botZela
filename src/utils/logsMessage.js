@@ -5,7 +5,7 @@ async function logsMessage(client, message, guild) {
         let channel = client.channels.cache.get(CHANNELS[`${guild.id}`]['LOGS']);
         await channel.send("```css\n" + message + "\n```");
     } catch (e) {
-        console.log(`Logs channel not set in ${guild.name}`);
+        console.log(`[EROR] Logs channel not set in ${guild.name}`);
     }
 }
 
