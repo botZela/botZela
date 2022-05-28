@@ -20,6 +20,14 @@ module.exports = {
                     name: "Member Left",
                     value: "guildMemberRemove",
                 },
+                {
+                    name: "Bot Joind The Server",
+                    value: "guildCreate",
+                },
+                {
+                    name: "Bot Left The Server",
+                    value: "guildDelete",
+                },
             ],
         },
     ],
@@ -40,8 +48,16 @@ module.exports = {
                 client.emit("guildMemberRemove", interaction.member);
                 break;
             }
+            case "guildCreate": {
+                client.emit("guildCreate", interaction.guild);
+                break;
+            }
+            case "guildDelete": {
+                client.emit("guildDelete", interaction.guild);
+                break;
+            }
         }
 
-        await interaction.reply({ content: "Emitted The event", ephemeral: true });
+        await interaction.reply({ content: `Emitted The event ${choices}`, ephemeral: true });
     },
 };
