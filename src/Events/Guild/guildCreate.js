@@ -6,6 +6,7 @@ module.exports = {
     async execute(client, guild) {
         console.log(`[Info] Joined server : ${guild.name}`);
         const roles = await guild.roles.fetch();
+        client.data["ROLES"][`${guild.id}`] = {}
         for (let role of roles) {
             role = role[1];
             client.data["ROLES"][`${guild.id}`][role.name] = role.id

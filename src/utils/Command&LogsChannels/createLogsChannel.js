@@ -19,7 +19,7 @@ async function createLogsChannel(client, guild, overwrites = null,category = nul
         client.data["CHANNELS"][`${guild.id}`]['LOGS'] = logs.id;
     } catch(e){
         console.error(e);
-        client.data["CHANNELS"][`${guild.id}`]['LOGS'] = {};
+        client.data["CHANNELS"][`${guild.id}`] = {};
         client.data["CHANNELS"][`${guild.id}`]['LOGS'] = logs.id;
     }
     saveData(client.data);

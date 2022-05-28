@@ -21,7 +21,7 @@ async function createCommandsChannel(client, guild, overwrites = null, category 
         client.data["CHANNELS"][`${guild.id}`]['COMMANDS'] = cmds.id;
     } catch (e) {
         console.error(e);
-        client.data["CHANNELS"][`${guild.id}`]['COMMANDS'] = {};
+        client.data["CHANNELS"][`${guild.id}`] = {};
         client.data["CHANNELS"][`${guild.id}`]['COMMANDS'] = cmds.id;
     }
     saveData(client.data);
