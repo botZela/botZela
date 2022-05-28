@@ -20,6 +20,7 @@ client.testGuilds = [
     { name: "🔺▬▬ • ENSIAS • ▬▬🔺", id: "921408078983876678" },
     { name: "Test_channel", id: "942172171285987370" },
     { name: "bot TEST WN", id: "933499256000643103" },
+    { name: "GIVE'N'TAKE", id: "979396566018322482" },
 ];
 
 ["Events", "Commands", "Buttons", "SelectMenu"].forEach((handler) => {
