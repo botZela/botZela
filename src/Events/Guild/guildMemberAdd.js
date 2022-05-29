@@ -25,7 +25,7 @@ module.exports = {
             if (index == 0) {
                 index = await activeSheet.findCellCol(`${user.id}`, "G");
                 if (index == 0){
-                    await kick(member);
+                    await kick(member, guild);
                     logs = `[INFO] .${user.tag} got kicked from the server`;
                     await logsMessage(client, logs, guild);
                     return;
