@@ -1,4 +1,5 @@
 const { CommandInteraction, Client } = require("discord.js");
+const { client } = require("../../index");
 
 module.exports = {
     name: "resetcooldown",
