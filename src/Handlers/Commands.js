@@ -1,6 +1,7 @@
 const { AsciiTable3 } = require("ascii-table3");
 const { Perms } = require("../Validation/PermissionNames");
 const { Client } = require("discord.js");
+const { prod_tt_sasportal } = require("googleapis/build/src/apis/prod_tt_sasportal");
 
 /**
  * @param {Client} client
@@ -35,6 +36,16 @@ module.exports = async (client, PG, Ascii) => {
             }
         }
 
+        if (command.guilds) {
+            command.guilds = command.guilds.filter((guildId) => guildId != "");
+            if (command.guilds.some((guildId) => client.testGuilds.map(guild => guild.id).includes(guildId))) {
+                command.privateGuilds = true;
+            } else if (command.guilds.length !== 0) {
+                Table.addRow(command.name, "🟠 FAILED", "Cant find the guilds");
+                continue;
+            }
+        }
+
         client.commands.set(command.name, command);
         commandsArray.push(command);
         await Table.addRow(command.name, "🔵 SUCCESSFUL");
@@ -55,7 +66,11 @@ module.exports = async (client, PG, Ascii) => {
                     cmdPerms.some((perm) => r.permissions.has(perm))
                 );
             };
-            const command = await guild.commands.set(commandsArray);
+            let guildCommands = commandsArray.filter(command => {
+                if (!command.privateGuilds) return true;
+                return command.guilds.includes(guild.id);
+            });
+            const command = await guild.commands.set(guildCommands);
             const fullPermissions = command.reduce((acc, r) => {
                 const roles = Roles(r.name);
                 if (!roles) return acc;

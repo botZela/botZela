@@ -5,6 +5,7 @@ const { promisify } = require("util");
 const { glob } = require("glob");
 const PG = promisify(glob);
 const { AsciiTable3 } = require("ascii-table3");
+const { builtinModules } = require("module");
 
 const myIntents = new Intents(32767);
 const client = new Client({ intents: myIntents });
@@ -30,3 +31,7 @@ client.testGuilds = [
 
 
 client.login(TOKEN);
+
+module.exports = {
+    client,
+}

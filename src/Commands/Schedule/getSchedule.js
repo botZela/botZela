@@ -2,12 +2,16 @@ const { createEmbed } = require("../../utils/createEmbed");
 const { flGrp } = require("../../utils/Schedule/flGrp");
 const { logsMessage } = require("../../utils/logsMessage");
 const { sendSchedule } = require("../../utils/Schedule/sendSchedule");
+const { client } = require("../../index");
 
 module.exports = {
     name: "getschedule",
     description: "Get your schedule based on your group and field.",
     cooldown: 10*1000,
     // permissions: [],
+    guilds : [
+        client.testGuilds.find(guild => guild.name.includes("ENSIAS"))?.id || "" ,
+    ],
     options : [
         {
             name: "filiere",
