@@ -4,6 +4,9 @@ module.exports = {
     name: "resetcooldown",
     description: "Reset the cooldown for all users or just a member.",
     permissions: ["ADMINISTRATOR"],
+    guilds : [
+        client.testGuilds.find(guild => guild.name.includes("ENSIAS"))?.id || "" ,
+    ],
     options: [
         {
             name: "member",

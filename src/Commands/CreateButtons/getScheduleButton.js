@@ -4,6 +4,9 @@ module.exports = {
     name: "button_schedule",
     description: "Create the Schedule button",
     permissions: ["ADMINISTRATOR"],
+    guilds : [
+        client.testGuilds.find(guild => guild.name.includes("ENSIAS"))?.id || "" ,
+    ],
     options: [
         {
             name: "message",
