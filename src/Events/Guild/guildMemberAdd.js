@@ -47,6 +47,7 @@ module.exports = {
             logs += `\n[INFO] .${user.tag} got Roles [` + newMem.rolesNames.map(role => `'${role}'`) + `]`;
             await logsMessage(client, logs, guild);
         } catch (e) {
+            console.error(e);
             console.log(`[INFO] Sheet does not exist for server ${guild.name}`);
         }
         if (guild.systemChannel) {

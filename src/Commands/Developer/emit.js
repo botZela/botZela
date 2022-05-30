@@ -44,10 +44,7 @@ module.exports = {
      */
     async execute({ client, interaction }) {
         const choices = interaction.options.getString("event");
-        const member = interaction.options.getUser("member") || interaction.member;
-        if (!member.guild) {
-            member.guild = interaction.guild;
-        }
+        const member = interaction.options.getMember("member") || interaction.member;
 
         switch (choices) {
             case "guildMemberAdd": {

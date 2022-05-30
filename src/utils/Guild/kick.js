@@ -1,5 +1,5 @@
 async function kick(member, guild) {
-    if ( !(["921408078983876678","979396566018322482"].includes(str(guild.id)))){
+    if ( !(["921408078983876678","979396566018322482"].includes(toString(guild.id)))){
         return;
     } 
     let formUrl,inviteUrl;
