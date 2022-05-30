@@ -2,12 +2,12 @@
 const { CommandInteraction, Client } = require("discord.js");
 
 module.exports = {
-    name: "emitt",
+    name: "emit",
     description: "Event Emitter",
     permissions: ["ADMINISTRATOR"],
     options: [
         {
-            name: "member",
+            name: "event",
             description: "Guild Member Events",
             type: "STRING",
             required: true,
@@ -30,6 +30,12 @@ module.exports = {
                 },
             ],
         },
+        {
+            name: "member",
+            description: "The Member to execute the event on.",
+            type: "USER",
+            required: false,
+        },
     ],
     /**
      *
@@ -37,15 +43,19 @@ module.exports = {
      * @param {CommandInteraction} interaction
      */
     async execute({ client, interaction }) {
-        const choices = interaction.options.getString("member");
+        const choices = interaction.options.getString("event");
+        const member = interaction.options.getUser("member") || interaction.member;
+        if (!member.guild) {
+            member.guild = interaction.guild;
+        }
 
         switch (choices) {
             case "guildMemberAdd": {
-                client.emit("guildMemberAdd", interaction.member);
+                client.emit("guildMemberAdd", member);
                 break;
             }
             case "guildMemberRemove": {
-                client.emit("guildMemberRemove", interaction.member);
+                client.emit("guildMemberRemove", member);
                 break;
             }
             case "guildCreate": {
