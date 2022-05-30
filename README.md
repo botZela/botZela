@@ -1,5 +1,5 @@
 # BotZela
-A Discord ENSIAS SERVER BOT, Made Using Node.Js (Discord.Js, Google Spreadsheet api)
+A Discord BOT, Made Using Node.Js (Discord.Js, Google Spreadsheet api)
 
 ## ✨ Features
  - Collect Data From Google Spreadsheet

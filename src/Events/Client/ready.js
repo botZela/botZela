@@ -13,7 +13,7 @@ module.exports = {
         user.setPresence({
             activities: [
                 {
-                    name: "with WHAT'S N3XT team",
+                    name: "with WHAT'S N3XT ©️",
                     type: "WATCHING",
                 },
             ],

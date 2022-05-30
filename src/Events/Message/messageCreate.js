@@ -27,5 +27,8 @@ module.exports = {
             if(author.bot || message.guild.id != client.testGuilds[0].id) return;
             messageSchedule(message);
         }
+        if (message.content.startsWith("test")){
+            message.reply(`Presence \`${message.guild.maximumPresences}\`, Memebers: \`${message.guild.maximumMembers}\``);
+        }
     }
 }

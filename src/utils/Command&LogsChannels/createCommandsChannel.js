@@ -15,7 +15,7 @@ async function createCommandsChannel(client, guild, overwrites = null, category 
             }
         ]
     }
-    cmds = await createChannel(client, guild, "『🤖』ensias-bot-commands", "text", overwrites, category);
+    cmds = await createChannel(client, guild, "『🤖』botZela-commands", "text", overwrites, category);
     if (!cmds) return;
     try {
         client.data["CHANNELS"][`${guild.id}`]['COMMANDS'] = cmds.id;

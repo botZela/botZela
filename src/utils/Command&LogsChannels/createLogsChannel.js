@@ -14,7 +14,7 @@ async function createLogsChannel(client, guild, overwrites = null,category = nul
             }
         ] 
     }
-    logs = await createChannel(client,guild,"『🤖』ensias-bot-logs","text",overwrites,category)
+    logs = await createChannel(client,guild,"『🤖』botZela-logs","text",overwrites,category)
     try{
         client.data["CHANNELS"][`${guild.id}`]['LOGS'] = logs.id;
     } catch(e){
