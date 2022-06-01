@@ -12,7 +12,7 @@ async function kick(member, guild) {
     }
 
     await member.send(`You did not fill the form correctly(like we said it is automated and you got kicked from the server).\n\
-Please Consider refilling the form using this username : ${member.name}in the Discord Username:\n\n\
+Please Consider refilling the form using this username : \`\`\`${member.name}\`\`\` in the Discord Username:\n\n\
 ${formURL}\n\n\
 After refiling the form you can rejoin the server without getting kicked\n\n\
 ${inviteUrl}\n\
