@@ -17,7 +17,7 @@ ${formURL}\n\n\
 After refiling the form you can rejoin the server without getting kicked\n\n\
 ${inviteUrl}\n\
 Thanks for your Understanding.`);
-    // await member.kick();
+    await member.kick();
 }
 
 module.exports = {
