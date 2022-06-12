@@ -1,23 +1,30 @@
-async function kick(member, guild) {
-    if ( !(["921408078983876678", "979396566018322482"].includes(guild.id))){
-        console.log("Halloo");
-        return;
-    } 
-    let formURL,inviteURL;
-    if (guild.id == "979396566018322482"){
-        formURL = "https://forms.gle/oyKyzc225jw7vAhc8"; 
-        inviteURL = "https://discord.gg/27khZuVstQ"; 
-    } else if (guild.id == "921408078983876678"){
-        formURL = "https://forms.gle/6XoXUAZiRkvWw8Rp9" ; 
-        inviteURL = "https://discord.gg/yDbrgnnC4D" ; 
-    }
+const { createEmbed } = require("../../utils/createEmbed");
+const linksModel = require("../../Models/guildLinks");
 
-    await member.send(`You did not fill the form correctly(like we said it is automated and you got kicked from the server).\n\
-Please Consider refilling the form using this username : \`\`\`${member.user.tag}\`\`\` in the Discord Username:\n\n\
-${formURL}\n\n\
-After refiling the form you can rejoin the server without getting kicked\n\n\
-${inviteURL}\n\n\
-Thanks for your Understanding.`);
+async function kick(member, guild) {
+
+    let formLink, inviteLink;
+    const linksData = await linksModel.findOne({guildId: guild.id});
+    if (linksData){
+        formLink = linksData?.form || '';
+    }
+    if (guild.systemChannel){
+        const inviteOptions = {
+            maxAge: 30 * 60,
+            maxUses: 1,
+            unique: true,
+        };
+        inviteLink = (await guild.invites.create(guild.systemChannel.id,inviteOptions)).url;
+
+    }
+    let embed = createEmbed(`${guild.me.user.username}`, `You did not fill the form correctly(like we said it is automated and you got kicked from the server).\n\nPlease Consider refilling the form \n\n\
+    ${formLink}\n\nusing this username : \`${member.user.tag}\` in the Discord Username Field.\n
+    After refiling the form you can rejoin the server without getting kicked using this link\n\n\
+    ${inviteLink}\n\n\
+    Thanks for your Understanding.`);
+    await member.send({
+        embeds:[embed],
+    });
     await member.kick();
 }
 

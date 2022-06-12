@@ -87,13 +87,22 @@ module.exports = {
                 },
             ],
         },
+        {
+            type: 'SUB_COMMAND',
+            name: 'server',
+            description: 'Setup Guide.',
+        },
     ],
     permissions: ["ADMINISTRATOR","MANAGE_ROLES"],
     async execute({ interaction } ) {
+        await interaction.deferReply({ content: '...', ephemeral: true, })
         const {guild} = interaction;
+        const subCommand = interaction.options.getSubcommand();
+        if (subCommand === 'server'){
+            return await interaction.followUp({ content: 'Setting up the server .... ', ephemeral: true });
+        }
         const subCommandGroup = interaction.options.getSubcommandGroup();
         if (subCommandGroup === "channels"){
-            const subCommand = interaction.options.getSubcommand();
             const channel = interaction.options.getChannel('channel');
             const guildData = await gChannels.findOne({guildId: guild.id});
             let channelType = subCommand.toUpperCase();
@@ -112,9 +121,12 @@ module.exports = {
                 });
             }
             channel.send("This channel is Up and running")
+            return await interaction.followUp({ 
+                content: `[INFO] ${channelType} Added Successfully`, 
+                ephemeral: true,
+            });
 
         } else if (subCommandGroup === "link") {
-            const subCommand = interaction.options.getSubcommand();
             const link = interaction.options.getString('url');
             if (subCommand === "spreadsheet"){
                 await checkSpreasheet(interaction.client, interaction, link);
@@ -130,13 +142,13 @@ module.exports = {
                         form: link,
                     });
                 }
+                return await interaction.followUp({ content: `This server's Form Link Added Successfully.`, ephemeral: true });
             }
 
-
         }
-        await interaction.reply({ content: 'Setuping Server...', ephemeral: true });
+        
+        await interaction.followUp({ content: "Setting up the server .... ", ephemeral: true, })
         return;
-        // await interaction.followUp({ content: '...', ephemeral: true, })
 
     }
 }
