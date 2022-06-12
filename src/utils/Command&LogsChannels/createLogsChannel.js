@@ -1,5 +1,5 @@
 const { createChannel } = require("../Channels/createChannel");
-const { saveData } = require("../saveData");
+const gChannels = require("../../Models/guildChannels");
 
 async function createLogsChannel(client, guild, overwrites = null,category = null){
     if (!overwrites){
@@ -15,14 +15,22 @@ async function createLogsChannel(client, guild, overwrites = null,category = nul
         ] 
     }
     logs = await createChannel(client,guild,"『🤖』botZela-logs","text",overwrites,category)
-    try{
-        client.data["CHANNELS"][`${guild.id}`]['LOGS'] = logs.id;
-    } catch(e){
-        console.error(e);
-        client.data["CHANNELS"][`${guild.id}`] = {};
-        client.data["CHANNELS"][`${guild.id}`]['LOGS'] = logs.id;
+    
+    const guildData = await gChannels.findOne({ guildId: guild.id });
+
+    if (guildData){
+        guildData.channels.set('LOGS', logs.id);
+        guildData.save();
+    } else {
+        gChannels.create({
+            guildId: guild.id,
+            guildName: guild.name,
+            channels: {
+                LOGS: logs.id,
+            },
+        });
     }
-    saveData(client.data);
+
 }
 
 module.exports = {

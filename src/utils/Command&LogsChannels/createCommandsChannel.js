@@ -1,9 +1,8 @@
 const { createChannel } = require("../Channels/createChannel");
-const { saveData } = require("../saveData");
 const { createEmbed } = require("../createEmbed");
+const gChannels = require("../../Models/guildChannels");
 
 async function createCommandsChannel(client, guild, overwrites = null, category = null) {
-    const { CHANNELS } = client.data;
     if (!overwrites) {
         overwrites = [{
                 id: guild.roles.everyone.id,
@@ -16,15 +15,22 @@ async function createCommandsChannel(client, guild, overwrites = null, category 
         ]
     }
     cmds = await createChannel(client, guild, "『🤖』botZela-commands", "text", overwrites, category);
-    if (!cmds) return;
-    try {
-        client.data["CHANNELS"][`${guild.id}`]['COMMANDS'] = cmds.id;
-    } catch (e) {
-        console.error(e);
-        client.data["CHANNELS"][`${guild.id}`] = {};
-        client.data["CHANNELS"][`${guild.id}`]['COMMANDS'] = cmds.id;
+
+    const guildData = await gChannels.findOne({ guildId: guild.id });
+
+    if (guildData){
+        guildData.channels.set('COMMANDS', cmds.id);
+        guildData.save();
+    } else {
+        gChannels.create({
+            guildId: guild.id,
+            guildName: guild.name,
+            channels: {
+                COMMANDS: cmds.id,
+            },
+        });
     }
-    saveData(client.data);
+
     let embed = createEmbed("Please Setup the BOT");
     await cmds.send({ embeds: [embed] });
 }
