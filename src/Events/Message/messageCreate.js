@@ -10,7 +10,7 @@ module.exports = {
      * @param {Message} message 
      */
     async execute(client, message) {
-        const { SUPPORTED_GUILDS } = client.data;
+        const SUPPORTED_GUILDS = client.testGuilds.map(guild => guild.id);
         const { channel, author } = message;
         let announcementName = "announcement";
         let introduceName = "introd";

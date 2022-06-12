@@ -1,4 +1,5 @@
 const { titleCase } = require("./stringFunc.js");
+const gRoles = require("../../Models/guildRoles");
 
 class Person {
   static async create(index, client, guild, activeSheet) {
@@ -18,16 +19,16 @@ class Person {
         }
       }
     }
-    out.rolesId = out.roles(client, guild.id);
+    out.rolesId = await out.roles(client, guild.id);
     return out;
   }
 
-  roles(client, guildId) {
-    const { ROLES } = client.data;
+  async roles(client, guildId) {
+    const guildRoles = (await gRoles.findOne({guildId})).roles;
     let roleIds = [];
     for (let role of this.rolesNames) {
       try {
-        let roleId = ROLES[`${guildId}`][role];
+        let roleId = guildRoles.get(role);
         if (roleId) {
           roleIds.push(roleId);
         } else {

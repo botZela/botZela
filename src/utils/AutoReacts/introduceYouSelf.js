@@ -1,7 +1,7 @@
 const {choice} = require("../choice.js");
 
 async function introduceYourSelf(client,message){
-    const { SUPPORTED_GUILDS } = client.data;
+    const SUPPORTED_GUILDS = client.testGuilds.map(guild => guild.id);
     if (SUPPORTED_GUILDS.includes(`${message.guildId}`)){
         const emojis = ["💯", "🎊", "👍", "👋", "🎉", "✨", "🥳"];
         for ( let i=0; i<3; i++){

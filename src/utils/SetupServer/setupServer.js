@@ -1,11 +1,10 @@
 const { GSpreadSheet } = require("../../otherModules/GSpreadSheet/gsp");
 const { createEmbed } = require("../createEmbed");
-const { saveData } = require("../saveData");
+const wsModel = require("../../Models/worksheetsUrl");
 
 async function setupServer(client, message) {
     console.log(`[INFO] Setup for guild ${message.guild.name}`);
     let gspBotMail = "rolebot@woven-justice-335518.iam.gserviceaccount.com";
-
 
     function filter(m) {
         return m.author.id == message.user.id;
@@ -63,8 +62,17 @@ async function setupServer(client, message) {
             );
             try {
                 if ((await testSheet).check()) {
-                    client.data["WORKSHEETS_URL"][`${message.guild.id}`] = sheetUrl;
-                    saveData(client.data);
+                    const wsData = await wsModel.findOne({guildId: message.guild.id});
+                    if (wsData){
+                        wsData.url = sheetUrl;
+                        await wsData.save();
+                    } else {
+                        await wsModel.create({
+                            guildId: message.guild.id,
+                            guildName: message.guild.name,
+                            url: sheetUrl,
+                        });
+                    }
                     let embed = createEmbed(
                         "Setup Server",
                         `${client.user.tag} has connected successfully to the SpreadSheet`
@@ -84,27 +92,6 @@ async function setupServer(client, message) {
             await message.channel.send({ embeds: [embed] });
             break;
         }
-        /* await message.channel.awaitMessages({ filter: filter, max: 1, time: 60000, errors: ['time'] }).then(async(collected) => {
-                let sheetUrl = collected.first().content;
-                let testSheet = GSpreadSheet.createFromUrl(sheetUrl, '../credentials/google_account.json', 0);
-                try {
-                    if ((await testSheet).check()) {
-                        client.data["WORKSHEETS_URL"][`${message.guild.id}`] = sheetUrl;
-                        saveData(client.data);
-                        let embed = createEmbed("Setup Server", `${client.tag} has connected successfully to the SpreadSheet`);
-                        await message.channel.send({ embed: [embed] });
-                        break;
-                    }
-                } catch (e) {
-                    console.log("Can't access the url Please Try again" + e);
-                    let embed = createEmbed("Setup Server", "Can't access the url");
-                    await message.channel.send({ embed: [embed] });
-                }
-            }).catch(async(e) => {
-                let embed = createEmbed("Bot timed Out!!!" + e);
-                await message.channel.send({ embeds: [embed] });
-                break;
-            }); */
     }
 }
 

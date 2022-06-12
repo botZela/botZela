@@ -1,8 +1,14 @@
+const gChannels = require("../Models/guildChannels");
+
 async function logsMessage(client, message, guild) {
-    const { CHANNELS } = client.data;
+    console.log(message);
     try {
-        console.log(message);
-        let channel = client.channels.cache.get(CHANNELS[`${guild.id}`]['LOGS']);
+        const guildChannels = (await gChannels.findOne({guildId : guild.id}))?.channels;
+        if (!guildChannels){
+            return console.log(`[EROR] Logs channel not set in ${guild.name}`);
+        }
+        const logsId = guildChannels.get('LOGS');
+        let channel = client.channels.cache.get(logsId);
         await channel.send("```css\n" + message + "\n```");
     } catch (e) {
         console.log(`[EROR] Logs channel not set in ${guild.name}`);

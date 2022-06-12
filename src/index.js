@@ -5,7 +5,6 @@ const { promisify } = require("util");
 const { glob } = require("glob");
 const PG = promisify(glob);
 const { AsciiTable3 } = require("ascii-table3");
-const { builtinModules } = require("module");
 
 const myIntents = new Intents(32767);
 const client = new Client({ intents: myIntents });
@@ -15,7 +14,7 @@ client.buttons = new Collection();
 client.buttonsCooldown = new Collection();
 client.selectMenu = new Collection();
 
-client.data = require("../data/data.json");
+// client.data = require("../data/data.json");
 
 client.testGuilds = [
     { name: "🔺▬▬ • ENSIAS • ▬▬🔺", id: "921408078983876678" },

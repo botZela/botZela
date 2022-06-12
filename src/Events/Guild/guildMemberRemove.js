@@ -1,16 +1,22 @@
 const { GSpreadSheet } = require(`${process.cwd()}/src/otherModules/GSpreadSheet/gsp.js`);
 const { logsMessage } = require(`${process.cwd()}/src/utils/logsMessage.js`);
+const wsModel = require("../../Models/worksheetsUrl");
 
 module.exports = {
     name: 'guildMemberRemove',
     async execute(client, member) {
-        const {WORKSHEETS_URL, PRV_ROLES, ROLES, ADMINS } = client.data;
         const { guild, user } = member;
+        const worksheetUrl = ( await  wsModel.findOne({guildId: guild.id}))?.url;
         let logs = "";
+        if (!worksheetUrl){
+            console.log(`[INFO] Sheet does not exist for server ${guild.name}`);
+            logs = `[INFO] .${member.nickname} Left the server`;
+            await logsMessage(client, logs, guild);
+            return;
+        }
         try {
-            let url = WORKSHEETS_URL[`${guild.id}`];
             let gAccPath = `${process.cwd()}/credentials/google_account.json`;
-            let activeSheet = await GSpreadSheet.createFromUrl(url, gAccPath, 0);
+            let activeSheet = await GSpreadSheet.createFromUrl(worksheetUrl, gAccPath, 0);
             if (user.bot) {
                 logs = `[INFO] .${user.tag} is gone from the server.`;
                 await logsMessage(client, logs, guild);
@@ -32,6 +38,8 @@ module.exports = {
             await logsMessage(client, logs, guild);
         } catch (e) {
             console.log(`[INFO] Sheet does not exist for server ${guild.name}`);
+            logs = `[INFO] .${member.nickname} Left the server`;
+            await logsMessage(client, logs, guild);
         }
     },
 }

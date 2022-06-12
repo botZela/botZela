@@ -1,11 +1,13 @@
-const { saveData } = require(`${process.cwd()}/src/utils/saveData`);
 const { logsMessage } = require(`${process.cwd()}/src/utils/logsMessage`);
+const gRoles = require("../../Models/guildRoles")
+
 module.exports = {
     name: 'roleDelete',
     async execute(client, role) {
         try {
-            delete client.data["ROLES"][`${role.guild.id}`][`${role.name}`];
-            saveData(client.data);
+            const guildData = await gRoles.findOne({ guildId : role.guild.id});
+            guildData.roles.delete(`${role.name}`);
+            await guildData.save();
             let log = `[INFO] ${role.name} has been deleted.`;
             await logsMessage(client, log, role.guild);
         } catch (e) {

@@ -4,7 +4,7 @@ const gRoles = require(`${process.cwd()}/src/Models/guildRoles.js`);
 module.exports = {
     name: 'guildCreate',
     async execute(client, guild) {
-        console.log(`[Info] Joined server : ${guild.name}`);
+        console.log(`[INFO] Joined server : ${guild.name}`);
         const roles = await guild.roles.fetch();
 
         const guildData = await gRoles.findOne({ guildId: guild.id });

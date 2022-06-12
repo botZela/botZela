@@ -1,10 +1,14 @@
 const { greetings } = require("./greetings.js");
+const gChannels = require("../../Models/guildChannels");
 
-function welcomeMsg(client,member) {
-    const { CHANNELS } = client.data;
+async function welcomeMsg(client, member) {
+    let msg = greetings(member);
     try {
-        let channel_id = CHANNELS[`${member.guild.id}`]["INTROD"];
-        let msg = greetings(member);
+        const guildChannels = (await gChannels.findOne({guildId : member.guild.id}))?.channels;
+        if (!guildChannels){
+            return msg;
+        }
+        const channel_id = guildChannels.get('INTROD');
         if (channel_id){
             msg += "\n" + `Please introduce yourself in <#${ channel_id }> .Enjoy your stay!`;
         } else {
@@ -13,7 +17,8 @@ function welcomeMsg(client,member) {
         return msg;
 
     } catch (error) {
-        return console.error(error);
+        console.error(error);
+        return '';
     }
 }
 
