@@ -1,6 +1,6 @@
 const { GSpreadSheet } = require("../../otherModules/GSpreadSheet/gsp");
 const { createEmbed } = require("../createEmbed");
-const wsModel = require("../../Models/worksheetsUrl");
+const linksModel = require("../../Models/guildLinks");
 
 async function setupServer(client, message) {
     console.log(`[INFO] Setup for guild ${message.guild.name}`);
@@ -62,12 +62,12 @@ async function setupServer(client, message) {
             );
             try {
                 if ((await testSheet).check()) {
-                    const wsData = await wsModel.findOne({guildId: message.guild.id});
+                    const wsData = await linksModel.findOne({guildId: message.guild.id});
                     if (wsData){
                         wsData.url = sheetUrl;
                         await wsData.save();
                     } else {
-                        await wsModel.create({
+                        await linksModel.create({
                             guildId: message.guild.id,
                             guildName: message.guild.name,
                             url: sheetUrl,

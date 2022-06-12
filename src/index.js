@@ -14,7 +14,7 @@ client.buttons = new Collection();
 client.buttonsCooldown = new Collection();
 client.selectMenu = new Collection();
 
-// client.data = require("../data/data.json");
+client.data = require("../data/data.json");
 
 client.testGuilds = [
     { name: "🔺▬▬ • ENSIAS • ▬▬🔺", id: "921408078983876678" },

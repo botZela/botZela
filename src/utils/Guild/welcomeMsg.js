@@ -8,7 +8,7 @@ async function welcomeMsg(client, member) {
         if (!guildChannels){
             return msg;
         }
-        const channel_id = guildChannels.get('INTROD');
+        const channel_id = guildChannels.get('INTRODUCE');
         if (channel_id){
             msg += "\n" + `Please introduce yourself in <#${ channel_id }> .Enjoy your stay!`;
         } else {

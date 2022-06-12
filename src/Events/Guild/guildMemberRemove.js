@@ -1,12 +1,12 @@
 const { GSpreadSheet } = require(`${process.cwd()}/src/otherModules/GSpreadSheet/gsp.js`);
 const { logsMessage } = require(`${process.cwd()}/src/utils/logsMessage.js`);
-const wsModel = require("../../Models/worksheetsUrl");
+const linksModel = require("../../Models/guildLinks");
 
 module.exports = {
     name: 'guildMemberRemove',
     async execute(client, member) {
         const { guild, user } = member;
-        const worksheetUrl = ( await  wsModel.findOne({guildId: guild.id}))?.url;
+        const worksheetUrl = ( await  linksModel.findOne({guildId: guild.id}))?.url;
         let logs = "";
         if (!worksheetUrl){
             console.log(`[INFO] Sheet does not exist for server ${guild.name}`);

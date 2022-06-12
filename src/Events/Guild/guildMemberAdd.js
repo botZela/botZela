@@ -7,14 +7,14 @@ const { welcomeMsg } = require(`${process.cwd()}/src/utils/Guild/welcomeMsg.js`)
 
 // Models
 const gRoles = require("../../Models/guildRoles");
-const wsModel = require("../../Models/worksheetsUrl");
+const linksModel = require("../../Models/guildLinks");
 
 module.exports = {
     name: 'guildMemberAdd',
     async execute(client, member) {
         const { guild, user } = member;
         const guildRoles = ( await  gRoles.findOne({guildId: guild.id})).roles;
-        const worksheetUrl = ( await  wsModel.findOne({guildId: guild.id}))?.url;
+        const worksheetUrl = ( await  linksModel.findOne({guildId: guild.id}))?.spreadsheet;
         const { PRV_ROLES, ADMINS } = client.data;
         let logs;
         if (!worksheetUrl){
