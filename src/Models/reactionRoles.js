@@ -10,6 +10,7 @@ const mongoose = require('mongoose');
 const Schema = new mongoose.Schema({
     title: String,
     guildId : String,
+    guildName: String,
     messageId: String, 
     roles: Array,
 });
