@@ -30,8 +30,10 @@ module.exports = {
                 useUnifiedTopology: true,
             });
             console.log("[INFO] The Client is now connected to the DataBase.");
-        } catch(err){
-            console.log("[ERROR] The Client did not connect to the DataBase Please Check the DatabaseUri.");
+        } catch (err) {
+            console.log(
+                "[ERROR] The Client did not connect to the DataBase Please Check the DatabaseUri."
+            );
         }
         console.log("[INFO] -----------------");
     },

@@ -2,32 +2,31 @@ const { createEmbed } = require("../../utils/createEmbed");
 const linksModel = require("../../Models/guildLinks");
 
 async function kick(member, guild) {
-
     let formLink, inviteLink;
-    const linksData = await linksModel.findOne({guildId: guild.id});
-    if (linksData){
-        formLink = linksData?.form || '';
+    const linksData = await linksModel.findOne({ guildId: guild.id });
+    if (linksData) {
+        formLink = linksData?.form || "";
     }
-    if (guild.systemChannel){
+    if (guild.systemChannel) {
         const inviteOptions = {
             maxAge: 30 * 60,
             maxUses: 1,
             unique: true,
         };
-        inviteLink = (await guild.invites.create(guild.systemChannel.id,inviteOptions)).url;
-
+        inviteLink = (
+            await guild.invites.create(guild.systemChannel.id, inviteOptions)
+        ).url;
     }
-    let embed = createEmbed(`${guild.me.user.username}`, `You did not fill the form correctly(like we said it is automated and you got kicked from the server).\n\nPlease Consider refilling the form \n\n\
-    ${formLink}\n\nusing this username : \`${member.user.tag}\` in the Discord Username Field.\n
-    After refiling the form you can rejoin the server without getting kicked using this link\n\n\
-    ${inviteLink}\n\n\
-    Thanks for your Understanding.`);
+    let embed = createEmbed(
+        `${guild.me.user.username}`,
+        `You did not fill the form correctly(like we said it is automated and you got kicked from the server).\n\nPlease Consider refilling [this form](${formLink})\n\nusing this username : \`${member.user.tag}\` in the Discord Username Field.\nAfter refiling the form you can rejoin the server without getting kicked using [this link](${inviteLink})\n\n\Thanks for your Understanding.`
+    );
     await member.send({
-        embeds:[embed],
+        embeds: [embed],
     });
-    await member.kick();
+    //await member.kick();
 }
 
 module.exports = {
     kick,
-}
+};
