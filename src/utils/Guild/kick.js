@@ -24,7 +24,7 @@ async function kick(member, guild) {
     await member.send({
         embeds: [embed],
     });
-    //await member.kick();
+    await member.kick();
 }
 
 module.exports = {

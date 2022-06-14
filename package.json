@@ -6,12 +6,14 @@
   "main": "./src/index.js",
   "dependencies": {
     "ascii-table3": "^0.7.4",
+    "cheerio": "^1.0.0-rc.11",
     "discord.js": "^13.7.0",
     "glob": "^8.0.1",
     "googleapis": "^100.0.0",
     "js-yaml": "^4.1.0",
     "mongoose": "^6.3.6",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "request-promise-native": "^1.0.9"
   },
   "scripts": {
     "dev": "nodemon ."
