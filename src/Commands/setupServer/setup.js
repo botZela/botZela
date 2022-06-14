@@ -1,5 +1,5 @@
 const { setupServer } = require("../../utils/SetupServer/setupServer");
-const { checkSpreadsheet, checkSpreasheet } = require("../../utils/SetupServer/checkLinks");
+const { checkSpreadsheet } = require("../../utils/SetupServer/checkLinks");
 const gChannels = require("../../Models/guildChannels");
 const linksModel = require("../../Models/guildLinks");
 
@@ -129,7 +129,7 @@ module.exports = {
         } else if (subCommandGroup === "link") {
             const link = interaction.options.getString('url');
             if (subCommand === "spreadsheet"){
-                await checkSpreasheet(interaction.client, interaction, link);
+                await checkSpreadsheet(interaction.client, interaction, link);
             } else if (subCommand === "form"){
                 const guildData = await linksModel.findOne({guildId:guild.id});
                 if (guildData){

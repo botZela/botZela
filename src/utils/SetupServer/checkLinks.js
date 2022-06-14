@@ -2,7 +2,7 @@ const { GSpreadSheet } = require("../../otherModules/GSpreadSheet/gsp");
 const { createEmbed } = require("../createEmbed");
 const linksModel = require("../../Models/guildLinks");
 
-async function checkSpreasheet(client, message, link) {
+async function checkSpreadsheet(client, message, link) {
     const { guild } = message;
     
     try {
@@ -52,5 +52,5 @@ async function checkSpreasheet(client, message, link) {
 }
 
 module.exports = {
-    checkSpreasheet,
+    checkSpreadsheet,
 };

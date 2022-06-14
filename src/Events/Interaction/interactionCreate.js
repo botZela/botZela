@@ -22,7 +22,14 @@ module.exports = {
                 );
 
             try {
-                await command.execute({ client, interaction });
+                if (command.permissions && !command.permissions.any((perm) => interaction.member.permissions.has(perm))) {
+                    await interaction.reply({
+                        content: "Sorry you can't use this Command/Button.",
+                        ephemeral: true,
+                    });
+                } else {
+                    await command.execute({ client, interaction });
+                }
             } catch (error) {
                 console.error(error);
                 await interaction.reply({

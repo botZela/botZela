@@ -2,3 +2,4 @@ node_modules/*
 credentials/*
 test/*
 data/data.json
+data/downloads
