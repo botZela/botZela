@@ -89,10 +89,14 @@ module.exports = {
         // let fileNamePdf = `Emploi_${filiere}_${groupe}.pdf`;
         // let embed = createEmbed(`Schedule ${filiere} ${groupe}`, "__**Your Schedule of this week :**__ ");
         let text = `__**The Planning of S2 Finals.**__ ` ;
-        let fileNamePng1 = `Planning_examens_S2-1.png`;
-        let fileNamePng2 = `Planning_examens_S2-2.png`;
-        let fileNamePdf = `Planning_examens_S2.pdf`;
-        let embed = createEmbed(`Finals Schedule`, "__**Finals Schedule**__ ");
+        let fileNamePng1 = `Planning_Rattrapages_S2-1.png`;
+        let fileNamePng2 = `Planning_Rattrapages_S2-2.png`;
+        let fileNamePdf = `Planning_Rattrapages_S2.pdf`;
+        let embed = createEmbed(`Finals Schedule`, "__**Finals Schedule (Rattrapages)**__ ");
+        // let fileNamePng1 = `Planning_examens_S2-1.png`;
+        // let fileNamePng2 = `Planning_examens_S2-2.png`;
+        // let fileNamePdf = `Planning_examens_S2.pdf`;
+        // let embed = createEmbed(`Finals Schedule`, "__**Finals Schedule**__ ");
         await interaction.followUp({ 
             content: text, 
             embeds: [embed],
@@ -103,7 +107,7 @@ module.exports = {
             ],
             ephemeral: true 
         });
-        let logs = `[INFO] .${member.nickname || member.user.tag} got their finals Schedule.`;
+        let logs = `[INFO] .${member.nickname || member.user.tag} got their finals (Rattrapages) Schedule.`;
         await logsMessage(client, logs, interaction.guild);
     }
 }
