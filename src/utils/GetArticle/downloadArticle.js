@@ -12,7 +12,6 @@ function getFilesizeInMegaBytes(filename) {
 
 async function downloadPDF(pdfURL, outputFilename) {
     let pdfBuffer = await request.get({ uri: pdfURL, encoding: null });
-    console.log("Writing downloaded PDF file to " + outputFilename + "...");
 
     // Create Folder if it does not exist
     if (!fs.existsSync(dir)){
@@ -24,14 +23,19 @@ async function downloadPDF(pdfURL, outputFilename) {
 
 async function getArticle(doi) {
     try{
-        const html = await request(`https://sci-hub.hkvisa.net/${doi}`)
+        const baseUrl = "https://sci-hub.hkvisa.net"
+        const html = await request(`${baseUrl}/${doi}`)
         const $ = cheerio.load(html);
-        const url =
-            "https:" +
-            $("#article embed")
+        const srcPdf = $("#article embed")
                 .attr("src")
                 .replace("#navpanes=0&view=FitH", "");
-        console.log(url);
+        let url;
+        if (srcPdf[1] !== "/"){
+            url = `${baseUrl}${srcPdf}`;
+        } else {
+            url = `https:${srcPdf}`;
+        }
+        console.log("[INFO] ",url);
         // URL of the PDF
         const article = url.split("/").at(-1);
         // Path at which PDF will get downloaded
