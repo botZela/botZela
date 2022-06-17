@@ -22,7 +22,13 @@ module.exports = {
                 );
 
             try {
-                if (command.permissions && !command.permissions.any((perm) => interaction.member.permissions.has(perm))) {
+                if (
+                    command.permissions &&
+                    !command.permissions.some((perm) =>
+                        interaction.member.permissions.has(perm)
+                    ) 
+                    // interaction.guild.ownerId !== interaction.member.id
+                ) {
                     await interaction.reply({
                         content: "Sorry you can't use this Command/Button.",
                         ephemeral: true,
