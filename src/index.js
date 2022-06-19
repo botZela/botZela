@@ -22,6 +22,7 @@ client.testGuilds = [
     { name: "bot TEST WN", id: "933499256000643103" },
     { name: "GIVE'N'TAKE", id: "979396566018322482" },
     { name: "ENACTUS ENSIAS", id: "987024965431881768" },
+    { name: "INSEC ENSIAS", id: "988184093797789746" },
     // { name: "IEEE", id: "981579286735634492" },
 ];
 
