@@ -1,7 +1,6 @@
 const gRoles = require("../../Models/guildRoles");
 
-function createOverwrites(client, guild, rolesList) {
-
+async function createOverwrites(client, guild, rolesList) {
     const guildRoles = (await gRoles.findOne({guildId: guild.id})).roles;
     
     if (!rolesList) return;

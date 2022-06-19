@@ -12,7 +12,7 @@ async function createDictStructure(client, guild, format, overwrites = null, cat
             let tempArray = categoryDict[0].split(",").map(e => e.trim());
             name = tempArray[0];
             rolesList = tempArray.slice(1);
-            overwritesList = createOverwrites(client, guild, rolesList);
+            overwritesList = await createOverwrites(client, guild, rolesList);
         } catch (e) {
             null;
         }
@@ -32,7 +32,7 @@ async function createDictStructure(client, guild, format, overwrites = null, cat
             name = tempArray[0];
             type = tempArray[1];
             rolesList = tempArray.slice(2);
-            overwritesList = createOverwrites(client, guild, rolesList);
+            overwritesList = await createOverwrites(client, guild, rolesList);
         } catch (e) {
             console.log(`[INFO] roles was not set for the channel ${name} in guild ${guild.name}`);
         }
