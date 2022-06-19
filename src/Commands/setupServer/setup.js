@@ -1,6 +1,7 @@
 const { setupServer } = require("../../utils/SetupServer/setupServer");
 const { checkSpreadsheet } = require("../../utils/SetupServer/checkLinks");
 const gChannels = require("../../Models/guildChannels");
+const gRoles = require("../../Models/guildRoles");
 const linksModel = require("../../Models/guildLinks");
 
 module.exports = {
@@ -92,6 +93,19 @@ module.exports = {
             name: 'server',
             description: 'Setup Guide.',
         },
+        {
+            type: 'SUB_COMMAND',
+            name: 'default_role',
+            description: 'Define the default role of the server',
+            options: [
+                {
+                    name : 'role',
+                    description: 'The Default role of the server',
+                    type: 'ROLE',
+                    required: true,
+                },
+            ],
+        },
     ],
     permissions: ["ADMINISTRATOR","MANAGE_ROLES"],
     async execute({ interaction } ) {
@@ -100,6 +114,14 @@ module.exports = {
         const subCommand = interaction.options.getSubcommand();
         if (subCommand === 'server'){
             return await interaction.followUp({ content: 'Setting up the server .... ', ephemeral: true });
+        } else if (subCommand === 'default_role'){
+            const guildData = await gRoles.findOne({guildId: guild.id});
+            const roleData = interaction.options.getRole('role');
+            if (guildData){
+                guildData.defaultRole = roleData.id;
+                guildData.save();
+            }
+            return await interaction.followUp({ content: 'Default Role Added Successfully', ephemeral: true });
         }
         const subCommandGroup = interaction.options.getSubcommandGroup();
         if (subCommandGroup === "channels"){

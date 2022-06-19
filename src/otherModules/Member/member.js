@@ -24,8 +24,12 @@ class Person {
   }
 
   async roles(client, guildId) {
-    const guildRoles = (await gRoles.findOne({guildId})).roles;
+    const guildData = await gRoles.findOne({guildId});
+    const guildRoles = guildData.roles;
     let roleIds = [];
+    if (guildData.default){
+      roleIds.push(guildData.default);
+    }
     for (let role of this.rolesNames) {
       try {
         let roleId = guildRoles.get(role);

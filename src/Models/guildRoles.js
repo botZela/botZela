@@ -9,6 +9,7 @@ const Schema = new mongoose.Schema({
     guildId : String,
     guildName : String,
     roles: Map,
+    defaultRole : String,
 });
 
 module.exports = mongoose.model("guild-roles", Schema);
