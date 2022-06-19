@@ -27,8 +27,8 @@ class Person {
     const guildData = await gRoles.findOne({guildId});
     const guildRoles = guildData.roles;
     let roleIds = [];
-    if (guildData.default){
-      roleIds.push(guildData.default);
+    if (guildData.defaultRole){
+      roleIds.push(guildData.defaultRole);
     }
     for (let role of this.rolesNames) {
       try {
