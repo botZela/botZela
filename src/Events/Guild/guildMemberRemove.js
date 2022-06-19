@@ -6,7 +6,7 @@ module.exports = {
     name: 'guildMemberRemove',
     async execute(client, member) {
         const { guild, user } = member;
-        const worksheetUrl = ( await  linksModel.findOne({guildId: guild.id}))?.url;
+        const worksheetUrl = ( await  linksModel.findOne({guildId: guild.id}))?.spreadsheet;
         let logs = "";
         if (!worksheetUrl){
             console.log(`[INFO] Sheet does not exist for server ${guild.name}`);
