@@ -85,7 +85,7 @@ module.exports = {
                 });
             }
         }
-        let embed = createEmbed(`1A Insurance`, "__**Your Insurance is ready**__ ");
+        let embed = createEmbed(`Assurance 1A`, "__**Your \"Assurance\" is ready**__ ");
         await interaction.followUp({ 
             content: text, 
             embeds: [embed],
