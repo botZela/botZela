@@ -1,7 +1,6 @@
 const { AsciiTable3 } = require("ascii-table3");
 const { Perms } = require("../Validation/PermissionNames");
 const { Client } = require("discord.js");
-const { prod_tt_sasportal } = require("googleapis/build/src/apis/prod_tt_sasportal");
 
 /**
  * @param {Client} client

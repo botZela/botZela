@@ -1,4 +1,4 @@
-const request = require("request-promise-native");
+const axios = require("axios");
 const cheerio = require("cheerio");
 const fs = require("fs");
 
@@ -11,31 +11,45 @@ function getFilesizeInMegaBytes(filename) {
 }
 
 async function downloadPDF(pdfURL, outputFilename) {
-    let pdfBuffer = await request.get({ uri: pdfURL, encoding: null });
+    let pdfBuffer = (await axios({ 
+        method: 'GET',
+        url: pdfURL, 
+        responseType: 'stream',
+    })).data;
 
     // Create Folder if it does not exist
     if (!fs.existsSync(dir)){
         fs.mkdirSync(dir, { recursive: true });
     }
 
-    fs.writeFileSync(outputFilename, pdfBuffer);
+    // Write the stream(the pdf) to a file
+    pdfBuffer.pipe(fs.createWriteStream(outputFilename));
+
+    return new Promise((resolve, reject) => {
+        pdfBuffer.on('end', resolve);
+        pdfBuffer.on('error', reject);
+    })
 }
 
 async function getArticle(doi) {
     try{
-        const baseUrl = "https://sci-hub.hkvisa.net"
-        const html = await request(`${baseUrl}/${doi}`)
-        const $ = cheerio.load(html);
-        const srcPdf = $("#article embed")
+        const baseUrl = "https://sci-hub.hkvisa.net";
+        const htmlData = (await axios.get(`${baseUrl}/${doi}`)).data;
+        const $ = cheerio.load(htmlData);
+        const srcPdf = $("#article iframe")
                 .attr("src")
-                .replace("#navpanes=0&view=FitH", "");
+                ?.replace("#navpanes=0&view=FitH", "")
+                ?.replace("#view=FitH", "")
+                ?.replace("#navpanes=0", "");
         let url;
-        if (srcPdf[1] !== "/"){
+        if (srcPdf.startsWith("https://")){
+            url = srcPdf;
+        } else if (srcPdf[1] !== "/"){
             url = `${baseUrl}${srcPdf}`;
         } else {
             url = `https:${srcPdf}`;
         }
-        console.log("[INFO] ",url);
+        console.log(`[INFO] ${url}`);
         // URL of the PDF
         const article = url.split("/").at(-1);
         // Path at which PDF will get downloaded
@@ -46,6 +60,7 @@ async function getArticle(doi) {
         }
         return article;    
     } catch(error){
+        console.log(error);
         if (error.message == "SizeLimit") {
             return 1;
         }

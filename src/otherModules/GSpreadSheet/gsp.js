@@ -1,14 +1,15 @@
 const { dec2alpha, hexToRgb } = require("./cal.js");
-const { google } = require("googleapis");
+const { GoogleAuth } = require("googleapis-common");
+const { sheets: GoogleSheets } =  require("@googleapis/sheets");
 
 class GSpreadSheet {
 
     connect() { // Connect to sheet using authFile
-        const auth = new google.auth.GoogleAuth({
+        const auth = new GoogleAuth({
             keyFile: this.authFile,
             scopes: ['https://www.googleapis.com/auth/spreadsheets', ],
         });
-        this.sheets = google.sheets({
+        this.sheets = GoogleSheets({
             version: 'v4',
             auth
         });
