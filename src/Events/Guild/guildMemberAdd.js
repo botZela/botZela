@@ -1,9 +1,9 @@
-const { GSpreadSheet } = require(`${process.cwd()}/src/otherModules/GSpreadSheet/gsp.js`);
-const { Person } = require(`${process.cwd()}/src/otherModules/Member/member.js`);
-const { logsMessage } = require(`${process.cwd()}/src/utils/logsMessage.js`);
-const { giveRoles } = require(`${process.cwd()}/src/utils/Guild/giveRoles.js`);
-const { kick } = require(`${process.cwd()}/src/utils/Guild/kick.js`);
-const { welcomeMsg } = require(`${process.cwd()}/src/utils/Guild/welcomeMsg.js`);
+const { GSpreadSheet } = require(`../../otherModules/GSpreadSheet/gsp.js`);
+const { Person } = require(`../../otherModules/Member/member.js`);
+const { logsMessage } = require(`../../utils/logsMessage.js`);
+const { giveRoles } = require(`../../utils/Guild/giveRoles.js`);
+const { kick } = require(`../../utils/Guild/kick.js`);
+const { welcomeMsg } = require(`../../utils/Guild/welcomeMsg.js`);
 
 // Models
 const gRoles = require("../../Models/guildRoles");

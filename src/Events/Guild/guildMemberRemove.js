@@ -1,5 +1,5 @@
-const { GSpreadSheet } = require(`${process.cwd()}/src/otherModules/GSpreadSheet/gsp.js`);
-const { logsMessage } = require(`${process.cwd()}/src/utils/logsMessage.js`);
+const { GSpreadSheet } = require(`../../otherModules/GSpreadSheet/gsp.js`);
+const { logsMessage } = require(`../../utils/logsMessage.js`);
 const linksModel = require("../../Models/guildLinks");
 
 module.exports = {

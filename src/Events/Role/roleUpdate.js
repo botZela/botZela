@@ -1,4 +1,4 @@
-const { logsMessage } = require(`${process.cwd()}/src/utils/logsMessage`);
+const { logsMessage } = require(`../../utils/logsMessage`);
 const gRoles = require("../../Models/guildRoles")
 
 module.exports = {

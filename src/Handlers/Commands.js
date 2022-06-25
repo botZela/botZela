@@ -13,7 +13,7 @@ module.exports = async (client, PG, Ascii) => {
 
     let commandsArray = [];
 
-    let commandsFiles = await PG(`${process.cwd()}/src/Commands/**/*.js`);
+    let commandsFiles = await PG(`${__dirname}/../Commands/**/*.js`);
     if (!commandsFiles.length) return;
 
     for (let file of commandsFiles) {

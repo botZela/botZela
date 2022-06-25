@@ -11,7 +11,7 @@ module.exports = async (client, PG, Ascii) => {
     const Table = new Ascii("Events Loaded");
             //.setJustify();
 
-    let eventFiles = await PG(`${process.cwd()}/src/Events/**/*.js`);
+    let eventFiles = await PG(`${__dirname}/../Events/**/*.js`);
     if (!eventFiles.length) return;
 
     for (const file of eventFiles) {

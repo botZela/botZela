@@ -1,5 +1,5 @@
-const { setupLogsCommandsChannels } = require(`${process.cwd()}/src/utils/Command&LogsChannels/setupLogsCommandsChannel.js`);
-const gRoles = require(`${process.cwd()}/src/Models/guildRoles.js`);
+const { setupLogsCommandsChannels } = require('../../utils/Command&LogsChannels/setupLogsCommandsChannel.js');
+const gRoles = require('../../Models/guildRoles.js');
 
 module.exports = {
     name: 'guildCreate',

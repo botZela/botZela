@@ -9,7 +9,7 @@ const { Client,Collection } = require("discord.js");
 module.exports = async (client, PG, Ascii) => {
     const Table = new Ascii("Selct Menu Handler");
 
-    const selectMenuFolder = await PG(`${process.cwd()}/src/SelectMenu/**/*.js`);
+    const selectMenuFolder = await PG(`${__dirname}/../SelectMenu/**/*.js`);
     if (!selectMenuFolder.length) return;
 
     for (let file of selectMenuFolder) {

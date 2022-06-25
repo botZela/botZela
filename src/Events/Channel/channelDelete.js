@@ -1,5 +1,5 @@
-const { createCommandsChannel } = require(`${process.cwd()}/src/utils/Command&LogsChannels/createCommandsChannel`);
-const { createLogsChannel } = require(`${process.cwd()}/src/utils/Command&LogsChannels/createLogsChannel`);
+const { createCommandsChannel } = require('../../utils/Command&LogsChannels/createCommandsChannel');
+const { createLogsChannel } = require('../../utils/Command&LogsChannels/createLogsChannel');
 const gChannels = require("../../Models/guildChannels");
 
 module.exports = {

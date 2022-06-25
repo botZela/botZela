@@ -2,14 +2,14 @@ const { promisify } = require("util");
 const { glob } = require("glob");
 const PG = promisify(glob);
 
-const { logsMessage } = require(`${process.cwd()}/src/utils/logsMessage`);
+const { logsMessage } = require(`../../utils/logsMessage`);
 
 module.exports = {
     name: 'guildUpdate',
     async execute(client, oldGuild, newGuild) {
         if (oldGuild.name === newGuild.name) return;
 
-        const modelsFolder = await PG(`${process.cwd()}/src/Models/*.js`);
+        const modelsFolder = await PG(`${__dirname}/../../Models/*.js`);
         if (!modelsFolder.length) return;
 
         for (let file of modelsFolder) {

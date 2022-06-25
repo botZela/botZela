@@ -10,7 +10,7 @@ module.exports = async (client, PG, Ascii) => {
     const Table = new Ascii("Buttons Handled");
     //.setJustify();
 
-    const buttonsFolder = await PG(`${process.cwd()}/src/Buttons/**/*.js`);
+    const buttonsFolder = await PG(`${__dirname}/../Buttons/**/*.js`);
     if (!buttonsFolder.length) return;
 
     for (let file of buttonsFolder) {

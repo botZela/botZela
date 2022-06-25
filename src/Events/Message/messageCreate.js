@@ -1,7 +1,7 @@
 const { Message, Client } = require("discord.js");
-const { announcements } = require(`${process.cwd()}/src/utils/AutoReacts/announcements.js`);
-const { introduceYourSelf } = require(`${process.cwd()}/src/utils/AutoReacts/introduceYouSelf.js`);
-const { messageSchedule } = require(`${process.cwd()}/src/utils/Schedule/autoResponceSchedule`);
+const { announcements } = require(`../../utils/AutoReacts/announcements.js`);
+const { introduceYourSelf } = require(`../../utils/AutoReacts/introduceYouSelf.js`);
+const { messageSchedule } = require(`../../utils/Schedule/autoResponceSchedule`);
 
 module.exports = {
     name: 'messageCreate',
