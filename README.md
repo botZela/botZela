@@ -12,7 +12,7 @@ A Discord BOT, Made Using Node.Js (Discord.Js, Google Spreadsheet api)
 
 ### Install Node.JS
 
-Check this website to download the LTS version or the Current Version of Node.JS for your system.
+Use the official website of Node.js to download and install the LTS version or the Current Version on your system:
 https://nodejs.org/en/download/
 
 ### Pull The Repo
