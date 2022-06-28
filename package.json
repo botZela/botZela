@@ -39,7 +39,6 @@
 		"@types/glob": "^7.2.0",
 		"@types/js-yaml": "^4.0.5",
 		"@types/node": "^18.0.0",
-		"ts-migrate": "^0.1.30",
 		"ts-node": "^10.8.1",
 		"ts-node-dev": "^2.0.0",
 		"typescript": "^4.7.4"
