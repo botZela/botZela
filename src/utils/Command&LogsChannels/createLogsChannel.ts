@@ -1,38 +1,39 @@
-const { createChannel } = require("../Channels/createChannel");
-const gChannels = require("../../Models/guildChannels");
+import { createChannel } from '../Channels/createChannel';
+import gChannels from '../../Models/guildChannels';
+import { client } from '../..';
+import { CategoryChannelResolvable, Guild, OverwriteResolvable, TextChannel } from 'discord.js';
 
-async function createLogsChannel(client, guild, overwrites = null,category = null){
-    if (!overwrites){
-        overwrites = [
-            {
-                id : guild.roles.everyone.id,
-                deny :["VIEW_CHANNEL"],
-            },
-            {
-                id: client.user.id,
-                allow: ['VIEW_CHANNEL'],
-            }
-        ] 
-    }
-    logs = await createChannel(client,guild,"『🤖』botZela-logs","text",overwrites,category)
-    
-    const guildData = await gChannels.findOne({ guildId: guild.id });
+export async function createLogsChannel(
+	guild: Guild,
+	overwrites?: OverwriteResolvable[],
+	category?: CategoryChannelResolvable,
+) {
+	if (!overwrites && client.user) {
+		overwrites = [
+			{
+				id: guild.roles.everyone.id,
+				deny: ['VIEW_CHANNEL'],
+			},
+			{
+				id: client.user.id,
+				allow: ['VIEW_CHANNEL'],
+			},
+		];
+	}
+	const logs = (await createChannel(guild, '『🤖』botZela-logs', 'text', category, overwrites)) as TextChannel;
 
-    if (guildData){
-        guildData.channels.set('LOGS', logs.id);
-        guildData.save();
-    } else {
-        gChannels.create({
-            guildId: guild.id,
-            guildName: guild.name,
-            channels: {
-                LOGS: logs.id,
-            },
-        });
-    }
+	const guildData = await gChannels.findOne({ guildId: guild.id });
 
-}
-
-module.exports = {
-    createLogsChannel,
+	if (guildData) {
+		guildData.channels.set('LOGS', logs.id);
+		guildData.save();
+	} else {
+		gChannels.create({
+			guildId: guild.id,
+			guildName: guild.name,
+			channels: {
+				LOGS: logs.id,
+			},
+		});
+	}
 }

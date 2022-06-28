@@ -1,29 +1,23 @@
-const { createCategory } = require("../Channels/createCategory");
-const { createCommandsChannel } = require("./createCommandsChannel");
-const { createLogsChannel } = require("./createLogsChannel");
+import { Guild, OverwriteResolvable } from 'discord.js';
+import { client } from '../..';
+import { createCategory } from '../Channels/createCategory';
+import { createCommandsChannel } from './createCommandsChannel';
+import { createLogsChannel } from './createLogsChannel';
 
-async function setupLogsCommandsChannels(client, guild) {
-    let overwrites = [
-        {
-            id: guild.roles.everyone.id,
-            deny: ["VIEW_CHANNEL"],
-        },
-        {
-            id: client.user.id,
-            allow: ["VIEW_CHANNEL"],
-        },
-    ];
-    let category = await createCategory(
-        client,
-        guild,
-        "🦖 • botZela ▬▬▬▬▬▬▬▬▬▬▬▬",
-        overwrites,
-        0
-    );
-    await createLogsChannel(client, guild, overwrites, category);
-    await createCommandsChannel(client, guild, overwrites, category);
+export async function setupLogsCommandsChannels(guild: Guild) {
+	let overwrites: OverwriteResolvable[] = [
+		{
+			id: guild.roles.everyone.id,
+			deny: ['VIEW_CHANNEL'],
+		},
+	];
+	if (client.user) {
+		overwrites.push({
+			id: client.user.id,
+			allow: ['VIEW_CHANNEL'],
+		});
+	}
+	const category = await createCategory(guild, '🦖 • botZela ▬▬▬▬▬▬▬▬▬▬▬▬', overwrites, 0);
+	await createLogsChannel(guild, overwrites, category);
+	await createCommandsChannel(guild, overwrites, category);
 }
-
-module.exports = {
-    setupLogsCommandsChannels,
-};

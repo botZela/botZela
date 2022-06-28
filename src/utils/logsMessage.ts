@@ -1,20 +1,22 @@
-const gChannels = require("../Models/guildChannels");
+import { Guild, TextChannel } from 'discord.js';
+import { client } from '..';
+import gChannels from '../Models/guildChannels';
 
-async function logsMessage(client, message, guild) {
-    console.log(message);
-    try {
-        const guildChannels = (await gChannels.findOne({guildId : guild.id}))?.channels;
-        if (!guildChannels){
-            return console.log(`[EROR] Logs channel not set in ${guild.name}`);
-        }
-        const logsId = guildChannels.get('LOGS');
-        let channel = client.channels.cache.get(logsId);
-        await channel.send("```css\n" + message + "\n```");
-    } catch (e) {
-        console.log(`[EROR] Logs channel not set in ${guild.name}`);
-    }
-}
-
-module.exports = {
-    logsMessage,
+export async function logsMessage(message: string, guild: Guild): Promise<void> {
+	console.log(message);
+	try {
+		const guildChannels = (await gChannels.findOne({ guildId: guild.id }))?.channels;
+		if (!guildChannels) {
+			return console.log(`[EROR] Logs channel not set in ${guild.name}`);
+		}
+		const logsId = guildChannels.get('LOGS');
+		if (!logsId) {
+			console.log(`[EROR] Logs channel not set in ${guild.name}`);
+			return;
+		}
+		let channel = client.channels.cache.get(logsId) as TextChannel;
+		await channel.send('```css\n' + message + '\n```');
+	} catch (e) {
+		console.log(`[EROR] Logs channel not set in ${guild.name}`);
+	}
 }

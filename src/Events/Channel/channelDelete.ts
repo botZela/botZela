@@ -1,16 +1,20 @@
-const { createCommandsChannel } = require('../../utils/Command&LogsChannels/createCommandsChannel');
-const { createLogsChannel } = require('../../utils/Command&LogsChannels/createLogsChannel');
-const gChannels = require("../../Models/guildChannels");
+import { createCommandsChannel, createLogsChannel } from '../../utils/Command&LogsChannels';
+import gChannels from '../../Models/guildChannels';
+import { Event } from '../../Structures';
+import { DMChannel } from 'discord.js';
 
-module.exports = {
-    name: 'channelDelete',
-    async execute(client, channel) {
-        const guildChannels = (await gChannels.findOne({guildId : channel.guildId})).channels;
+export default {
+	name: 'channelDelete',
+	async execute(channel): Promise<void> {
+		if (channel instanceof DMChannel) {
+			return;
+		}
+		const guildChannels = (await gChannels.findOne({ guildId: channel.guildId })).channels;
 
-        if (channel.id === guildChannels.get('COMMANDS')) {
-            await createCommandsChannel(client, channel.guild, undefined, channel.parent)
-        } else if (channel.id === guildChannels.get('LOGS')) {
-            await createLogsChannel(client, channel.guild, undefined, channel.parent);
-        }
-    },
-}
+		if (channel.id === guildChannels.get('COMMANDS')) {
+			await createCommandsChannel(channel.guild, undefined, channel.parent);
+		} else if (channel.id === guildChannels.get('LOGS')) {
+			await createLogsChannel(channel.guild, undefined, channel.parent);
+		}
+	},
+} as Event<'channelDelete'>;

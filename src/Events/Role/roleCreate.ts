@@ -1,13 +1,14 @@
-const { logsMessage } = require(`../../utils/logsMessage`);
-const gRoles = require("../../Models/guildRoles")
+import { logsMessage } from '../../utils/logsMessage';
+import gRoles from '../../Models/guildRoles';
+import { Event } from '../../Structures';
 
-module.exports = {
-    name: 'roleCreate',
-    async execute(client, role) {
-        const guildData = await gRoles.findOne({ guildId : role.guild.id});
-        guildData.roles.set(`${role.name}`, role.id);
-        await guildData.save();
-        let log = `[INFO] ${role.name} has been created.`;
-        await logsMessage(client, log, role.guild);
-    },
-}
+export default {
+	name: 'roleCreate',
+	async execute(role): Promise<void> {
+		const guildData = await gRoles.findOne({ guildId: role.guild.id });
+		guildData.roles.set(`${role.name}`, role.id);
+		await guildData.save();
+		let log = `[INFO] ${role.name} has been created.`;
+		await logsMessage(log, role.guild);
+	},
+} as Event<'roleCreate'>;

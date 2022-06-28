@@ -1,8 +1,5 @@
+import { GuildMember, RoleResolvable } from 'discord.js';
 
-async function giveRoles(member, roles){
-    await member.roles.add(roles);
-}
-
-module.exports = {
-    giveRoles,
+export async function giveRoles(member: GuildMember, roleOrRoles: RoleResolvable | RoleResolvable[]) {
+	await member.roles.add(roleOrRoles);
 }

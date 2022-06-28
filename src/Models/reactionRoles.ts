@@ -1,4 +1,10 @@
-const mongoose = require('mongoose');
+import { Schema as _Schema, model } from 'mongoose';
+
+type RolesType = {
+	roleId: string;
+	roleDescription: string;
+	roleEmoji: string;
+}
 
 /**
  * Roles Structure
@@ -7,12 +13,15 @@ const mongoose = require('mongoose');
  * - roleEmoji: string;
  */
 
-const Schema = new mongoose.Schema({
-    title: String,
-    guildId : String,
-    guildName: String,
-    messageId: String, 
-    roles: Array,
+const Schema = new _Schema({
+	title: String,
+	guildId: String,
+	guildName: String,
+	messageId: String,
+	roles:{
+		type: Array<RolesType>,
+		required:true,
+	} ,
 });
 
-module.exports = mongoose.model("reaction-roles", Schema);
+export default model('reaction-roles', Schema);

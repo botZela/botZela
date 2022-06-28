@@ -1,34 +1,41 @@
-const { AsciiTable3 } = require("ascii-table3");
-const { Client,Collection } = require("discord.js");
+import { Collection } from 'discord.js';
+import { Client } from '../Structures';
+import { IButtonCommand } from '../Typings';
+import { importFile } from '../utils';
 
-/**
- * @param {Client} client
- * @param {*} PG
- * @param {AsciiTable3} Ascii
- */
-module.exports = async (client, PG, Ascii) => {
-    const Table = new Ascii("Buttons Handled");
-    //.setJustify();
+export async function buttonHandler(client: Client, PG: any, Ascii: new (arg0: string) => any): Promise<void> {
+	const Table = new Ascii('Buttons Handled');
 
-    const buttonsFolder = await PG(`${__dirname}/../Buttons/**/*.js`);
-    if (!buttonsFolder.length) return;
+	const buttonsFolder = await PG(`${__dirname}/../Interactions/Buttons/**/*.{ts,js}`);
+	if (!buttonsFolder.length) return;
 
-    for (let file of buttonsFolder) {
-        const buttonFile = require(file);
-        if (!buttonFile.id) {
-            await Table.addRow(
-                `${file.split("/").at(-1).slice(0,-3)}`,
-                `⛔ Button ID is missing: ${file.split("/").at(-2)}/${file.split("/").at(-1)}`
-            );
-            continue;
-        }
-        if (buttonFile.cooldown) {
-            client.buttonsCooldown.set(buttonFile.id, new Collection());
-        }
+	let count = 0;
+	for (let file of buttonsFolder) {
+		const buttonFile: IButtonCommand = await importFile(file);
+		if (!buttonFile.id) {
+			await Table.addRow(
+				`${file.split('/').at(-1).slice(0, -3)}`,
+				`⛔ Button ID is missing: ${file.split('/').at(-2)}/${file.split('/').at(-1)}`,
+			);
+			continue;
+		}
+		if (buttonFile.cooldown) {
+			client.buttonsCooldown.set(buttonFile.id, new Collection());
+		}
 
-        client.buttons.set(buttonFile.id, buttonFile);
-        Table.addRow(buttonFile.id, "🔷 LOADED");
-    }
-    Table.sortColumn(1);
-    console.log(Table.toString());
-};
+		client.buttons.set(buttonFile.id, buttonFile);
+		Table.addRow(buttonFile.id, '🔷 LOADED');
+		count++;
+	}
+
+	if (client.showTable === true) {
+		Table.sortColumn(1);
+		console.log(Table.toString());
+	} else if (client.showTable === 'both') {
+		Table.sortColumn(1);
+		console.log(Table.toString());
+		console.log(`[INFO] Loaded ${count}/${buttonsFolder.length} Buttons.`);
+	} else {
+		console.log(`[INFO] Loaded ${count}/${buttonsFolder.length} Buttons.`);
+	}
+}

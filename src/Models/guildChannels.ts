@@ -1,14 +1,21 @@
-const mongoose = require('mongoose');
+import { Schema as _Schema, model } from 'mongoose';
 
 /**
  * Channels Structure
  * - channelName : channelId;
  */
 
-const Schema = new mongoose.Schema({
-    guildId : String,
-    guildName : String,
-    channels: Map,
+const Schema = new _Schema({
+	guildId: {
+		type: String,
+		required: true,
+	},
+	guildName: String,
+	channels: {
+		type: Map,
+		of: String,
+		required: true,
+	},
 });
 
-module.exports = mongoose.model("guild-channels", Schema);
+export default model('guild-channels', Schema);

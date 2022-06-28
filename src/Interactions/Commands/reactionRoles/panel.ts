@@ -1,49 +1,43 @@
-const { MessageEmbed, MessageActionRow, MessageSelectMenu } = require('discord.js');
-const rrModel = require('../../Models/reactionRoles');
+import { MessageEmbed, MessageActionRow, MessageSelectMenu } from 'discord.js';
+import rrModel from '../../../Models/reactionRoles';
+import { ICommand } from '../../../Typings';
 
+export default {
+	name: 'panel',
+	description: 'Reaction Role Panel',
+	permissions: ['ADMINISTRATOR'],
 
+	execute: async ({ interaction }) => {
+		const guildData = await rrModel.findOne({ guildId: interaction.guildId });
 
-module.exports = {
-    // name: 'panel',
-    description: 'Reaction Role Panel',
-    permissions: ["ADMINISTRATOR"],
+		if (!guildData || guildData.roles.length === 0) {
+			return interaction.reply({ content: 'There is no roles inside of this server.', ephemeral: true });
+		}
 
-    execute: async ({client, interaction}) => {
-        const guildData = await rrModel.findOne({ guildId: interaction.guildId });
+		const options = guildData.roles.map((x) => {
+			const role = interaction.guild.roles.cache.get(x.roleId);
 
-        if (!guildData || (guildData.roles.length === 0) ){
-            return interaction.reply({content: "There is no roles inside of this server.", ephemeral:true});
-        }
+			return {
+				label: role.name,
+				value: role.id,
+				description: x.roleDescription || 'No Description',
+				emoji: x.roleEmoji,
+			};
+		});
 
-        const options = guildData.roles.map((x) => {
-            const role = interaction.guild.roles.cache.get(x.roleId);
+		const panelEmbed = new MessageEmbed().setTitle('Please Select a role below: ').setColor('AQUA');
 
-            return {
-                label: role.name,
-                value: role.id,
-                description: x.roleDescription || "No Description",
-                emoji: x.roleEmoji,
-            }
-        });
+		const components = [
+			new MessageActionRow().addComponents(
+				new MessageSelectMenu()
+					.setCustomId('reaction-roles')
+					.setMinValues(0)
+					.setMaxValues(options.length)
+					.setPlaceholder('Choose your roles: ')
+					.addOptions(options),
+			),
+		];
 
-        const panelEmbed = new MessageEmbed()
-            .setTitle("Please Select a role below: ")
-            .setColor("AQUA");
-
-        const components = [
-            new MessageActionRow().addComponents(
-                new MessageSelectMenu()
-                    .setCustomId('reaction-roles')
-                    .setMinValues(0)
-                    .setMaxValues(options.length)
-                    .setPlaceholder('Choose your roles: ')
-                    .addOptions(options),
-            )
-        ];
-
-        interaction.reply({embeds:[panelEmbed],components, ephemeral: false});
-
-
-
-    }
-}
+		interaction.reply({ embeds: [panelEmbed], components, ephemeral: false });
+	},
+} as ICommand;

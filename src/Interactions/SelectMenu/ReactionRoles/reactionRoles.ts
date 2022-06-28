@@ -1,26 +1,30 @@
-module.exports = {
-    // id: "reaction-roles",
-    // permissions : ["ADMINISTRATOR"],
-    async execute({ interaction }) {
-        await interaction.deferReply({ ephemeral: true});
+import { ISelectMenuCommand } from '../../../Typings';
 
-        const { values, member } = interaction;
+export default {
+	id: 'reaction-roles',
+	// permissions : ["ADMINISTRATOR"],
+	async execute({ interaction }) {
+		await interaction.deferReply({ ephemeral: true });
 
-        const component = interaction.component;
-        const removed = component.options.filter((option) => {
-            return !values.includes(option.value);
-        }).map((option) => option.value);
+		const { values, member } = interaction;
 
-        if (values.length !== 0) {
-            member.roles.add(values);
-        }
-        if (removed.length !== 0) {
-            member.roles.remove(removed);
-        }
+		const component = interaction.component;
+		const removed = component.options
+			.filter((option) => {
+				return !values.includes(option.value);
+			})
+			.map((option) => option.value);
 
-        interaction.followUp({
-            content: 'Roles Updated!',
-            ephemeral: true
-        });
-    }
-}
+		if (values.length !== 0) {
+			member.roles.add(values);
+		}
+		if (removed.length !== 0) {
+			member.roles.remove(removed);
+		}
+
+		interaction.followUp({
+			content: 'Roles Updated!',
+			ephemeral: true,
+		});
+	},
+} as ISelectMenuCommand;

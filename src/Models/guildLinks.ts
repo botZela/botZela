@@ -1,11 +1,16 @@
-const mongoose = require('mongoose');
+import { Schema as _Schema, model } from 'mongoose';
 
-
-const Schema = new mongoose.Schema({
-    guildId : String,
-    guildName : String,
-    spreadsheet: String,
-    form: String,
+const Schema = new _Schema({
+	guildId: {
+		type: String,
+		required: true,
+	},
+	guildName: {
+		type: String,
+		required: false,
+	},
+	spreadsheet: String,
+	form: String,
 });
 
-module.exports = mongoose.model("guild-links", Schema);
+export default model('guild-links', Schema);

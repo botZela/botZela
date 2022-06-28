@@ -1,10 +1,12 @@
-const sendInsurance = require("../../Commands/Assurance/getAssurance").execute;
+import { ExtendedCommandInteraction, IButtonCommand } from '../../../Typings';
+import getAssuranceCommand from '../../Commands/Assurance/getAssurance';
+const { execute: sendInsurance } = getAssuranceCommand;
 
-module.exports = {
-    id: "sendAssurance",
-    cooldown: 10 * 60 * 1000,
-    // permissions : ["ADMINISTRATOR"],
-    execute({ client,interaction }) {
-        sendInsurance({ client,interaction });
-    }
-}
+export default {
+	id: 'sendAssurance',
+	cooldown: 10 * 60 * 1000,
+	// permissions : ["ADMINISTRATOR"],
+	execute({ interaction }) {
+		sendInsurance({ interaction: interaction as unknown as ExtendedCommandInteraction });
+	},
+} as IButtonCommand;

@@ -1,36 +1,7 @@
-const { Client, Intents, Collection } = require("discord.js");
-const { TOKEN, testGuilds } = require("../credentials/config.json");
+import 'dotenv/config';
 
-const { promisify } = require("util");
-const { glob } = require("glob");
-const PG = promisify(glob);
-const { AsciiTable3 } = require("ascii-table3");
+import { Client } from './Structures/Client';
 
-const myIntents = new Intents(32767);
-const client = new Client({ intents: myIntents });
+export const client = new Client();
 
-client.commands = new Collection();
-client.buttons = new Collection();
-client.buttonsCooldown = new Collection();
-client.selectMenu = new Collection();
-
-client.data = require("../data/data.json");
-
-client.testGuilds = testGuilds || [
-    { name: "🔺▬▬ • ENSIAS • ▬▬🔺", id: "921408078983876678" },
-    { name: "Test_channel", id: "942172171285987370" },
-    { name: "bot TEST WN", id: "933499256000643103" },
-    { name: "GIVE'N'TAKE", id: "979396566018322482" },
-    { name: "ENACTUS ENSIAS", id: "987024965431881768" },
-    { name: "INSEC ENSIAS", id: "988184093797789746" },
-];
-
-["Events", "Commands", "Buttons", "SelectMenu"].forEach((handler) => {
-    require(`./Handlers/${handler}`)(client, PG, AsciiTable3);
-});
-
-client.login(TOKEN);
-
-module.exports = {
-    client,
-}
+client.start();

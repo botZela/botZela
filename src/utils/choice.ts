@@ -1,7 +1,3 @@
-function choice(list) {
-    return list[Math.floor(Math.random() * list.length)];
-};
-
-module.exports = {
-    choice,
+export function choice<T>(list: T[]): T {
+	return list[Math.floor(Math.random() * list.length)];
 }

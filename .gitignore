@@ -15,7 +15,7 @@ pids
 *.seed
 
 # Env
-.env
+.env*
 
 # Dist
 dist/

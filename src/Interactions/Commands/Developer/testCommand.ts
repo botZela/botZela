@@ -1,28 +1,22 @@
-const { MessageActionRow, MessageButton, Interaction} = require("discord.js");
+import { MessageActionRow, MessageButton, Interaction } from 'discord.js';
+import { ICommand } from '../../../Typings';
 
-module.exports = {
-    name: "testbutton",
-    description: "Just to test buttons",
-    permissions: ["ADMINISTRATOR"],
-    /**
-     * 
-     * @param {Interaction} interaction 
-     */
-    execute({ interaction }){
-        const row = new MessageActionRow();
-        row.addComponents(
-            new MessageButton()
-                .setCustomId("Hello")
-                .setLabel("Hello")
-                .setStyle("SUCCESS"),
-            new MessageButton()
-                .setCustomId("Bye")
-                .setLabel("Bye")
-                .setStyle("DANGER")
-        )
+export default {
+	name: 'testbutton',
+	description: 'Just to test buttons',
+	permissions: ['ADMINISTRATOR'],
 
-        interaction.reply({components: [row]});
+	execute({ interaction }) {
+		const row = new MessageActionRow();
+		row.addComponents(
+			new MessageButton({
+				customId: 'Hello',
+				label: 'Hello',
+				style: 'SUCCESS',
+			}),
+			new MessageButton().setCustomId('Bye').setLabel('Bye').setStyle('DANGER'),
+		);
 
-    }
-    
-}
+		interaction.reply({ components: [row] });
+	},
+} as ICommand;

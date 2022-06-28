@@ -1,16 +1,18 @@
-const { CommandInteraction } = require("discord.js");
+import { client } from '../../..';
+import { ICommand } from '../../../Typings';
 
-module.exports = {
-    name: "ping",
-    description: "Sends Back PONG",
-    permissions: ["ADMINISTRATOR"],
-    /**
-     * 
-     * @param {CommandInteraction} interaction 
-     */
-    async execute({client, interaction }){
-      
-        // await interaction.reply({ content: `PONG after \`${client.ws.ping}ms\``, ephemeral: true });
-        await interaction.reply({ content: `🏓Latency is \`${Date.now() - interaction.createdTimestamp}ms\`. API Latency is \`${Math.round(client.ws.ping)}ms\`.`, ephemeral: true });
-    }
-}
+export default {
+	name: 'ping',
+	description: 'Sends Back PONG',
+	permissions: ['ADMINISTRATOR'],
+	async execute({ interaction, args }) {
+		console.log(args);
+		// await interaction.reply({ content: `PONG after \`${client.ws.ping}ms\``, ephemeral: true });
+		await interaction.reply({
+			content: `🏓Latency is \`${Date.now() - interaction.createdTimestamp}ms\`. API Latency is \`${Math.round(
+				client.ws.ping,
+			)}ms\`.`,
+			ephemeral: true,
+		});
+	},
+} as ICommand;

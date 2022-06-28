@@ -1,10 +1,10 @@
-const sendSchedule = require("../../Commands/Schedule/getSchedule").execute;
+import { IButtonCommand } from '../../../Typings';
+import sendScheduleCommand from '../../Commands/Schedule/getSchedule';
+const { execute: sendSchedule } = sendScheduleCommand;
 
-module.exports = {
-    // id: "confirmSchedule",
-    // cooldown: 15 * 60 * 1000,
-    // permissions : ["ADMINISTRATOR"],
-    execute({ client,interaction }) {
-
-    }
-}
+export default {
+	// id: "confirmSchedule",
+	// cooldown: 15 * 60 * 1000,
+	// permissions : ["ADMINISTRATOR"],
+	execute({ interaction }) {},
+} as IButtonCommand;

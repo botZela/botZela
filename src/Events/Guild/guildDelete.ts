@@ -1,7 +1,8 @@
+import { Event } from '../../Structures';
 
-module.exports = {
-    name: 'guildDelete',
-    async execute(client, guild) {
-        console.log(`[Info] Left server : ${guild.name}`);
-    },
-}
+export default {
+	name: 'guildDelete',
+	async execute(guild) {
+		console.log(`[Info] Left server : ${guild.name}`);
+	},
+} as Event<'guildDelete'>;
