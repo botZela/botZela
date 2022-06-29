@@ -1,5 +1,3 @@
-import { GenericTypeGuard, GenericValidator } from 'runtime-typescript-checker';
-
 export type ChannelType = {
 	channel: string;
 };
@@ -12,7 +10,7 @@ export type CategoryType = {
 	];
 };
 export class CategoryClass implements CategoryType {
-	// category: [string, { channels: ChannelType[] }];
+	category: [string, { channels: ChannelType[] }];
 
 	constructor(inputObj: unknown) {
 		if (Object.keys(inputObj)[0] !== 'category') throw "Can't Create CategoryClass from this object";
@@ -20,10 +18,6 @@ export class CategoryClass implements CategoryType {
 		if (!Array.isArray(this.category)) throw "Can't Create CategoryClass from this object";
 		this.category;
 	}
-}
-
-function isCategoryClass(iCandidate: unknown): boolean {
-	return true;
 }
 
 export class ChannelClass implements ChannelType {
@@ -36,11 +30,3 @@ export type ChannelListType = [string, 'channel', 'text' | 'voice' | 'stage'];
 export type CategoryListType = [string, 'category', ChannelListType[]?];
 
 export type StructureListType = ChannelListType | CategoryListType;
-
-// export function ValidateStructureType(iCandidate: unknown): ReturnType<typeof GenericValidator> {
-// 	return GenericValidator('StructureType', iCandidate);
-// }
-
-// export function isStructureType(iCandidate: unknown): iCandidate is StructureType {
-// 	return GenericTypeGuard('StructureType', iCandidate);
-// }
