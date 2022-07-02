@@ -41,7 +41,7 @@ TOKEN=YOUR_DISCORD_BOT_TOKEN
 DatabaseUri=YOUR_MONGODB_ATLAS_LINK
 ```
 
-In `src/config.ts` change the `testGuilds` to the Servers where you want the commands to be loaded.
+cope `config.ts.example` to `src/config.ts`, and change the `testGuilds` to the Servers where you want the commands to be loaded.
 
 ```ts
 export const testGuilds = [

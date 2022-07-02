@@ -1,6 +1,7 @@
 node_modules/*
 credentials/*
 test/*
+**/config*
 # Packages
 node_modules/
 
