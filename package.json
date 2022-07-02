@@ -20,7 +20,7 @@
 	"scripts": {
 		"start": "ts-node .",
 		"start:dev": "ts-node-dev .",
-		"start:prod": "node dist/src/index.js",
+		"start:prod": "node dist/index.js",
 		"build": "rm -rf dist && tsc",
 		"migrate": "ts-migrate",
 		"watch": "tsc -w"
