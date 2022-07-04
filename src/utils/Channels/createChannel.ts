@@ -27,6 +27,7 @@ export async function createChannel(
 		logsMessage(message, guild);
 		return out;
 	} catch (e) {
+		console.log(e);
 		message = message + ' Was not created';
 		logsMessage(message, guild);
 		return undefined;

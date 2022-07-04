@@ -1,10 +1,16 @@
 import { Schema as _Schema, model } from 'mongoose';
 
-type RolesType = {
+export const RolesSchema = new _Schema({
+	roleId: String,
+	roleDescription: String,
+	roleEmoji: String,
+});
+
+export type RolesType = {
 	roleId: string;
-	roleDescription: string;
-	roleEmoji: string;
-}
+	roleDescription?: string;
+	roleEmoji?: string;
+};
 
 /**
  * Roles Structure
@@ -18,10 +24,10 @@ const Schema = new _Schema({
 	guildId: String,
 	guildName: String,
 	messageId: String,
-	roles:{
-		type: Array<RolesType>,
-		required:true,
-	} ,
+	roles: {
+		type: [RolesSchema],
+		required: true,
+	},
 });
 
 export default model('reaction-roles', Schema);

@@ -52,11 +52,11 @@ export default {
 				break;
 			}
 			case 'guildCreate': {
-				client.emit('guildCreate', interaction.guild);
+				if (interaction.guild) client.emit('guildCreate', interaction.guild);
 				break;
 			}
 			case 'guildDelete': {
-				client.emit('guildDelete', interaction.guild);
+				if (interaction.guild) client.emit('guildDelete', interaction.guild);
 				break;
 			}
 		}

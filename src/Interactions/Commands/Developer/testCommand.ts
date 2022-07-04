@@ -1,4 +1,4 @@
-import { MessageActionRow, MessageButton, Interaction } from 'discord.js';
+import { MessageActionRow, MessageButton } from 'discord.js';
 import { ICommand } from '../../../Typings';
 
 export default {

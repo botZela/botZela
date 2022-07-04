@@ -17,7 +17,7 @@ export default {
 	guilds: [client.testGuilds.find((guild) => guild.name.includes('ENSIAS'))?.id || ''],
 	async execute({ interaction }) {
 		await interaction.deferReply({ ephemeral: true });
-		const doi = interaction.options.getString('doi');
+		const doi = interaction.options.getString('doi') ?? '';
 		const article = await getArticle(doi);
 		const { member } = interaction;
 		const embed = createEmbed('Article Finder', 'The article is sent to your DMs ');

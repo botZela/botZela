@@ -9,12 +9,16 @@ export default {
 		if (channel instanceof DMChannel) {
 			return;
 		}
-		const guildChannels = (await gChannels.findOne({ guildId: channel.guildId })).channels;
+		const guildData = await gChannels.findOne({ guildId: channel.guildId });
+		if (!guildData) {
+			return;
+		}
+		const guildChannels = guildData.channels;
 
 		if (channel.id === guildChannels.get('COMMANDS')) {
-			await createCommandsChannel(channel.guild, undefined, channel.parent);
+			await createCommandsChannel(channel.guild, undefined, channel.parent ?? undefined);
 		} else if (channel.id === guildChannels.get('LOGS')) {
-			await createLogsChannel(channel.guild, undefined, channel.parent);
+			await createLogsChannel(channel.guild, undefined, channel.parent ?? undefined);
 		}
 	},
 } as Event<'channelDelete'>;

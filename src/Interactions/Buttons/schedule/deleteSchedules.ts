@@ -8,6 +8,13 @@ export default {
 	// permissions : ["ADMINISTRATOR"],
 	async execute({ interaction }) {
 		const { member, guild } = interaction;
+		if (!guild) {
+			return await interaction.reply({
+				content: `I dont know how you got this button ...`,
+				ephemeral: true,
+			});
+		}
+
 		await interaction.reply({
 			content: `Removing Old Schedules ... Please wait.`,
 			ephemeral: true,
@@ -16,7 +23,7 @@ export default {
 		const dmChannel = await client.users.createDM(member.id);
 
 		const firstMsgs = (await dmChannel.messages.fetch({ limit: 30 }))
-			.filter((m) => m.author.id === client.user.id)
+			.filter((m) => m.author.id === client.user?.id)
 			.map((m) => m.id);
 
 		let lastMsgId = firstMsgs.at(1) || firstMsgs.at(0);
@@ -25,7 +32,7 @@ export default {
 		let msgDeleted = 0;
 		do {
 			botsMsgs = (await dmChannel.messages.fetch({ limit: 100, before: lastMsgId })).filter(
-				(m) => m.author.id === client.user.id,
+				(m) => m.author.id === client.user?.id,
 			);
 			lastMsgId = botsMsgs.at(-1)?.id;
 			msgDeleted += botsMsgs.size;

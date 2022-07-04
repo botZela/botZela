@@ -15,8 +15,9 @@ export default {
 			required: false,
 		},
 	],
-	async execute({ interaction }): Promise<void> {
-		const msgId = interaction.options.getString('message');
+	async execute({ interaction }) {
+		const { channel, options } = interaction;
+		const msgId = options.getString('message');
 		const row = new MessageActionRow();
 		const embed = new MessageEmbed()
 			.setColor('RED')
@@ -34,19 +35,23 @@ export default {
 				.setEmoji('📥'),
 		);
 
-		if (msgId) {
-			await interaction.deferReply();
-			interaction.fetchReply().then((inter) => {
-				if (inter instanceof Message) return inter.delete();
+		if (!channel) {
+			return await interaction.followUp({
+				content: "Couldn't find the Channel",
+				ephemeral: true,
 			});
-			const message = await interaction.channel.messages.fetch(msgId);
+		}
+
+		await interaction.deferReply();
+		interaction.fetchReply().then((inter) => {
+			if (inter instanceof Message) return inter.delete();
+		});
+
+		if (msgId) {
+			const message = await channel.messages.fetch(msgId);
 			message.edit({ embeds: [embed], components: [row] });
 		} else {
-			await interaction.deferReply();
-			interaction.fetchReply().then((inter) => {
-				if (inter instanceof Message) return inter.delete();
-			});
-			await interaction.channel.send({ embeds: [embed], components: [row] });
+			await channel.send({ embeds: [embed], components: [row] });
 		}
 	},
 } as ICommand;

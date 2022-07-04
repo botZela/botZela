@@ -20,15 +20,16 @@ export default {
 	name: 'guildMemberAdd',
 	async execute(member) {
 		const { guild, user } = member;
-		const guildRoles = (await gRoles.findOne({ guildId: guild.id })).roles;
+		const guildRoles = (await gRoles.findOne({ guildId: guild.id }))?.roles;
 		const worksheetUrl = (await linksModel.findOne({ guildId: guild.id }))?.spreadsheet;
 		let logs;
-		if (!worksheetUrl) {
+		if (!worksheetUrl || !guildRoles) {
 			if (guild.systemChannel) {
 				let toSend = await welcomeMsg(member);
 				guild.systemChannel.send(toSend);
 			}
-			return console.log(`[INFO] Sheet does not exist for server ${guild.name}`);
+			if (!worksheetUrl) return console.log(`[INFO] Sheet does not exist for server ${guild.name}`);
+			if (!guildRoles) return console.log(`[INFO] Roles are not defined for server ${guild.name}`);
 		}
 		try {
 			let gAccPath = `${process.cwd()}/credentials/google_account.json`;
@@ -36,7 +37,7 @@ export default {
 			if (user.bot) {
 				logs = `[INFO] .${user.tag} has got [Bots] role.`;
 				await logsMessage(logs, guild);
-				await member.roles.add(guildRoles.get('Bots'));
+				await member.roles.add(guildRoles.get('Bots') ?? '');
 				return;
 			}
 			let index = await activeSheet.findCellCol(`${user.tag}`, 'F');

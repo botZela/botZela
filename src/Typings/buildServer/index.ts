@@ -1,32 +1,36 @@
-export type ChannelType = {
-	channel: string;
-};
-export type CategoryType = {
-	category: [
-		string,
-		{
-			channels: ChannelType[];
-		},
-	];
-};
-export class CategoryClass implements CategoryType {
-	category: [string, { channels: ChannelType[] }];
+import { z } from 'zod';
 
-	constructor(inputObj: unknown) {
-		if (Object.keys(inputObj)[0] !== 'category') throw "Can't Create CategoryClass from this object";
-		this.category = Object.values(inputObj)[0];
-		if (!Array.isArray(this.category)) throw "Can't Create CategoryClass from this object";
-		this.category;
-	}
-}
+export const zChannelType = z
+	.object({
+		channel: z
+			.string({
+				required_error: 'You need to insert Channel',
+			})
+			.regex(/.+,.+/),
+	})
+	.strict();
 
-export class ChannelClass implements ChannelType {
-	channel: string;
-}
+export const zCategoryType = z
+	.object({
+		category: z.tuple([
+			z.string(),
+			z.object({
+				channels: z.array(zChannelType),
+			}),
+		]),
+	})
+	.strict();
 
-export type StructureType = CategoryClass | ChannelClass;
+export type ChannelType = z.infer<typeof zChannelType>;
+
+export type CategoryType = z.infer<typeof zCategoryType>;
+
+export const zStructureType = z.union([zCategoryType, zChannelType]);
+
+export type StructureType = z.infer<typeof zStructureType>;
 
 export type ChannelListType = [string, 'channel', 'text' | 'voice' | 'stage'];
+
 export type CategoryListType = [string, 'category', ChannelListType[]?];
 
 export type StructureListType = ChannelListType | CategoryListType;

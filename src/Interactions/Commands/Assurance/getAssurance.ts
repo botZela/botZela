@@ -8,8 +8,8 @@ function firstLastName(nickname: string) {
 	const arrayName = nickname.split(/ +/g);
 	if (arrayName.length === 2) {
 		return {
-			lastName: arrayName.at(0).toUpperCase(),
-			firstName: arrayName.at(1).toUpperCase(),
+			lastName: arrayName.at(0)?.toUpperCase(),
+			firstName: arrayName.at(1)?.toUpperCase(),
 		};
 	}
 	let lastNameArray: string[] = [];
@@ -44,6 +44,9 @@ export default {
 	async execute({ interaction }) {
 		const { options, member, guild } = interaction;
 		await interaction.deferReply({ ephemeral: true });
+		if (!guild) {
+			return await interaction.followUp({ content: 'This command is used inside a server ...', ephemeral: true });
+		}
 
 		if (guild.id != client.testGuilds.find((server) => server.name.includes('ENSIAS'))?.id) {
 			return interaction.followUp({
@@ -59,7 +62,6 @@ export default {
 		}
 
 		const { filiere } = flGrp(member);
-		const { lastName, firstName } = firstLastName(member.nickname);
 
 		if (!filiere || !member.nickname) {
 			return interaction.followUp({
@@ -67,6 +69,8 @@ export default {
 				ephemeral: false,
 			});
 		}
+
+		const { lastName, firstName } = firstLastName(member.nickname);
 
 		let text = `__**1A Insurance.**__ `;
 		let fileNamePdf = `${lastName} ${firstName}.pdf`;
@@ -101,6 +105,6 @@ export default {
 			});
 		}
 		let logs = `[INFO] .${member.nickname || member.user.tag} got their Insurance.`;
-		await logsMessage(logs, interaction.guild);
+		await logsMessage(logs, guild);
 	},
 } as ICommand;

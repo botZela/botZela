@@ -1,4 +1,4 @@
-import { CommandInteraction, Client, GuildMember } from 'discord.js';
+import { GuildMember } from 'discord.js';
 import { client } from '../../..';
 import { ICommand } from '../../../Typings';
 

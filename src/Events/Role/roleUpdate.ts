@@ -6,14 +6,11 @@ export default {
 	name: 'roleUpdate',
 	async execute(oldRole, newRole) {
 		if (oldRole.name == newRole.name) return;
-		let guildData;
-		try {
-			guildData = await gRoles.findOne({ guildId: newRole.guild.id });
-		} catch (e) {
+		let guildData = await gRoles.findOne({ guildId: newRole.guild.id });
+		if (!guildData) {
 			let log = `[ERROR] Could not find the guild in DB.`;
 			return await logsMessage(log, oldRole.guild);
 		}
-
 		try {
 			guildData.roles.delete(`${oldRole.name}`);
 			guildData.roles.set(`${newRole.name}`, newRole.id);

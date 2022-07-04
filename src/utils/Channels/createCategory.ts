@@ -15,12 +15,10 @@ export async function createCategory(
 			position,
 		});
 		message = message + ' Was Created Succesfully.';
-		console.log(message);
 		await logsMessage(message, guild);
 		return out;
 	} catch (e) {
 		message = message + 'Was not created.';
-		console.log(message);
 		console.log(e);
 		await logsMessage(message, guild);
 		return undefined;

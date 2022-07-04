@@ -7,16 +7,16 @@ export async function logsMessage(message: string, guild: Guild): Promise<void> 
 	try {
 		const guildChannels = (await gChannels.findOne({ guildId: guild.id }))?.channels;
 		if (!guildChannels) {
-			return console.log(`[EROR] Logs channel not set in ${guild.name}`);
+			return console.log(`[ERROR] Logs channel not set in ${guild.name}`);
 		}
 		const logsId = guildChannels.get('LOGS');
 		if (!logsId) {
-			console.log(`[EROR] Logs channel not set in ${guild.name}`);
+			console.log(`[ERROR] Logs channel not set in ${guild.name}`);
 			return;
 		}
 		let channel = client.channels.cache.get(logsId) as TextChannel;
 		await channel.send('```css\n' + message + '\n```');
 	} catch (e) {
-		console.log(`[EROR] Logs channel not set in ${guild.name}`);
+		console.log(`[ERROR] Logs channel not set in ${guild.name}`);
 	}
 }

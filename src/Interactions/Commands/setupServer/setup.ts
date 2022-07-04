@@ -4,6 +4,8 @@ import gRoles from '../../../Models/guildRoles';
 import linksModel from '../../../Models/guildLinks';
 import { ICommand } from '../../../Typings';
 import { CategoryChannel, GuildBasedChannel, StageChannel, StoreChannel } from 'discord.js';
+import { z } from 'zod';
+import { setupServer } from '../../../utils/SetupServer/setupServer';
 
 export default {
 	name: 'setup',
@@ -111,12 +113,19 @@ export default {
 	async execute({ interaction }) {
 		await interaction.deferReply({ ephemeral: true });
 		const { guild } = interaction;
+		if (!guild) {
+			return await interaction.followUp({ content: 'This command is used inside a server ...', ephemeral: true });
+		}
 		const subCommand = interaction.options.getSubcommand();
 		if (subCommand === 'server') {
+			await setupServer(interaction);
 			return await interaction.followUp({ content: 'Setting up the server .... ', ephemeral: true });
 		} else if (subCommand === 'default_role') {
 			const guildData = await gRoles.findOne({ guildId: guild.id });
 			const roleData = interaction.options.getRole('role');
+			if (!roleData) {
+				return await interaction.followUp({ content: 'Choose a valid role', ephemeral: true });
+			}
 			if (guildData) {
 				guildData.defaultRole = roleData.id;
 				guildData.save();
@@ -151,7 +160,13 @@ export default {
 				ephemeral: true,
 			});
 		} else if (subCommandGroup === 'link') {
-			const link = interaction.options.getString('url');
+			const linkChecker = z.string().url();
+			let link;
+			try {
+				link = linkChecker.parse(interaction.options.getString('url'));
+			} catch (e) {
+				return await interaction.followUp({ content: `Please enter a valid Link ( https://....) `, ephemeral: true });
+			}
 			if (subCommand === 'spreadsheet') {
 				await checkSpreadsheet(interaction, link);
 			} else if (subCommand === 'form') {

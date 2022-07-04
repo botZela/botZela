@@ -1,4 +1,4 @@
-import rrModel from '../../../Models/reactionRoles';
+import rrModel, { RolesType } from '../../../Models/reactionRoles';
 import { ICommand } from '../../../Typings';
 
 export default {
@@ -14,28 +14,32 @@ export default {
 		},
 	],
 	execute: async ({ interaction }) => {
-		const { options } = interaction;
+		const { options, guild } = interaction;
+
+		if (!guild || !guild.me) {
+			return await interaction.reply({ content: 'This command is used inside a server ...', ephemeral: true });
+		}
 		const role = options.getRole('role');
 
-		const guildData = await rrModel.findOne({ guildId: interaction.guildId });
+		const guildData = await rrModel.findOne({ guildId: guild.id });
 
 		if (!guildData) {
 			return interaction.reply({ content: 'There is no roles inside of this server.', ephemeral: true });
 		}
 
-		const guildRoles = guildData.roles;
+		const guildRoles = guildData.roles as RolesType[];
 
-		const findRole = guildRoles.find((x) => x.roleId === role.id);
+		const findRole = guildRoles.find((x) => x.roleId === role?.id);
 
 		if (!findRole) {
 			return interaction.reply({ content: 'That role is not added to the reaction roles list.', ephemeral: true });
 		}
 
-		const filteredRoles = guildRoles.filter((x) => x.roleId !== role.id);
+		const filteredRoles = guildRoles.filter((x) => x.roleId !== role?.id);
 		guildData.roles = filteredRoles;
 
 		await guildData.save();
 
-		interaction.reply({ content: `Removed : ${role.name}`, ephemeral: true });
+		interaction.reply({ content: `Removed : ${role?.name || 'removed'}`, ephemeral: true });
 	},
 } as ICommand;

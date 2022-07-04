@@ -7,6 +7,9 @@ export default {
 	async execute(role) {
 		try {
 			const guildData = await gRoles.findOne({ guildId: role.guild.id });
+			if (!guildData) {
+				return;
+			}
 			guildData.roles.delete(`${role.name}`);
 			await guildData.save();
 			let log = `[INFO] ${role.name} has been deleted.`;

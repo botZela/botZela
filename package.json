@@ -15,13 +15,15 @@
 		"googleapis-common": "^6.0.0",
 		"js-yaml": "^4.1.0",
 		"mongoose": "^6.4.0",
-		"tslib": "^2.4.0"
+		"tslib": "^2.4.0",
+		"zod": "^3.17.3"
 	},
 	"scripts": {
 		"start": "ts-node .",
 		"start:dev": "ts-node-dev .",
 		"start:prod": "node dist/index.js",
 		"build": "rm -rf dist && tsc",
+		"build_run": "pnpm build && pnpm start:prod",
 		"migrate": "ts-migrate",
 		"watch": "tsc -w"
 	},

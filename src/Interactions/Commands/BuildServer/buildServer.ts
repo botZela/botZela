@@ -8,6 +8,6 @@ export default {
 	permissions: ['ADMINISTRATOR', 'MANAGE_CHANNELS'],
 	async execute({ interaction }) {
 		await interaction.reply({ content: 'Building Server...', ephemeral: true });
-		await buildServer(client, interaction);
+		await buildServer(interaction);
 	},
 } as ICommand;

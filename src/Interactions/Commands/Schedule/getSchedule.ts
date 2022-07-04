@@ -57,6 +57,9 @@ export default {
 	async execute({ interaction }) {
 		const { options, member, guild } = interaction;
 		await interaction.deferReply({ ephemeral: true });
+		if (!guild) {
+			return await interaction.followUp({ content: 'This command is used inside a server ...', ephemeral: true });
+		}
 		if (guild.id != client.testGuilds[0].id) {
 			return interaction.followUp({
 				content: 'This command is not available for this server.',
@@ -108,6 +111,6 @@ export default {
 			ephemeral: true,
 		});
 		let logs = `[INFO] .${member.nickname || member.user.tag} got their finals (Rattrapages) Schedule.`;
-		await logsMessage(logs, interaction.guild);
+		await logsMessage(logs, guild);
 	},
 } as ICommand;

@@ -7,15 +7,18 @@ export default {
 	context: true,
 	// permissions: ["ADMINISTRATOR"],
 	async execute({ interaction }): Promise<void> {
+		if (!interaction.guild) {
+			return await interaction.reply({ content: 'This command is used inside a server ...', ephemeral: true });
+		}
 		const target = await interaction.guild.members.fetch(interaction.targetId);
 
 		const response = new MessageEmbed()
 			.setColor('AQUA')
 			.setAuthor({
 				name: target.user.tag,
-				iconURL: target.user.avatarURL({ dynamic: true, size: 512 }),
+				iconURL: target.user.avatarURL({ dynamic: true, size: 512 }) ?? '',
 			})
-			.setThumbnail(target.user.avatarURL({ dynamic: true, size: 512 }))
+			.setThumbnail(target.user.avatarURL({ dynamic: true, size: 512 }) ?? '')
 			.addField('ID', `${target.user.id}`)
 			.addField(
 				'Roles',
@@ -26,7 +29,7 @@ export default {
 						.replace('@everyone', '') || 'None'
 				}`,
 			)
-			.addField('Member Since', `<t:${Math.floor(target.joinedTimestamp / 1000)}:R>`, true)
+			.addField('Member Since', `<t:${Math.floor((target.joinedTimestamp ?? 0) / 1000)}:R>`, true)
 			.addField('Discord User Since', `<t:${Math.floor(target.user.createdTimestamp / 1000)}:R>`, true);
 
 		interaction.reply({ embeds: [response], ephemeral: true });
