@@ -24,8 +24,14 @@
 		"start:prod": "node dist/index.js",
 		"build": "rm -rf dist && tsc",
 		"build_run": "pnpm build && pnpm start:prod",
-		"migrate": "ts-migrate",
-		"watch": "tsc -w"
+		"lint": "prettier --cache --check . && eslint src --cache",
+		"format": "prettier --cache --write . && eslint src --fix --cache",
+		"eslint": "eslint ",
+		"watch": "tsc -w",
+		"prepare": "husky install",
+		"check-types": "tsc --pretty --noEmit",
+		"check-format": "prettier --check .",
+		"check-lint": "eslint src"
 	},
 	"repository": {
 		"type": "git",
@@ -41,8 +47,17 @@
 		"@types/glob": "^7.2.0",
 		"@types/js-yaml": "^4.0.5",
 		"@types/node": "^18.0.0",
+		"@typescript-eslint/eslint-plugin": "^5.30.5",
+		"@typescript-eslint/parser": "^5.30.5",
+		"eslint": "^8.19.0",
+		"eslint-config-marine": "^9.4.1",
+		"eslint-config-prettier": "^8.5.0",
+		"eslint-plugin-import": "^2.26.0",
+		"eslint-plugin-prettier": "^4.2.1",
+		"prettier": "^2.7.1",
 		"ts-node": "^10.8.1",
 		"ts-node-dev": "^2.0.0",
-		"typescript": "^4.7.4"
+		"typescript": "^4.7.4",
+		"husky": "^8.0.0"
 	}
 }
