@@ -5,7 +5,7 @@ import { importFile } from '../utils';
 export async function selectMenuHandler(client: Client, PG: any, Ascii: new (arg0: string) => any): Promise<void> {
 	const Table = new Ascii('Selct Menu Handler');
 
-	const selectMenuFiles = await PG(`${__dirname}/../Interactions/SelectMenu/**/*.ts`);
+	const selectMenuFiles = await PG(`${__dirname}/../Interactions/SelectMenu/**/*.{ts,js}`);
 	if (!selectMenuFiles.length) return;
 
 	let count = 0;
