@@ -6,6 +6,9 @@ import { sendSchedule } from '../../../utils/Schedule/sendSchedule';
 import { createEmbed } from '../../../utils/createEmbed';
 import { logsMessage } from '../../../utils/logsMessage';
 
+const filieresArray = ['2IA', '2SCL', 'BI&A', 'GD', 'GL', 'IDF', 'IDSIT', 'SSE', 'SSI'];
+const groupesArray = ['G1', 'G2', 'G3', 'G4', 'G5', 'G6', 'G7', 'G8'];
+
 const defaultExport: ICommand = {
 	name: 'getschedule',
 	description: 'Get your schedule based on your group and field.',
@@ -17,33 +20,14 @@ const defaultExport: ICommand = {
 			name: 'filiere',
 			type: 'STRING',
 			description: 'Choose the branch',
-			choices: [
-				{ name: '2IA', value: '2IA' },
-				{ name: '2SCL', value: '2SCL' },
-				{ name: 'BI&A', value: 'BI&A' },
-				{ name: 'GD', value: 'GD' },
-				{ name: 'GL', value: 'GL' },
-				{ name: 'IDF', value: 'IDF' },
-				{ name: 'IDSIT', value: 'IDSIT' },
-				{ name: 'SSE', value: 'SSE' },
-				{ name: 'SSI', value: 'SSI' },
-			],
+			choices: filieresArray.map((x) => ({ name: x, value: x })),
 			required: false,
 		},
 		{
 			name: 'groupe',
 			type: 'STRING',
 			description: 'Choose the groupe',
-			choices: [
-				{ name: 'G1', value: 'G1' },
-				{ name: 'G2', value: 'G2' },
-				{ name: 'G3', value: 'G3' },
-				{ name: 'G4', value: 'G4' },
-				{ name: 'G5', value: 'G5' },
-				{ name: 'G6', value: 'G6' },
-				{ name: 'G7', value: 'G7' },
-				{ name: 'G8', value: 'G8' },
-			],
+			choices: groupesArray.map((x) => ({ name: x, value: x })),
 			required: false,
 		},
 		{
@@ -59,12 +43,14 @@ const defaultExport: ICommand = {
 		if (!guild) {
 			return interaction.followUp({ content: 'This command is used inside a server ...', ephemeral: true });
 		}
-		if (guild.id !== client.testGuilds[0].id) {
+
+		if (guild.id !== client.testGuilds.find((server) => server.name.includes('ENSIAS'))?.id) {
 			return interaction.followUp({
 				content: 'This command is not available for this server.',
 				ephemeral: true,
 			});
 		}
+
 		if (!member.roles.cache.map((role) => role.name).includes('1A')) {
 			return interaction.followUp({
 				content: 'This command is only available for 1A Students. Sorry!',
@@ -73,8 +59,10 @@ const defaultExport: ICommand = {
 		}
 
 		const { filiere: fl, groupe: grp } = flGrpYr(member);
+
 		const filiere = (options.getString('filiere') as FiliereType) ?? fl;
 		const groupe = (options.getString('groupe') as GroupeType) ?? grp;
+		const dm = options.getBoolean('dm') === null ? true : options.getBoolean('dm');
 
 		if (!filiere || !groupe) {
 			return interaction.followUp({
@@ -83,8 +71,6 @@ const defaultExport: ICommand = {
 			});
 		}
 
-		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-		const dm = options ? (options.getBoolean('dm') === null ? true : options.getBoolean('dm')) : true;
 		if (dm) await sendSchedule(member, filiere, groupe);
 
 		// Let text = `__**Your Schedule of this week :**__ \n__Filiere__: ${filiere}\n__Groupe__: ${groupe}\n` ;

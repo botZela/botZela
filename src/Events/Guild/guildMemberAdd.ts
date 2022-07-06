@@ -54,9 +54,7 @@ const defaultExport: Event<'guildMemberAdd'> = {
 			}
 			await member.roles.add(newMem.rolesId);
 			await activeSheet.colorRow(index, '#F9BB03');
-			logs += `\n[INFO] .${member.nickname ?? user.tag} got Roles ${JSON.stringify(
-				newMem.rolesNames.map((role) => `${role}`),
-			)}`;
+			logs += `\n[INFO] .${member.nickname ?? user.tag} got Roles ${JSON.stringify(newMem.rolesNames)}`;
 			await logsMessage(logs, guild);
 		} catch (e) {
 			console.error(e);
