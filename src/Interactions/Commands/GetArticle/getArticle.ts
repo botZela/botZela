@@ -1,7 +1,7 @@
+import { ICommand } from '../../../Typings';
+import { client } from '../../../index';
 import { getArticle } from '../../../utils/GetArticle';
 import { createEmbed } from '../../../utils/createEmbed';
-import { client } from '../../../index';
-import { ICommand } from '../../../Typings';
 
 export default {
 	name: 'getarticle',
@@ -14,7 +14,7 @@ export default {
 			required: true,
 		},
 	],
-	guilds: [client.testGuilds.find((guild) => guild.name.includes('ENSIAS'))?.id || ''],
+	guilds: [client.testGuilds.find((guild) => guild.name.includes('ENSIAS'))?.id ?? ''],
 	async execute({ interaction }) {
 		await interaction.deferReply({ ephemeral: true });
 		const doi = interaction.options.getString('doi') ?? '';
@@ -24,7 +24,7 @@ export default {
 		const embed2 = createEmbed(`Article Finder`, 'Your article is ready ');
 		const embed3 = createEmbed(`Article Finder`, 'Article or DOI is unavailable.');
 		const embed4 = createEmbed(`Article Finder`, 'Size of the article is bigger than 8MB.');
-		if (article === 0) {
+		if (article === undefined || article === 0) {
 			await interaction.followUp({
 				ephemeral: true,
 				embeds: [embed3],

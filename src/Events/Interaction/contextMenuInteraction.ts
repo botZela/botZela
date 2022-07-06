@@ -9,7 +9,7 @@ export default {
 	async execute(interaction: ExtendedCommandInteraction): Promise<void> {
 		if (interaction.isContextMenu()) {
 			const command = client.contextMenuCommands.get(interaction.commandName);
-			if (!command)
+			if (!command) {
 				return interaction.reply({
 					embeds: [
 						new MessageEmbed({
@@ -18,6 +18,7 @@ export default {
 						}),
 					],
 				});
+			}
 
 			try {
 				if (command.permissions && !command.permissions.some((perm) => interaction.member.permissions.has(perm))) {

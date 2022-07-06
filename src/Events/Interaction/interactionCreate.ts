@@ -9,7 +9,7 @@ export default {
 	async execute(interaction: ExtendedCommandInteraction) {
 		if (interaction.isCommand()) {
 			const command = client.commands.get(interaction.commandName);
-			if (!command)
+			if (!command) {
 				return interaction.reply({
 					embeds: [
 						new MessageEmbed({
@@ -18,6 +18,7 @@ export default {
 						}),
 					],
 				});
+			}
 
 			try {
 				if (command.permissions && !command.permissions.some((perm) => interaction.member.permissions.has(perm))) {
@@ -28,7 +29,7 @@ export default {
 				} else {
 					await command.execute({
 						args: interaction.options as CommandInteractionOptionResolver,
-						interaction: interaction as ExtendedCommandInteraction,
+						interaction: interaction,
 					});
 				}
 			} catch (error) {

@@ -6,7 +6,7 @@ export default {
 	name: 'resetcooldown',
 	description: 'Reset the cooldown for all users or just a member.',
 	permissions: ['ADMINISTRATOR'],
-	guilds: [client.testGuilds.find((guild) => guild.name.includes('ENSIAS'))?.id || ''],
+	guilds: [client.testGuilds.find((guild) => guild.name.includes('ENSIAS'))?.id ?? ''],
 	options: [
 		{
 			name: 'member',
@@ -17,7 +17,7 @@ export default {
 	],
 
 	async execute({ interaction }): Promise<void> {
-		const member = (interaction.options.getMember('member') as GuildMember) || '';
+		const member = interaction.options.getMember('member') as GuildMember | null;
 
 		if (member) {
 			client.buttonsCooldown.forEach((guilds) => {
@@ -37,6 +37,9 @@ export default {
 				});
 			});
 		}
-		await interaction.reply({ content: `Reseted the cooldowns for ${member || 'everyone'}`, ephemeral: true });
+		await interaction.reply({
+			content: `Reseted the cooldowns for ${member?.toString() ?? 'everyone'}`,
+			ephemeral: true,
+		});
 	},
 } as ICommand;

@@ -6,11 +6,11 @@ export const RolesSchema = new _Schema({
 	roleEmoji: String,
 });
 
-export type RolesType = {
+export interface RolesType {
 	roleId: string;
 	roleDescription?: string;
 	roleEmoji?: string;
-};
+}
 
 /**
  * Roles Structure

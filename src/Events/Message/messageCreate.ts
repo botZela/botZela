@@ -1,7 +1,7 @@
-import { DMChannel, NewsChannel, PartialDMChannel, TextChannel, ThreadChannel, VoiceChannel } from 'discord.js';
+import { NewsChannel, TextChannel, ThreadChannel, VoiceChannel } from 'discord.js';
 import { client } from '../..';
 import { Event } from '../../Structures';
-import { introduceYourSelf, announcements } from '../../utils/AutoReacts';
+import { announcements, introduceYourSelf } from '../../utils/AutoReacts';
 import { messageSchedule } from '../../utils/Schedule/autoResponceSchedule';
 
 export default {
@@ -15,10 +15,10 @@ export default {
 			channel instanceof ThreadChannel ||
 			channel instanceof NewsChannel
 		) {
-			let announcementName = 'announcement';
-			let introduceName = 'introd';
-			let emploiName = '『📅』get-schedule';
-			if (!guild || !SUPPORTED_GUILDS.includes(`${message.guildId}`)) {
+			const announcementName = 'announcement';
+			const introduceName = 'introd';
+			const emploiName = '『📅』get-schedule';
+			if (!guild || !SUPPORTED_GUILDS.includes(`${message.guildId ?? ''}`)) {
 				return;
 			} else if (channel.name.includes(announcementName)) {
 				if (author.bot) return;
@@ -27,11 +27,11 @@ export default {
 				if (author.bot) return;
 				await introduceYourSelf(message);
 			} else if (channel.name.includes(emploiName)) {
-				if (author.bot || guild.id != client.testGuilds[0].id) return;
-				messageSchedule(message);
+				if (author.bot || guild.id !== client.testGuilds[0].id) return;
+				await messageSchedule(message);
 			}
 			if (message.content.startsWith('test')) {
-				// await message.reply(`Presence \`${guild.maximumPresences}\`, Memebers: \`${guild.maximumMembers}\``);
+				// Await message.reply(`Presence \`${guild.maximumPresences}\`, Memebers: \`${guild.maximumMembers}\``);
 				const totalMembers = guild.members.cache.size;
 				const onlineMembers = guild.members.cache.filter((m) => m.presence?.status === 'online').size;
 				const idleMembers = guild.members.cache.filter((m) => m.presence?.status === 'idle').size;

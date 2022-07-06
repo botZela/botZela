@@ -1,20 +1,19 @@
+import { Guild, Snowflake } from 'discord.js';
 import { titleCase } from './stringFunc';
 import gRoles from '../../Models/guildRoles';
-import { Snowflake } from 'discord.js';
-import { Guild } from 'discord.js';
 import { GSpreadSheet } from '../GSpreadSheet';
 
 export class Person {
-	firstName: string;
-	lastName: string;
-	mail: string;
-	phone: string;
-	discordUsername: string;
-	discordId: string;
-	rolesNames: string[];
-	rolesId: Snowflake[];
+	private firstName: string;
+	private lastName: string;
+	private mail: string;
+	private phone: string;
+	private discordUsername: string;
+	private discordId: string;
+	public rolesNames: string[];
+	public rolesId: Snowflake[];
 
-	constructor() {
+	public constructor() {
 		this.firstName = '';
 		this.lastName = '';
 		this.mail = '';
@@ -25,9 +24,9 @@ export class Person {
 		this.rolesId = [];
 	}
 
-	static async create(index: number, guild: Guild, activeSheet: GSpreadSheet) {
-		let out = new Person();
-		let user: string[] = await activeSheet.getRow(index);
+	public static async create(index: number, guild: Guild, activeSheet: GSpreadSheet) {
+		const out = new Person();
+		const user = (await activeSheet.getRow(index)) as string[];
 		out.firstName = user[1];
 		out.lastName = user[2];
 		out.mail = user[3];
@@ -36,7 +35,7 @@ export class Person {
 		out.discordId = user[6];
 		out.rolesNames = [];
 		for (let i = 7; i < user.length; i++) {
-			for (let role of user[i].split(',')) {
+			for (const role of user[i].split(',')) {
 				if (role) {
 					out.rolesNames.push(role.trim());
 				}
@@ -46,31 +45,31 @@ export class Person {
 		return out;
 	}
 
-	async roles(guildId: string) {
+	private async roles(guildId: string) {
 		const guildData = await gRoles.findOne({ guildId });
 		if (!guildData) return [];
 		const guildRoles = guildData.roles;
-		let roleIds: string[] = [];
+		const roleIds: string[] = [];
 		if (guildData.defaultRole) {
 			roleIds.push(guildData.defaultRole);
 		}
-		for (let role of this.rolesNames) {
+		for (const role of this.rolesNames) {
 			try {
-				let roleId = guildRoles.get(role);
+				const roleId = guildRoles.get(role);
 				if (roleId) {
 					roleIds.push(roleId);
 				} else {
 					console.log(`[INFO] Role was not found ${role}`);
 				}
 			} catch (e) {
-				console.log(`[INFO] Role was not found ${role} with Exception ${e}`);
+				console.log(`[INFO] Role was not found ${role} with Exception ${JSON.stringify(e)}`);
 			}
 		}
 		return roleIds;
 	}
 
-	get nickName() {
-		let out = titleCase(this.firstName) + ' ' + this.lastName.toUpperCase();
+	public get nickName() {
+		const out = `${titleCase(this.firstName)} ${this.lastName.toUpperCase()}`;
 		return out;
 	}
 }

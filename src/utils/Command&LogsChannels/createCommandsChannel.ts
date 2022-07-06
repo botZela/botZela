@@ -1,8 +1,8 @@
+import { CategoryChannelResolvable, Guild, OverwriteResolvable, TextChannel } from 'discord.js';
+import { client } from '../..';
+import gChannels from '../../Models/guildChannels';
 import { createChannel } from '../Channels/createChannel';
 import { createEmbed } from '../createEmbed';
-import gChannels from '../../Models/guildChannels';
-import { client } from '../..';
-import { CategoryChannelResolvable, Guild, OverwriteResolvable, TextChannel } from 'discord.js';
 
 export async function createCommandsChannel(
 	guild: Guild,
@@ -27,9 +27,9 @@ export async function createCommandsChannel(
 
 	if (guildData) {
 		guildData.channels.set('COMMANDS', cmds.id);
-		guildData.save();
+		await guildData.save();
 	} else {
-		gChannels.create({
+		await gChannels.create({
 			guildId: guild.id,
 			guildName: guild.name,
 			channels: {
@@ -38,6 +38,6 @@ export async function createCommandsChannel(
 		});
 	}
 
-	let embed = createEmbed('Please Setup the BOT');
+	const embed = createEmbed('Please Setup the BOT');
 	await cmds.send({ embeds: [embed] });
 }

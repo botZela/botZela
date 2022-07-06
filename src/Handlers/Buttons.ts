@@ -1,20 +1,25 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Collection } from 'discord.js';
 import { Client } from '../Structures';
 import { IButtonCommand } from '../Typings';
 import { importFile } from '../utils';
 
-export async function buttonHandler(client: Client, PG: any, Ascii: new (arg0: string) => any): Promise<void> {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function buttonHandler(client: Client, PG: any, Ascii: any): Promise<void> {
 	const Table = new Ascii('Buttons Handled');
 
-	const buttonsFolder = await PG(`${__dirname}/../Interactions/Buttons/**/*.{ts,js}`);
+	const buttonsFolder: string[] = await PG(`${__dirname}/../Interactions/Buttons/**/*.{ts,js}`);
 	if (!buttonsFolder.length) return;
 
 	let count = 0;
-	for (let file of buttonsFolder) {
+	for (const file of buttonsFolder) {
 		const buttonFile: IButtonCommand = await importFile(file);
 		if (!buttonFile.id) {
-			await Table.addRow(
-				`${file.split('/').at(-1).slice(0, -3)}`,
+			Table.addRow(
+				`${file.split('/').at(-1)?.slice(0, -3)}`,
 				`⛔ Button ID is missing: ${file.split('/').at(-2)}/${file.split('/').at(-1)}`,
 			);
 			continue;

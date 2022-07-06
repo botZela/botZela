@@ -14,22 +14,22 @@ export default {
 		},
 	],
 	guilds: [
-		client.testGuilds.find((guild) => guild.name.includes('TEST'))?.id || '',
-		client.testGuilds.find((guild) => guild.name.includes('Test_channel'))?.id || '',
+		client.testGuilds.find((guild) => guild.name.includes('TEST'))?.id ?? '',
+		client.testGuilds.find((guild) => guild.name.includes('Test_channel'))?.id ?? '',
 	],
 	permissions: ['ADMINISTRATOR'],
 	async execute({ interaction }) {
 		const category = interaction.options.getChannel('category') as GuildBasedChannel;
 		await interaction.deferReply({ ephemeral: true });
 		if (!(category instanceof CategoryChannel)) {
-			return await interaction.followUp('Please select a category');
+			return interaction.followUp('Please select a category');
 		}
-		category.children.forEach(async (child) => {
+		category.children.forEach((child) => {
 			if (child.deletable) {
-				await child.delete();
+				child.delete().catch(console.error);
 			}
 		});
-		category.delete();
+		await category.delete();
 		await interaction.followUp({
 			content: 'Deleted the Category Successfully.',
 			ephemeral: true,

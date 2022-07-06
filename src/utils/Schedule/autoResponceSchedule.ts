@@ -1,7 +1,7 @@
-import { flGrp } from './flGrp';
-import { logsMessage } from '../logsMessage';
-import { sendSchedule } from './sendSchedule';
 import { Message } from 'discord.js';
+import { flGrp } from './flGrp';
+import { sendSchedule } from './sendSchedule';
+import { logsMessage } from '../logsMessage';
 
 export async function messageSchedule(message: Message) {
 	const { member, channel } = message;
@@ -10,23 +10,32 @@ export async function messageSchedule(message: Message) {
 		return;
 	}
 
-	setTimeout(() => message.delete(), 1000);
+	setTimeout(() => {
+		message.delete().catch(console.error);
+	}, 1000);
 	if (!member.roles.cache.map((r) => r.name).includes('1A')) {
-		let response = await channel.send(`We are sorry, this feature is only available for 1A students.`);
-		return setTimeout(() => response.delete(), 10 * 1000);
+		const response = await channel.send(`We are sorry, this feature is only available for 1A students.`);
+		return setTimeout(() => {
+			response.delete().catch(console.error);
+		}, 10 * 1000);
 	}
 	const { filiere: fl, groupe: grp } = flGrp(member);
+	// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 	if (!fl || !grp) {
-		let response = await message.reply(
+		const response = await message.reply(
 			'You are not elegible to get your schedule, you are missing the "groupe" or "filiere", try contacting server admins.',
 		);
-		return setTimeout(() => response.delete(), 10 * 1000);
+		return setTimeout(() => {
+			response.delete().catch(console.error);
+		}, 10 * 1000);
 	}
 	await sendSchedule(member, fl, grp);
-	let response = await channel.send(
+	const response = await channel.send(
 		`<@${member.id}> Your Schedule for branch ${fl} and groupe ${grp} is sent to your DMs.`,
 	);
-	setTimeout(() => response.delete(), 10 * 1000);
-	let logs = `[INFO] .${member.nickname} got the schedule for branch .${fl} and groupe .${grp}`;
-	logsMessage(logs, message.guild);
+	setTimeout(() => {
+		response.delete().catch(console.error);
+	}, 10 * 1000);
+	const logs = `[INFO] .${member.nickname ?? member.user.tag} got the schedule for branch .${fl} and groupe .${grp}`;
+	await logsMessage(logs, message.guild);
 }

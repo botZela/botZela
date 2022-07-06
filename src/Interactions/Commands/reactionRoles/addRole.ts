@@ -1,5 +1,5 @@
+import rrModel, { RolesType } from '../../../Models/reactionRoles';
 import { ICommand } from '../../../Typings';
-import rrModel, { RolesSchema, RolesType } from '../../../Models/reactionRoles';
 
 export default {
 	name: 'add-role',
@@ -28,14 +28,14 @@ export default {
 	execute: async ({ interaction }) => {
 		const { options, guild } = interaction;
 		if (!guild || !guild.me) {
-			return await interaction.reply({ content: 'This command is used inside a server ...', ephemeral: true });
+			return interaction.reply({ content: 'This command is used inside a server ...', ephemeral: true });
 		}
 		const role = options.getRole('role');
 		if (!role) {
 			return interaction.reply({ content: "Couldn't find the role.", ephemeral: true });
 		}
-		const roleDescription = options.getString('description') || undefined;
-		const roleEmoji = options.getString('emoji') || undefined;
+		const roleDescription = options.getString('description') ?? undefined;
+		const roleEmoji = options.getString('emoji') ?? undefined;
 
 		if (role.position >= guild.me.roles.highest.position) {
 			return interaction.reply({ content: "I can't assign a role that is higher or equal than me.", ephemeral: true });
@@ -50,7 +50,7 @@ export default {
 		};
 
 		if (guildData) {
-			let roleData = guildData.roles.find((x) => (x as RolesType).roleId === role.id) as RolesType;
+			let roleData = guildData.roles.find((x) => (x as RolesType).roleId === role.id) as RolesType | null;
 
 			if (roleData) {
 				roleData = newRole;
@@ -66,6 +66,6 @@ export default {
 			});
 		}
 
-		interaction.reply({ content: `Created a new Role : ${role.name}`, ephemeral: true });
+		await interaction.reply({ content: `Created a new Role : ${role.name}`, ephemeral: true });
 	},
 } as ICommand;

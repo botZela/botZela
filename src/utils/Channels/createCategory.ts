@@ -9,16 +9,16 @@ export async function createCategory(
 ) {
 	let message = `[INFO] .${name} category in guild : .${guild.name} `;
 	try {
-		let out = await guild.channels.create(name, {
+		const out = await guild.channels.create(name, {
 			type: 'GUILD_CATEGORY',
 			permissionOverwrites: overwrites,
 			position,
 		});
-		message = message + ' Was Created Succesfully.';
+		message += ' Was Created Succesfully.';
 		await logsMessage(message, guild);
 		return out;
 	} catch (e) {
-		message = message + 'Was not created.';
+		message += 'Was not created.';
 		console.log(e);
 		await logsMessage(message, guild);
 		return undefined;

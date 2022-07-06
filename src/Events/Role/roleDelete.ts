@@ -1,6 +1,6 @@
-import { logsMessage } from '../../utils';
 import gRoles from '../../Models/guildRoles';
 import { Event } from '../../Structures';
+import { logsMessage } from '../../utils';
 
 export default {
 	name: 'roleDelete',
@@ -12,10 +12,10 @@ export default {
 			}
 			guildData.roles.delete(`${role.name}`);
 			await guildData.save();
-			let log = `[INFO] ${role.name} has been deleted.`;
+			const log = `[INFO] ${role.name} has been deleted.`;
 			await logsMessage(log, role.guild);
 		} catch (e) {
-			let log = `[INFO] ${role.name} was not in data.`;
+			const log = `[INFO] ${role.name} was not in data.`;
 			await logsMessage(log, role.guild);
 		}
 	},

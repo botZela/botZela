@@ -1,11 +1,13 @@
-import { checkSpreadsheet } from '../../../utils/SetupServer/checkLinks';
-import gChannels from '../../../Models/guildChannels';
-import gRoles from '../../../Models/guildRoles';
-import linksModel from '../../../Models/guildLinks';
-import { ICommand } from '../../../Typings';
 import { CategoryChannel, GuildBasedChannel, StageChannel, StoreChannel } from 'discord.js';
 import { z } from 'zod';
+import gChannels from '../../../Models/guildChannels';
+import linksModel from '../../../Models/guildLinks';
+import gRoles from '../../../Models/guildRoles';
+import { ICommand } from '../../../Typings';
+import { checkSpreadsheet } from '../../../utils/SetupServer/checkLinks';
 import { setupServer } from '../../../utils/SetupServer/setupServer';
+
+type TChannelObj = { COMMAND: string } | { INTRODUCE: string } | { LOGS: string };
 
 export default {
 	name: 'setup',
@@ -114,23 +116,23 @@ export default {
 		await interaction.deferReply({ ephemeral: true });
 		const { guild } = interaction;
 		if (!guild) {
-			return await interaction.followUp({ content: 'This command is used inside a server ...', ephemeral: true });
+			return interaction.followUp({ content: 'This command is used inside a server ...', ephemeral: true });
 		}
 		const subCommand = interaction.options.getSubcommand();
 		if (subCommand === 'server') {
 			await setupServer(interaction);
-			return await interaction.followUp({ content: 'Setting up the server .... ', ephemeral: true });
+			return interaction.followUp({ content: 'Setting up the server .... ', ephemeral: true });
 		} else if (subCommand === 'default_role') {
 			const guildData = await gRoles.findOne({ guildId: guild.id });
 			const roleData = interaction.options.getRole('role');
 			if (!roleData) {
-				return await interaction.followUp({ content: 'Choose a valid role', ephemeral: true });
+				return interaction.followUp({ content: 'Choose a valid role', ephemeral: true });
 			}
 			if (guildData) {
 				guildData.defaultRole = roleData.id;
-				guildData.save();
+				await guildData.save();
 			}
-			return await interaction.followUp({ content: 'Default Role Added Successfully', ephemeral: true });
+			return interaction.followUp({ content: 'Default Role Added Successfully', ephemeral: true });
 		}
 		const subCommandGroup = interaction.options.getSubcommandGroup();
 		if (subCommandGroup === 'channels') {
@@ -139,23 +141,23 @@ export default {
 				return;
 			}
 			const guildData = await gChannels.findOne({ guildId: guild.id });
-			let channelType = subCommand.toUpperCase();
+			const channelType = subCommand.toUpperCase();
 
 			if (guildData) {
 				guildData.channels.set(channelType, channel.id);
 				await guildData.save();
 			} else {
-				const channelsObj = JSON.parse(`{
+				const channelsObj: TChannelObj = JSON.parse(`{
                     "${channelType}": "${channel.id}"
-                }`);
+                }`) as TChannelObj;
 				await gChannels.create({
 					guildId: guild.id,
 					guildName: guild.name,
 					channels: channelsObj,
 				});
 			}
-			channel.send('This channel is Up and running');
-			return await interaction.followUp({
+			await channel.send('This channel is Up and running');
+			return interaction.followUp({
 				content: `[INFO] ${channelType} Added Successfully`,
 				ephemeral: true,
 			});
@@ -181,11 +183,10 @@ export default {
 						form: link,
 					});
 				}
-				return await interaction.followUp({ content: `This server's Form Link Added Successfully.`, ephemeral: true });
+				return interaction.followUp({ content: `This server's Form Link Added Successfully.`, ephemeral: true });
 			}
 		}
 
 		await interaction.followUp({ content: 'Setting up the server .... ', ephemeral: true });
-		return;
 	},
 } as ICommand;

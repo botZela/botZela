@@ -1,7 +1,7 @@
-import { createCommandsChannel, createLogsChannel } from '../../utils/Command&LogsChannels';
+import { DMChannel } from 'discord.js';
 import gChannels from '../../Models/guildChannels';
 import { Event } from '../../Structures';
-import { DMChannel } from 'discord.js';
+import { createCommandsChannel, createLogsChannel } from '../../utils/Command&LogsChannels';
 
 export default {
 	name: 'channelDelete',

@@ -1,11 +1,11 @@
-import { StructureType } from '../../Typings/buildServer';
 import { batchCreateVisualization } from './batchCreateVisualization';
 import { dictToList } from './dictToList';
 import { structureSort } from './structureSort';
+import { StructureType } from '../../Typings/buildServer';
 
 export function batchVisualize(channelFormat: StructureType[]): string {
-	let dictFormat = dictToList(channelFormat);
+	const dictFormat = dictToList(channelFormat);
 	structureSort(dictFormat);
-	let visualization = batchCreateVisualization(dictFormat);
+	const visualization = batchCreateVisualization(dictFormat);
 	return visualization;
 }

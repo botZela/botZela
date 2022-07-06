@@ -5,16 +5,16 @@
 	"description": "",
 	"main": "./src/index.ts",
 	"dependencies": {
-		"@googleapis/sheets": "^3.0.1",
-		"ascii-table3": "^0.7.4",
+		"@googleapis/sheets": "^3.0.2",
+		"ascii-table3": "^0.7.6",
 		"axios": "^0.27.2",
-		"cheerio": "^1.0.0-rc.11",
+		"cheerio": "^1.0.0-rc.12",
 		"discord.js": "^13.8.1",
 		"dotenv": "^16.0.1",
-		"glob": "^8.0.1",
+		"glob": "^8.0.3",
 		"googleapis-common": "^6.0.0",
 		"js-yaml": "^4.1.0",
-		"mongoose": "^6.4.0",
+		"mongoose": "^6.4.3",
 		"tslib": "^2.4.0",
 		"zod": "^3.17.3"
 	},
@@ -46,7 +46,7 @@
 	"devDependencies": {
 		"@types/glob": "^7.2.0",
 		"@types/js-yaml": "^4.0.5",
-		"@types/node": "^18.0.0",
+		"@types/node": "^18.0.1",
 		"@typescript-eslint/eslint-plugin": "^5.30.5",
 		"@typescript-eslint/parser": "^5.30.5",
 		"eslint": "^8.19.0",
@@ -54,10 +54,10 @@
 		"eslint-config-prettier": "^8.5.0",
 		"eslint-plugin-import": "^2.26.0",
 		"eslint-plugin-prettier": "^4.2.1",
+		"husky": "^8.0.1",
 		"prettier": "^2.7.1",
-		"ts-node": "^10.8.1",
+		"ts-node": "^10.8.2",
 		"ts-node-dev": "^2.0.0",
-		"typescript": "^4.7.4",
-		"husky": "^8.0.0"
+		"typescript": "^4.7.4"
 	}
 }

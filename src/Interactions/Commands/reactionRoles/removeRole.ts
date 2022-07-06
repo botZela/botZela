@@ -17,7 +17,7 @@ export default {
 		const { options, guild } = interaction;
 
 		if (!guild || !guild.me) {
-			return await interaction.reply({ content: 'This command is used inside a server ...', ephemeral: true });
+			return interaction.reply({ content: 'This command is used inside a server ...', ephemeral: true });
 		}
 		const role = options.getRole('role');
 
@@ -40,6 +40,6 @@ export default {
 
 		await guildData.save();
 
-		interaction.reply({ content: `Removed : ${role?.name || 'removed'}`, ephemeral: true });
+		await interaction.reply({ content: `Removed : ${role?.name ?? 'removed'}`, ephemeral: true });
 	},
 } as ICommand;

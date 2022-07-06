@@ -1,6 +1,6 @@
-import { logsMessage } from '../../utils/logsMessage';
 import gRoles from '../../Models/guildRoles';
 import { Event } from '../../Structures';
+import { logsMessage } from '../../utils/logsMessage';
 
 export default {
 	name: 'roleCreate',
@@ -10,9 +10,7 @@ export default {
 			guildData.roles.set(role.name, role.id);
 			await guildData.save();
 		} else {
-			const roleObj = JSON.parse(`{
-                    "${role.name}": "${role.id}"
-                }`);
+			const roleObj = JSON.parse(`new Map(Object.entries({"${role.name}": "${role.id}"})`) as Map<string, string>;
 
 			await gRoles.create({
 				guildId: role.guild.id,
@@ -20,7 +18,7 @@ export default {
 				roles: roleObj,
 			});
 		}
-		let log = `[INFO] ${role.name} has been created.`;
+		const log = `[INFO] ${role.name} has been created.`;
 		await logsMessage(log, role.guild);
 	},
 } as Event<'roleCreate'>;

@@ -1,4 +1,3 @@
-import { client } from '../../..';
 import { ICommand } from '../../../Typings';
 import { buildServer } from '../../../utils/BuildServer/buildServer';
 

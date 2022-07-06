@@ -11,7 +11,7 @@ export default {
 		const { guild } = interaction;
 
 		if (!guild || !guild.me) {
-			return await interaction.reply({ content: 'This command is used inside a server ...', ephemeral: true });
+			return interaction.reply({ content: 'This command is used inside a server ...', ephemeral: true });
 		}
 
 		const guildData = await rrModel.findOne({ guildId: guild.id });
@@ -28,7 +28,7 @@ export default {
 				return {
 					label: role.name,
 					value: role.id,
-					description: y.roleDescription || 'No Description',
+					description: y.roleDescription ?? 'No Description',
 					emoji: y.roleEmoji,
 				} as MessageSelectOptionData;
 			})
@@ -47,6 +47,6 @@ export default {
 			),
 		];
 
-		interaction.reply({ embeds: [panelEmbed], components, ephemeral: false });
+		await interaction.reply({ embeds: [panelEmbed], components, ephemeral: false });
 	},
 } as ICommand;

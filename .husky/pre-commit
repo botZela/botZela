@@ -2,7 +2,6 @@
 . "$(dirname -- "$0")/_/husky.sh"
 
 echo '🏗️👷 Styling, testing and building your project before committing'
-exit
 
 # Check Prettier standards
 pnpm check-format ||

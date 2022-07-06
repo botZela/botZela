@@ -3,7 +3,7 @@ import { ISelectMenuCommand } from '../../../Typings';
 
 export default {
 	id: 'reaction-roles',
-	// permissions : ["ADMINISTRATOR"],
+	// Permissions : ["ADMINISTRATOR"],
 	async execute({ interaction }) {
 		await interaction.deferReply({ ephemeral: true });
 
@@ -15,13 +15,13 @@ export default {
 			.map((option) => option.value);
 
 		if (values.length !== 0) {
-			member.roles.add(values);
+			await member.roles.add(values);
 		}
 		if (removed.length !== 0) {
-			member.roles.remove(removed);
+			await member.roles.remove(removed);
 		}
 
-		interaction.followUp({
+		await interaction.followUp({
 			content: 'Roles Updated!',
 			ephemeral: true,
 		});

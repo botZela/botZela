@@ -6,7 +6,7 @@ export default {
 	description: 'Just to test buttons',
 	permissions: ['ADMINISTRATOR'],
 
-	execute({ interaction }) {
+	async execute({ interaction }) {
 		const row = new MessageActionRow();
 		row.addComponents(
 			new MessageButton({
@@ -17,6 +17,6 @@ export default {
 			new MessageButton().setCustomId('Bye').setLabel('Bye').setStyle('DANGER'),
 		);
 
-		interaction.reply({ components: [row] });
+		await interaction.reply({ components: [row] });
 	},
 } as ICommand;

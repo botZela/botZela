@@ -4,7 +4,6 @@ import gRoles from '../../Models/guildRoles';
 import { logsMessage } from '../logsMessage';
 
 export async function createOverwrites(guild: Guild, rolesList: string[]): Promise<OverwriteResolvable[]> {
-	if (!rolesList) return [];
 	const guildData = await gRoles.findOne({ guildId: guild.id });
 	if (!guildData) {
 		return [];
@@ -24,14 +23,14 @@ export async function createOverwrites(guild: Guild, rolesList: string[]): Promi
 	}
 
 	for (const role of rolesList) {
-		let roleId = guildRoles.get(role);
+		const roleId = guildRoles.get(role);
 		if (roleId) {
 			overwrites.push({
 				id: roleId,
 				allow: ['VIEW_CHANNEL'],
 			});
 		} else {
-			logsMessage(`[ERROR] Role ${role} was not found for guild ${guild.name}`, guild);
+			await logsMessage(`[ERROR] Role ${role} was not found for guild ${guild.name}`, guild);
 		}
 	}
 	return overwrites;

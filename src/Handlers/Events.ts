@@ -1,22 +1,24 @@
-import { Events } from '../Validation';
-import { Client, Event } from '../Structures';
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { ClientEvents } from 'discord.js';
+import { Client, Event } from '../Structures';
+import { Events } from '../Validation';
 import { importFile } from '../utils';
 
-export async function eventHandler(client: Client, PG: any, Ascii: new (arg0: string) => any): Promise<void> {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function eventHandler(client: Client, PG: any, Ascii: any): Promise<void> {
 	const Table = new Ascii('Events Loaded');
 
-	let eventFiles = await PG(`${__dirname}/../Events/**/*.{ts,js}`);
+	const eventFiles: string[] = await PG(`${__dirname}/../Events/**/*.{ts,js}`);
 	if (!eventFiles.length) return;
 
 	let count = 0;
 	for (const file of eventFiles) {
 		const event: Event<keyof ClientEvents> = await importFile(file);
-		if (!Events.includes(event.name) || !event.name) {
-			await Table.addRow(
-				`${event.name || 'MISSING'}`,
-				`⛔ Event name is either invalid or missing: ${file.split('/').at(-2)}/${file.split('/').at(-1)}`,
-			);
+		if (!Events.includes(event.name)) {
+			await Table.addRow(`⛔ Event name is  invalid : ${file.split('/').at(-2)}/${file.split('/').at(-1)}`);
 			continue;
 		}
 
@@ -25,7 +27,7 @@ export async function eventHandler(client: Client, PG: any, Ascii: new (arg0: st
 		} else {
 			client.on(event.name, (...args) => event.execute(...args));
 		}
-		await Table.addRow(event?.alias || event.name, '🟢 SUCCESSFUL');
+		await Table.addRow(event.alias ?? event.name, '🟢 SUCCESSFUL');
 		count++;
 	}
 

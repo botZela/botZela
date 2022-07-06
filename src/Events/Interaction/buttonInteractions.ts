@@ -23,7 +23,7 @@ export default {
 			return interaction.reply({ content: 'You are missing permissions.', ephemeral: true });
 		}
 
-		if (Button.ownerOnly && member.id !== guild?.ownerId) {
+		if (Button.ownerOnly && member.id !== guild.ownerId) {
 			return interaction.reply({ content: 'You are not the owner.', ephemeral: true });
 		}
 
@@ -45,7 +45,7 @@ export default {
 		}
 
 		Button.execute({
-			interaction: interaction as ExtendedButtonInteraction,
+			interaction: interaction,
 		});
 	},
 } as Event<'interactionCreate'>;

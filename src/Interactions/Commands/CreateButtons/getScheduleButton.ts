@@ -1,4 +1,4 @@
-import { MessageActionRow, MessageButton, Interaction, MessageEmbed, Message } from 'discord.js';
+import { Message, MessageActionRow, MessageButton, MessageEmbed } from 'discord.js';
 import { client } from '../../..';
 import { ICommand } from '../../../Typings';
 
@@ -6,7 +6,7 @@ export default {
 	name: 'button_schedule',
 	description: 'Create the Schedule button',
 	permissions: ['ADMINISTRATOR'],
-	guilds: [client.testGuilds.find((guild) => guild.name.includes('ENSIAS'))?.id || ''],
+	guilds: [client.testGuilds.find((guild) => guild.name.includes('ENSIAS'))?.id ?? ''],
 	options: [
 		{
 			name: 'message',
@@ -40,7 +40,7 @@ export default {
 				.setEmoji('📅'),
 		);
 
-		// row.addComponents(
+		// Row.addComponents(
 		//     new MessageButton()
 		//         .setCustomId("sendOtherFlGrp")
 		//         .setLabel("Other choices")
@@ -58,19 +58,19 @@ export default {
 
 		// TODO : Hide the /button_schedule
 		if (!channel) {
-			return await interaction.followUp({
+			return interaction.followUp({
 				content: "Couldn't find the Channel",
 				ephemeral: true,
 			});
 		}
 
 		await interaction.deferReply();
-		interaction.fetchReply().then((inter) => {
+		await interaction.fetchReply().then((inter) => {
 			if (inter instanceof Message) return inter.delete();
 		});
 		if (msgId) {
 			const message = await channel.messages.fetch(msgId);
-			message.edit({ embeds: [embed], components: [row] });
+			await message.edit({ embeds: [embed], components: [row] });
 		} else {
 			await channel.send({ embeds: [embed], components: [row] });
 		}

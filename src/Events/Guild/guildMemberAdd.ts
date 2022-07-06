@@ -1,12 +1,12 @@
+import linksModel from '../../Models/guildLinks';
+import gRoles from '../../Models/guildRoles';
 import { GSpreadSheet } from '../../OtherModules/GSpreadSheet';
 import { Person } from '../../OtherModules/Member';
-import { logsMessage } from '../../utils/logsMessage';
+import { Event } from '../../Structures';
 import { welcomeMsg, kick } from '../../utils/Guild';
+import { logsMessage } from '../../utils/logsMessage';
 
 // Models
-import gRoles from '../../Models/guildRoles';
-import linksModel from '../../Models/guildLinks';
-import { Event } from '../../Structures';
 
 const PRV_ROLES = {
 	'921408078983876678': {
@@ -25,15 +25,15 @@ export default {
 		let logs;
 		if (!worksheetUrl || !guildRoles) {
 			if (guild.systemChannel) {
-				let toSend = await welcomeMsg(member);
-				guild.systemChannel.send(toSend);
+				const toSend = await welcomeMsg(member);
+				await guild.systemChannel.send(toSend);
 			}
 			if (!worksheetUrl) return console.log(`[INFO] Sheet does not exist for server ${guild.name}`);
 			if (!guildRoles) return console.log(`[INFO] Roles are not defined for server ${guild.name}`);
 		}
 		try {
-			let gAccPath = `${process.cwd()}/credentials/google_account.json`;
-			let activeSheet = await GSpreadSheet.createFromUrl(worksheetUrl, gAccPath, 0);
+			const gAccPath = `${process.cwd()}/credentials/google_account.json`;
+			const activeSheet = await GSpreadSheet.createFromUrl(worksheetUrl, gAccPath, 0);
 			if (user.bot) {
 				logs = `[INFO] .${user.tag} has got [Bots] role.`;
 				await logsMessage(logs, guild);
@@ -41,9 +41,9 @@ export default {
 				return;
 			}
 			let index = await activeSheet.findCellCol(`${user.tag}`, 'F');
-			if (index == 0) {
+			if (index === 0) {
 				index = await activeSheet.findCellCol(`${user.id}`, 'G');
-				if (index == 0) {
+				if (index === 0) {
 					await kick(member, guild);
 					logs = `[INFO] .${user.tag} got kicked from the server`;
 					await logsMessage(logs, guild);
@@ -52,26 +52,26 @@ export default {
 				await activeSheet.updateCell(`F${index}`, `${user.tag}`);
 			}
 			await activeSheet.updateCell(`G${index}`, `${member.id}`);
-			let newMem = await Person.create(index, guild, activeSheet);
-			let nickName = newMem.nickName;
+			const newMem = await Person.create(index, guild, activeSheet);
+			const nickName = newMem.nickName;
 			await member.setNickname(nickName);
 			logs = `[INFO] .${user.tag} nickname changed to ${nickName}`;
 			// Only ENSIAS SERVER
-			if (guild.id == '921408078983876678' && ADMINS.includes(member.id)) {
-				newMem.rolesId.push(PRV_ROLES[`${guild.id}`]['Admin']);
+			if (guild.id === '921408078983876678' && ADMINS.includes(member.id)) {
+				newMem.rolesId.push(PRV_ROLES[`${guild.id}`].Admin);
 				newMem.rolesNames.push('Admin');
 			}
 			await member.roles.add(newMem.rolesId);
 			await activeSheet.colorRow(index, '#F9BB03');
-			logs += `\n[INFO] .${user.tag} got Roles [` + newMem.rolesNames.map((role) => `'${role}'`) + `]`;
+			logs += `\n[INFO] .\${user.tag} got Roles ${JSON.stringify(newMem.rolesNames.map((role) => `'${role}'`))}`;
 			await logsMessage(logs, guild);
 		} catch (e) {
 			console.error(e);
 			console.log(`[INFO] Sheet does not exist for server ${guild.name}`);
 		}
 		if (guild.systemChannel) {
-			let toSend = await welcomeMsg(member);
-			guild.systemChannel.send(toSend);
+			const toSend = await welcomeMsg(member);
+			await guild.systemChannel.send(toSend);
 		}
 	},
 } as Event<'guildMemberAdd'>;

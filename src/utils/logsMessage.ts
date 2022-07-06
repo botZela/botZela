@@ -14,8 +14,8 @@ export async function logsMessage(message: string, guild: Guild): Promise<void> 
 			console.log(`[ERROR] Logs channel not set in ${guild.name}`);
 			return;
 		}
-		let channel = client.channels.cache.get(logsId) as TextChannel;
-		await channel.send('```css\n' + message + '\n```');
+		const channel = client.channels.cache.get(logsId) as TextChannel;
+		await channel.send(`\`\`\`css\n${message}\n\`\`\``);
 	} catch (e) {
 		console.log(`[ERROR] Logs channel not set in ${guild.name}`);
 	}

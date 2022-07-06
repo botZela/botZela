@@ -1,6 +1,6 @@
+import { GuildMember } from 'discord.js';
 import { greetings } from './greetings';
 import gChannels from '../../Models/guildChannels';
-import { GuildMember } from 'discord.js';
 
 export async function welcomeMsg(member: GuildMember) {
 	let msg = greetings(member.id);
@@ -9,9 +9,9 @@ export async function welcomeMsg(member: GuildMember) {
 		if (!guildChannels) {
 			return msg;
 		}
-		const channel_id = guildChannels.get('INTRODUCE');
-		if (channel_id) {
-			msg += '\n' + `Please introduce yourself in <#${channel_id}> .Enjoy your stay!`;
+		const channelId = guildChannels.get('INTRODUCE');
+		if (channelId) {
+			msg += `\nPlease introduce yourself in <#${channelId}> .Enjoy your stay!`;
 		} else {
 			console.log(`[INFO] Introduce Channel is not defined in ${member.guild.name}`);
 		}

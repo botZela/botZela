@@ -1,7 +1,7 @@
-import { createChannel } from '../Channels/createChannel';
-import gChannels from '../../Models/guildChannels';
-import { client } from '../..';
 import { CategoryChannelResolvable, Guild, OverwriteResolvable, TextChannel } from 'discord.js';
+import { client } from '../..';
+import gChannels from '../../Models/guildChannels';
+import { createChannel } from '../Channels/createChannel';
 
 export async function createLogsChannel(
 	guild: Guild,
@@ -26,9 +26,9 @@ export async function createLogsChannel(
 
 	if (guildData) {
 		guildData.channels.set('LOGS', logs.id);
-		guildData.save();
+		await guildData.save();
 	} else {
-		gChannels.create({
+		await gChannels.create({
 			guildId: guild.id,
 			guildName: guild.name,
 			channels: {

@@ -6,7 +6,7 @@ export async function announcements(message: Message) {
 	if (message.guildId) {
 		if (SUPPORTED_GUILDS.includes(message.guildId)) {
 			const emojis = ['👍', '👎'];
-			for (let emoji of emojis) {
+			for (const emoji of emojis) {
 				await message.react(emoji);
 			}
 		}

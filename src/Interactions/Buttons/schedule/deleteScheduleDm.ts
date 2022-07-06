@@ -1,8 +1,9 @@
+import { Message } from 'discord.js';
 import { client } from '../../..';
 import { IButtonCommand } from '../../../Typings';
 
 export default {
-	// id: "DeleteMsgSchedule",
+	// Id: "DeleteMsgSchedule",
 	// cooldown: 15 * 60 * 1000,
 	// permissions : ["ADMINISTRATOR"],
 	async execute({ interaction }) {
@@ -11,12 +12,14 @@ export default {
 		const msgsToDel = (await dm.messages.fetch({ limit: 10, before: toDel.id })).filter(
 			(m) => m.author.id === client.user?.id,
 		);
+		const Parray: (Promise<Message> | undefined)[] = [];
 
 		for (let i = 0; i < 2; i++) {
-			msgsToDel.at(i)?.delete();
+			Parray.push(msgsToDel.at(i)?.delete());
 		}
+		await Promise.all(Parray);
 		setTimeout(() => {
-			toDel.delete();
+			toDel.delete().catch(console.error);
 		}, 1000);
 	},
 } as IButtonCommand;

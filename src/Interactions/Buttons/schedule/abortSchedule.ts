@@ -1,11 +1,11 @@
 import { IButtonCommand } from '../../../Typings';
 
 export default {
-	// id: "abortSchedule",
+	// Id: "abortSchedule",
 	// cooldown: 15 * 60 * 1000,
 	// permissions : ["ADMINISTRATOR"],
-	execute({ interaction }) {
-		interaction.update({
+	async execute({ interaction }) {
+		await interaction.update({
 			content: `You just Aborted the process`,
 			embeds: [],
 			components: [],

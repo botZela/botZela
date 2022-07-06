@@ -40,7 +40,7 @@ export default {
 	],
 	async execute({ interaction }): Promise<void> {
 		const choices = interaction.options.getString('event');
-		const member = (interaction.options.getMember('member') as GuildMember) || interaction.member;
+		const member = (interaction.options.getMember('member') ?? interaction.member) as GuildMember;
 
 		switch (choices) {
 			case 'guildMemberAdd': {
@@ -59,8 +59,11 @@ export default {
 				if (interaction.guild) client.emit('guildDelete', interaction.guild);
 				break;
 			}
+			default: {
+				break;
+			}
 		}
 
-		await interaction.reply({ content: `Emitted The event ${choices}`, ephemeral: true });
+		await interaction.reply({ content: `Emitted The event ${choices ?? 'No Event'}`, ephemeral: true });
 	},
 } as ICommand;

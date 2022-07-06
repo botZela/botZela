@@ -1,17 +1,17 @@
-import { createEmbed } from '../../../utils/createEmbed';
-import { flGrp } from '../../../utils/Schedule/flGrp';
-import { logsMessage } from '../../../utils/logsMessage';
-import { sendSchedule } from '../../../utils/Schedule/sendSchedule';
-import { client } from '../../../index';
 import { ICommand } from '../../../Typings';
 import { FiliereType, GroupeType } from '../../../Typings/Ensias';
+import { client } from '../../../index';
+import { flGrp } from '../../../utils/Schedule/flGrp';
+import { sendSchedule } from '../../../utils/Schedule/sendSchedule';
+import { createEmbed } from '../../../utils/createEmbed';
+import { logsMessage } from '../../../utils/logsMessage';
 
 export default {
 	name: 'getschedule',
 	description: 'Get your schedule based on your group and field.',
 	cooldown: 10 * 1000,
-	// permissions: [],
-	guilds: [client.testGuilds.find((guild) => guild.name.includes('ENSIAS'))?.id || ''],
+	// Permissions: [],
+	guilds: [client.testGuilds.find((guild) => guild.name.includes('ENSIAS'))?.id ?? ''],
 	options: [
 		{
 			name: 'filiere',
@@ -58,9 +58,9 @@ export default {
 		const { options, member, guild } = interaction;
 		await interaction.deferReply({ ephemeral: true });
 		if (!guild) {
-			return await interaction.followUp({ content: 'This command is used inside a server ...', ephemeral: true });
+			return interaction.followUp({ content: 'This command is used inside a server ...', ephemeral: true });
 		}
-		if (guild.id != client.testGuilds[0].id) {
+		if (guild.id !== client.testGuilds[0].id) {
 			return interaction.followUp({
 				content: 'This command is not available for this server.',
 				ephemeral: true,
@@ -74,8 +74,8 @@ export default {
 		}
 
 		const { filiere: fl, groupe: grp } = flGrp(member);
-		const filiere = options ? (options.getString('filiere') as FiliereType) || fl : fl;
-		const groupe = options ? (options.getString('groupe') as GroupeType) || grp : grp;
+		const filiere = (options.getString('filiere') as FiliereType) ?? fl;
+		const groupe = (options.getString('groupe') as GroupeType) ?? grp;
 
 		if (!filiere || !groupe) {
 			return interaction.followUp({
@@ -84,19 +84,20 @@ export default {
 			});
 		}
 
-		let dm = options ? (options.getBoolean('dm') == null ? true : options.getBoolean('dm')) : true;
-		if (dm) sendSchedule(member, filiere, groupe);
+		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+		const dm = options ? (options.getBoolean('dm') === null ? true : options.getBoolean('dm')) : true;
+		if (dm) await sendSchedule(member, filiere, groupe);
 
-		// let text = `__**Your Schedule of this week :**__ \n__Filiere__: ${filiere}\n__Groupe__: ${groupe}\n` ;
+		// Let text = `__**Your Schedule of this week :**__ \n__Filiere__: ${filiere}\n__Groupe__: ${groupe}\n` ;
 		// let fileNamePng = `Emploi_${filiere}_${groupe}.png`;
 		// let fileNamePdf = `Emploi_${filiere}_${groupe}.pdf`;
 		// let embed = createEmbed(`Schedule ${filiere} ${groupe}`, "__**Your Schedule of this week :**__ ");
-		let text = `__**The Planning of S2 Finals.**__ `;
-		let fileNamePng1 = `Planning_Rattrapages_S2-1.png`;
-		let fileNamePng2 = `Planning_Rattrapages_S2-2.png`;
-		let fileNamePdf = `Planning_Rattrapages_S2.pdf`;
-		let embed = createEmbed(`Finals Schedule`, '__**Finals Schedule (Rattrapages)**__ ');
-		// let fileNamePng1 = `Planning_examens_S2-1.png`;
+		const text = `__**The Planning of S2 Finals.**__ `;
+		const fileNamePng1 = `Planning_Rattrapages_S2-1.png`;
+		const fileNamePng2 = `Planning_Rattrapages_S2-2.png`;
+		const fileNamePdf = `Planning_Rattrapages_S2.pdf`;
+		const embed = createEmbed(`Finals Schedule`, '__**Finals Schedule (Rattrapages)**__ ');
+		// Let fileNamePng1 = `Planning_examens_S2-1.png`;
 		// let fileNamePng2 = `Planning_examens_S2-2.png`;
 		// let fileNamePdf = `Planning_examens_S2.pdf`;
 		// let embed = createEmbed(`Finals Schedule`, "__**Finals Schedule**__ ");
@@ -110,7 +111,7 @@ export default {
 			],
 			ephemeral: true,
 		});
-		let logs = `[INFO] .${member.nickname || member.user.tag} got their finals (Rattrapages) Schedule.`;
+		const logs = `[INFO] .${member.nickname ?? member.user.tag} got their finals (Rattrapages) Schedule.`;
 		await logsMessage(logs, guild);
 	},
 } as ICommand;

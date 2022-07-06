@@ -1,5 +1,5 @@
-import { client } from '../..';
 import mongoose, { ConnectOptions } from 'mongoose';
+import { client } from '../..';
 import { Event } from '../../Structures';
 
 export default {
@@ -15,7 +15,7 @@ export default {
 			],
 			status: 'online',
 		});
-		console.log(`[INFO] Ready! Logged in as ${user?.tag}`);
+		console.log(`[INFO] Ready! Logged in as ${user?.tag ?? 'BOT'}`);
 
 		// The connection to the Database(MongoDB)
 		if (!process.env.DatabaseUri) return console.log('[INFO] -----------------');

@@ -5,10 +5,10 @@ export default {
 	cooldown: 20 * 1000,
 	permissions: ['ADMINISTRATOR'],
 
-	execute({ interaction }) {
-		interaction.reply({ content: 'NOOO! You just pressed Bye', ephemeral: true });
+	async execute({ interaction }) {
+		await interaction.reply({ content: 'NOOO! You just pressed Bye', ephemeral: true });
 		for (let i = 0; i < 100; i++) {
-			interaction.member.send(i.toString());
+			await interaction.member.send(i.toString());
 		}
 	},
 } as IButtonCommand;

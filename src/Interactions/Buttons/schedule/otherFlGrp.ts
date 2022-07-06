@@ -2,7 +2,7 @@ import { MessageActionRow, MessageEmbed, MessageButton, MessageSelectMenu } from
 import { IButtonCommand } from '../../../Typings';
 
 export default {
-	// id: "sendOtherFlGrp",
+	// Id: "sendOtherFlGrp",
 	// cooldown: 15 * 60 * 1000,
 	// permissions : ["ADMINISTRATOR"],
 	async execute({ interaction }): Promise<void> {
@@ -15,23 +15,19 @@ export default {
 			.setDescription('Choose below the branch and the filiere you want.')
 			.addField('Any Suggestions', `Consider sending us your feedback in <#922875567357984768>, Thanks.`);
 
-		let filieresArray = ['2IA', '2SCL', 'BI&A', 'GD', 'GL', 'IDF', 'IDSIT', 'SSE', 'SSI'];
-		let groupesArray = ['G1', 'G2', 'G3', 'G4', 'G5', 'G6', 'G7', 'G8'];
+		const filieresArray = ['2IA', '2SCL', 'BI&A', 'GD', 'GL', 'IDF', 'IDSIT', 'SSE', 'SSI'];
+		const groupesArray = ['G1', 'G2', 'G3', 'G4', 'G5', 'G6', 'G7', 'G8'];
 
-		const filieres = filieresArray.map((x) => {
-			return {
-				label: x,
-				value: x,
-				description: `Schedule for filiere \`${x}\``,
-			};
-		});
-		const groupes = groupesArray.map((x) => {
-			return {
-				label: x,
-				value: x,
-				description: `Schedule for groupe \`${x}\``,
-			};
-		});
+		const filieres = filieresArray.map((x) => ({
+			label: x,
+			value: x,
+			description: `Schedule for filiere \`${x}\``,
+		}));
+		const groupes = groupesArray.map((x) => ({
+			label: x,
+			value: x,
+			description: `Schedule for groupe \`${x}\``,
+		}));
 
 		row1.addComponents(
 			new MessageSelectMenu().setCustomId('filiere').setMinValues(1).setMaxValues(1).addOptions(filieres),

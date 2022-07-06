@@ -1,6 +1,6 @@
-import { setupLogsCommandsChannels } from '../../utils/Command&LogsChannels';
 import gRoles from '../../Models/guildRoles';
 import { Event } from '../../Structures';
+import { setupLogsCommandsChannels } from '../../utils/Command&LogsChannels';
 
 export default {
 	name: 'guildCreate',
@@ -10,7 +10,7 @@ export default {
 
 		const guildData = await gRoles.findOne({ guildId: guild.id });
 
-		const roleObj = new Map<string,string>;
+		const roleObj = new Map<string, string>();
 
 		roles.forEach((role) => {
 			roleObj.set(role.name, role.id);

@@ -5,10 +5,10 @@ export default {
 	name: 'User Info',
 	type: 'USER',
 	context: true,
-	// permissions: ["ADMINISTRATOR"],
+	// Permissions: ["ADMINISTRATOR"],
 	async execute({ interaction }): Promise<void> {
 		if (!interaction.guild) {
-			return await interaction.reply({ content: 'This command is used inside a server ...', ephemeral: true });
+			return interaction.reply({ content: 'This command is used inside a server ...', ephemeral: true });
 		}
 		const target = await interaction.guild.members.fetch(interaction.targetId);
 
@@ -32,6 +32,6 @@ export default {
 			.addField('Member Since', `<t:${Math.floor((target.joinedTimestamp ?? 0) / 1000)}:R>`, true)
 			.addField('Discord User Since', `<t:${Math.floor(target.user.createdTimestamp / 1000)}:R>`, true);
 
-		interaction.reply({ embeds: [response], ephemeral: true });
+		await interaction.reply({ embeds: [response], ephemeral: true });
 	},
 } as IContextCommand;

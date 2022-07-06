@@ -1,66 +1,66 @@
-const { AsciiTable3 } = require('ascii-table3');
-import { ApplicationCommandDataResolvable, Client as DiscordClient, Collection } from 'discord.js';
-import glob from 'glob';
+import process from 'node:process';
 import { promisify } from 'util';
-import {
-	ItestGuild,
-	ICommand,
-	IButtonCommand,
-	IContextCommand,
-	ExtendedApplicationCommandDataResolvable,
-	ISelectMenuCommand,
-} from '../Typings';
-
-import { testGuilds } from '../config';
-
+import { Client as DiscordClient, Collection } from 'discord.js';
+import glob from 'glob';
 import Handlers from '../Handlers';
+import {
+	ExtendedApplicationCommandDataResolvable,
+	IButtonCommand,
+	ICommand,
+	IContextCommand,
+	ISelectMenuCommand,
+	ItestGuild,
+} from '../Typings';
+import { testGuilds } from '../config';
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
+const { AsciiTable3 } = require('ascii-table3');
 
 const PG = promisify(glob);
 
 export class Client extends DiscordClient {
-	commands: Collection<string, ICommand> = new Collection();
-	contextMenuCommands: Collection<string, IContextCommand> = new Collection();
-	buttons: Collection<string, IButtonCommand> = new Collection();
-	buttonsCooldown: Collection<string, Collection<string, string[]>> = new Collection();
-	selectMenu: Collection<string, ISelectMenuCommand> = new Collection();
-	testGuilds: ItestGuild[] = testGuilds;
-	commandsDataArray: ExtendedApplicationCommandDataResolvable[] = [];
+	public commands: Collection<string, ICommand> = new Collection();
+	public contextMenuCommands: Collection<string, IContextCommand> = new Collection();
+	public buttons: Collection<string, IButtonCommand> = new Collection();
+	public buttonsCooldown: Collection<string, Collection<string, string[]>> = new Collection();
+	public selectMenu: Collection<string, ISelectMenuCommand> = new Collection();
+	public testGuilds: ItestGuild[] = testGuilds;
+	public commandsDataArray: ExtendedApplicationCommandDataResolvable[] = [];
+	public showTable: boolean | 'both' = false;
 
-	showTable: boolean | 'both' = false;
-
-	constructor() {
+	public constructor() {
 		super({
 			intents: 32767,
 		});
 	}
 
-	start() {
-		this.registerModules();
-		this.login(process.env.TOKEN);
+	public async start() {
+		await this.registerModules();
+		await this.login(process.env.TOKEN);
 	}
 
-	async registerModules() {
-		for (const [_, handler] of Object.entries(Handlers)) {
-			handler(this, PG, AsciiTable3);
+	public async registerModules() {
+		for (const [, handler] of Object.entries(Handlers)) {
+			await handler(this, PG, AsciiTable3);
 		}
 
 		/* Register Commands to specific guilds */
 		this.once('ready', async () => {
-			for (let { id: guildId } of this.testGuilds) {
+			for (const { id: guildId } of this.testGuilds) {
 				const guild = this.guilds.cache.get(guildId);
 				if (!guild) continue;
-				const Roles = (commandName: string) => {
-					const cmdPerms = this.commandsDataArray.find((c) => c.name === commandName)?.permissions;
-					if (!cmdPerms) return null;
-					return guild.roles.cache.filter((r) => cmdPerms.some((perm) => r.permissions.has(perm)));
-				};
-				let guildCommands = this.commandsDataArray.filter((command) => {
+				const guildCommands = this.commandsDataArray.filter((command) => {
 					if (!command.privateGuilds) return true;
 					return command.guilds?.includes(guild.id);
 				});
-				const command = await guild.commands.set(guildCommands);
+				await guild.commands.set(guildCommands);
 
 				// Register Permission ( Deprecated )
+				// const command = await guild.commands.set(guildCommands);
+				// const Roles = (commandName: string) => {
+				// 	const cmdPerms = this.commandsDataArray.find((c) => c.name === commandName)?.permissions;
+				// 	if (!cmdPerms) return null;
+				// 	return guild.roles.cache.filter((r) => cmdPerms.some((perm) => r.permissions.has(perm)));
+				// };
 				// const fullPermissions: ApplicationCommand[] = command.reduce((acc, r) => {
 				// 	const roles = Roles(r.name);
 				// 	if (!roles) return acc;

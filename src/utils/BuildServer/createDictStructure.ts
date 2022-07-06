@@ -1,10 +1,9 @@
-import { channel } from 'diagnostics_channel';
 import { CategoryChannelResolvable, Guild, OverwriteResolvable } from 'discord.js';
 import { ZodError } from 'zod';
+import { createOverwrites } from './createOverwrites';
 import { ChannelType, StructureType, zCategoryType, zChannelType } from '../../Typings/buildServer';
 import { createCategory } from '../Channels/createCategory';
 import { createChannel } from '../Channels/createChannel';
-import { createOverwrites } from './createOverwrites';
 
 export async function createDictStructure(
 	guild: Guild,
@@ -12,18 +11,18 @@ export async function createDictStructure(
 	category?: CategoryChannelResolvable,
 	overwrites?: OverwriteResolvable[],
 ): Promise<void> {
-	let name: string = '',
-		rolesList: string[],
-		overwritesList: OverwriteResolvable[] = [],
-		channels: ChannelType[],
-		channelArg: string,
-		type: 'text' | 'voice' | 'stage',
-		categoryDict;
+	let name = '';
+	let rolesList: string[];
+	let overwritesList: OverwriteResolvable[] = [];
+	let channels: ChannelType[];
+	let channelArg: string;
+	let type: 'text' | 'voice' | 'stage';
+	let categoryDict;
 	try {
 		format = zCategoryType.parse(format);
 		categoryDict = format.category;
 		try {
-			let tempArray = categoryDict[0]
+			const tempArray = categoryDict[0]
 				.split(',')
 				.filter((e) => e.length !== 0)
 				.map((e) => e.trim());
@@ -36,7 +35,7 @@ export async function createDictStructure(
 		category = await createCategory(guild, name, overwritesList);
 		try {
 			channels = categoryDict[1].channels;
-			for (let channel of channels) {
+			for (const channel of channels) {
 				await createDictStructure(guild, channel, category, overwritesList);
 			}
 		} catch (e) {
@@ -45,22 +44,24 @@ export async function createDictStructure(
 		return;
 	} catch (e) {
 		if (e instanceof ZodError) {
-			// console.error('This is not a Category.');
-		} else console.error(e);
+			// Console.error('This is not a Category.');
+		} else {
+			console.error(e);
+		}
 	}
 
 	try {
 		format = zChannelType.parse(format);
 		channelArg = format.channel;
 		try {
-			let tempArray = channelArg
+			const tempArray = channelArg
 				.split(',')
 				.filter((e) => e.length !== 0)
 				.map((e) => e.trim());
 			name = tempArray[0];
 			type = tempArray[1] as 'text' | 'voice' | 'stage';
 			rolesList = tempArray.slice(2);
-			let channelOverwrites = await createOverwrites(guild, rolesList);
+			const channelOverwrites = await createOverwrites(guild, rolesList);
 			overwritesList = overwrites ? channelOverwrites.concat(overwrites) : channelOverwrites;
 			await createChannel(guild, name, type, category, overwritesList);
 		} catch (e) {
@@ -68,7 +69,9 @@ export async function createDictStructure(
 		}
 	} catch (e) {
 		if (e instanceof ZodError) {
-			// console.error('This is not a Channel.');
-		} else console.error(e);
+			// Console.error('This is not a Channel.');
+		} else {
+			console.error(e);
+		}
 	}
 }

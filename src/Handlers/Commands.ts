@@ -1,28 +1,21 @@
-import { ApplicationCommand, Role } from 'discord.js';
-import { client } from '..';
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { Client } from '../Structures';
-import { ICommand, IContextCommand, RegisterCommandsOptions } from '../Typings';
-import { importFile } from '../utils';
+import { ICommand } from '../Typings';
 import { Perms } from '../Validation';
+import { importFile } from '../utils';
 
-async function registerCommands({ commands, guildId }: RegisterCommandsOptions) {
-	if (guildId) {
-		client.guilds.cache.get(guildId)?.commands.set(commands);
-		console.log(`Registering commands to ${client.guilds.cache.get(guildId)?.name}`);
-	} else {
-		client.application?.commands.set(commands);
-		console.log('Registering global commands');
-	}
-}
-
-export async function commandHandler(client: Client, PG: any, Ascii: new (arg0: string) => any): Promise<void> {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function commandHandler(client: Client, PG: any, Ascii: any): Promise<void> {
 	const Table = new Ascii('Command Loaded');
 
-	let commandsFiles: string[] = await PG(`${__dirname}/../Interactions/Commands/**/*.{ts,js}`);
+	const commandsFiles: string[] = await PG(`${__dirname}/../Interactions/Commands/**/*.{ts,js}`);
 	if (!commandsFiles.length) return;
 
 	let count = 0;
-	for (let file of commandsFiles) {
+	for (const file of commandsFiles) {
 		const command: ICommand = await importFile(file);
 		if (!command.name) {
 			Table.addRow(file.split('/').at(-1), '🟠 FAILED', 'Missing a name.');
@@ -42,7 +35,7 @@ export async function commandHandler(client: Client, PG: any, Ascii: new (arg0: 
 		}
 
 		if (command.guilds) {
-			command.guilds = command.guilds.filter((guildId) => guildId != '');
+			command.guilds = command.guilds.filter((guildId) => guildId !== '');
 			if (command.guilds.some((guildId) => client.testGuilds.map((guild) => guild.id).includes(guildId))) {
 				command.privateGuilds = true;
 			} else if (command.guilds.length !== 0) {

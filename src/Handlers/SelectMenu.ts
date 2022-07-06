@@ -1,25 +1,30 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { Client } from '../Structures';
 import { ISelectMenuCommand } from '../Typings';
 import { importFile } from '../utils';
 
-export async function selectMenuHandler(client: Client, PG: any, Ascii: new (arg0: string) => any): Promise<void> {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function selectMenuHandler(client: Client, PG: any, Ascii: any): Promise<void> {
 	const Table = new Ascii('Selct Menu Handler');
 
-	const selectMenuFiles = await PG(`${__dirname}/../Interactions/SelectMenu/**/*.{ts,js}`);
+	const selectMenuFiles: string[] = await PG(`${__dirname}/../Interactions/SelectMenu/**/*.{ts,js}`);
 	if (!selectMenuFiles.length) return;
 
 	let count = 0;
-	for (let file of selectMenuFiles) {
+	for (const file of selectMenuFiles) {
 		const selectMenu: ISelectMenuCommand = await importFile(file);
 		if (!selectMenu.id) {
 			await Table.addRow(
-				`${file.split('/').at(-1).slice(0, -3)}`,
+				`${file.split('/').at(-1)?.slice(0, -3)}`,
 				`⛔ Select Menu ID is missing: ${file.split('/').at(-2)}/${file.split('/').at(-1)}`,
 			);
 			continue;
 		}
 		if (selectMenu.cooldown) {
-			// client.buttonsCooldown.set(buttonFile.id, new Collection());
+			// Client.buttonsCooldown.set(buttonFile.id, new Collection());
 		}
 
 		client.selectMenu.set(selectMenu.id, selectMenu);

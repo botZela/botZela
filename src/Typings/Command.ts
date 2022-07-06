@@ -5,7 +5,6 @@ import {
 	CommandInteractionOptionResolver,
 	ContextMenuInteraction,
 	GuildMember,
-	Interaction,
 	PermissionResolvable,
 	SelectMenuInteraction,
 	Snowflake,
