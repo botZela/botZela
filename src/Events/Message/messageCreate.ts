@@ -9,6 +9,7 @@ const defaultExport: Event<'messageCreate'> = {
 	async execute(message) {
 		const SUPPORTED_GUILDS = client.testGuilds.map((guild) => guild.id);
 		const { channel, author, guild } = message;
+		// if (!channel.name) return;
 		if (
 			channel instanceof TextChannel ||
 			channel instanceof VoiceChannel ||
@@ -18,7 +19,7 @@ const defaultExport: Event<'messageCreate'> = {
 			const announcementName = 'announcement';
 			const introduceName = 'introd';
 			const emploiName = '『📅』get-schedule';
-			if (!guild || !SUPPORTED_GUILDS.includes(`${message.guildId ?? ''}`)) {
+			if (!guild || !SUPPORTED_GUILDS.includes(message.guildId ?? '')) {
 				return;
 			} else if (channel.name.includes(announcementName)) {
 				if (author.bot) return;
@@ -31,7 +32,6 @@ const defaultExport: Event<'messageCreate'> = {
 				await messageSchedule(message);
 			}
 			if (message.content.startsWith('test')) {
-				// Await message.reply(`Presence \`${guild.maximumPresences}\`, Memebers: \`${guild.maximumMembers}\``);
 				const totalMembers = guild.members.cache.size;
 				const onlineMembers = guild.members.cache.filter((m) => m.presence?.status === 'online').size;
 				const idleMembers = guild.members.cache.filter((m) => m.presence?.status === 'idle').size;
