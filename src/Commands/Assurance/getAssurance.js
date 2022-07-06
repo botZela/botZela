@@ -1,5 +1,5 @@
 const { createEmbed } = require("../../utils/createEmbed");
-const { flGrp } = require("../../utils/Schedule/flGrp");
+const { flGrpYr } = require("../../utils/Schedule/flGrp");
 const { logsMessage } = require("../../utils/logsMessage");
 const { client } = require("../../index");
 const fs = require('fs');
@@ -54,16 +54,14 @@ module.exports = {
                 ephemeral: true
             });
         }
-        if (!member.roles.cache.map((role) => role.name).includes("1A")){
+        const { filiere , year} = flGrpYr(member);
+        if (year !== "1A" || year !== "2A"){
             return interaction.followUp({
-                content: "This command is only available for 1A Students. Sorry!",
+                content: "This command is only available for 1A and 2A Students. Sorry!",
                 ephemeral: true
             });
         }
-
-        const { filiere } = flGrp(member);
         const { lastName, firstName } = firstLastName(member.nickname);
-
         if (!filiere || !member.nickname) {
             return interaction.followUp({
                 content: "CHAFAAAAAAR",
@@ -71,13 +69,13 @@ module.exports = {
             });
         }
 
-        let text = `__**1A Insurance.**__ ` ;
+        let text = `__**${year} Insurance.**__ ` ;
         let fileNamePdf = `${lastName} ${firstName}.pdf`;
-        let pdfPath = `./data/Schedules/Assurances_1A/${filiere}/${fileNamePdf}`;
+        let pdfPath = `./data/Schedules/Assurances_${year}/${filiere}/${fileNamePdf}`;
 
         if (!fs.existsSync(pdfPath)){
             fileNamePdf = `${firstName} ${lastName}.pdf`;
-            pdfPath = `./data/Schedules/Assurances_1A/${filiere}/${fileNamePdf}`;
+            pdfPath = `./data/Schedules/Assurances_${year}/${filiere}/${fileNamePdf}`;
             if (!fs.existsSync(pdfPath)){
                 return interaction.followUp({
                     content: "Can't find Your Insurance. Please Check your nickname, and tell the problem to one of the <@&921522743604813874>",
@@ -85,7 +83,7 @@ module.exports = {
                 });
             }
         }
-        let embed = createEmbed(`Assurance 1A`, "__**Your \"Assurance\" is ready**__ ");
+        let embed = createEmbed(`Assurance ${year}`, "__**Your \"Assurance\" is ready**__ ");
         await interaction.followUp({ 
             content: text, 
             embeds: [embed],
