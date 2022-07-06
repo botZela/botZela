@@ -1,0 +1,39 @@
+import { CategoryChannelResolvable, Guild, OverwriteResolvable, TextChannel } from 'discord.js';
+import { client } from '../..';
+import gChannels from '../../Models/guildChannels';
+import { createChannel } from '../Channels/createChannel';
+
+export async function createLogsChannel(
+	guild: Guild,
+	overwrites?: OverwriteResolvable[],
+	category?: CategoryChannelResolvable,
+) {
+	if (!overwrites && client.user) {
+		overwrites = [
+			{
+				id: guild.roles.everyone.id,
+				deny: ['VIEW_CHANNEL'],
+			},
+			{
+				id: client.user.id,
+				allow: ['VIEW_CHANNEL'],
+			},
+		];
+	}
+	const logs = (await createChannel(guild, '『🤖』botZela-logs', 'text', category, overwrites)) as TextChannel;
+
+	const guildData = await gChannels.findOne({ guildId: guild.id });
+
+	if (guildData) {
+		guildData.channels.set('LOGS', logs.id);
+		await guildData.save();
+	} else {
+		await gChannels.create({
+			guildId: guild.id,
+			guildName: guild.name,
+			channels: {
+				LOGS: logs.id,
+			},
+		});
+	}
+}

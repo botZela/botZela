@@ -1,0 +1,4 @@
+export const testGuilds = [
+	{ name: 'SERVER_NAME_1', id: 'SERVER_ID_1' },
+	{ name: 'SERVER_NAME_2', id: 'SERVER_ID_2' },
+];
