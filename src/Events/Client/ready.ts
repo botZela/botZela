@@ -6,15 +6,17 @@ const defaultExport: Event<'ready'> = {
 	name: 'ready',
 	execute: async () => {
 		const { user } = client;
-		user?.setPresence({
-			activities: [
-				{
-					name: 'Typescript',
-					type: 'LISTENING',
-				},
-			],
-			status: 'online',
-		});
+		setInterval(() => {
+			user?.setPresence({
+				activities: [
+					{
+						name: "with WHAT'S N3XT ©️",
+						type: 'WATCHING',
+					},
+				],
+				status: 'online',
+			});
+		}, 24 * 60 * 60 * 1000);
 		console.log(`[INFO] Ready! Logged in as ${user?.tag ?? 'BOT'}`);
 
 		// The connection to the Database(MongoDB)

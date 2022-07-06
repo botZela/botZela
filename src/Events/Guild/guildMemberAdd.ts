@@ -3,18 +3,9 @@ import gRoles from '../../Models/guildRoles';
 import { GSpreadSheet } from '../../OtherModules/GSpreadSheet';
 import { Person } from '../../OtherModules/Member';
 import { Event } from '../../Structures';
+import { ADMINS, PRV_ROLES } from '../../config';
 import { welcomeMsg, kick } from '../../utils/Guild';
 import { logsMessage } from '../../utils/logsMessage';
-
-// Models
-
-const PRV_ROLES = {
-	'921408078983876678': {
-		Admin: '921522743604813874',
-	},
-};
-
-const ADMINS = ['892346084913975307', '381238047527927808'];
 
 const defaultExport: Event<'guildMemberAdd'> = {
 	name: 'guildMemberAdd',
@@ -63,7 +54,9 @@ const defaultExport: Event<'guildMemberAdd'> = {
 			}
 			await member.roles.add(newMem.rolesId);
 			await activeSheet.colorRow(index, '#F9BB03');
-			logs += `\n[INFO] .\${user.tag} got Roles ${JSON.stringify(newMem.rolesNames.map((role) => `'${role}'`))}`;
+			logs += `\n[INFO] .${member.nickname ?? user.tag} got Roles ${JSON.stringify(
+				newMem.rolesNames.map((role) => `${role}`),
+			)}`;
 			await logsMessage(logs, guild);
 		} catch (e) {
 			console.error(e);
