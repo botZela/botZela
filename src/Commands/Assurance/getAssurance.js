@@ -55,7 +55,7 @@ module.exports = {
             });
         }
         const { filiere , year} = flGrpYr(member);
-        if (year !== "1A" || year !== "2A"){
+        if (year !== "1A" && year !== "2A"){
             return interaction.followUp({
                 content: "This command is only available for 1A and 2A Students. Sorry!",
                 ephemeral: true
