@@ -1,7 +1,7 @@
 import { MessageActionRow, MessageButton } from 'discord.js';
 import { ICommand } from '../../../Typings';
 
-export default {
+const defaultExport: ICommand = {
 	name: 'testbutton',
 	description: 'Just to test buttons',
 	permissions: ['ADMINISTRATOR'],
@@ -19,4 +19,6 @@ export default {
 
 		await interaction.reply({ components: [row] });
 	},
-} as ICommand;
+};
+
+export default defaultExport;

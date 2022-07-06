@@ -2,7 +2,7 @@ import { GuildMember } from 'discord.js';
 import { client } from '../../..';
 import { ICommand } from '../../../Typings';
 
-export default {
+const defaultExport: ICommand = {
 	name: 'resetcooldown',
 	description: 'Reset the cooldown for all users or just a member.',
 	permissions: ['ADMINISTRATOR'],
@@ -42,4 +42,6 @@ export default {
 			ephemeral: true,
 		});
 	},
-} as ICommand;
+};
+
+export default defaultExport;

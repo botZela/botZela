@@ -1,7 +1,7 @@
 import rrModel, { RolesType } from '../../../Models/reactionRoles';
 import { ICommand } from '../../../Typings';
 
-export default {
+const defaultExport: ICommand = {
 	name: 'add-role',
 	description: 'Add a custom reaction role',
 	permissions: ['ADMINISTRATOR'],
@@ -68,4 +68,6 @@ export default {
 
 		await interaction.reply({ content: `Created a new Role : ${role.name}`, ephemeral: true });
 	},
-} as ICommand;
+};
+
+export default defaultExport;

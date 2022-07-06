@@ -1,7 +1,7 @@
 import rrModel, { RolesType } from '../../../Models/reactionRoles';
 import { ICommand } from '../../../Typings';
 
-export default {
+const defaultExport: ICommand = {
 	name: 'remove-role',
 	description: 'remove a custom Reaction role',
 	permissions: ['ADMINISTRATOR'],
@@ -42,4 +42,6 @@ export default {
 
 		await interaction.reply({ content: `Removed : ${role?.name ?? 'removed'}`, ephemeral: true });
 	},
-} as ICommand;
+};
+
+export default defaultExport;

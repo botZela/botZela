@@ -1,8 +1,8 @@
 import { MessageActionRow, MessageEmbed, MessageButton, MessageSelectMenu } from 'discord.js';
 import { IButtonCommand } from '../../../Typings';
 
-export default {
-	// Id: "sendOtherFlGrp",
+const defaultExport: IButtonCommand = {
+	id: 'sendOtherFlGrp',
 	// cooldown: 15 * 60 * 1000,
 	// permissions : ["ADMINISTRATOR"],
 	async execute({ interaction }): Promise<void> {
@@ -51,4 +51,6 @@ export default {
 			ephemeral: true,
 		});
 	},
-} as IButtonCommand;
+};
+
+export default defaultExport;

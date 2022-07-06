@@ -1,7 +1,7 @@
 import { client } from '../../..';
 import { ICommand } from '../../../Typings';
 
-export default {
+const defaultExport: ICommand = {
 	name: 'ping',
 	description: 'Sends Back PONG',
 	permissions: ['ADMINISTRATOR'],
@@ -14,4 +14,6 @@ export default {
 			ephemeral: true,
 		});
 	},
-} as ICommand;
+};
+
+export default defaultExport;

@@ -9,7 +9,7 @@ import { setupServer } from '../../../utils/SetupServer/setupServer';
 
 type TChannelObj = { COMMAND: string } | { INTRODUCE: string } | { LOGS: string };
 
-export default {
+const defaultExport: ICommand = {
 	name: 'setup',
 	description: 'Setup the server',
 	options: [
@@ -189,4 +189,6 @@ export default {
 
 		await interaction.followUp({ content: 'Setting up the server .... ', ephemeral: true });
 	},
-} as ICommand;
+};
+
+export default defaultExport;

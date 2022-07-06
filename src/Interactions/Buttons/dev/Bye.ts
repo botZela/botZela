@@ -1,6 +1,6 @@
 import { IButtonCommand } from '../../../Typings';
 
-export default {
+const defaultExport: IButtonCommand = {
 	id: 'Bye',
 	cooldown: 20 * 1000,
 	permissions: ['ADMINISTRATOR'],
@@ -11,4 +11,6 @@ export default {
 			await interaction.member.send(i.toString());
 		}
 	},
-} as IButtonCommand;
+};
+
+export default defaultExport;

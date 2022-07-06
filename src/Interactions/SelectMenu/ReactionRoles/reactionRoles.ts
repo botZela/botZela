@@ -1,7 +1,7 @@
 import { MessageSelectOption } from 'discord.js';
 import { ISelectMenuCommand } from '../../../Typings';
 
-export default {
+const defaultExport: ISelectMenuCommand = {
 	id: 'reaction-roles',
 	// Permissions : ["ADMINISTRATOR"],
 	async execute({ interaction }) {
@@ -26,4 +26,6 @@ export default {
 			ephemeral: true,
 		});
 	},
-} as ISelectMenuCommand;
+};
+
+export default defaultExport;

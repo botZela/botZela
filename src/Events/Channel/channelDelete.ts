@@ -3,7 +3,7 @@ import gChannels from '../../Models/guildChannels';
 import { Event } from '../../Structures';
 import { createCommandsChannel, createLogsChannel } from '../../utils/Command&LogsChannels';
 
-export default {
+const defaultExport: Event<'channelDelete'> = {
 	name: 'channelDelete',
 	async execute(channel): Promise<void> {
 		if (channel instanceof DMChannel) {
@@ -21,4 +21,6 @@ export default {
 			await createLogsChannel(channel.guild, undefined, channel.parent ?? undefined);
 		}
 	},
-} as Event<'channelDelete'>;
+};
+
+export default defaultExport;

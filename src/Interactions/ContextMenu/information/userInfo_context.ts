@@ -1,7 +1,7 @@
 import { MessageEmbed } from 'discord.js';
 import { IContextCommand } from '../../../Typings';
 
-export default {
+const defaultExport: IContextCommand = {
 	name: 'User Info',
 	type: 'USER',
 	context: true,
@@ -34,4 +34,6 @@ export default {
 
 		await interaction.reply({ embeds: [response], ephemeral: true });
 	},
-} as IContextCommand;
+};
+
+export default defaultExport;

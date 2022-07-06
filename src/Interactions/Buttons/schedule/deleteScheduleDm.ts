@@ -2,8 +2,8 @@ import { Message } from 'discord.js';
 import { client } from '../../..';
 import { IButtonCommand } from '../../../Typings';
 
-export default {
-	// Id: "DeleteMsgSchedule",
+const defaultExport: IButtonCommand = {
+	id: 'DeleteMsgSchedule',
 	// cooldown: 15 * 60 * 1000,
 	// permissions : ["ADMINISTRATOR"],
 	async execute({ interaction }) {
@@ -22,4 +22,6 @@ export default {
 			toDel.delete().catch(console.error);
 		}, 1000);
 	},
-} as IButtonCommand;
+};
+
+export default defaultExport;

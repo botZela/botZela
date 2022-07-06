@@ -1,7 +1,7 @@
 import { ICommand } from '../../../Typings';
 import { setupServer } from '../../../utils/SetupServer/setupServer';
 
-export default {
+const defaultExport: ICommand = {
 	name: 'setup_server',
 	description: 'Setup the server with SpreadSheet',
 	permissions: ['ADMINISTRATOR', 'MANAGE_ROLES'],
@@ -9,4 +9,6 @@ export default {
 		await interaction.reply({ content: 'Setuping Server...', ephemeral: true });
 		await setupServer(interaction);
 	},
-} as ICommand;
+};
+
+export default defaultExport;

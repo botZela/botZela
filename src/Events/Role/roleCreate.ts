@@ -2,7 +2,7 @@ import gRoles from '../../Models/guildRoles';
 import { Event } from '../../Structures';
 import { logsMessage } from '../../utils/logsMessage';
 
-export default {
+const defaultExport: Event<'roleCreate'> = {
 	name: 'roleCreate',
 	async execute(role): Promise<void> {
 		const guildData = await gRoles.findOne({ guildId: role.guild.id });
@@ -21,4 +21,6 @@ export default {
 		const log = `[INFO] ${role.name} has been created.`;
 		await logsMessage(log, role.guild);
 	},
-} as Event<'roleCreate'>;
+};
+
+export default defaultExport;

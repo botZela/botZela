@@ -2,7 +2,7 @@ import mongoose, { ConnectOptions } from 'mongoose';
 import { client } from '../..';
 import { Event } from '../../Structures';
 
-export default {
+const defaultExport: Event<'ready'> = {
 	name: 'ready',
 	execute: async () => {
 		const { user } = client;
@@ -31,4 +31,6 @@ export default {
 		}
 		console.log('[INFO] -----------------');
 	},
-} as Event<'ready'>;
+};
+
+export default defaultExport;

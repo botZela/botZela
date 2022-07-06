@@ -4,7 +4,7 @@ import { Event } from '../../Structures';
 import { announcements, introduceYourSelf } from '../../utils/AutoReacts';
 import { messageSchedule } from '../../utils/Schedule/autoResponceSchedule';
 
-export default {
+const defaultExport: Event<'messageCreate'> = {
 	name: 'messageCreate',
 	async execute(message) {
 		const SUPPORTED_GUILDS = client.testGuilds.map((guild) => guild.id);
@@ -45,4 +45,6 @@ export default {
 			}
 		}
 	},
-} as Event<'messageCreate'>;
+};
+
+export default defaultExport;

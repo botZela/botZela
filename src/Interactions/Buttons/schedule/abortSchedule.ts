@@ -1,7 +1,7 @@
 import { IButtonCommand } from '../../../Typings';
 
-export default {
-	// Id: "abortSchedule",
+const defaultExport: IButtonCommand = {
+	id: 'abortSchedule',
 	// cooldown: 15 * 60 * 1000,
 	// permissions : ["ADMINISTRATOR"],
 	async execute({ interaction }) {
@@ -11,4 +11,6 @@ export default {
 			components: [],
 		});
 	},
-} as IButtonCommand;
+};
+
+export default defaultExport;

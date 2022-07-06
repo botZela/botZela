@@ -3,7 +3,7 @@ import { GSpreadSheet } from '../../OtherModules/GSpreadSheet';
 import { Event } from '../../Structures';
 import { logsMessage } from '../../utils';
 
-export default {
+const defaultExport: Event<'guildMemberRemove'> = {
 	name: 'guildMemberRemove',
 	async execute(member) {
 		const { guild, user } = member;
@@ -43,4 +43,6 @@ export default {
 			await logsMessage(logs, guild);
 		}
 	},
-} as Event<'guildMemberRemove'>;
+};
+
+export default defaultExport;

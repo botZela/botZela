@@ -2,7 +2,7 @@ import gRoles from '../../Models/guildRoles';
 import { Event } from '../../Structures';
 import { setupLogsCommandsChannels } from '../../utils/Command&LogsChannels';
 
-export default {
+const defaultExport: Event<'guildCreate'> = {
 	name: 'guildCreate',
 	async execute(guild): Promise<void> {
 		console.log(`[INFO] Joined server : ${guild.name}`);
@@ -28,4 +28,6 @@ export default {
 		}
 		await setupLogsCommandsChannels(guild);
 	},
-} as Event<'guildCreate'>;
+};
+
+export default defaultExport;

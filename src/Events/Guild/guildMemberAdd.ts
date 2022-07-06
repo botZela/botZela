@@ -16,7 +16,7 @@ const PRV_ROLES = {
 
 const ADMINS = ['892346084913975307', '381238047527927808'];
 
-export default {
+const defaultExport: Event<'guildMemberAdd'> = {
 	name: 'guildMemberAdd',
 	async execute(member) {
 		const { guild, user } = member;
@@ -74,4 +74,6 @@ export default {
 			await guild.systemChannel.send(toSend);
 		}
 	},
-} as Event<'guildMemberAdd'>;
+};
+
+export default defaultExport;

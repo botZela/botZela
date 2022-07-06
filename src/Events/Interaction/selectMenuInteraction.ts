@@ -1,14 +1,17 @@
+import { GuildMember, Interaction } from 'discord.js';
 import { client } from '../..';
 import { Event } from '../../Structures';
-import { ExtendedCommandInteraction } from '../../Typings';
+import { ExtendedSelectMenuInteraction } from '../../Typings';
 
-export default {
+const defaultExport: Event<'interactionCreate'> = {
 	name: 'interactionCreate',
 	alias: 'SelectMenuInteraction',
-	async execute(interaction: ExtendedCommandInteraction): Promise<void> {
+	async execute(interaction: Interaction): Promise<void> {
 		if (!interaction.isSelectMenu()) return;
 
-		const { customId, guild, member } = interaction;
+		const { customId, guild } = interaction;
+		const member = interaction.member as GuildMember;
+
 		const SelectMenu = client.selectMenu.get(customId);
 
 		if (!SelectMenu) {
@@ -19,10 +22,12 @@ export default {
 			return interaction.reply({ content: 'You are missing permissions.', ephemeral: true });
 		}
 
-		if (SelectMenu.ownerOnly && interaction.member.id !== guild?.ownerId) {
+		if (SelectMenu.ownerOnly && member.id !== guild?.ownerId) {
 			return interaction.reply({ content: 'You are not the owner.', ephemeral: true });
 		}
 
-		SelectMenu.execute({ interaction });
+		await SelectMenu.execute({ interaction: interaction as ExtendedSelectMenuInteraction });
 	},
-} as Event<'interactionCreate'>;
+};
+
+export default defaultExport;

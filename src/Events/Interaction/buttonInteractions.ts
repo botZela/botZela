@@ -1,14 +1,16 @@
-import { Collection } from 'discord.js';
+import { Collection, GuildMember, Interaction } from 'discord.js';
 import { client } from '../..';
 import { Event } from '../../Structures';
 import { ExtendedButtonInteraction } from '../../Typings';
 
-export default {
+const defaultExport: Event<'interactionCreate'> = {
 	name: 'interactionCreate',
 	alias: 'ButtonInteraction',
-	async execute(interaction: ExtendedButtonInteraction) {
+	async execute(interaction: Interaction) {
 		if (!interaction.isButton() || !interaction.guild) return;
-		const { customId, guild, member } = interaction;
+		const { customId, guild } = interaction;
+		const member = interaction.member as GuildMember;
+
 		const Button = client.buttons.get(customId);
 
 		if (!Button) {
@@ -44,8 +46,10 @@ export default {
 			}, Button.cooldown);
 		}
 
-		Button.execute({
-			interaction: interaction,
+		await Button.execute({
+			interaction: interaction as ExtendedButtonInteraction,
 		});
 	},
-} as Event<'interactionCreate'>;
+};
+
+export default defaultExport;

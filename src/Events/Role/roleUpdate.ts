@@ -2,7 +2,7 @@ import gRoles from '../../Models/guildRoles';
 import { Event } from '../../Structures';
 import { logsMessage } from '../../utils';
 
-export default {
+const defaultExport: Event<'roleUpdate'> = {
 	name: 'roleUpdate',
 	async execute(oldRole, newRole) {
 		if (oldRole.name === newRole.name) return;
@@ -25,4 +25,6 @@ export default {
 			await logsMessage(log, oldRole.guild);
 		}
 	},
-} as Event<'roleUpdate'>;
+};
+
+export default defaultExport;

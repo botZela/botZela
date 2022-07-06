@@ -2,7 +2,7 @@ import gRoles from '../../Models/guildRoles';
 import { Event } from '../../Structures';
 import { logsMessage } from '../../utils';
 
-export default {
+const defaultExport: Event<'roleDelete'> = {
 	name: 'roleDelete',
 	async execute(role) {
 		try {
@@ -19,4 +19,6 @@ export default {
 			await logsMessage(log, role.guild);
 		}
 	},
-} as Event<'roleDelete'>;
+};
+
+export default defaultExport;

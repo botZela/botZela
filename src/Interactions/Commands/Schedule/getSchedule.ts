@@ -6,7 +6,7 @@ import { sendSchedule } from '../../../utils/Schedule/sendSchedule';
 import { createEmbed } from '../../../utils/createEmbed';
 import { logsMessage } from '../../../utils/logsMessage';
 
-export default {
+const defaultExport: ICommand = {
 	name: 'getschedule',
 	description: 'Get your schedule based on your group and field.',
 	cooldown: 10 * 1000,
@@ -50,7 +50,6 @@ export default {
 			name: 'dm',
 			type: 'BOOLEAN',
 			description: 'Do you want to receive your schedule in Direct Messages?',
-			value: 'True',
 			required: false,
 		},
 	],
@@ -114,4 +113,6 @@ export default {
 		const logs = `[INFO] .${member.nickname ?? member.user.tag} got their finals (Rattrapages) Schedule.`;
 		await logsMessage(logs, guild);
 	},
-} as ICommand;
+};
+
+export default defaultExport;

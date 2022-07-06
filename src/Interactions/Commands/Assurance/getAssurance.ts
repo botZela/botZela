@@ -27,7 +27,7 @@ function firstLastName(nickname: string) {
 	};
 }
 
-export default {
+const defaultExport: ICommand = {
 	name: 'getassurance',
 	description: 'Get your schedule based on your group and field.',
 	cooldown: 10 * 1000,
@@ -108,4 +108,6 @@ export default {
 		const logs = `[INFO] .${member.nickname || member.user.tag} got their Insurance.`;
 		await logsMessage(logs, guild);
 	},
-} as ICommand;
+};
+
+export default defaultExport;

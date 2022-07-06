@@ -1,7 +1,7 @@
 import { ICommand } from '../../../Typings';
 import { buildServer } from '../../../utils/BuildServer/buildServer';
 
-export default {
+const defaultExport: ICommand = {
 	name: 'build_server',
 	description: 'You could build your server structure using YAML file syntax.',
 	permissions: ['ADMINISTRATOR', 'MANAGE_CHANNELS'],
@@ -9,4 +9,6 @@ export default {
 		await interaction.reply({ content: 'Building Server...', ephemeral: true });
 		await buildServer(interaction);
 	},
-} as ICommand;
+};
+
+export default defaultExport;

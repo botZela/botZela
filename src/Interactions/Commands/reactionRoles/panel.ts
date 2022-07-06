@@ -2,7 +2,7 @@ import { MessageEmbed, MessageActionRow, MessageSelectMenu, MessageSelectOptionD
 import rrModel, { RolesType } from '../../../Models/reactionRoles';
 import { ICommand } from '../../../Typings';
 
-export default {
+const defaultExport: ICommand = {
 	name: 'panel',
 	description: 'Reaction Role Panel',
 	permissions: ['ADMINISTRATOR'],
@@ -25,12 +25,13 @@ export default {
 				const y = x as RolesType;
 				const role = guild.roles.cache.get(y.roleId);
 				if (!role) return undefined;
-				return {
+				const output: MessageSelectOptionData = {
 					label: role.name,
 					value: role.id,
 					description: y.roleDescription ?? 'No Description',
 					emoji: y.roleEmoji,
-				} as MessageSelectOptionData;
+				};
+				return output;
 			})
 			.filter((x): x is MessageSelectOptionData => x !== undefined);
 
@@ -49,4 +50,6 @@ export default {
 
 		await interaction.reply({ embeds: [panelEmbed], components, ephemeral: false });
 	},
-} as ICommand;
+};
+
+export default defaultExport;

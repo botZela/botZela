@@ -2,7 +2,7 @@ import { GuildMember } from 'discord.js';
 import { client } from '../../..';
 import { ICommand } from '../../../Typings';
 
-export default {
+const defaultExport: ICommand = {
 	name: 'emit',
 	description: 'Event Emitter',
 	permissions: ['ADMINISTRATOR'],
@@ -66,4 +66,6 @@ export default {
 
 		await interaction.reply({ content: `Emitted The event ${choices ?? 'No Event'}`, ephemeral: true });
 	},
-} as ICommand;
+};
+
+export default defaultExport;

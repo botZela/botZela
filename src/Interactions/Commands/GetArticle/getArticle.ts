@@ -3,7 +3,7 @@ import { client } from '../../../index';
 import { getArticle } from '../../../utils/GetArticle';
 import { createEmbed } from '../../../utils/createEmbed';
 
-export default {
+const defaultExport: ICommand = {
 	name: 'getarticle',
 	description: 'Download article by DOI',
 	options: [
@@ -47,4 +47,6 @@ export default {
 			});
 		}
 	},
-} as ICommand;
+};
+
+export default defaultExport;

@@ -8,7 +8,7 @@ const PG = promisify(glob);
 import { Event } from '../../Structures';
 import { importFile, logsMessage } from '../../utils';
 
-export default {
+const defaultExport: Event<'guildUpdate'> = {
 	name: 'guildUpdate',
 	async execute(oldGuild, newGuild): Promise<void> {
 		if (oldGuild.name === newGuild.name) return;
@@ -28,4 +28,6 @@ export default {
 		const log = `[INFO] Guild Name Changed from "${oldGuild.name}" to "${newGuild.name}".`;
 		await logsMessage(log, newGuild);
 	},
-} as Event<'guildUpdate'>;
+};
+
+export default defaultExport;

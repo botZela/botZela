@@ -5,6 +5,7 @@ import {
 	CommandInteractionOptionResolver,
 	ContextMenuInteraction,
 	GuildMember,
+	Interaction,
 	PermissionResolvable,
 	SelectMenuInteraction,
 	Snowflake,
@@ -16,7 +17,11 @@ interface ExecuteOptions<T> {
 	args?: CommandInteractionOptionResolver;
 }
 
-type ExecuteFunction<T> = (options: ExecuteOptions<T>) => unknown;
+type ExecuteFunction<T> = (options: ExecuteOptions<T>) => Promise<unknown>;
+
+export interface ExtendedInteraction extends Interaction {
+	member: GuildMember;
+}
 
 export interface ExtendedSelectMenuInteraction extends SelectMenuInteraction {
 	member: GuildMember;

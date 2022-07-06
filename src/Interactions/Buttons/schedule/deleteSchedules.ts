@@ -2,7 +2,7 @@ import { client } from '../../..';
 import { IButtonCommand } from '../../../Typings';
 import { logsMessage } from '../../../utils/logsMessage';
 
-export default {
+const defaultExport: IButtonCommand = {
 	id: 'schedule_delete_old',
 	cooldown: 30 * 60 * 1000,
 	// Permissions : ["ADMINISTRATOR"],
@@ -53,4 +53,6 @@ export default {
 		const toLog = `[INFO] .${member.nickname ?? member.user.tag} Deleted ${msgDeleted} messages from their DMs.`;
 		await logsMessage(toLog, guild);
 	},
-} as IButtonCommand;
+};
+
+export default defaultExport;

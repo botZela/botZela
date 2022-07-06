@@ -2,7 +2,7 @@ import { CategoryChannel, GuildBasedChannel } from 'discord.js';
 import { client } from '../../..';
 import { ICommand } from '../../../Typings';
 
-export default {
+const defaultExport: ICommand = {
 	name: 'delete_category',
 	description: 'Delete the whole category and its sub channels.',
 	options: [
@@ -35,4 +35,6 @@ export default {
 			ephemeral: true,
 		});
 	},
-} as ICommand;
+};
+
+export default defaultExport;

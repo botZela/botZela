@@ -2,7 +2,7 @@ import { Message, MessageActionRow, MessageButton, MessageEmbed } from 'discord.
 import { client } from '../../..';
 import { ICommand } from '../../../Typings';
 
-export default {
+const defaultExport: ICommand = {
 	name: 'button_assurance',
 	description: 'Create the Insurance button',
 	permissions: ['ADMINISTRATOR'],
@@ -54,4 +54,6 @@ export default {
 			await channel.send({ embeds: [embed], components: [row] });
 		}
 	},
-} as ICommand;
+};
+
+export default defaultExport;
