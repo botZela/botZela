@@ -1,5 +1,5 @@
 import { Message } from 'discord.js';
-import { flGrp } from './flGrp';
+import { flGrpYr } from './flGrp';
 import { sendSchedule } from './sendSchedule';
 import { logsMessage } from '../logsMessage';
 
@@ -19,7 +19,7 @@ export async function messageSchedule(message: Message) {
 			response.delete().catch(console.error);
 		}, 10 * 1000);
 	}
-	const { filiere: fl, groupe: grp } = flGrp(member);
+	const { filiere: fl, groupe: grp } = flGrpYr(member);
 	// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 	if (!fl || !grp) {
 		const response = await message.reply(

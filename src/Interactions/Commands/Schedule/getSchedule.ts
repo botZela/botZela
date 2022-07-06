@@ -1,7 +1,7 @@
 import { ICommand } from '../../../Typings';
 import { FiliereType, GroupeType } from '../../../Typings/Ensias';
 import { client } from '../../../index';
-import { flGrp } from '../../../utils/Schedule/flGrp';
+import { flGrpYr } from '../../../utils/Schedule/flGrp';
 import { sendSchedule } from '../../../utils/Schedule/sendSchedule';
 import { createEmbed } from '../../../utils/createEmbed';
 import { logsMessage } from '../../../utils/logsMessage';
@@ -72,7 +72,7 @@ const defaultExport: ICommand = {
 			});
 		}
 
-		const { filiere: fl, groupe: grp } = flGrp(member);
+		const { filiere: fl, groupe: grp } = flGrpYr(member);
 		const filiere = (options.getString('filiere') as FiliereType) ?? fl;
 		const groupe = (options.getString('groupe') as GroupeType) ?? grp;
 

@@ -2,7 +2,7 @@ import fs from 'fs';
 import { client } from '../../..';
 import { ICommand } from '../../../Typings';
 import { logsMessage, createEmbed } from '../../../utils';
-import { flGrp } from '../../../utils/Schedule/flGrp';
+import { flGrpYr } from '../../../utils/Schedule/flGrp';
 
 function firstLastName(nickname: string) {
 	const arrayName = nickname.split(/ +/g);
@@ -54,14 +54,14 @@ const defaultExport: ICommand = {
 				ephemeral: true,
 			});
 		}
-		if (!member.roles.cache.map((role) => role.name).includes('1A')) {
+
+		const { filiere, year } = flGrpYr(member);
+		if (year !== '1A' && year !== '2A') {
 			return interaction.followUp({
-				content: 'This command is only available for 1A Students. Sorry!',
+				content: 'This command is only available for 1A and 2A Students. Sorry!',
 				ephemeral: true,
 			});
 		}
-
-		const { filiere } = flGrp(member);
 
 		if (!filiere || !member.nickname) {
 			return interaction.followUp({
@@ -72,13 +72,13 @@ const defaultExport: ICommand = {
 
 		const { lastName, firstName } = firstLastName(member.nickname);
 
-		const text = `__**1A Insurance.**__ `;
+		const text = `__**${year} Insurance.**__ `;
 		let fileNamePdf = `${lastName} ${firstName}.pdf`;
-		let pdfPath = `./data/Schedules/Assurances_1A/${filiere}/${fileNamePdf}`;
+		let pdfPath = `./data/Schedules/Assurances_${year}/${filiere}/${fileNamePdf}`;
 
 		if (!fs.existsSync(pdfPath)) {
 			fileNamePdf = `${firstName} ${lastName}.pdf`;
-			pdfPath = `./data/Schedules/Assurances_1A/${filiere}/${fileNamePdf}`;
+			pdfPath = `./data/Schedules/Assurances_${year}/${filiere}/${fileNamePdf}`;
 			if (!fs.existsSync(pdfPath)) {
 				return interaction.followUp({
 					content:
@@ -87,7 +87,7 @@ const defaultExport: ICommand = {
 				});
 			}
 		}
-		const embed = createEmbed(`Assurance 1A`, '__**Your "Assurance" is ready**__ ');
+		const embed = createEmbed(`Assurance ${year}`, '__**Your "Assurance" is ready**__ ');
 		await interaction.followUp({
 			content: text,
 			embeds: [embed],
