@@ -1,6 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@googleapis/drive': ^3.0.1
   '@googleapis/sheets': ^3.0.2
   '@types/glob': ^7.2.0
   '@types/js-yaml': ^4.0.5
@@ -30,6 +31,7 @@ specifiers:
   zod: ^3.17.3
 
 dependencies:
+  '@googleapis/drive': 3.0.1
   '@googleapis/sheets': 3.0.2
   ascii-table3: 0.7.6
   axios: 0.27.2
@@ -105,6 +107,17 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  /@googleapis/drive/3.0.1:
+    resolution:
+      { integrity: sha512-/SSx3VR7p/IvHWyZcdx9Uw5UjFJcl6oHYr7j7OAw+YHS+dm55iKHGjQKtnrlHY0kuzZc7seY98nf7ko3ct9yjA== }
+    engines: { node: '>=10.0.0' }
+    dependencies:
+      googleapis-common: 5.1.0
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
 
   /@googleapis/sheets/3.0.2:
     resolution:

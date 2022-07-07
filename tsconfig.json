@@ -103,5 +103,5 @@
 		"skipLibCheck": true /* Skip type checking all .d.ts files. */
 	},
 	"include": ["./src", "./environment.d.t", "src/Typings"],
-	"exclude": ["node_modules", "**/*.spec.ts", "src_old/OtherModules", "*.tsx", "credentials"]
+	"exclude": ["node_modules", "**/*.spec.ts", "credentials"]
 }

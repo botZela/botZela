@@ -5,6 +5,7 @@
 	"description": "",
 	"main": "./src/index.ts",
 	"dependencies": {
+		"@googleapis/drive": "^3.0.1",
 		"@googleapis/sheets": "^3.0.2",
 		"ascii-table3": "^0.7.6",
 		"axios": "^0.27.2",
