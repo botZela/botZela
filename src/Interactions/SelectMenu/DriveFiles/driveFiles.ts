@@ -1,7 +1,9 @@
-import { MessageActionRow, MessageButton, MessageSelectMenu, MessageSelectOptionData } from 'discord.js';
-import { driveSearch } from '../../../OtherModules/GDrive';
+import { MessageActionRow, MessageButton, MessageSelectMenu } from 'discord.js';
+import { client } from '../../..';
+import { generatePublicUrl } from '../../../OtherModules/GDrive';
 import { ISelectMenuCommand } from '../../../Typings';
 import { createEmbed } from '../../../utils';
+import { driveFilesSelectMenuOptions } from '../../../utils/DriveFiles/makeSelectMenuOption';
 
 const defaultExport: ISelectMenuCommand = {
 	id: 'drivefiles-menu',
@@ -9,29 +11,39 @@ const defaultExport: ISelectMenuCommand = {
 	async execute({ interaction }) {
 		await interaction.deferUpdate();
 
-		const { values } = interaction;
+		const { values, component } = interaction;
 
-		const folder = values[0];
+		const fileId = values[0];
+		const fileIndex = component.options.findIndex((x) => x.value === fileId);
+		const fileDesc = component.options.at(fileIndex)?.description;
+		const fileName = component.options.at(fileIndex)?.label;
 
-		const options = (await driveSearch(folder))
-			?.map((file) => {
-				if (file.name && file.mimeType && file.id) {
-					const output: MessageSelectOptionData = {
-						label: file.name,
-						description: file.mimeType === 'application/vnd.google-apps.folder' ? 'Folder' : 'File',
-						value: file.id,
-					};
-					return output;
-				}
-				return undefined;
-			})
-			.filter((x): x is MessageSelectOptionData => x !== undefined);
+		if (fileDesc && fileDesc === 'File') {
+			const fileObj = await generatePublicUrl(fileId);
+			let out = '';
+			if (fileObj.webViewLink) out += `View File : ${fileObj.webViewLink}\n`;
+			if (fileObj.webContentLink) out += `Download File : ${fileObj.webContentLink}\n`;
+			await interaction.editReply({
+				content: out,
+				components: [],
+				embeds: [],
+			});
+			return;
+		}
+
+		client.gdFolderStack.get(interaction.member.id)!.push({ id: fileId, name: fileName ?? '' });
+		const path = client.gdFolderStack
+			.get(interaction.member.id)!
+			.map((x) => x.name)
+			.join('/');
+
+		const options = await driveFilesSelectMenuOptions(fileId);
 		if (!options) {
 			const errorEmbed = createEmbed(`Get Files`, '__**Nothing Found!**__ ');
 			await interaction.reply({ embeds: [errorEmbed], ephemeral: false });
 			return;
 		}
-		const panelEmbed = createEmbed(`Get Files`, '__**Select a Folder**__ ');
+		const panelEmbed = createEmbed(`Get Files`, `__**${path}**__`);
 
 		const components = [
 			new MessageActionRow().addComponents(

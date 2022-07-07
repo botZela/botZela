@@ -1,46 +1,45 @@
-import { MessageActionRow, MessageSelectMenu, MessageSelectOptionData } from 'discord.js';
-import { driveSearch, getParent } from '../../../OtherModules/GDrive';
+import { MessageActionRow, MessageButton, MessageSelectMenu } from 'discord.js';
+import { client } from '../../..';
 import { IButtonCommand } from '../../../Typings';
 import { createEmbed } from '../../../utils';
+import { driveFilesSelectMenuOptions } from '../../../utils/DriveFiles/makeSelectMenuOption';
 
 const defaultExport: IButtonCommand = {
 	id: 'button-drivefiles-back',
 	permissions: ['ADMINISTRATOR'],
 
 	execute: async ({ interaction }) => {
-		await interaction.deferReply({ ephemeral: true });
+		await interaction.deferUpdate();
 
 		if (!interaction.guild) {
-			return interaction.followUp({ content: 'This command is used inside a server ...', ephemeral: true });
+			return interaction.editReply({ content: 'This command is used inside a server ...' });
 		}
+		const stack = client.gdFolderStack.get(interaction.member.id);
+		if (stack && stack.length > 1) stack.pop();
 
-		await getParent('1cBafKG94MJsgR9Khceo6Jpr0f73CWTfZ');
+		const folderId = stack?.at(-1)?.id ?? '1YxhLTBKOtj_hcjWa8ZYslGg88JJUiwBD';
 
-		const options = (await driveSearch('1YxhLTBKOtj_hcjWa8ZYslGg88JJUiwBD'))
-			?.map((file) => {
-				if (file.name && file.id) {
-					const output: MessageSelectOptionData = {
-						label: file.name,
-						value: file.id,
-					};
-					return output;
-				}
-				return undefined;
-			})
-			.filter((x): x is MessageSelectOptionData => x !== undefined);
+		const options = await driveFilesSelectMenuOptions(folderId);
 		if (!options) {
 			const errorEmbed = createEmbed(`Get Files`, '__**Nothing Found!**__ ');
-			await interaction.followUp({ embeds: [errorEmbed], ephemeral: false });
+			await interaction.editReply({ embeds: [errorEmbed] });
 			return;
 		}
-		const panelEmbed = createEmbed(`Get Files`, '__**Select a Folder**__ ');
+		const path = client.gdFolderStack
+			.get(interaction.member.id)!
+			.map((x) => x.name)
+			.join('/');
+		const panelEmbed = createEmbed(`Get Files`, `__**${path}**__ `);
 
 		const components = [
 			new MessageActionRow().addComponents(
 				new MessageSelectMenu().setCustomId('drivefiles-menu').setPlaceholder('Select a folder: ').addOptions(options),
 			),
+			new MessageActionRow().addComponents(
+				new MessageButton({ customId: 'button-drivefiles-back', label: 'Back', style: 'SECONDARY' }),
+			),
 		];
-		await interaction.followUp({ embeds: [panelEmbed], components, ephemeral: false });
+		await interaction.editReply({ embeds: [panelEmbed], components });
 	},
 };
 

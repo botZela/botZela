@@ -4,6 +4,7 @@ import { Client as DiscordClient, Collection } from 'discord.js';
 import glob from 'glob';
 import Handlers from '../Handlers';
 import {
+	DriveFile,
 	ExtendedApplicationCommandDataResolvable,
 	IButtonCommand,
 	ICommand,
@@ -26,6 +27,7 @@ export class Client extends DiscordClient {
 	public testGuilds: ItestGuild[] = testGuilds;
 	public commandsDataArray: ExtendedApplicationCommandDataResolvable[] = [];
 	public showTable: boolean | 'both' = false;
+	public gdFolderStack: Collection<string, DriveFile[]> = new Collection();
 
 	public constructor() {
 		super({

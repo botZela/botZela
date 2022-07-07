@@ -18,7 +18,7 @@ const defaultExport: ICommand = {
 
 		const components = [
 			new MessageActionRow().addComponents(
-				new MessageButton().setCustomId('drivefiles-button').setLabel('get files').setStyle('PRIMARY'),
+				new MessageButton().setCustomId('button-drivefiles-init').setLabel('get files').setStyle('PRIMARY'),
 			),
 		];
 		await interaction.followUp({ embeds: [panelEmbed], components, ephemeral: false });

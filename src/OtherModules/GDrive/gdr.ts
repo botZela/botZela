@@ -4,7 +4,7 @@ import { GoogleAuth } from 'googleapis-common';
 const authFile = `${process.cwd()}/credentials/google_account.json`;
 const auth = new GoogleAuth({
 	keyFile: authFile,
-	scopes: ['https://www.googleapis.com/auth/drive.metadata'],
+	scopes: ['https://www.googleapis.com/auth/drive.metadata.readonly'],
 });
 const drive = GoogleDrive({
 	version: 'v3',
@@ -39,10 +39,10 @@ export async function getParent(id: string) {
 	try {
 		const result = await drive.files.get({
 			fileId: id,
-			fields: '*',
+			fields: 'parents',
 		});
 		console.log(result.data);
-		return result.data;
+		return (result.data as string[])[0];
 	} catch (error) {
 		console.log(error);
 	}
@@ -61,7 +61,9 @@ export async function driveSearch(driveId: string) {
 	}
 }
 
-export async function generatePublicUrl(id: string) {
+export async function generatePublicUrl(
+	id: string,
+): Promise<{ webViewLink?: string | null; webContentLink?: string | null }> {
 	try {
 		const result = await drive.files.get({
 			fileId: id,
@@ -70,6 +72,7 @@ export async function generatePublicUrl(id: string) {
 		return result.data;
 	} catch (error) {
 		console.log(error);
+		return {};
 	}
 }
 
