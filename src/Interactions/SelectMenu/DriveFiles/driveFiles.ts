@@ -23,18 +23,30 @@ const defaultExport: ISelectMenuCommand = {
 		const fileName = component.options.at(fileIndex)?.label;
 
 		if (fileDesc && fileDesc === '📄 File') {
+			client.gdFolderStack.get(interaction.member.id)!.push({ id: fileId, name: fileName ?? '' });
 			const fileObj = await generatePublicUrl(fileId);
 			const resultEmbed = createEmbed(`Get Files `, `📄 ${fileName ?? 'File'}`);
-			if (fileObj.webViewLink)
+			const component = new MessageActionRow().addComponents(
+				new MessageButton({ customId: 'button-drivefiles-back', label: 'Back', style: 'SECONDARY', emoji: '⬅' }),
+			);
+			if (fileObj.webViewLink) {
 				resultEmbed.addField(`View File`, `Click [here](${fileObj.webViewLink}) to view the file.`);
-			if (fileObj.webContentLink)
+				component.addComponents(
+					new MessageButton({ style: 'LINK', url: fileObj.webViewLink, label: 'View File', emoji: '' }),
+				);
+			}
+			if (fileObj.webContentLink) {
 				resultEmbed.addField(`Download File`, `Click [here](${fileObj.webContentLink}) to download the file.`);
+				component.addComponents(
+					new MessageButton({ style: 'LINK', url: fileObj.webContentLink, label: 'Download File', emoji: '⏬' }),
+				);
+			}
 			resultEmbed.addFields(
 				{ name: 'Any Suggestions', value: 'Consider sending us your feedback in <#922875567357984768>, Thanks.' },
 				{ name: 'Any Errors', value: 'Consider sending us your feedback in <#939564676038140004>, Thanks.' },
 			);
 			await interaction.editReply({
-				components: [],
+				components: [component],
 				embeds: [resultEmbed],
 			});
 			const logs = `[INFO] .${interaction.user.tag} has got a file from ENSIAS DRIVE.`;
@@ -71,6 +83,12 @@ const defaultExport: ISelectMenuCommand = {
 			),
 			new MessageActionRow().addComponents(
 				new MessageButton({ customId: 'button-drivefiles-back', label: 'Back', style: 'SECONDARY', emoji: '⬅' }),
+				new MessageButton({
+					style: 'LINK',
+					url: `https://drive.google.com/drive/folders/${fileId}`,
+					label: 'View Folder',
+					emoji: '',
+				}),
 			),
 		];
 

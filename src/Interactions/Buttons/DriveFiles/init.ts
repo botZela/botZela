@@ -1,4 +1,4 @@
-import { MessageActionRow, MessageSelectMenu } from 'discord.js';
+import { MessageActionRow, MessageButton, MessageSelectMenu } from 'discord.js';
 import { client } from '../../..';
 import { IButtonCommand } from '../../../Typings';
 import { createEmbed } from '../../../utils';
@@ -40,6 +40,15 @@ const defaultExport: IButtonCommand = {
 		const components = [
 			new MessageActionRow().addComponents(
 				new MessageSelectMenu().setCustomId('drivefiles-menu').setPlaceholder('Select a folder: ').addOptions(options),
+			),
+			new MessageActionRow().addComponents(
+				new MessageButton({ customId: 'button-drivefiles-back', label: 'Back', style: 'SECONDARY', emoji: '⬅' }),
+				new MessageButton({
+					style: 'LINK',
+					url: `https://drive.google.com/drive/folders/${initialFolder}`,
+					label: 'View Folder',
+					emoji: '',
+				}),
 			),
 		];
 

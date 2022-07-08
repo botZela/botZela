@@ -34,7 +34,7 @@ const defaultExport: IButtonCommand = {
 			.join('/');
 		const panelEmbed = createEmbed(
 			`Get Files `,
-			`📁 [${path}](https://drive.google.com/drive/folders/${path})\nThe easiest way to get access directly to the files that you are looking for.\n`,
+			`📁 [${path}](https://drive.google.com/drive/folders/${folderId})\nThe easiest way to get access directly to the files that you are looking for.\n`,
 		).addFields(
 			{ name: 'Any Suggestions', value: 'Consider sending us your feedback in <#922875567357984768>, Thanks.' },
 			{ name: 'Any Errors', value: 'Consider sending us your feedback in <#939564676038140004>, Thanks.' },
@@ -46,6 +46,12 @@ const defaultExport: IButtonCommand = {
 			),
 			new MessageActionRow().addComponents(
 				new MessageButton({ customId: 'button-drivefiles-back', label: 'Back', style: 'SECONDARY', emoji: '⬅' }),
+				new MessageButton({
+					style: 'LINK',
+					url: `https://drive.google.com/drive/folders/${folderId}`,
+					label: 'View Folder',
+					emoji: '',
+				}),
 			),
 		];
 		await interaction.editReply({ embeds: [panelEmbed], components });
