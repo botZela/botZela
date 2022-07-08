@@ -8,7 +8,7 @@ export async function driveFilesSelectMenuOptions(fileId: string) {
 				const output: MessageSelectOptionData = {
 					label: file.name,
 					value: file.id,
-					description: file.mimeType === 'application/vnd.google-apps.folder' ? 'Folder' : 'File',
+					description: file.mimeType === 'application/vnd.google-apps.folder' ? '📁 Folder' : '📄 File',
 				};
 				return output;
 			}

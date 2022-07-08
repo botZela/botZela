@@ -10,9 +10,8 @@ const defaultExport: IButtonCommand = {
 
 	execute: async ({ interaction }) => {
 		await interaction.deferReply({ ephemeral: true });
-		const { guild } = interaction;
 
-		if (!guild || !guild.me) {
+		if (!interaction.guild) {
 			return interaction.followUp({ content: 'This command is used inside a server ...', ephemeral: true });
 		}
 
@@ -22,17 +21,28 @@ const defaultExport: IButtonCommand = {
 
 		const options = await driveFilesSelectMenuOptions(initialFolder);
 		if (!options) {
-			const errorEmbed = createEmbed(`Get Files`, '__**Nothing Found!**__ ');
+			const errorEmbed = createEmbed(`Get Files`, 'This Folder is Empty.').addFields(
+				{ name: 'Any Suggestions', value: 'Consider sending us your feedback in <#922875567357984768>, Thanks.' },
+				{ name: 'Any Errors', value: 'Consider sending us your feedback in <#939564676038140004>, Thanks.' },
+			);
 			await interaction.followUp({ embeds: [errorEmbed], ephemeral: false });
 			return;
 		}
-		const panelEmbed = createEmbed(`Get Files`, `__**Select a Folder**__`);
+
+		const panelEmbed = createEmbed(
+			`Get Files `,
+			`📁 [ENSIAS](https://drive.google.com/drive/folders/${initialFolder})\nThe easiest way to get access directly to the files that you are looking for.\n`,
+		).addFields(
+			{ name: 'Any Suggestions', value: 'Consider sending us your feedback in <#922875567357984768>, Thanks.' },
+			{ name: 'Any Errors', value: 'Consider sending us your feedback in <#939564676038140004>, Thanks.' },
+		);
 
 		const components = [
 			new MessageActionRow().addComponents(
 				new MessageSelectMenu().setCustomId('drivefiles-menu').setPlaceholder('Select a folder: ').addOptions(options),
 			),
 		];
+
 		await interaction.followUp({ embeds: [panelEmbed], components, ephemeral: false });
 	},
 };

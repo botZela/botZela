@@ -21,7 +21,10 @@ const defaultExport: IButtonCommand = {
 
 		const options = await driveFilesSelectMenuOptions(folderId);
 		if (!options) {
-			const errorEmbed = createEmbed(`Get Files`, '__**Nothing Found!**__ ');
+			const errorEmbed = createEmbed(`Get Files`, 'This Folder is Empty.').addFields(
+				{ name: 'Any Suggestions', value: 'Consider sending us your feedback in <#922875567357984768>, Thanks.' },
+				{ name: 'Any Errors', value: 'Consider sending us your feedback in <#939564676038140004>, Thanks.' },
+			);
 			await interaction.editReply({ embeds: [errorEmbed] });
 			return;
 		}
@@ -29,14 +32,20 @@ const defaultExport: IButtonCommand = {
 			.get(interaction.member.id)!
 			.map((x) => x.name)
 			.join('/');
-		const panelEmbed = createEmbed(`Get Files`, `__**${path}**__ `);
+		const panelEmbed = createEmbed(
+			`Get Files `,
+			`📁 [${path}](https://drive.google.com/drive/folders/${path})\nThe easiest way to get access directly to the files that you are looking for.\n`,
+		).addFields(
+			{ name: 'Any Suggestions', value: 'Consider sending us your feedback in <#922875567357984768>, Thanks.' },
+			{ name: 'Any Errors', value: 'Consider sending us your feedback in <#939564676038140004>, Thanks.' },
+		);
 
 		const components = [
 			new MessageActionRow().addComponents(
 				new MessageSelectMenu().setCustomId('drivefiles-menu').setPlaceholder('Select a folder: ').addOptions(options),
 			),
 			new MessageActionRow().addComponents(
-				new MessageButton({ customId: 'button-drivefiles-back', label: 'Back', style: 'SECONDARY' }),
+				new MessageButton({ customId: 'button-drivefiles-back', label: 'Back', style: 'SECONDARY', emoji: '⬅' }),
 			),
 		];
 		await interaction.editReply({ embeds: [panelEmbed], components });

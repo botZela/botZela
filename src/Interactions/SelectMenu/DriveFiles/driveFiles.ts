@@ -2,7 +2,7 @@ import { MessageActionRow, MessageButton, MessageSelectMenu } from 'discord.js';
 import { client } from '../../..';
 import { generatePublicUrl } from '../../../OtherModules/GDrive';
 import { ISelectMenuCommand } from '../../../Typings';
-import { createEmbed } from '../../../utils';
+import { createEmbed, logsMessage } from '../../../utils';
 import { driveFilesSelectMenuOptions } from '../../../utils/DriveFiles/makeSelectMenuOption';
 
 const defaultExport: ISelectMenuCommand = {
@@ -11,6 +11,10 @@ const defaultExport: ISelectMenuCommand = {
 	async execute({ interaction }) {
 		await interaction.deferUpdate();
 
+		if (!interaction.inGuild()) {
+			return interaction.followUp({ content: 'This command is used inside a server ...', ephemeral: true });
+		}
+
 		const { values, component } = interaction;
 
 		const fileId = values[0];
@@ -18,16 +22,23 @@ const defaultExport: ISelectMenuCommand = {
 		const fileDesc = component.options.at(fileIndex)?.description;
 		const fileName = component.options.at(fileIndex)?.label;
 
-		if (fileDesc && fileDesc === 'File') {
+		if (fileDesc && fileDesc === '📄 File') {
 			const fileObj = await generatePublicUrl(fileId);
-			let out = '';
-			if (fileObj.webViewLink) out += `View File : ${fileObj.webViewLink}\n`;
-			if (fileObj.webContentLink) out += `Download File : ${fileObj.webContentLink}\n`;
+			const resultEmbed = createEmbed(`Get Files `, `📄 ${fileName ?? 'File'}`);
+			if (fileObj.webViewLink)
+				resultEmbed.addField(`View File`, `Click [here](${fileObj.webViewLink}) to view the file.`);
+			if (fileObj.webContentLink)
+				resultEmbed.addField(`Download File`, `Click [here](${fileObj.webContentLink}) to download the file.`);
+			resultEmbed.addFields(
+				{ name: 'Any Suggestions', value: 'Consider sending us your feedback in <#922875567357984768>, Thanks.' },
+				{ name: 'Any Errors', value: 'Consider sending us your feedback in <#939564676038140004>, Thanks.' },
+			);
 			await interaction.editReply({
-				content: out,
 				components: [],
-				embeds: [],
+				embeds: [resultEmbed],
 			});
+			const logs = `[INFO] .${interaction.user.tag} has got a file from ENSIAS DRIVE.`;
+			if (interaction.guild) await logsMessage(logs, interaction.guild);
 			return;
 		}
 
@@ -39,18 +50,27 @@ const defaultExport: ISelectMenuCommand = {
 
 		const options = await driveFilesSelectMenuOptions(fileId);
 		if (!options) {
-			const errorEmbed = createEmbed(`Get Files`, '__**Nothing Found!**__ ');
+			const errorEmbed = createEmbed(`Get Files`, 'This Folder is Empty.').addFields(
+				{ name: 'Any Suggestions', value: 'Consider sending us your feedback in <#922875567357984768>, Thanks.' },
+				{ name: 'Any Errors', value: 'Consider sending us your feedback in <#939564676038140004>, Thanks.' },
+			);
 			await interaction.reply({ embeds: [errorEmbed], ephemeral: false });
 			return;
 		}
-		const panelEmbed = createEmbed(`Get Files`, `__**${path}**__`);
+		const panelEmbed = createEmbed(
+			`Get Files `,
+			`📁 [${path}](https://drive.google.com/drive/folders/${fileId})\nThe easiest way to get access directly to the files that you are looking for.\n`,
+		).addFields(
+			{ name: 'Any Suggestions', value: 'Consider sending us your feedback in <#922875567357984768>, Thanks.' },
+			{ name: 'Any Errors', value: 'Consider sending us your feedback in <#939564676038140004>, Thanks.' },
+		);
 
 		const components = [
 			new MessageActionRow().addComponents(
 				new MessageSelectMenu().setCustomId('drivefiles-menu').setPlaceholder('Select a folder: ').addOptions(options),
 			),
 			new MessageActionRow().addComponents(
-				new MessageButton({ customId: 'button-drivefiles-back', label: 'Back', style: 'SECONDARY' }),
+				new MessageButton({ customId: 'button-drivefiles-back', label: 'Back', style: 'SECONDARY', emoji: '⬅' }),
 			),
 		];
 
