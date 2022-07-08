@@ -10,7 +10,7 @@ const defaultExport: Event<'roleCreate'> = {
 			guildData.roles.set(role.name, role.id);
 			await guildData.save();
 		} else {
-			const roleObj = JSON.parse(`new Map(Object.entries({"${role.name}": "${role.id}"})`) as Map<string, string>;
+			const roleObj = JSON.parse(`{"${role.name}": "${role.id}"}`) as Map<string, string>;
 
 			await gRoles.create({
 				guildId: role.guild.id,
