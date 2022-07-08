@@ -14,18 +14,18 @@ const defaultExport: ICommand = {
 		},
 	],
 	async execute({ interaction }) {
-		await interaction.deferReply({ ephemeral: true });
+		await interaction.deferReply();
 		const { guild, channel, options } = interaction;
 		const msgId = options.getString('message');
 
 		if (!guild) {
 			return interaction.followUp({ content: 'This command is used inside a server ...', ephemeral: true });
 		}
+
 		const structure = interaction.options.getString('embed');
 		const embed = buildEmbed(structure);
 
 		if (!embed) return interaction.followUp({ content: 'Invalid Structure ...', ephemeral: true });
-
 		await interaction.fetchReply().then((inter) => {
 			if (inter instanceof Message) return inter.delete();
 		});
