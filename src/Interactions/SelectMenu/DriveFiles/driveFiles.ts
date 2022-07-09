@@ -32,13 +32,19 @@ const defaultExport: ISelectMenuCommand = {
 			if (fileObj.webViewLink) {
 				resultEmbed.addField(`View File`, `Click [here](${fileObj.webViewLink}) to view the file.`);
 				component.addComponents(
-					new MessageButton({ style: 'LINK', url: fileObj.webViewLink, label: 'View File', emoji: '' }),
+					new MessageButton({ style: 'LINK', url: fileObj.webViewLink, label: 'View File', emoji: '📃' }),
 				);
 			}
 			if (fileObj.webContentLink) {
 				resultEmbed.addField(`Download File`, `Click [here](${fileObj.webContentLink}) to download the file.`);
 				component.addComponents(
-					new MessageButton({ style: 'LINK', url: fileObj.webContentLink, label: 'Download File', emoji: '⏬' }),
+					new MessageButton({ style: 'LINK', url: fileObj.webContentLink, label: 'Download File', emoji: '📥' }),
+					new MessageButton({
+						style: 'SUCCESS',
+						customId: 'button-drivefiles-send',
+						label: 'Receive File',
+						emoji: '📩',
+					}),
 				);
 			}
 			resultEmbed.addFields(

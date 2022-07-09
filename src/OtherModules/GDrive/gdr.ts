@@ -81,7 +81,7 @@ export async function driveSearch(driveId: string) {
 	try {
 		const res = await drive.files.list({
 			q: `'${driveId}' in parents`,
-			orderBy: 'name',
+			orderBy: 'folder, name',
 			fields: 'files(id, name, mimeType)',
 			spaces: 'drive',
 		});
@@ -105,6 +105,3 @@ export async function generatePublicUrl(
 		return {};
 	}
 }
-
-// path = 'S1/M1.1.1 Algorithmique_Programmation/Exams'.split('/');
-// driveId = driveSearch('1YxhLTBKOtj_hcjWa8ZYslGg88JJUiwBD', path);

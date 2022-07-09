@@ -1,19 +1,6 @@
 import { Schema as _Schema, model } from 'mongoose';
 
 const Schema = new _Schema({
-	guildId: {
-		type: String,
-		required: true,
-	},
-	guildName: String,
-	channelId: {
-		type: String,
-		required: true,
-	},
-	messageId: {
-		type: String,
-		required: true,
-	},
 	driveName: {
 		type: String,
 		required: true,
@@ -22,6 +9,14 @@ const Schema = new _Schema({
 		type: String,
 		required: true,
 	},
+	filiere: {
+		type: String,
+		required: true,
+	},
+	year: {
+		type: String,
+		required: true,
+	},
 });
 
-export default model('guild-drive', Schema);
+export default model('ensias-drive', Schema);

@@ -32,7 +32,7 @@ export function makeComponents(options: MessageSelectOptionData[], fileId: strin
 				style: 'LINK',
 				url: `https://drive.google.com/drive/folders/${fileId}`,
 				label: 'View Folder',
-				emoji: '',
+				emoji: '📁',
 			}),
 		),
 	];
