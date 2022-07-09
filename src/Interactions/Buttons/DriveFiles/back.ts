@@ -40,6 +40,11 @@ const defaultExport: IButtonCommand = {
 		);
 
 		const components = makeComponents(options, folderId);
+		// Disable back button if we hit the first element
+		components
+			.at(2)!
+			.components.at(0)!
+			.setDisabled(stack?.length === 1);
 		await interaction.editReply({ embeds: [panelEmbed], components });
 	},
 };

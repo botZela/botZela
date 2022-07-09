@@ -46,6 +46,8 @@ const defaultExport: IButtonCommand = {
 		);
 
 		const components = makeComponents(options, folderId);
+		// Disable back button because it is the first forlder
+		components.at(2)!.components.at(0)!.setDisabled(true);
 		await interaction.followUp({ embeds: [panelEmbed], components, ephemeral: false });
 	},
 };
