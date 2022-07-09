@@ -16,6 +16,12 @@ const defaultExport: ICommand = {
 			required: true,
 		},
 		{
+			name: 'name',
+			type: 'STRING',
+			description: 'Name of the drive folder',
+			required: false,
+		},
+		{
 			name: 'message',
 			description: 'The message id you want to edit,(it must be sent by the bot).',
 			type: 'STRING',
@@ -44,7 +50,7 @@ const defaultExport: ICommand = {
 		if (!(await checkDriveId(driveId))) {
 			return interaction.followUp({ content: 'The drive Id that you provided is not valid', ephemeral: true });
 		}
-		const driveName = await getDriveName(driveId);
+		const driveName = options.getString('name') ?? (await getDriveName(driveId));
 		const driveData = await guildDrive.find({ guildId: guild.id, channelId: channel.id });
 
 		const panelEmbed = createEmbed(
