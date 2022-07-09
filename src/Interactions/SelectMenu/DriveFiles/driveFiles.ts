@@ -2,7 +2,7 @@ import { MessageActionRow, MessageButton, MessageSelectMenu } from 'discord.js';
 import { client } from '../../..';
 import { generatePublicUrl } from '../../../OtherModules/GDrive';
 import { ISelectMenuCommand } from '../../../Typings';
-import { createEmbed, logsMessage } from '../../../utils';
+import { createEmbed } from '../../../utils';
 import { driveFilesSelectMenuOptions } from '../../../utils/DriveFiles/makeSelectMenuOption';
 
 const defaultExport: ISelectMenuCommand = {
@@ -49,8 +49,6 @@ const defaultExport: ISelectMenuCommand = {
 				components: [component],
 				embeds: [resultEmbed],
 			});
-			const logs = `[INFO] .${interaction.user.tag} has got a file from ENSIAS DRIVE.`;
-			if (interaction.guild) await logsMessage(logs, interaction.guild);
 			return;
 		}
 

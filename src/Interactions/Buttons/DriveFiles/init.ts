@@ -2,7 +2,7 @@ import { MessageActionRow, MessageButton, MessageSelectMenu } from 'discord.js';
 import { client } from '../../..';
 import guildDrive from '../../../Models/guildDrive';
 import { IButtonCommand } from '../../../Typings';
-import { createEmbed } from '../../../utils';
+import { createEmbed, logsMessage } from '../../../utils';
 import { driveFilesSelectMenuOptions } from '../../../utils/DriveFiles/makeSelectMenuOption';
 
 const defaultExport: IButtonCommand = {
@@ -10,6 +10,9 @@ const defaultExport: IButtonCommand = {
 	// permissions: ['ADMINISTRATOR'],
 
 	execute: async ({ interaction }) => {
+		const logs = `[INFO] .${interaction.user.tag} have launched ENSIAS DRIVE command.`;
+		if (interaction.guild) await logsMessage(logs, interaction.guild);
+
 		await interaction.deferReply({ ephemeral: true });
 
 		if (!interaction.guild) {
