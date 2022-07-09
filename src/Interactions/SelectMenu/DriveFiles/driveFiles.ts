@@ -1,9 +1,9 @@
-import { MessageActionRow, MessageButton, MessageSelectMenu } from 'discord.js';
+import { MessageActionRow, MessageButton } from 'discord.js';
 import { client } from '../../..';
 import { generatePublicUrl } from '../../../OtherModules/GDrive';
 import { ISelectMenuCommand } from '../../../Typings';
 import { createEmbed } from '../../../utils';
-import { driveFilesSelectMenuOptions } from '../../../utils/DriveFiles/makeSelectMenuOption';
+import { makeComponents, driveFilesSelectMenuOptions } from '../../../utils/DriveFiles';
 
 const defaultExport: ISelectMenuCommand = {
 	id: 'drivefiles-menu',
@@ -75,20 +75,7 @@ const defaultExport: ISelectMenuCommand = {
 			{ name: 'Any Errors', value: 'Consider sending us your feedback in <#939564676038140004>, Thanks.' },
 		);
 
-		const components = [
-			new MessageActionRow().addComponents(
-				new MessageSelectMenu().setCustomId('drivefiles-menu').setPlaceholder('Select a folder: ').addOptions(options),
-			),
-			new MessageActionRow().addComponents(
-				new MessageButton({ customId: 'button-drivefiles-back', label: 'Back', style: 'SECONDARY', emoji: '⬅' }),
-				new MessageButton({
-					style: 'LINK',
-					url: `https://drive.google.com/drive/folders/${fileId}`,
-					label: 'View Folder',
-					emoji: '',
-				}),
-			),
-		];
+		const components = makeComponents(options, fileId);
 
 		await interaction.editReply({
 			embeds: [panelEmbed],
