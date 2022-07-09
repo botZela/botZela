@@ -2,7 +2,7 @@ import { MessageSelectOptionData } from 'discord.js';
 import { driveSearch } from '../../OtherModules/GDrive';
 
 export async function driveFilesSelectMenuOptions(fileId: string) {
-	return (await driveSearch(fileId))
+	const output = (await driveSearch(fileId))
 		?.map((file) => {
 			if (file.name && file.id) {
 				const output: MessageSelectOptionData = {
@@ -15,4 +15,5 @@ export async function driveFilesSelectMenuOptions(fileId: string) {
 			return undefined;
 		})
 		.filter((x): x is MessageSelectOptionData => x !== undefined);
+	return output?.length === 0 ? undefined : output;
 }
