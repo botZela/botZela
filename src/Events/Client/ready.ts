@@ -1,5 +1,6 @@
 import mongoose, { ConnectOptions } from 'mongoose';
 import { client } from '../..';
+import guildDrive from '../../Models/guildDrive';
 import { Event } from '../../Structures';
 
 const defaultExport: Event<'ready'> = {
@@ -26,6 +27,21 @@ const defaultExport: Event<'ready'> = {
 				useUnifiedTopology: true,
 			} as ConnectOptions);
 			console.log('[INFO] The Client is now connected to the DataBase.');
+			/**
+			 * fetching messages that are registered in the guildDrive Model
+			 */
+			const docs = await guildDrive.find({});
+			for (const doc of docs) {
+				client.channels
+					.fetch(doc.channelId)
+					.then((channel) => {
+						if (channel?.isText())
+							channel.messages.fetch(doc.messageId).catch(() => {
+								doc.delete();
+							});
+					})
+					.catch(console.error);
+			}
 		} catch (err) {
 			console.log('[ERROR] The Client did not connect to the DataBase Please Check the DatabaseUri.');
 		}

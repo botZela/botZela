@@ -11,12 +11,41 @@ const drive = GoogleDrive({
 	auth: auth,
 } as unknown as drive_v3.Options);
 
+export async function checkDriveId(driveId: string): Promise<boolean> {
+	try {
+		const result = await drive.files.get({
+			fileId: driveId,
+			fields: 'shared',
+		});
+		if (result.data.shared) return result.data.shared;
+		return false;
+	} catch (error) {
+		console.log(error);
+		return false;
+	}
+}
+
+export async function getDriveName(driveId: string): Promise<string> {
+	try {
+		const result = await drive.files.get({
+			fileId: driveId,
+			fields: 'name',
+		});
+		if (result.data.name) return result.data.name;
+		return 'Folder';
+	} catch (error) {
+		console.log(error);
+		return '';
+	}
+}
+
 export async function driveSearchRec(driveId: string, path: string[]) {
 	try {
 		const res = await drive.files.list({
 			q: `'${driveId}' in parents`,
 			fields: 'nextPageToken, files(id, name)',
 			spaces: 'drive',
+			pageSize: 25,
 		});
 		const key = path.shift();
 		if (key) {
@@ -52,7 +81,8 @@ export async function driveSearch(driveId: string) {
 	try {
 		const res = await drive.files.list({
 			q: `'${driveId}' in parents`,
-			fields: 'files(id, name, mimeType, parents)', // application/vnd.google-apps.folder
+			orderBy: 'name',
+			fields: 'files(id, name, mimeType)',
 			spaces: 'drive',
 		});
 		return res.data.files;

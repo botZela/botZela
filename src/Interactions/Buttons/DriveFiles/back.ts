@@ -6,7 +6,7 @@ import { driveFilesSelectMenuOptions } from '../../../utils/DriveFiles/makeSelec
 
 const defaultExport: IButtonCommand = {
 	id: 'button-drivefiles-back',
-	permissions: ['ADMINISTRATOR'],
+	// permissions: ['ADMINISTRATOR'],
 
 	execute: async ({ interaction }) => {
 		await interaction.deferUpdate();
@@ -17,7 +17,7 @@ const defaultExport: IButtonCommand = {
 		const stack = client.gdFolderStack.get(interaction.member.id);
 		if (stack && stack.length > 1) stack.pop();
 
-		const folderId = stack?.at(-1)?.id ?? '1YxhLTBKOtj_hcjWa8ZYslGg88JJUiwBD';
+		const folderId = stack?.at(-1)?.id ?? stack!.at(0)!.id;
 
 		const options = await driveFilesSelectMenuOptions(folderId);
 		if (!options) {
