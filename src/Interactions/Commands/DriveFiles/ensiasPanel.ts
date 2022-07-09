@@ -1,4 +1,4 @@
-import { MessageActionRow, MessageButton } from 'discord.js';
+import { MessageActionRow, MessageButton, MessageEmbedOptions } from 'discord.js';
 import { client } from '../../..';
 import ensiasDrive from '../../../Models/guildDrive-Ensias';
 import { checkDriveId, getDriveName } from '../../../OtherModules/GDrive';
@@ -66,7 +66,12 @@ const defaultExport: ICommand = {
 
 		const { channel, options, guild } = interaction;
 		if (!guild || !channel) {
-			return interaction.followUp({ content: 'This command is used inside a server ...', ephemeral: true });
+			const embed: MessageEmbedOptions = {
+				color: 'RED',
+				title: 'Get Files',
+				description: 'This command is used inside a server ...',
+			};
+			return interaction.followUp({ embeds: [embed], ephemeral: true });
 		}
 		const subCommand = options.getSubcommand();
 
@@ -76,14 +81,27 @@ const defaultExport: ICommand = {
 			const driveId = options.getString('drive');
 
 			if (!driveId) {
+				const embed: MessageEmbedOptions = {
+					color: 'RED',
+					title: 'Get Files',
+					description: 'Please enter a drive Id (https://drive.google.com/drive/u/0/folders/**driveId**)',
+				};
 				return interaction.followUp({
-					content: 'Please enter a drive Id (https://drive.google.com/drive/u/0/folders/**driveId**)',
+					embeds: [embed],
 					ephemeral: true,
 				});
 			}
 
 			if (!(await checkDriveId(driveId))) {
-				return interaction.followUp({ content: 'The drive Id that you provided is not valid', ephemeral: true });
+				const embed: MessageEmbedOptions = {
+					color: 'RED',
+					title: 'Get Files',
+					description: 'The drive Id that you provided is not valid',
+				};
+				return interaction.followUp({
+					embeds: [embed],
+					ephemeral: true,
+				});
 			}
 
 			const driveName = options.getString('name') ?? (await getDriveName(driveId));
@@ -93,7 +111,15 @@ const defaultExport: ICommand = {
 				driveData.driveId = driveId;
 				driveData.driveName = driveName;
 				await driveData.save();
-				return interaction.followUp({ content: 'The panel was updated with the new drive.', ephemeral: true });
+				const embed: MessageEmbedOptions = {
+					color: 'GREEN',
+					title: 'Get Files',
+					description: `The drive for the year: __**${year}**__ and branch:__** ${filiere}**__ was Updated successfully`,
+				};
+				return interaction.followUp({
+					embeds: [embed],
+					ephemeral: true,
+				});
 			}
 
 			await ensiasDrive.create({
@@ -102,8 +128,13 @@ const defaultExport: ICommand = {
 				driveName,
 				driveId,
 			});
+			const embed: MessageEmbedOptions = {
+				color: 'GREEN',
+				title: 'Get Files',
+				description: `The drive for the year: __**${year}**__ and branch:__** ${filiere}**__ was created successfully`,
+			};
 			return interaction.followUp({
-				content: `The drive for the year: __**${year}**__ and branch:__** ${filiere}**__ was created successfully`,
+				embeds: [embed],
 				ephemeral: true,
 			});
 		}

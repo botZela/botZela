@@ -20,7 +20,6 @@ export async function checkDriveId(driveId: string): Promise<boolean> {
 		if (result.data.shared) return result.data.shared;
 		return false;
 	} catch (error) {
-		console.log(error);
 		return false;
 	}
 }
@@ -34,7 +33,6 @@ export async function getDriveName(driveId: string): Promise<string> {
 		if (result.data.name) return result.data.name;
 		return 'Folder';
 	} catch (error) {
-		console.log(error);
 		return '';
 	}
 }
@@ -64,30 +62,18 @@ export async function driveSearchRec(driveId: string, path: string[]) {
 	}
 }
 
-export async function getParent(id: string) {
-	try {
-		const result = await drive.files.get({
-			fileId: id,
-			fields: 'parents',
-		});
-		console.log(result.data);
-		return (result.data as string[])[0];
-	} catch (error) {
-		console.log(error);
-	}
-}
-
 export async function driveSearch(driveId: string) {
 	try {
 		const res = await drive.files.list({
 			q: `'${driveId}' in parents`,
 			orderBy: 'folder, name',
-			fields: 'files(id, name, mimeType)',
+			fields: 'files(id, name, mimeType, shortcutDetails)',
 			spaces: 'drive',
 		});
 		return res.data.files;
 	} catch (error) {
 		console.log(error);
+		return [];
 	}
 }
 

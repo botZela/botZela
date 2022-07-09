@@ -1,4 +1,4 @@
-import { MessageActionRow, MessageButton } from 'discord.js';
+import { MessageActionRow, MessageButton, MessageEmbedOptions } from 'discord.js';
 import { client } from '../../..';
 import { generatePublicUrl } from '../../../OtherModules/GDrive';
 import { ISelectMenuCommand } from '../../../Typings';
@@ -12,7 +12,12 @@ const defaultExport: ISelectMenuCommand = {
 		await interaction.deferUpdate();
 
 		if (!interaction.inGuild()) {
-			return interaction.followUp({ content: 'This command is used inside a server ...', ephemeral: true });
+			const embed: MessageEmbedOptions = {
+				color: 'RED',
+				title: 'Get Files',
+				description: 'This command is used inside a server ...',
+			};
+			return interaction.followUp({ embeds: [embed], ephemeral: true });
 		}
 
 		const { values, component } = interaction;
