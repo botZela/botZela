@@ -13,6 +13,7 @@ import {
 	ItestGuild,
 } from '../Typings';
 import { testGuilds } from '../config';
+import { errors } from '../utils/Error';
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
 const { AsciiTable3 } = require('ascii-table3');
 
@@ -32,12 +33,14 @@ export class Client extends DiscordClient {
 	public constructor() {
 		super({
 			intents: 32767,
+			partials: ['MESSAGE'],
 		});
 	}
 
 	public async start() {
 		await this.registerModules();
 		await this.login(process.env.TOKEN);
+		errors(); // Handle the uncaught Errors
 	}
 
 	public async registerModules() {

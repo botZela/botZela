@@ -1,4 +1,3 @@
-import { NewsChannel, TextChannel, ThreadChannel, VoiceChannel } from 'discord.js';
 import { client } from '../..';
 import { Event } from '../../Structures';
 import { announcements, introduceYourSelf } from '../../utils/AutoReacts';
@@ -7,21 +6,12 @@ import { messageSchedule } from '../../utils/Schedule/autoResponceSchedule';
 const defaultExport: Event<'messageCreate'> = {
 	name: 'messageCreate',
 	async execute(message) {
-		const SUPPORTED_GUILDS = client.testGuilds.map((guild) => guild.id);
-		const { channel, author, guild } = message;
-		// if (!channel.name) return;
-		if (
-			channel instanceof TextChannel ||
-			channel instanceof VoiceChannel ||
-			channel instanceof ThreadChannel ||
-			channel instanceof NewsChannel
-		) {
+		if (message.inGuild()) {
+			const { channel, author, guild } = message;
 			const announcementName = 'announcement';
 			const introduceName = 'introd';
 			const emploiName = '『📅』get-schedule';
-			if (!guild || !SUPPORTED_GUILDS.includes(message.guildId ?? '')) {
-				return;
-			} else if (channel.name.includes(announcementName)) {
+			if (channel.name.includes(announcementName)) {
 				if (author.bot) return;
 				await announcements(message);
 			} else if (channel.name.includes(introduceName)) {
@@ -31,7 +21,7 @@ const defaultExport: Event<'messageCreate'> = {
 				if (author.bot || guild.id !== client.testGuilds[0].id) return;
 				await messageSchedule(message);
 			}
-			if (message.content.startsWith('test')) {
+			if (message.content.startsWith('test') && message.author.id === '381238047527927808') {
 				const totalMembers = guild.members.cache.size;
 				const onlineMembers = guild.members.cache.filter((m) => m.presence?.status === 'online').size;
 				const idleMembers = guild.members.cache.filter((m) => m.presence?.status === 'idle').size;

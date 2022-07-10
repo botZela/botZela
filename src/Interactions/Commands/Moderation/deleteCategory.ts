@@ -1,4 +1,4 @@
-import { CategoryChannel, GuildBasedChannel } from 'discord.js';
+import { CategoryChannel } from 'discord.js';
 import { client } from '../../..';
 import { ICommand } from '../../../Typings';
 
@@ -10,6 +10,7 @@ const defaultExport: ICommand = {
 			name: 'category',
 			description: 'The category',
 			type: 'CHANNEL',
+			channelTypes: ['GUILD_CATEGORY'],
 			required: true,
 		},
 	],
@@ -19,7 +20,7 @@ const defaultExport: ICommand = {
 	],
 	permissions: ['ADMINISTRATOR'],
 	async execute({ interaction }) {
-		const category = interaction.options.getChannel('category') as GuildBasedChannel;
+		const category = interaction.options.getChannel('category') as CategoryChannel;
 		await interaction.deferReply({ ephemeral: true });
 		if (!(category instanceof CategoryChannel)) {
 			return interaction.followUp('Please select a category');
