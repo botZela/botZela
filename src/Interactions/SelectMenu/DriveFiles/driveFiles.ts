@@ -28,7 +28,6 @@ const defaultExport: ISelectMenuCommand = {
 		const fileName = component.options.at(fileIndex)?.label;
 
 		if (fileDesc && fileDesc === '📄 File') {
-			client.gdFolderStack.get(interaction.member.id)!.push({ id: fileId, name: fileName ?? '' });
 			const fileObj = await generatePublicUrl(fileId);
 			const resultEmbed = createEmbed(`Get Files `, `📄 ${fileName ?? 'File'}`);
 			const component = new MessageActionRow().addComponents(
@@ -60,10 +59,10 @@ const defaultExport: ISelectMenuCommand = {
 				components: [component],
 				embeds: [resultEmbed],
 			});
+			client.gdFolderStack.get(interaction.member.id)!.push({ id: fileId, name: fileName ?? '' });
 			return;
 		}
 
-		client.gdFolderStack.get(interaction.member.id)!.push({ id: fileId, name: fileName ?? '' });
 		const path = client.gdFolderStack
 			.get(interaction.member.id)!
 			.map((x) => x.name)
@@ -75,7 +74,7 @@ const defaultExport: ISelectMenuCommand = {
 				{ name: 'Any Suggestions', value: 'Consider sending us your feedback in <#922875567357984768>, Thanks.' },
 				{ name: 'Any Errors', value: 'Consider sending us your feedback in <#939564676038140004>, Thanks.' },
 			);
-			await interaction.reply({ embeds: [errorEmbed], ephemeral: false });
+			await interaction.followUp({ embeds: [errorEmbed], ephemeral: true });
 			return;
 		}
 		const panelEmbed = createEmbed(
@@ -92,6 +91,7 @@ const defaultExport: ISelectMenuCommand = {
 			embeds: [panelEmbed],
 			components: components,
 		});
+		client.gdFolderStack.get(interaction.member.id)!.push({ id: fileId, name: fileName ?? '' });
 	},
 };
 

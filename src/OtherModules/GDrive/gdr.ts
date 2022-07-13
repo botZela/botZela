@@ -66,6 +66,7 @@ export async function driveSearch(driveId: string) {
 	try {
 		const res = await drive.files.list({
 			q: `'${driveId}' in parents`,
+			pageSize: 1000,
 			orderBy: 'folder, name',
 			fields: 'files(id, name, mimeType, shortcutDetails)',
 			spaces: 'drive',
@@ -77,9 +78,7 @@ export async function driveSearch(driveId: string) {
 	}
 }
 
-export async function generatePublicUrl(
-	id: string,
-): Promise<{ webViewLink?: string | null; webContentLink?: string | null }> {
+export async function generatePublicUrl(id: string): Promise<drive_v3.Schema$File> {
 	try {
 		const result = await drive.files.get({
 			fileId: id,
