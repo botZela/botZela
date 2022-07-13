@@ -7,7 +7,6 @@ import { makeComponents, driveFilesSelectMenuOptions } from '../../../utils/Driv
 
 const defaultExport: ISelectMenuCommand = {
 	id: 'drivefiles-menu',
-	// Permissions : ["ADMINISTRATOR"],
 	async execute({ interaction }) {
 		await interaction.deferUpdate();
 
@@ -19,15 +18,25 @@ const defaultExport: ISelectMenuCommand = {
 			};
 			return interaction.followUp({ embeds: [embed], ephemeral: true });
 		}
+		const userStack = client.gdFolderStack.get(interaction.member.id);
+		if (!userStack) {
+			const embed: MessageEmbedOptions = {
+				color: 'RED',
+				title: 'Get Files',
+				description: 'Use the button (__**Get Files**__) again.',
+			};
+			return interaction.editReply({ embeds: [embed], components: [] });
+		}
 
 		const { values, component } = interaction;
 
 		const fileId = values[0];
 		const fileIndex = component.options.findIndex((x) => x.value === fileId);
-		const fileDesc = component.options.at(fileIndex)?.description;
+		// const fileDesc = component.options.at(fileIndex)?.description;
 		const fileName = component.options.at(fileIndex)?.label;
+		const fileEmoji = component.options.at(fileIndex)?.emoji;
 
-		if (fileDesc && fileDesc === '📄 File') {
+		if (fileEmoji?.name === '📄') {
 			const fileObj = await generatePublicUrl(fileId);
 			const resultEmbed = createEmbed(`Get Files `, `📄 ${fileName ?? 'File'}`);
 			const component = new MessageActionRow().addComponents(
@@ -59,14 +68,9 @@ const defaultExport: ISelectMenuCommand = {
 				components: [component],
 				embeds: [resultEmbed],
 			});
-			client.gdFolderStack.get(interaction.member.id)!.push({ id: fileId, name: fileName ?? '' });
+			userStack.push({ id: fileId, name: fileName ?? '' });
 			return;
 		}
-
-		const path = client.gdFolderStack
-			.get(interaction.member.id)!
-			.map((x) => x.name)
-			.join('/');
 
 		const options = await driveFilesSelectMenuOptions(fileId);
 		if (!options) {
@@ -77,6 +81,8 @@ const defaultExport: ISelectMenuCommand = {
 			await interaction.followUp({ embeds: [errorEmbed], ephemeral: true });
 			return;
 		}
+		userStack.push({ id: fileId, name: fileName ?? '' });
+		const path = userStack.map((x) => x.name).join('/');
 		const panelEmbed = createEmbed(
 			`Get Files `,
 			`📁 [${path}](https://drive.google.com/drive/folders/${fileId})\nThe easiest way to get access directly to the files that you are looking for.\n`,
@@ -91,7 +97,6 @@ const defaultExport: ISelectMenuCommand = {
 			embeds: [panelEmbed],
 			components: components,
 		});
-		client.gdFolderStack.get(interaction.member.id)!.push({ id: fileId, name: fileName ?? '' });
 	},
 };
 

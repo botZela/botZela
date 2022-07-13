@@ -1,3 +1,4 @@
+import { MessageEmbedOptions } from 'discord.js';
 import { client } from '../../..';
 import { IButtonCommand } from '../../../Typings';
 import { createEmbed } from '../../../utils';
@@ -5,7 +6,6 @@ import { makeComponents, driveFilesSelectMenuOptions } from '../../../utils/Driv
 
 const defaultExport: IButtonCommand = {
 	id: 'button-drivefiles-back',
-	// permissions: ['ADMINISTRATOR'],
 
 	execute: async ({ interaction }) => {
 		await interaction.deferUpdate();
@@ -14,9 +14,18 @@ const defaultExport: IButtonCommand = {
 			return interaction.editReply({ content: 'This command is used inside a server ...' });
 		}
 		const stack = client.gdFolderStack.get(interaction.member.id);
-		if (stack && stack.length > 1) stack.pop();
+		if (!stack) {
+			const embed: MessageEmbedOptions = {
+				color: 'RED',
+				title: 'Get Files',
+				description: 'Use the button (__**Get Files**__) again.',
+			};
+			return interaction.editReply({ embeds: [embed], components: [] });
+		}
 
-		const folderId = stack?.at(-1)?.id ?? stack!.at(0)!.id;
+		if (stack.length > 1) stack.pop();
+
+		const folderId = stack.at(-1)?.id ?? stack.at(0)!.id;
 
 		const options = await driveFilesSelectMenuOptions(folderId);
 		if (!options) {
@@ -44,7 +53,7 @@ const defaultExport: IButtonCommand = {
 		components
 			.at(2)!
 			.components.at(0)!
-			.setDisabled(stack?.length === 1);
+			.setDisabled(stack.length === 1);
 		await interaction.editReply({ embeds: [panelEmbed], components });
 	},
 };

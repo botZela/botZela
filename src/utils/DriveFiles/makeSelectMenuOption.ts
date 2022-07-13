@@ -10,16 +10,16 @@ export async function driveFilesSelectMenuOptions(fileId: string) {
 				if (file.mimeType === 'application/vnd.google-apps.shortcut' && file.shortcutDetails?.targetId) {
 					value = file.shortcutDetails.targetId;
 					description =
-						file.shortcutDetails.targetMimeType === 'application/vnd.google-apps.folder' ? '📁 Folder' : '📄 File';
+						file.shortcutDetails.targetMimeType === 'application/vnd.google-apps.folder' ? 'Folder' : 'File';
 				}
 				const label = file.name;
 				if (!value) value = file.id;
-				if (!description)
-					description = file.mimeType === 'application/vnd.google-apps.folder' ? '📁 Folder' : '📄 File';
+				if (!description) description = file.mimeType === 'application/vnd.google-apps.folder' ? 'Folder' : 'File';
 				const output: MessageSelectOptionData = {
 					label,
 					value,
 					description,
+					emoji: description === 'Folder' ? '📁' : '📄',
 				};
 				return output;
 			}

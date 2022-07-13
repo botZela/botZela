@@ -1,4 +1,4 @@
-import { MessageActionRow, MessageButton } from 'discord.js';
+import { MessageActionRow, MessageButton, MessageEmbedOptions } from 'discord.js';
 import { client } from '../../..';
 import { generatePublicUrl } from '../../../OtherModules/GDrive';
 import { IButtonCommand } from '../../../Typings';
@@ -6,7 +6,6 @@ import { createEmbed, logsMessage } from '../../../utils';
 
 const defaultExport: IButtonCommand = {
 	id: 'button-drivefiles-send',
-	// permissions: ['ADMINISTRATOR'],
 	execute: async ({ interaction }) => {
 		const logs = `[INFO] .${interaction.user.tag} have received a file from the drive.`;
 		if (interaction.guild) await logsMessage(logs, interaction.guild);
@@ -17,7 +16,16 @@ const defaultExport: IButtonCommand = {
 			return interaction.followUp({ content: 'This command is used inside a server ...', ephemeral: true });
 		}
 
-		const { id: fileId, name: fileName } = client.gdFolderStack.get(interaction.member.id)!.at(-1)!;
+		const userStack = client.gdFolderStack.get(interaction.member.id);
+		if (!userStack) {
+			const embed: MessageEmbedOptions = {
+				color: 'RED',
+				title: 'Get Files',
+				description: 'Use the button (__**Get Files**__) again.',
+			};
+			return interaction.editReply({ embeds: [embed], components: [] });
+		}
+		const { id: fileId, name: fileName } = userStack.at(-1)!;
 		const fileObj = await generatePublicUrl(fileId);
 		const resultEmbed = createEmbed(`Get Files `, `📄 ${fileName}`);
 		const component = new MessageActionRow();
