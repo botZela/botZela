@@ -25,7 +25,7 @@ const defaultExport: Event<'interactionCreate'> = {
 		try {
 			if (command.permissions && !command.permissions.some((perm) => member.permissions.has(perm))) {
 				await interaction.reply({
-					content: "Sorry you can't use this Command/Button.",
+					content: "Sorry you can't use this Command.",
 					ephemeral: true,
 				});
 			} else {
@@ -35,11 +35,11 @@ const defaultExport: Event<'interactionCreate'> = {
 				});
 			}
 		} catch (error) {
-			console.error(error);
 			await interaction.reply({
 				content: 'There was an error while executing this command!',
 				ephemeral: true,
 			});
+			throw error;
 		}
 	},
 };

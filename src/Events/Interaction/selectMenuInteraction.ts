@@ -12,7 +12,7 @@ const defaultExport: Event<'interactionCreate'> = {
 		const { customId, guild } = interaction;
 		const member = interaction.member as GuildMember;
 
-		const SelectMenu = client.selectMenu.get(customId);
+		const SelectMenu = client.selectMenus.get(customId);
 
 		if (!SelectMenu) {
 			return interaction.reply({ content: 'this `Select Menu` is not handle for now.', ephemeral: true });

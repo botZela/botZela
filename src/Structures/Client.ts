@@ -9,6 +9,7 @@ import {
 	IButtonCommand,
 	ICommand,
 	IContextCommand,
+	IModalSubmitCommand,
 	ISelectMenuCommand,
 	ItestGuild,
 } from '../Typings';
@@ -24,7 +25,8 @@ export class Client extends DiscordClient {
 	public contextMenuCommands: Collection<string, IContextCommand> = new Collection();
 	public buttons: Collection<string, IButtonCommand> = new Collection();
 	public buttonsCooldown: Collection<string, Collection<string, string[]>> = new Collection();
-	public selectMenu: Collection<string, ISelectMenuCommand> = new Collection();
+	public selectMenus: Collection<string, ISelectMenuCommand> = new Collection();
+	public modalSubmits: Collection<string, IModalSubmitCommand> = new Collection();
 	public testGuilds: ItestGuild[] = testGuilds;
 	public commandsDataArray: ExtendedApplicationCommandDataResolvable[] = [];
 	public showTable: boolean | 'both' = false;

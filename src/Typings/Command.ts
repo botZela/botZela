@@ -6,6 +6,7 @@ import {
 	ContextMenuInteraction,
 	GuildMember,
 	Interaction,
+	ModalSubmitInteraction,
 	PermissionResolvable,
 	SelectMenuInteraction,
 	Snowflake,
@@ -39,23 +40,24 @@ export interface ExtendedCommandInteraction extends CommandInteraction {
 	member: GuildMember;
 }
 
-export interface ICommand extends ChatInputApplicationCommandData {
+export interface ExtendedModalSubmitInteraction extends ModalSubmitInteraction {
+	member: GuildMember;
+}
+
+interface BaseCommand {
 	ownerOnly?: boolean;
 	context?: boolean;
 	guilds?: Snowflake[];
 	privateGuilds?: boolean;
 	permissions?: PermissionResolvable[];
 	cooldown?: number;
+}
+
+export interface ICommand extends ChatInputApplicationCommandData, BaseCommand {
 	execute: ExecuteFunction<ExtendedCommandInteraction>;
 }
 
-export interface IContextCommand extends UserApplicationCommandData {
-	ownerOnly?: boolean;
-	context?: boolean;
-	guilds?: Snowflake[];
-	privateGuilds?: boolean;
-	permissions?: PermissionResolvable[];
-	cooldown?: number;
+export interface IContextCommand extends UserApplicationCommandData, BaseCommand {
 	execute: ExecuteFunction<ExtendedContextMenuInteraction>;
 }
 
@@ -77,4 +79,14 @@ export interface ISelectMenuCommand {
 	permissions?: PermissionResolvable[];
 	cooldown?: number;
 	execute: ExecuteFunction<ExtendedSelectMenuInteraction>;
+}
+
+export interface IModalSubmitCommand extends BaseCommand {
+	id: string;
+	ownerOnly?: boolean;
+	guilds?: Snowflake[];
+	privateGuilds?: boolean;
+	permissions?: PermissionResolvable[];
+
+	execute: ExecuteFunction<ExtendedModalSubmitInteraction>;
 }

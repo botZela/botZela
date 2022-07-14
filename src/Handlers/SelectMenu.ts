@@ -27,7 +27,7 @@ export async function selectMenuHandler(client: Client, PG: any, Ascii: any): Pr
 			// Client.buttonsCooldown.set(buttonFile.id, new Collection());
 		}
 
-		client.selectMenu.set(selectMenu.id, selectMenu);
+		client.selectMenus.set(selectMenu.id, selectMenu);
 		Table.addRow(selectMenu.id, '🔷 LOADED');
 		count++;
 	}
