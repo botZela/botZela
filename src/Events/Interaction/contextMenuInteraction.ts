@@ -1,7 +1,8 @@
-import { GuildMember, Interaction, MessageEmbed } from 'discord.js';
+import { GuildMember, Interaction } from 'discord.js';
 import { client } from '../..';
 import { Event } from '../../Structures';
 import { ExtendedContextMenuInteraction } from '../../Typings';
+import { createErrorEmbed } from '../../utils';
 
 const defaultExport: Event<'interactionCreate'> = {
 	name: 'interactionCreate',
@@ -13,12 +14,7 @@ const defaultExport: Event<'interactionCreate'> = {
 		const command = client.contextMenuCommands.get(interaction.commandName);
 		if (!command) {
 			return interaction.reply({
-				embeds: [
-					new MessageEmbed({
-						color: 'RED',
-						description: '⛔ An error occured while running this command.',
-					}),
-				],
+				embeds: [createErrorEmbed('', '⛔ An error occured while running this command.')],
 			});
 		}
 

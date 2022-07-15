@@ -1,5 +1,6 @@
-import { MessageActionRow, MessageEmbed, MessageButton, MessageSelectMenu } from 'discord.js';
+import { MessageActionRow, MessageButton, MessageSelectMenu } from 'discord.js';
 import { IButtonCommand } from '../../../Typings';
+import { createEmbed } from '../../../utils';
 
 const defaultExport: IButtonCommand = {
 	id: 'sendOtherFlGrp',
@@ -9,11 +10,14 @@ const defaultExport: IButtonCommand = {
 		const row1 = new MessageActionRow();
 		const row2 = new MessageActionRow();
 		const row3 = new MessageActionRow();
-		const embed = new MessageEmbed()
+		const embed = createEmbed(
+			'Get the Schedule for any Branch or groupe you like.',
+			'Choose below the branch and the filiere you want.',
+		)
 			.setColor('RED')
-			.setTitle('Get the Schedule for any Branch or groupe you like.')
-			.setDescription('Choose below the branch and the filiere you want.')
-			.addField('Any Suggestions', `Consider sending us your feedback in <#922875567357984768>, Thanks.`);
+			.addFields([
+				{ name: 'Any Suggestions', value: `Consider sending us your feedback in <#922875567357984768>, Thanks.` },
+			]);
 
 		const filieresArray = ['2IA', '2SCL', 'BI&A', 'GD', 'GL', 'IDF', 'IDSIT', 'SSE', 'SSI'];
 		const groupesArray = ['G1', 'G2', 'G3', 'G4', 'G5', 'G6', 'G7', 'G8'];

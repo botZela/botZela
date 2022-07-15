@@ -1,8 +1,8 @@
-import { MessageActionRow, MessageButton, MessageEmbedOptions } from 'discord.js';
+import { MessageActionRow, MessageButton } from 'discord.js';
 import guildDrive from '../../../Models/guildDrive';
 import { checkDriveId, getDriveName } from '../../../OtherModules/GDrive';
 import { ICommand } from '../../../Typings';
-import { createEmbed } from '../../../utils';
+import { createEmbed, createErrorEmbed, createInfoEmbed } from '../../../utils';
 
 const defaultExport: ICommand = {
 	name: 'drivefiles-panel',
@@ -34,11 +34,7 @@ const defaultExport: ICommand = {
 
 		const { channel, options, guild } = interaction;
 		if (!guild || !channel) {
-			const embed: MessageEmbedOptions = {
-				color: 'RED',
-				title: 'Get Files',
-				description: 'This command is used inside a server ...',
-			};
+			const embed = createErrorEmbed('Get Files', 'This command is used inside a server ...');
 			return interaction.followUp({ embeds: [embed], ephemeral: true });
 		}
 
@@ -46,11 +42,10 @@ const defaultExport: ICommand = {
 		const driveId = options.getString('drive');
 
 		if (!driveId) {
-			const embed: MessageEmbedOptions = {
-				color: 'RED',
-				title: 'Get Files',
-				description: 'Please enter a drive Id (https://drive.google.com/drive/u/0/folders/**driveId**)',
-			};
+			const embed = createErrorEmbed(
+				'Get Files',
+				'Please enter a drive Id (https://drive.google.com/drive/u/0/folders/**driveId**)',
+			);
 			return interaction.followUp({
 				embeds: [embed],
 				ephemeral: true,
@@ -58,11 +53,7 @@ const defaultExport: ICommand = {
 		}
 
 		if (!(await checkDriveId(driveId))) {
-			const embed: MessageEmbedOptions = {
-				color: 'RED',
-				title: 'Get Files',
-				description: 'The drive Id that you provided is not valid',
-			};
+			const embed = createErrorEmbed('Get Files', 'The drive Id that you provided is not valid');
 			return interaction.followUp({ embeds: [embed], ephemeral: true });
 		}
 		const driveName = options.getString('name') ?? (await getDriveName(driveId));
@@ -92,11 +83,7 @@ const defaultExport: ICommand = {
 			await sentMessage.edit({ embeds: [panelEmbed], components });
 			driveData.find((x) => x.messageId === msgId)!.driveId = driveId;
 			await driveData.find((x) => x.messageId === msgId)!.save();
-			const embed: MessageEmbedOptions = {
-				color: 'GREEN',
-				title: 'Get Files',
-				description: 'The panel was updated with the new drive.',
-			};
+			const embed = createInfoEmbed('Get Files', 'The panel was updated with the new drive.');
 			return interaction.followUp({
 				embeds: [embed],
 				ephemeral: true,
@@ -118,11 +105,7 @@ const defaultExport: ICommand = {
 			driveId,
 		});
 		if (msgId) {
-			const embed: MessageEmbedOptions = {
-				color: 'GREEN',
-				title: 'Get Files',
-				description: 'The panel was updated with the new drive.',
-			};
+			const embed = createInfoEmbed('Get Files', 'The panel was updated with the new drive.');
 			return interaction.followUp({
 				embeds: [embed],
 				ephemeral: true,

@@ -1,7 +1,7 @@
 import { ICommand } from '../../../Typings';
 import { client } from '../../../index';
+import { createEmbed } from '../../../utils/Embeds';
 import { getArticle } from '../../../utils/GetArticle';
-import { createEmbed } from '../../../utils/createEmbed';
 
 const defaultExport: ICommand = {
 	name: 'getarticle',

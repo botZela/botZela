@@ -1,6 +1,7 @@
-import { Message, MessageActionRow, MessageButton, MessageEmbed } from 'discord.js';
+import { Message, MessageActionRow, MessageButton } from 'discord.js';
 import { client } from '../../..';
 import { ICommand } from '../../../Typings';
+import { createEmbed } from '../../../utils';
 
 const defaultExport: ICommand = {
 	name: 'button_schedule',
@@ -20,9 +21,8 @@ const defaultExport: ICommand = {
 		const { channel, options } = interaction;
 		const msgId = options.getString('message');
 		const row = new MessageActionRow();
-		const embed = new MessageEmbed()
+		const embed = createEmbed('Get your Schedule Customised for You')
 			.setColor('RED')
-			.setTitle('Get your Schedule Customised for You')
 			.setDescription(
 				"To get your Custom Schedule just type whatever you want in this channel, you will get it in Direct Messages.\nOr just press the button below ,`📅 Waa Tarii9 Siift l'emploi`, for more convenience.\n",
 			)

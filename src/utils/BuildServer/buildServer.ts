@@ -3,7 +3,7 @@ import { batchCreate } from './batchCreate';
 import { batchVisualize } from './batchVisualize';
 import { convertYaml } from './convertYaml';
 import { ExtendedCommandInteraction } from '../../Typings';
-import { createEmbed } from '../createEmbed';
+import { createEmbed } from '../Embeds';
 
 export async function buildServer(message: Message | ExtendedCommandInteraction): Promise<void> {
 	if (!message.channel || !message.guild) {

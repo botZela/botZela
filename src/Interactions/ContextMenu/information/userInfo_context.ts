@@ -13,24 +13,26 @@ const defaultExport: IContextCommand = {
 		const target = await interaction.guild.members.fetch(interaction.targetId);
 
 		const response = new MessageEmbed()
-			.setColor('AQUA')
+			.setColor('RANDOM')
 			.setAuthor({
 				name: target.user.tag,
 				iconURL: target.user.avatarURL({ dynamic: true, size: 512 }) ?? '',
 			})
 			.setThumbnail(target.user.avatarURL({ dynamic: true, size: 512 }) ?? '')
-			.addField('ID', `${target.user.id}`)
-			.addField(
-				'Roles',
-				`${
-					target.roles.cache
-						.map((r) => r)
-						.join(' ')
-						.replace('@everyone', '') || 'None'
-				}`,
-			)
-			.addField('Member Since', `<t:${Math.floor((target.joinedTimestamp ?? 0) / 1000)}:R>`, true)
-			.addField('Discord User Since', `<t:${Math.floor(target.user.createdTimestamp / 1000)}:R>`, true);
+			.addFields([
+				{ name: 'ID', value: `${target.user.id}` },
+				{
+					name: 'Roles',
+					value: `${
+						target.roles.cache
+							.map((r) => r)
+							.join(' ')
+							.replace('@everyone', '') || 'None'
+					}`,
+				},
+				{ name: 'Member Since', value: `<t:${Math.floor((target.joinedTimestamp ?? 0) / 1000)}:R>`, inline: true },
+				{ name: 'Discord User Since', value: `<t:${Math.floor(target.user.createdTimestamp / 1000)}:R>`, inline: true },
+			]);
 
 		await interaction.reply({ embeds: [response], ephemeral: true });
 	},

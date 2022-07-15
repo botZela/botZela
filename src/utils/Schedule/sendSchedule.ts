@@ -1,6 +1,6 @@
 import { GuildMember, MessageActionRow, MessageButton } from 'discord.js';
 import { FiliereType, GroupeType } from '../../Typings/Ensias';
-import { createEmbed } from '../createEmbed';
+import { createEmbed } from '../Embeds';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function sendSchedule(member: GuildMember, filiere: FiliereType, groupe: GroupeType) {

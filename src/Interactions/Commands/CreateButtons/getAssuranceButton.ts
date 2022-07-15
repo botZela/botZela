@@ -1,6 +1,7 @@
-import { Message, MessageActionRow, MessageButton, MessageEmbed } from 'discord.js';
+import { Message, MessageActionRow, MessageButton } from 'discord.js';
 import { client } from '../../..';
 import { ICommand } from '../../../Typings';
+import { createEmbed } from '../../../utils';
 
 const defaultExport: ICommand = {
 	name: 'button_assurance',
@@ -19,9 +20,8 @@ const defaultExport: ICommand = {
 		const { channel, options } = interaction;
 		const msgId = options.getString('message');
 		const row = new MessageActionRow();
-		const embed = new MessageEmbed()
+		const embed = createEmbed('Get your "Assurance"')
 			.setColor('RED')
-			.setTitle('Get your "Assurance"')
 			.setDescription(
 				"To get your Custom __**Assurance**__ press the button below `📥 Waa Tarii9 Siift l'Assurance`, to get your Insurance.\n",
 			)

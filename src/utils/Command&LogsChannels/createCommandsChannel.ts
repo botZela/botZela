@@ -2,7 +2,7 @@ import { CategoryChannelResolvable, Guild, OverwriteResolvable, TextChannel } fr
 import { client } from '../..';
 import gChannels from '../../Models/guildChannels';
 import { createChannel } from '../Channels/createChannel';
-import { createEmbed } from '../createEmbed';
+import { createEmbed } from '../Embeds';
 
 export async function createCommandsChannel(
 	guild: Guild,

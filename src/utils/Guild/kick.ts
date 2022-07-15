@@ -1,6 +1,6 @@
 import { Guild, GuildMember } from 'discord.js';
 import linksModel from '../../Models/guildLinks';
-import { createEmbed } from '../../utils/createEmbed';
+import { createEmbed } from '../Embeds';
 
 export async function kick(member: GuildMember, guild: Guild) {
 	let formLink = '';

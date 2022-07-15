@@ -1,9 +1,9 @@
 import { ICommand } from '../../../Typings';
 import { FiliereType, GroupeType } from '../../../Typings/Ensias';
 import { client } from '../../../index';
+import { createEmbed } from '../../../utils/Embeds';
 import { flGrpYr } from '../../../utils/Schedule/flGrp';
 import { sendSchedule } from '../../../utils/Schedule/sendSchedule';
-import { createEmbed } from '../../../utils/createEmbed';
 import { logsMessage } from '../../../utils/logsMessage';
 
 const filieresArray = ['2IA', '2SCL', 'BI&A', 'GD', 'GL', 'IDF', 'IDSIT', 'SSE', 'SSI'];

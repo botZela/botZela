@@ -4,7 +4,7 @@ import { client } from '../..';
 import linksModel from '../../Models/guildLinks';
 import { GSpreadSheet } from '../../OtherModules/GSpreadSheet/gsp';
 import { ExtendedCommandInteraction } from '../../Typings';
-import { createEmbed } from '../createEmbed';
+import { createEmbed } from '../Embeds';
 
 export async function setupServer(message: Message | ExtendedCommandInteraction): Promise<void> {
 	const { channel, guild } = message;

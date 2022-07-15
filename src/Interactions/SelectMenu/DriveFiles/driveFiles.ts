@@ -1,8 +1,8 @@
-import { MessageActionRow, MessageButton, MessageEmbedOptions } from 'discord.js';
+import { MessageActionRow, MessageButton } from 'discord.js';
 import { client } from '../../..';
 import { generatePublicUrl } from '../../../OtherModules/GDrive';
 import { ISelectMenuCommand } from '../../../Typings';
-import { createEmbed } from '../../../utils';
+import { createEmbed, createErrorEmbed } from '../../../utils';
 import { makeComponents, driveFilesSelectMenuOptions } from '../../../utils/DriveFiles';
 
 const defaultExport: ISelectMenuCommand = {
@@ -11,20 +11,12 @@ const defaultExport: ISelectMenuCommand = {
 		await interaction.deferUpdate();
 
 		if (!interaction.inGuild()) {
-			const embed: MessageEmbedOptions = {
-				color: 'RED',
-				title: 'Get Files',
-				description: 'This command is used inside a server ...',
-			};
+			const embed = createErrorEmbed('Get Files', 'This command is used inside a server ...');
 			return interaction.followUp({ embeds: [embed], ephemeral: true });
 		}
 		const userStack = client.gdFolderStack.get(interaction.member.id);
 		if (!userStack) {
-			const embed: MessageEmbedOptions = {
-				color: 'RED',
-				title: 'Get Files',
-				description: 'Use the button (__**Get Files**__) again.',
-			};
+			const embed = createErrorEmbed('Get Files', 'Use the button (__**Get Files**__) again.');
 			return interaction.editReply({ embeds: [embed], components: [] });
 		}
 

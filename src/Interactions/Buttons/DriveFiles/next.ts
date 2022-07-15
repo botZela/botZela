@@ -1,7 +1,6 @@
-import { MessageEmbedOptions } from 'discord.js';
 import { client } from '../../..';
 import { IButtonCommand } from '../../../Typings';
-import { createEmbed } from '../../../utils';
+import { createEmbed, createErrorEmbed } from '../../../utils';
 import { makeComponents, driveFilesSelectMenuOptions } from '../../../utils/DriveFiles';
 
 const defaultExport: IButtonCommand = {
@@ -18,11 +17,7 @@ const defaultExport: IButtonCommand = {
 
 		const stack = client.gdFolderStack.get(interaction.member.id);
 		if (!stack) {
-			const embed: MessageEmbedOptions = {
-				color: 'RED',
-				title: 'Get Files',
-				description: 'Use the button (__**Get Files**__) again.',
-			};
+			const embed = createErrorEmbed('Get Files', 'Use the button (__**Get Files**__) again.');
 			return interaction.editReply({ embeds: [embed], components: [] });
 		}
 
