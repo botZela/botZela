@@ -1,11 +1,13 @@
 import { client } from '../..';
 import { Event } from '../../Structures';
 import { announcements, introduceYourSelf } from '../../utils/AutoReacts';
+import { autoReact } from '../../utils/AutoReacts/autoReact';
 import { messageSchedule } from '../../utils/Schedule/autoResponceSchedule';
 
 const defaultExport: Event<'messageCreate'> = {
 	name: 'messageCreate',
 	async execute(message) {
+		await autoReact(message);
 		if (message.inGuild()) {
 			const { channel, author, guild } = message;
 			const announcementName = 'announcement';

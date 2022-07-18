@@ -1,5 +1,12 @@
-import { ApplicationCommandOptionType, CategoryChannel, GuildBasedChannel, StageChannel } from 'discord.js';
+import {
+	ApplicationCommandOptionType,
+	CategoryChannel,
+	ChannelType,
+	GuildBasedChannel,
+	StageChannel,
+} from 'discord.js';
 import { z } from 'zod';
+import autoReactChannels from '../../../Models/autoReactChannels';
 import gChannels from '../../../Models/guildChannels';
 import linksModel from '../../../Models/guildLinks';
 import gRoles from '../../../Models/guildRoles';
@@ -14,9 +21,62 @@ const defaultExport: ICommand = {
 	description: 'Setup the server',
 	options: [
 		{
+			name: 'autoreact',
+			description: 'Setup autoReaction for specifique Channels',
 			type: ApplicationCommandOptionType.SubcommandGroup,
+			options: [
+				{
+					name: 'enable',
+					description: 'Enable/Update the auto reaction',
+					type: ApplicationCommandOptionType.Subcommand,
+					options: [
+						{
+							name: 'channel',
+							description: 'The channel in which you want to enable auto reaction',
+							type: ApplicationCommandOptionType.Channel,
+							channel_types: [ChannelType.GuildText],
+							required: true,
+						},
+						{
+							name: 'emojis',
+							description: 'A space seperated list of the emojis (👍 👎)',
+							type: ApplicationCommandOptionType.String,
+							required: true,
+						},
+						{
+							name: 'random',
+							description: 'Randomize the output of the reactions',
+							type: ApplicationCommandOptionType.Boolean,
+							required: false,
+						},
+						{
+							name: 'number',
+							description: 'number of Reactions ( if random is true)',
+							type: ApplicationCommandOptionType.Number,
+							required: false,
+						},
+					],
+				},
+				{
+					name: 'disable',
+					description: 'Disable the auto reaction',
+					type: ApplicationCommandOptionType.Subcommand,
+					options: [
+						{
+							name: 'channel',
+							description: 'The channel in which you want to disable auto reaction',
+							type: ApplicationCommandOptionType.Channel,
+							channel_types: [ChannelType.GuildText],
+							required: true,
+						},
+					],
+				},
+			],
+		},
+		{
 			name: 'channels',
 			description: 'Setup channels.',
+			type: ApplicationCommandOptionType.SubcommandGroup,
 			options: [
 				{
 					type: ApplicationCommandOptionType.Subcommand,
@@ -134,6 +194,7 @@ const defaultExport: ICommand = {
 			}
 			return interaction.followUp({ content: 'Default Role Added Successfully', ephemeral: true });
 		}
+
 		const subCommandGroup = interaction.options.getSubcommandGroup();
 		if (subCommandGroup === 'channels') {
 			const channel = interaction.options.getChannel('channel') as GuildBasedChannel;
@@ -185,6 +246,52 @@ const defaultExport: ICommand = {
 				}
 				return interaction.followUp({ content: `This server's Form Link Added Successfully.`, ephemeral: true });
 			}
+		} else if (subCommandGroup === 'autoreact') {
+			const subCommand = interaction.options.getSubcommand();
+			if (subCommand === 'enable') {
+				const channel = interaction.options.getChannel('channel', true);
+				const emojis = interaction.options.getString('emojis', true);
+				const emojisArray = emojis.split(/ +/);
+				const random = interaction.options.getBoolean('random') ?? false;
+				const numberOfReactions = (random ? interaction.options.getNumber('number') : null) ?? emojisArray.length;
+
+				const reactionData = await autoReactChannels.findOne({ channelId: channel.id });
+				if (reactionData) {
+					reactionData.reactions = emojisArray;
+					reactionData.random = random;
+					reactionData.numberOfReactions = numberOfReactions;
+					await reactionData.save();
+				} else {
+					await autoReactChannels.create({
+						guildId: interaction.guild!.id,
+						guildName: interaction.guild!.name,
+						channelId: channel.id,
+						reactions: emojisArray,
+						random,
+						numberOfReactions,
+					});
+				}
+				await interaction.followUp({
+					content: `Created an auto reaction in <#${channel.id}> with these emojis ${JSON.stringify(emojisArray)} `,
+					ephemeral: true,
+				});
+			} else if (subCommand === 'disable') {
+				const channel = interaction.options.getChannel('channel', true);
+				const reactionData = await autoReactChannels.findOne({ channelId: channel.id });
+				if (reactionData) {
+					reactionData.delete();
+					await interaction.followUp({
+						content: `Disabled auto reaction from <#${channel.id}>`,
+						ephemeral: true,
+					});
+				} else {
+					await interaction.followUp({
+						content: `No auto reaction was set in <#${channel.id}>`,
+						ephemeral: true,
+					});
+				}
+			}
+			return;
 		}
 
 		await interaction.followUp({ content: 'Setting up the server .... ', ephemeral: true });

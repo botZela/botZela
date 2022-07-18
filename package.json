@@ -10,14 +10,14 @@
 		"ascii-table3": "^0.7.6",
 		"axios": "^0.27.2",
 		"cheerio": "1.0.0-rc.12",
-		"discord.js": "^14.0.1",
+		"discord.js": "^14.0.2",
 		"dotenv": "^16.0.1",
 		"glob": "^8.0.3",
 		"googleapis-common": "^6.0.0",
 		"js-yaml": "^4.1.0",
 		"mongoose": "^6.4.4",
 		"tslib": "^2.4.0",
-		"zod": "^3.17.3"
+		"zod": "^3.17.9"
 	},
 	"scripts": {
 		"start": "ts-node .",
