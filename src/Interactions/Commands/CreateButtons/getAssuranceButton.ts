@@ -1,4 +1,11 @@
-import { Message, MessageActionRow, MessageButton } from 'discord.js';
+import {
+	ActionRowBuilder,
+	ApplicationCommandOptionType,
+	ButtonBuilder,
+	ButtonStyle,
+	Message,
+	MessageActionRowComponentBuilder,
+} from 'discord.js';
 import { client } from '../../..';
 import { ICommand } from '../../../Typings';
 import { createEmbed } from '../../../utils';
@@ -6,33 +13,31 @@ import { createEmbed } from '../../../utils';
 const defaultExport: ICommand = {
 	name: 'button_assurance',
 	description: 'Create the Insurance button',
-	permissions: ['ADMINISTRATOR'],
+	permissions: ['Administrator'],
 	guilds: [client.testGuilds.find((guild) => guild.name.includes('ENSIAS'))?.id ?? ''],
 	options: [
 		{
 			name: 'message',
 			description: 'The message id you want to edit,(it must be sent by the bot).',
-			type: 'STRING',
+			type: ApplicationCommandOptionType.String,
 			required: false,
 		},
 	],
 	async execute({ interaction }) {
 		const { channel, options } = interaction;
 		const msgId = options.getString('message');
-		const row = new MessageActionRow();
+		const row = new ActionRowBuilder<MessageActionRowComponentBuilder>();
 		const embed = createEmbed('Get your "Assurance"')
-			.setColor('RED')
+			.setColor('Red')
 			.setDescription(
 				"To get your Custom __**Assurance**__ press the button below `📥 Waa Tarii9 Siift l'Assurance`, to get your Insurance.\n",
 			)
-			.addField('Any Suggestions', `Consider sending us your feedback in <#922875567357984768>, Thanks.`);
+			.addFields([
+				{ name: 'Any Suggestions', value: `Consider sending us your feedback in <#922875567357984768>, Thanks.` },
+			]);
 
 		row.addComponents(
-			new MessageButton()
-				.setCustomId('sendAssurance')
-				.setLabel("Waa Tarii9 Siift l'Assurance")
-				.setStyle('SUCCESS')
-				.setEmoji('📥'),
+			new ButtonBuilder().setLabel("Waa Tarii9 Siift 'Assurance'").setStyle(ButtonStyle.Success).setEmoji('📥'),
 		);
 
 		if (!channel) {

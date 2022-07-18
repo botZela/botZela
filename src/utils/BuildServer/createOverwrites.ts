@@ -12,13 +12,13 @@ export async function createOverwrites(guild: Guild, rolesList: string[]): Promi
 	const overwrites: OverwriteResolvable[] = [
 		{
 			id: guild.roles.everyone.id,
-			deny: ['VIEW_CHANNEL'],
+			deny: ['ViewChannel'],
 		},
 	];
 	if (client.user) {
 		overwrites.push({
 			id: client.user.id,
-			allow: ['VIEW_CHANNEL'],
+			allow: ['ViewChannel'],
 		});
 	}
 
@@ -27,7 +27,7 @@ export async function createOverwrites(guild: Guild, rolesList: string[]): Promi
 		if (roleId) {
 			overwrites.push({
 				id: roleId,
-				allow: ['VIEW_CHANNEL'],
+				allow: ['ViewChannel'],
 			});
 		} else {
 			await logsMessage(`[ERROR] Role ${role} was not found for guild ${guild.name}`, guild);

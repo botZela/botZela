@@ -7,7 +7,7 @@ import { flGrpYr } from '../../../utils/Schedule/flGrp';
 
 const defaultExport: IButtonCommand = {
 	id: 'button-ensiasfiles-init',
-	// permissions: ['ADMINISTRATOR'],
+	// permissions: ['Administrator'],
 
 	execute: async ({ interaction }) => {
 		const logs = `[INFO] .${interaction.user.tag} have used ENSIAS DRIVE button.`;

@@ -1,3 +1,4 @@
+import { ActivityType } from 'discord.js';
 import mongoose, { ConnectOptions } from 'mongoose';
 import { client } from '../..';
 import { Event } from '../../Structures';
@@ -10,7 +11,7 @@ const defaultExport: Event<'ready'> = {
 			activities: [
 				{
 					name: "with WHAT'S N3XT ©️",
-					type: 'WATCHING',
+					type: ActivityType.Watching,
 				},
 			],
 			status: 'online',

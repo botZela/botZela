@@ -4,7 +4,7 @@ import { ICommand } from '../../../Typings';
 const defaultExport: ICommand = {
 	name: 'ping',
 	description: 'Sends Back PONG',
-	permissions: ['ADMINISTRATOR'],
+	permissions: ['Administrator'],
 	async execute({ interaction }) {
 		// Await interaction.reply({ content: `PONG after \`${client.ws.ping}ms\``, ephemeral: true });
 		await interaction.reply({

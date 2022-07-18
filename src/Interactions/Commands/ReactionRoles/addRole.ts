@@ -1,33 +1,34 @@
+import { ApplicationCommandOptionType } from 'discord.js';
 import rrModel, { RolesType } from '../../../Models/reactionRoles';
 import { ICommand } from '../../../Typings';
 
 const defaultExport: ICommand = {
 	name: 'add-role',
 	description: 'Add a custom reaction role',
-	permissions: ['ADMINISTRATOR'],
+	permissions: ['Administrator'],
 	options: [
 		{
 			name: 'role',
 			description: 'role to be assigned',
-			type: 'ROLE',
+			type: ApplicationCommandOptionType.Role,
 			required: true,
 		},
 		{
 			name: 'description',
 			description: 'description of this role',
-			type: 'STRING',
+			type: ApplicationCommandOptionType.String,
 			required: false,
 		},
 		{
 			name: 'emoji',
 			description: 'emoji for the role',
-			type: 'STRING',
+			type: ApplicationCommandOptionType.String,
 			required: false,
 		},
 	],
 	execute: async ({ interaction }) => {
 		const { options, guild } = interaction;
-		if (!guild || !guild.me) {
+		if (!guild || !guild.members.me) {
 			return interaction.reply({ content: 'This command is used inside a server ...', ephemeral: true });
 		}
 		const role = options.getRole('role');
@@ -37,7 +38,7 @@ const defaultExport: ICommand = {
 		const roleDescription = options.getString('description') ?? undefined;
 		const roleEmoji = options.getString('emoji') ?? undefined;
 
-		if (role.position >= guild.me.roles.highest.position) {
+		if (role.position >= guild.members.me.roles.highest.position) {
 			return interaction.reply({ content: "I can't assign a role that is higher or equal than me.", ephemeral: true });
 		}
 

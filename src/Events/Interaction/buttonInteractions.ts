@@ -14,19 +14,23 @@ const defaultExport: Event<'interactionCreate'> = {
 		const Button = client.buttons.get(customId);
 
 		if (!Button) {
-			return interaction.reply({ content: 'this Button is not handle for now.', ephemeral: true });
+			await interaction.reply({ content: 'this Button is not handle for now.', ephemeral: true });
+			return;
 		}
 
 		if (Button.cooldown && client.buttonsCooldown.get(customId)?.get(guild.id)?.includes(member.id)) {
-			return interaction.reply({ content: 'You are on cooldown. Try again later.', ephemeral: true });
+			await interaction.reply({ content: 'You are on cooldown. Try again later.', ephemeral: true });
+			return;
 		}
 
 		if (Button.permissions && !Button.permissions.some((perm) => member.permissions.has(perm))) {
-			return interaction.reply({ content: 'You are missing permissions.', ephemeral: true });
+			await interaction.reply({ content: 'You are missing permissions.', ephemeral: true });
+			return;
 		}
 
 		if (Button.ownerOnly && member.id !== guild.ownerId) {
-			return interaction.reply({ content: 'You are not the owner.', ephemeral: true });
+			await interaction.reply({ content: 'You are not the owner.', ephemeral: true });
+			return;
 		}
 
 		if (Button.cooldown) {

@@ -1,24 +1,25 @@
-import { MessageEmbed } from 'discord.js';
+import { ApplicationCommandType, EmbedBuilder } from 'discord.js';
 import { IContextCommand } from '../../../Typings';
 
 const defaultExport: IContextCommand = {
 	name: 'User Info',
-	type: 'USER',
+	type: ApplicationCommandType.User,
 	context: true,
 	// Permissions: ["ADMINISTRATOR"],
 	async execute({ interaction }): Promise<void> {
 		if (!interaction.guild) {
-			return interaction.reply({ content: 'This command is used inside a server ...', ephemeral: true });
+			await interaction.reply({ content: 'This command is used inside a server ...', ephemeral: true });
+			return;
 		}
 		const target = await interaction.guild.members.fetch(interaction.targetId);
 
-		const response = new MessageEmbed()
-			.setColor('RANDOM')
+		const response = new EmbedBuilder()
+			.setColor('Random')
 			.setAuthor({
 				name: target.user.tag,
-				iconURL: target.user.avatarURL({ dynamic: true, size: 512 }) ?? '',
+				iconURL: target.user.avatarURL({ size: 512 }) ?? '',
 			})
-			.setThumbnail(target.user.avatarURL({ dynamic: true, size: 512 }) ?? '')
+			.setThumbnail(target.user.avatarURL({ size: 512 }) ?? '')
 			.addFields([
 				{ name: 'ID', value: `${target.user.id}` },
 				{

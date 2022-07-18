@@ -1,4 +1,10 @@
-import { MessageActionRow, MessageButton } from 'discord.js';
+import {
+	ActionRowBuilder,
+	ApplicationCommandOptionType,
+	ButtonBuilder,
+	ButtonStyle,
+	MessageActionRowComponentBuilder,
+} from 'discord.js';
 import { client } from '../../..';
 import ensiasDrive from '../../../Models/guildDrive-Ensias';
 import { checkDriveId, getDriveName } from '../../../OtherModules/GDrive';
@@ -11,37 +17,37 @@ const yearArray = ['1A', '2A', '3A'];
 const defaultExport: ICommand = {
 	name: 'ensiasfiles',
 	description: 'Get your schedule based on your group and field.',
-	permissions: ['ADMINISTRATOR'],
+	permissions: ['Administrator'],
 	guilds: [client.testGuilds.find((guild) => guild.name.includes('ENSIAS'))?.id ?? ''],
 	options: [
 		{
 			name: 'add',
-			type: 'SUB_COMMAND',
+			type: ApplicationCommandOptionType.Subcommand,
 			description: 'Add a drive folder to the main panel',
 			options: [
 				{
 					name: 'drive',
-					type: 'STRING',
+					type: ApplicationCommandOptionType.String,
 					description: 'The id of the drive that you want to create.',
 					required: true,
 				},
 				{
 					name: 'year',
-					type: 'STRING',
+					type: ApplicationCommandOptionType.String,
 					description: 'Choose the Year',
 					choices: yearArray.map((x) => ({ name: x, value: x })),
 					required: true,
 				},
 				{
 					name: 'filiere',
-					type: 'STRING',
+					type: ApplicationCommandOptionType.String,
 					description: 'Choose the branch',
 					choices: filieresArray.map((x) => ({ name: x, value: x })),
 					required: true,
 				},
 				{
 					name: 'name',
-					type: 'STRING',
+					type: ApplicationCommandOptionType.String,
 					description: 'Name of the drive folder',
 					required: false,
 				},
@@ -49,13 +55,13 @@ const defaultExport: ICommand = {
 		},
 		{
 			name: 'panel',
-			type: 'SUB_COMMAND',
+			type: ApplicationCommandOptionType.Subcommand,
 			description: 'Send the Embed.',
 			options: [
 				{
 					name: 'message',
 					description: 'The message id you want to edit,(it must be sent by the bot).',
-					type: 'STRING',
+					type: ApplicationCommandOptionType.String,
 					required: false,
 				},
 			],
@@ -138,11 +144,11 @@ const defaultExport: ICommand = {
 			);
 
 			const components = [
-				new MessageActionRow().addComponents(
-					new MessageButton()
+				new ActionRowBuilder<MessageActionRowComponentBuilder>().addComponents(
+					new ButtonBuilder()
 						.setCustomId('button-ensiasfiles-init')
 						.setLabel('Get Files')
-						.setStyle('SUCCESS')
+						.setStyle(ButtonStyle.Success)
 						.setEmoji('📚'),
 				),
 			];

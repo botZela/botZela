@@ -1,55 +1,65 @@
-import { MessageActionRow, MessageButton, Modal, TextInputComponent } from 'discord.js';
+import {
+	ActionRowBuilder,
+	ApplicationCommandOptionType,
+	ButtonBuilder,
+	ButtonStyle,
+	MessageActionRowComponentBuilder,
+	ModalActionRowComponentBuilder,
+	ModalBuilder,
+	TextInputBuilder,
+	TextInputStyle,
+} from 'discord.js';
 import { ICommand } from '../../../Typings';
 
 const defaultExport: ICommand = {
 	name: 'test',
 	description: 'Just to test buttons',
-	permissions: ['ADMINISTRATOR'],
+	permissions: ['Administrator'],
 	options: [
 		{
 			name: 'button',
 			description: 'Create test Buttons',
-			type: 'SUB_COMMAND',
+			type: ApplicationCommandOptionType.Subcommand,
 		},
 		{
 			name: 'modal',
 			description: 'Create test Modal',
-			type: 'SUB_COMMAND',
+			type: ApplicationCommandOptionType.Subcommand,
 		},
 		{
 			name: 'error',
 			description: 'Throw an Error',
-			type: 'SUB_COMMAND',
+			type: ApplicationCommandOptionType.Subcommand,
 		},
 	],
 	async execute({ interaction }) {
 		const subCommand = interaction.options.getSubcommand();
 		if (subCommand === 'button') {
-			const row = new MessageActionRow().addComponents(
-				new MessageButton({
+			const row = new ActionRowBuilder<MessageActionRowComponentBuilder>().addComponents(
+				new ButtonBuilder({
 					customId: 'Hello',
 					label: 'Hello',
-					style: 'SUCCESS',
+					style: ButtonStyle.Success,
 				}),
-				new MessageButton().setCustomId('Bye').setLabel('Bye').setStyle('DANGER'),
+				new ButtonBuilder().setCustomId('Bye').setLabel('Bye').setStyle(ButtonStyle.Danger),
 			);
 			await interaction.reply({ components: [row] });
 		} else if (subCommand === 'modal') {
-			const modal = new Modal().setTitle('Test Modal').setCustomId('testmodal');
-			const textInput1 = new TextInputComponent({
+			const modal = new ModalBuilder().setTitle('Test Modal').setCustomId('testmodal');
+			const textInput1 = new TextInputBuilder({
 				customId: 'test1',
 				label: 'Question 1',
-				style: 'SHORT',
+				style: TextInputStyle.Short,
 			});
-			const textInput2 = new TextInputComponent({
+			const textInput2 = new TextInputBuilder({
 				customId: 'test2',
 				label: 'Question 2',
-				style: 'PARAGRAPH',
+				style: TextInputStyle.Paragraph,
 			});
-			const action1 = new MessageActionRow({
+			const action1 = new ActionRowBuilder<ModalActionRowComponentBuilder>({
 				components: [textInput1],
 			});
-			const action2 = new MessageActionRow({
+			const action2 = new ActionRowBuilder<ModalActionRowComponentBuilder>({
 				components: [textInput2],
 			});
 			modal.addComponents(action1, action2);

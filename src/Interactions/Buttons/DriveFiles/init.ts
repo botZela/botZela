@@ -6,7 +6,7 @@ import { makeComponents, driveFilesSelectMenuOptions } from '../../../utils/Driv
 
 const defaultExport: IButtonCommand = {
 	id: 'button-drivefiles-init',
-	// permissions: ['ADMINISTRATOR'],
+	// permissions: ['Administrator'],
 
 	execute: async ({ interaction }) => {
 		const logs = `[INFO] .${interaction.user.tag} have launched ENSIAS DRIVE command.`;

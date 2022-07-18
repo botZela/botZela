@@ -1,4 +1,4 @@
-import { MessageActionRow, MessageButton } from 'discord.js';
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, MessageActionRowComponentBuilder } from 'discord.js';
 import { client } from '../../..';
 import { generatePublicUrl } from '../../../OtherModules/GDrive';
 import { ISelectMenuCommand } from '../../../Typings';
@@ -31,21 +31,33 @@ const defaultExport: ISelectMenuCommand = {
 		if (fileEmoji?.name === '📄') {
 			const fileObj = await generatePublicUrl(fileId);
 			const resultEmbed = createEmbed(`Get Files `, `📄 ${fileName ?? 'File'}`);
-			const component = new MessageActionRow().addComponents(
-				new MessageButton({ customId: 'button-drivefiles-back', label: 'Back', style: 'SECONDARY', emoji: '⬅' }),
+			const component = new ActionRowBuilder<MessageActionRowComponentBuilder>().addComponents(
+				new ButtonBuilder({
+					customId: 'button-drivefiles-back',
+					label: 'Back',
+					style: ButtonStyle.Secondary,
+					emoji: '⬅',
+				}),
 			);
 			if (fileObj.webViewLink) {
-				resultEmbed.addField(`View File`, `Click [here](${fileObj.webViewLink}) to view the file.`);
+				resultEmbed.addFields([{ name: `View File`, value: `Click [here](${fileObj.webViewLink}) to view the file.` }]);
 				component.addComponents(
-					new MessageButton({ style: 'LINK', url: fileObj.webViewLink, label: 'View File', emoji: '📃' }),
+					new ButtonBuilder({ style: ButtonStyle.Link, url: fileObj.webViewLink, label: 'View File', emoji: '📃' }),
 				);
 			}
 			if (fileObj.webContentLink) {
-				resultEmbed.addField(`Download File`, `Click [here](${fileObj.webContentLink}) to download the file.`);
+				resultEmbed.addFields([
+					{ name: `Download File`, value: `Click [here](${fileObj.webContentLink}) to download the file.` },
+				]);
 				component.addComponents(
-					new MessageButton({ style: 'LINK', url: fileObj.webContentLink, label: 'Download File', emoji: '📥' }),
-					new MessageButton({
-						style: 'SUCCESS',
+					new ButtonBuilder({
+						style: ButtonStyle.Link,
+						url: fileObj.webContentLink,
+						label: 'Download File',
+						emoji: '📥',
+					}),
+					new ButtonBuilder({
+						style: ButtonStyle.Success,
 						customId: 'button-drivefiles-send',
 						label: 'Receive File',
 						emoji: '📩',

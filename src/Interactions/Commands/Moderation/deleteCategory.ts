@@ -1,4 +1,4 @@
-import { CategoryChannel } from 'discord.js';
+import { ApplicationCommandOptionType, CategoryChannel, ChannelType } from 'discord.js';
 import { client } from '../../..';
 import { ICommand } from '../../../Typings';
 
@@ -9,8 +9,8 @@ const defaultExport: ICommand = {
 		{
 			name: 'category',
 			description: 'The category',
-			type: 'CHANNEL',
-			channelTypes: ['GUILD_CATEGORY'],
+			type: ApplicationCommandOptionType.Channel,
+			channelTypes: [ChannelType.GuildCategory],
 			required: true,
 		},
 	],
@@ -18,14 +18,14 @@ const defaultExport: ICommand = {
 		client.testGuilds.find((guild) => guild.name.includes('TEST'))?.id ?? '',
 		client.testGuilds.find((guild) => guild.name.includes('Test_channel'))?.id ?? '',
 	],
-	permissions: ['ADMINISTRATOR'],
+	permissions: ['Administrator'],
 	async execute({ interaction }) {
 		const category = interaction.options.getChannel('category') as CategoryChannel;
 		await interaction.deferReply({ ephemeral: true });
 		if (!(category instanceof CategoryChannel)) {
 			return interaction.followUp('Please select a category');
 		}
-		category.children.forEach((child) => {
+		category.children.cache.forEach((child) => {
 			if (child.deletable) {
 				child.delete().catch(console.error);
 			}

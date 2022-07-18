@@ -1,11 +1,13 @@
-import { GuildMember, MessageActionRow, MessageButton } from 'discord.js';
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, GuildMember } from 'discord.js';
 import { FiliereType, GroupeType } from '../../Typings/Ensias';
 import { createEmbed } from '../Embeds';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function sendSchedule(member: GuildMember, filiere: FiliereType, groupe: GroupeType) {
-	const row = new MessageActionRow();
-	row.addComponents(new MessageButton().setCustomId('DeleteMsgSchedule').setLabel('Delete Me').setStyle('DANGER'));
+	const row = new ActionRowBuilder();
+	row.addComponents(
+		new ButtonBuilder().setCustomId('DeleteMsgSchedule').setLabel('Delete Me').setStyle(ButtonStyle.Danger),
+	);
 	// const fileNamePng = `Emploi_${filiere}_${groupe}.png`;
 	// let fileNamePdf = `Emploi_${filiere}_${groupe}.pdf`;
 	// let embed = createEmbed(`Schedule ${filiere} ${groupe}`, "__**Your Schedule of this week :**__ ");

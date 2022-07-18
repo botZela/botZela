@@ -1,4 +1,4 @@
-import { Guild, OverwriteResolvable } from 'discord.js';
+import { ChannelType, Guild, OverwriteResolvable } from 'discord.js';
 import { logsMessage } from '../logsMessage';
 
 export async function createCategory(
@@ -9,8 +9,9 @@ export async function createCategory(
 ) {
 	let message = `[INFO] .${name} category in guild : .${guild.name} `;
 	try {
-		const out = await guild.channels.create(name, {
-			type: 'GUILD_CATEGORY',
+		const out = await guild.channels.create({
+			name,
+			type: ChannelType.GuildCategory,
 			permissionOverwrites: overwrites,
 			position,
 		});

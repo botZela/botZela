@@ -1,11 +1,11 @@
-import { MessageEmbedOptions } from 'discord.js';
+import { APIEmbed } from 'discord.js';
 // import yaml from "js-yaml";
 // import { messageEmbedOptionsSchema } from '../../Validation/EmbedStructure';
 
-export function buildEmbed(structure: string | null): MessageEmbedOptions | null {
+export function buildEmbed(structure: string | null): APIEmbed | null {
 	try {
 		if (structure) {
-			const embed = JSON.parse(structure) as MessageEmbedOptions;
+			const embed = JSON.parse(structure) as APIEmbed;
 			// const embed = yaml.load(structure.replaceAll('\\n','\n')) as MessageEmbedOptions;
 			// const embedOptions = messageEmbedOptionsSchema.parse(embed);
 			// console.log(embedOptions);

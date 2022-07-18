@@ -1,4 +1,5 @@
 import fs from 'fs';
+import { ApplicationCommandOptionType } from 'discord.js';
 import { client } from '../../..';
 import { ICommand } from '../../../Typings';
 import { logsMessage, createEmbed } from '../../../utils';
@@ -36,7 +37,7 @@ const defaultExport: ICommand = {
 	options: [
 		{
 			name: 'dm',
-			type: 'BOOLEAN',
+			type: ApplicationCommandOptionType.Boolean,
 			description: 'Do you want to receive your schedule in Direct Messages?',
 			required: false,
 		},

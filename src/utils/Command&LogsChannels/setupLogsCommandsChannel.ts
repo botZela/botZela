@@ -8,13 +8,13 @@ export async function setupLogsCommandsChannels(guild: Guild) {
 	const overwrites: OverwriteResolvable[] = [
 		{
 			id: guild.roles.everyone.id,
-			deny: ['VIEW_CHANNEL'],
+			deny: ['ViewChannel'],
 		},
 	];
 	if (client.user) {
 		overwrites.push({
 			id: client.user.id,
-			allow: ['VIEW_CHANNEL'],
+			allow: ['ViewChannel'],
 		});
 	}
 	const category = await createCategory(guild, '🦖 • botZela ▬▬▬▬▬▬▬▬▬▬▬▬', overwrites, 0);

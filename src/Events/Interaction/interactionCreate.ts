@@ -8,14 +8,15 @@ const defaultExport: Event<'interactionCreate'> = {
 	name: 'interactionCreate',
 	alias: 'CommandInteraction',
 	async execute(interaction: Interaction) {
-		if (!interaction.isCommand()) return;
+		if (!interaction.isChatInputCommand()) return;
 		const member = interaction.member as GuildMember;
 
 		const command = client.commands.get(interaction.commandName);
 		if (!command) {
-			return interaction.reply({
+			await interaction.reply({
 				embeds: [createErrorEmbed('', '⛔ An error occured while running this command.')],
 			});
+			return;
 		}
 
 		try {

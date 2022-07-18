@@ -1,3 +1,4 @@
+import { ApplicationCommandOptionType } from 'discord.js';
 import { ICommand } from '../../../Typings';
 import { client } from '../../../index';
 import { createEmbed } from '../../../utils/Embeds';
@@ -10,7 +11,7 @@ const defaultExport: ICommand = {
 		{
 			name: 'doi',
 			description: 'The DOI of the Article',
-			type: 'STRING',
+			type: ApplicationCommandOptionType.String,
 			required: true,
 		},
 	],

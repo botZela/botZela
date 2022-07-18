@@ -1,17 +1,17 @@
-import { GuildMember } from 'discord.js';
+import { ApplicationCommandOptionType, GuildMember } from 'discord.js';
 import { client } from '../../..';
 import { ICommand } from '../../../Typings';
 
 const defaultExport: ICommand = {
 	name: 'resetcooldown',
 	description: 'Reset the cooldown for all users or just a member.',
-	permissions: ['ADMINISTRATOR'],
+	permissions: ['Administrator'],
 	guilds: [client.testGuilds.find((guild) => guild.name.includes('ENSIAS'))?.id ?? ''],
 	options: [
 		{
 			name: 'member',
 			description: 'The member that you want to reset the cooldown.',
-			type: 'USER',
+			type: ApplicationCommandOptionType.User,
 			required: false,
 		},
 	],

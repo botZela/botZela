@@ -1,16 +1,22 @@
-import { MessageEmbed, MessageActionRow, MessageSelectMenu, MessageSelectOptionData } from 'discord.js';
+import {
+	SelectMenuComponentOptionData,
+	EmbedBuilder,
+	ActionRowBuilder,
+	MessageActionRowComponentBuilder,
+	SelectMenuBuilder,
+} from 'discord.js';
 import rrModel, { RolesType } from '../../../Models/reactionRoles';
 import { ICommand } from '../../../Typings';
 
 const defaultExport: ICommand = {
 	name: 'panel',
 	description: 'Reaction Role Panel',
-	permissions: ['ADMINISTRATOR'],
+	permissions: ['Administrator'],
 
 	execute: async ({ interaction }) => {
 		const { guild } = interaction;
 
-		if (!guild || !guild.me) {
+		if (!guild || !guild.members.me) {
 			return interaction.reply({ content: 'This command is used inside a server ...', ephemeral: true });
 		}
 
@@ -25,7 +31,7 @@ const defaultExport: ICommand = {
 				const y = x as RolesType;
 				const role = guild.roles.cache.get(y.roleId);
 				if (!role) return undefined;
-				const output: MessageSelectOptionData = {
+				const output: SelectMenuComponentOptionData = {
 					label: role.name,
 					value: role.id,
 					description: y.roleDescription ?? 'No Description',
@@ -33,13 +39,13 @@ const defaultExport: ICommand = {
 				};
 				return output;
 			})
-			.filter((x): x is MessageSelectOptionData => x !== undefined);
+			.filter((x): x is SelectMenuComponentOptionData => x !== undefined);
 
-		const panelEmbed = new MessageEmbed().setTitle('Please Select a role below: ').setColor('AQUA');
+		const panelEmbed = new EmbedBuilder().setTitle('Please Select a role below: ').setColor('Aqua');
 
 		const components = [
-			new MessageActionRow().addComponents(
-				new MessageSelectMenu()
+			new ActionRowBuilder<MessageActionRowComponentBuilder>().addComponents(
+				new SelectMenuBuilder()
 					.setCustomId('reaction-roles')
 					.setMinValues(0)
 					.setMaxValues(options.length)

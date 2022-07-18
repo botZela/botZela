@@ -1,15 +1,15 @@
-import { Message } from 'discord.js';
+import { ApplicationCommandOptionType, EmbedBuilder, Message } from 'discord.js';
 import { ICommand } from '../../../Typings';
 import { buildEmbed } from '../../../utils/SendEmbed';
 const defaultExport: ICommand = {
 	name: 'sendembed',
 	description: 'Sends Embed',
-	permissions: ['ADMINISTRATOR'],
+	permissions: ['Administrator'],
 	options: [
 		{
 			name: 'embed',
 			description: 'Embed Structure',
-			type: 'STRING',
+			type: ApplicationCommandOptionType.String,
 			required: true,
 		},
 	],
@@ -23,12 +23,13 @@ const defaultExport: ICommand = {
 		}
 
 		const structure = interaction.options.getString('embed');
-		const embed = buildEmbed(structure);
+		const embedJson = buildEmbed(structure);
 
-		if (!embed) return interaction.followUp({ content: 'Invalid Structure ...', ephemeral: true });
+		if (!embedJson) return interaction.followUp({ content: 'Invalid Structure ...', ephemeral: true });
 		await interaction.fetchReply().then((inter) => {
 			if (inter instanceof Message) return inter.delete();
 		});
+		const embed = EmbedBuilder.from(embedJson);
 
 		if (channel) {
 			if (msgId) {

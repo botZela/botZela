@@ -1,3 +1,4 @@
+import { ApplicationCommandOptionType } from 'discord.js';
 import { ICommand } from '../../../Typings';
 import { FiliereType, GroupeType } from '../../../Typings/Ensias';
 import { client } from '../../../index';
@@ -18,21 +19,21 @@ const defaultExport: ICommand = {
 	options: [
 		{
 			name: 'filiere',
-			type: 'STRING',
+			type: ApplicationCommandOptionType.String,
 			description: 'Choose the branch',
 			choices: filieresArray.map((x) => ({ name: x, value: x })),
 			required: false,
 		},
 		{
 			name: 'groupe',
-			type: 'STRING',
+			type: ApplicationCommandOptionType.String,
 			description: 'Choose the groupe',
 			choices: groupesArray.map((x) => ({ name: x, value: x })),
 			required: false,
 		},
 		{
 			name: 'dm',
-			type: 'BOOLEAN',
+			type: ApplicationCommandOptionType.Boolean,
 			description: 'Do you want to receive your schedule in Direct Messages?',
 			required: false,
 		},

@@ -1,11 +1,11 @@
 import {
 	ButtonInteraction,
 	ChatInputApplicationCommandData,
+	ChatInputCommandInteraction,
 	CommandInteraction,
 	CommandInteractionOptionResolver,
-	ContextMenuInteraction,
+	ContextMenuCommandInteraction,
 	GuildMember,
-	Interaction,
 	ModalSubmitInteraction,
 	PermissionResolvable,
 	SelectMenuInteraction,
@@ -20,7 +20,7 @@ interface ExecuteOptions<T> {
 
 type ExecuteFunction<T> = (options: ExecuteOptions<T>) => Promise<unknown>;
 
-export interface ExtendedInteraction extends Interaction {
+export interface ExtendedInteraction extends CommandInteraction {
 	member: GuildMember;
 }
 
@@ -32,11 +32,11 @@ export interface ExtendedButtonInteraction extends ButtonInteraction {
 	member: GuildMember;
 }
 
-export interface ExtendedContextMenuInteraction extends ContextMenuInteraction {
+export interface ExtendedContextMenuInteraction extends ContextMenuCommandInteraction {
 	member: GuildMember;
 }
 
-export interface ExtendedCommandInteraction extends CommandInteraction {
+export interface ExtendedCommandInteraction extends ChatInputCommandInteraction {
 	member: GuildMember;
 }
 

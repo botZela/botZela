@@ -1,6 +1,6 @@
 import process from 'node:process';
 import { promisify } from 'util';
-import { Client as DiscordClient, Collection } from 'discord.js';
+import { Client as DiscordClient, Collection, Partials } from 'discord.js';
 import glob from 'glob';
 import Handlers from '../Handlers';
 import {
@@ -34,8 +34,8 @@ export class Client extends DiscordClient {
 
 	public constructor() {
 		super({
-			intents: 32767,
-			partials: ['MESSAGE'],
+			intents: 3276799,
+			partials: [Partials.Message],
 		});
 	}
 
@@ -73,7 +73,7 @@ export class Client extends DiscordClient {
 				// 	if (!roles) return acc;
 
 				// 	const permissions = roles.reduce((a: , r) => {
-				// 		return [...a, { id: r.id, type: 'ROLE', permission: true }];
+				// 		return [...a, { id: r.id, type: ApplicationCommandOptionType.Role, permission: true }];
 				// 	}, []);
 
 				// 	return [...acc, { id: r.id, permissions }];

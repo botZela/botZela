@@ -13,11 +13,11 @@ export async function createCommandsChannel(
 		overwrites = [
 			{
 				id: guild.roles.everyone.id,
-				deny: ['VIEW_CHANNEL'],
+				deny: ['ViewChannel'],
 			},
 			{
 				id: client.user.id,
-				allow: ['VIEW_CHANNEL'],
+				allow: ['ViewChannel'],
 			},
 		];
 	}

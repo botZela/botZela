@@ -1,4 +1,4 @@
-import { CategoryChannel, GuildBasedChannel, StageChannel, StoreChannel } from 'discord.js';
+import { ApplicationCommandOptionType, CategoryChannel, GuildBasedChannel, StageChannel } from 'discord.js';
 import { z } from 'zod';
 import gChannels from '../../../Models/guildChannels';
 import linksModel from '../../../Models/guildLinks';
@@ -14,45 +14,45 @@ const defaultExport: ICommand = {
 	description: 'Setup the server',
 	options: [
 		{
-			type: 'SUB_COMMAND_GROUP',
+			type: ApplicationCommandOptionType.SubcommandGroup,
 			name: 'channels',
 			description: 'Setup channels.',
 			options: [
 				{
-					type: 'SUB_COMMAND',
+					type: ApplicationCommandOptionType.Subcommand,
 					name: 'logs',
 					description: 'Setup the logs Channel',
 					options: [
 						{
 							name: 'channel',
 							description: 'logs Channel',
-							type: 'CHANNEL',
+							type: ApplicationCommandOptionType.Channel,
 							required: true,
 						},
 					],
 				},
 				{
-					type: 'SUB_COMMAND',
+					type: ApplicationCommandOptionType.Subcommand,
 					name: 'commands',
 					description: 'Setup the commands Channel',
 					options: [
 						{
 							name: 'channel',
 							description: 'commands Channel',
-							type: 'CHANNEL',
+							type: ApplicationCommandOptionType.Channel,
 							required: true,
 						},
 					],
 				},
 				{
-					type: 'SUB_COMMAND',
+					type: ApplicationCommandOptionType.Subcommand,
 					name: 'introduce',
 					description: 'Setup the introduce Channel',
 					options: [
 						{
 							name: 'channel',
 							description: 'introduce Channel',
-							type: 'CHANNEL',
+							type: ApplicationCommandOptionType.Channel,
 							required: true,
 						},
 					],
@@ -60,32 +60,32 @@ const defaultExport: ICommand = {
 			],
 		},
 		{
-			type: 'SUB_COMMAND_GROUP',
+			type: ApplicationCommandOptionType.SubcommandGroup,
 			name: 'link',
 			description: 'Setup server Links.',
 			options: [
 				{
-					type: 'SUB_COMMAND',
+					type: ApplicationCommandOptionType.Subcommand,
 					name: 'spreadsheet',
 					description: 'Setup the Spreadsheet for the server',
 					options: [
 						{
 							name: 'url',
 							description: 'The url of the Spreadsheet',
-							type: 'STRING',
+							type: ApplicationCommandOptionType.String,
 							required: true,
 						},
 					],
 				},
 				{
-					type: 'SUB_COMMAND',
+					type: ApplicationCommandOptionType.Subcommand,
 					name: 'form',
 					description: 'Setup the Spreadsheet for the server',
 					options: [
 						{
 							name: 'url',
 							description: 'The url of the From',
-							type: 'STRING',
+							type: ApplicationCommandOptionType.String,
 							required: true,
 						},
 					],
@@ -93,25 +93,25 @@ const defaultExport: ICommand = {
 			],
 		},
 		{
-			type: 'SUB_COMMAND',
+			type: ApplicationCommandOptionType.Subcommand,
 			name: 'server',
 			description: 'Setup Guide.',
 		},
 		{
-			type: 'SUB_COMMAND',
+			type: ApplicationCommandOptionType.Subcommand,
 			name: 'default_role',
 			description: 'Define the default role of the server',
 			options: [
 				{
 					name: 'role',
 					description: 'The Default role of the server',
-					type: 'ROLE',
+					type: ApplicationCommandOptionType.Role,
 					required: true,
 				},
 			],
 		},
 	],
-	permissions: ['ADMINISTRATOR', 'MANAGE_ROLES'],
+	permissions: ['Administrator', 'ManageRoles'],
 	async execute({ interaction }) {
 		await interaction.deferReply({ ephemeral: true });
 		const { guild } = interaction;
@@ -137,7 +137,7 @@ const defaultExport: ICommand = {
 		const subCommandGroup = interaction.options.getSubcommandGroup();
 		if (subCommandGroup === 'channels') {
 			const channel = interaction.options.getChannel('channel') as GuildBasedChannel;
-			if (channel instanceof CategoryChannel || channel instanceof StageChannel || channel instanceof StoreChannel) {
+			if (channel instanceof CategoryChannel || channel instanceof StageChannel) {
 				return;
 			}
 			const guildData = await gChannels.findOne({ guildId: guild.id });

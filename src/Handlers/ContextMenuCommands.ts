@@ -23,7 +23,7 @@ export async function contextMenuHandler(client: Client, PG: any, Ascii: any): P
 		}
 		if (command.permissions) {
 			if (command.permissions.every((perm) => Perms.includes(perm))) {
-				command.defaultPermission = false;
+				// command.defaultPermission = false;
 			} else {
 				Table.addRow(command.name, '🟠 FAILED', 'Permissions are invalid.');
 				continue;

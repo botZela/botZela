@@ -1,16 +1,16 @@
-import { GuildMember } from 'discord.js';
+import { ApplicationCommandOptionType, GuildMember } from 'discord.js';
 import { client } from '../../..';
 import { ICommand } from '../../../Typings';
 
 const defaultExport: ICommand = {
 	name: 'emit',
 	description: 'Event Emitter',
-	permissions: ['ADMINISTRATOR'],
+	permissions: ['Administrator'],
 	options: [
 		{
 			name: 'event',
 			description: 'Guild Member Events',
-			type: 'STRING',
+			type: ApplicationCommandOptionType.String,
 			required: true,
 			choices: [
 				{
@@ -34,7 +34,7 @@ const defaultExport: ICommand = {
 		{
 			name: 'member',
 			description: 'The Member to execute the event on.',
-			type: 'USER',
+			type: ApplicationCommandOptionType.User,
 			required: false,
 		},
 	],

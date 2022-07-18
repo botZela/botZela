@@ -1,4 +1,4 @@
-import { CategoryChannelResolvable, Guild, OverwriteResolvable } from 'discord.js';
+import { CategoryChannelResolvable, ChannelType, Guild, OverwriteResolvable } from 'discord.js';
 import { logsMessage } from '../logsMessage';
 
 export async function createChannel(
@@ -11,13 +11,14 @@ export async function createChannel(
 ) {
 	let message = `[INFO] .${channelType}_channel : .${name} in guild : .${guild.name}`;
 	const types = {
-		text: 'GUILD_TEXT',
-		voice: 'GUILD_VOICE',
-		stage: 'GUILD_STAGE_VOICE',
+		text: ChannelType.GuildText,
+		voice: ChannelType.GuildVoice,
+		stage: ChannelType.GuildStageVoice,
 	};
 	try {
-		const out = await guild.channels.create(name, {
-			type: types[channelType] as 'GUILD_TEXT' | 'GUILD_VOICE' | 'GUILD_STAGE_VOICE',
+		const out = await guild.channels.create({
+			name,
+			type: types[channelType] as ChannelType.GuildText | ChannelType.GuildVoice | ChannelType.GuildStageVoice,
 			permissionOverwrites: overwrites,
 			position,
 			parent: category,

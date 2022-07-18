@@ -1,4 +1,10 @@
-import { MessageActionRow, MessageButton, MessageSelectMenu } from 'discord.js';
+import {
+	ActionRowBuilder,
+	ButtonBuilder,
+	ButtonStyle,
+	MessageActionRowComponentBuilder,
+	SelectMenuBuilder,
+} from 'discord.js';
 import { IButtonCommand } from '../../../Typings';
 import { createEmbed } from '../../../utils';
 
@@ -7,14 +13,14 @@ const defaultExport: IButtonCommand = {
 	// cooldown: 15 * 60 * 1000,
 	// permissions : ["ADMINISTRATOR"],
 	async execute({ interaction }): Promise<void> {
-		const row1 = new MessageActionRow();
-		const row2 = new MessageActionRow();
-		const row3 = new MessageActionRow();
+		const row1 = new ActionRowBuilder<MessageActionRowComponentBuilder>();
+		const row2 = new ActionRowBuilder<MessageActionRowComponentBuilder>();
+		const row3 = new ActionRowBuilder<MessageActionRowComponentBuilder>();
 		const embed = createEmbed(
 			'Get the Schedule for any Branch or groupe you like.',
 			'Choose below the branch and the filiere you want.',
 		)
-			.setColor('RED')
+			.setColor('Red')
 			.addFields([
 				{ name: 'Any Suggestions', value: `Consider sending us your feedback in <#922875567357984768>, Thanks.` },
 			]);
@@ -34,19 +40,23 @@ const defaultExport: IButtonCommand = {
 		}));
 
 		row1.addComponents(
-			new MessageSelectMenu().setCustomId('filiere').setMinValues(1).setMaxValues(1).addOptions(filieres),
+			new SelectMenuBuilder().setCustomId('filiere').setMinValues(1).setMaxValues(1).addOptions(filieres),
 		);
 
 		row2.addComponents(
-			new MessageSelectMenu().setCustomId('groupe').setMinValues(1).setMaxValues(1).addOptions(groupes),
+			new SelectMenuBuilder().setCustomId('groupe').setMinValues(1).setMaxValues(1).addOptions(groupes),
 		);
 
 		row3.addComponents(
-			new MessageButton().setCustomId('confirmSchedule').setLabel('Confirm').setStyle('SUCCESS').setEmoji('✅'),
+			new ButtonBuilder()
+				.setCustomId('confirmSchedule')
+				.setLabel('Confirm')
+				.setStyle(ButtonStyle.Success)
+				.setEmoji('✅'),
 		);
 
 		row3.addComponents(
-			new MessageButton().setCustomId('abortSchedule').setLabel('Abort').setStyle('DANGER').setEmoji('🛑'),
+			new ButtonBuilder().setCustomId('abortSchedule').setLabel('Abort').setStyle(ButtonStyle.Danger).setEmoji('🛑'),
 		);
 
 		await interaction.reply({

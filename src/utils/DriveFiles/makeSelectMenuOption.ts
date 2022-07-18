@@ -1,4 +1,4 @@
-import { MessageSelectOptionData } from 'discord.js';
+import { SelectMenuComponentOptionData } from 'discord.js';
 import { driveSearch } from '../../OtherModules/GDrive';
 
 export async function driveFilesSelectMenuOptions(fileId: string) {
@@ -15,7 +15,7 @@ export async function driveFilesSelectMenuOptions(fileId: string) {
 				const label = file.name;
 				if (!value) value = file.id;
 				if (!description) description = file.mimeType === 'application/vnd.google-apps.folder' ? 'Folder' : 'File';
-				const output: MessageSelectOptionData = {
+				const output: SelectMenuComponentOptionData = {
 					label,
 					value,
 					description,
@@ -25,6 +25,6 @@ export async function driveFilesSelectMenuOptions(fileId: string) {
 			}
 			return undefined;
 		})
-		.filter((x): x is MessageSelectOptionData => x !== undefined);
+		.filter((x): x is SelectMenuComponentOptionData => x !== undefined);
 	return output?.length === 0 ? undefined : output;
 }

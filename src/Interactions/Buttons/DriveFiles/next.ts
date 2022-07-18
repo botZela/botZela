@@ -1,3 +1,4 @@
+import { ComponentType } from 'discord.js';
 import { client } from '../../..';
 import { IButtonCommand } from '../../../Typings';
 import { createEmbed, createErrorEmbed } from '../../../utils';
@@ -5,7 +6,7 @@ import { makeComponents, driveFilesSelectMenuOptions } from '../../../utils/Driv
 
 const defaultExport: IButtonCommand = {
 	id: 'button-drivefiles-next',
-	// permissions: ['ADMINISTRATOR'],
+	// permissions: ['Administrator'],
 
 	execute: async ({ interaction }) => {
 		await interaction.deferUpdate();
@@ -34,7 +35,7 @@ const defaultExport: IButtonCommand = {
 		}
 
 		let page = 1;
-		if (messageComponents && messageComponents[1].components[1].type === 'BUTTON')
+		if (messageComponents[1].components[1].type === ComponentType.Button)
 			page = parseInt(messageComponents[1].components[1].customId!, 10) + 1;
 		const components = makeComponents(options, folderId, page);
 		await interaction.editReply({ components });

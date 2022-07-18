@@ -8,14 +8,15 @@ const defaultExport: Event<'interactionCreate'> = {
 	name: 'interactionCreate',
 	alias: 'ContextMenuInteraction',
 	async execute(interaction: Interaction): Promise<void> {
-		if (!interaction.isContextMenu()) return;
+		if (!interaction.isContextMenuCommand()) return;
 		const member = interaction.member as GuildMember;
 
 		const command = client.contextMenuCommands.get(interaction.commandName);
 		if (!command) {
-			return interaction.reply({
+			await interaction.reply({
 				embeds: [createErrorEmbed('', '⛔ An error occured while running this command.')],
 			});
+			return;
 		}
 
 		try {
@@ -30,11 +31,11 @@ const defaultExport: Event<'interactionCreate'> = {
 				});
 			}
 		} catch (error) {
-			console.error(error);
 			await interaction.reply({
 				content: 'There was an error while executing this command!',
 				ephemeral: true,
 			});
+			throw error;
 		}
 	},
 };
