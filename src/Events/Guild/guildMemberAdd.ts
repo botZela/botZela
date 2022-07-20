@@ -16,6 +16,7 @@ const defaultExport: Event<'guildMemberAdd'> = {
 		let logs;
 		if (!worksheetUrl || !guildRoles) {
 			if (guild.systemChannel) {
+				if (member.pending) return;
 				const toSend = await welcomeMsg(member);
 				await guild.systemChannel.send(toSend);
 			}
@@ -43,6 +44,7 @@ const defaultExport: Event<'guildMemberAdd'> = {
 				await activeSheet.updateCell(`F${index}`, `${user.tag}`);
 			}
 			await activeSheet.updateCell(`G${index}`, `${member.id}`);
+			if (member.pending) return;
 			const newMem = await Person.create(index, guild, activeSheet);
 			const nickName = newMem.nickName;
 			await member.setNickname(nickName);
@@ -61,6 +63,7 @@ const defaultExport: Event<'guildMemberAdd'> = {
 			console.log(`[INFO] Sheet does not exist for server ${guild.name}`);
 		}
 		if (guild.systemChannel) {
+			if (member.pending) return;
 			const toSend = await welcomeMsg(member);
 			await guild.systemChannel.send(toSend);
 		}
