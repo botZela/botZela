@@ -1,5 +1,5 @@
 import { ApplicationCommandOptionType } from 'discord.js';
-import rrModel, { RolesType } from '../../../Models/reactionRoles';
+import rrModel from '../../../Models/reactionRoles';
 import { ICommand } from '../../../Typings';
 
 const defaultExport: ICommand = {
@@ -28,19 +28,19 @@ const defaultExport: ICommand = {
 			return interaction.reply({ content: 'There is no roles inside of this server.', ephemeral: true });
 		}
 
-		const guildRoles = guildData.roles as RolesType[];
+		const reqRole = guildData.roles.find((x) => x.roleId === role?.id);
 
-		const findRole = guildRoles.find((x) => x.roleId === role?.id);
-
-		if (!findRole) {
+		if (!reqRole) {
 			return interaction.reply({ content: 'That role is not added to the reaction roles list.', ephemeral: true });
 		}
 
-		const filteredRoles = guildRoles.filter((x) => x.roleId !== role?.id);
-		guildData.roles = filteredRoles;
+		const indexOfRole = guildData.roles.indexOf(reqRole);
+		if (indexOfRole === -1) {
+			return interaction.reply({ content: 'That role is not added to the reaction roles list.', ephemeral: true });
+		}
 
+		guildData.roles.splice(indexOfRole, 1);
 		await guildData.save();
-
 		await interaction.reply({ content: `Removed : ${role?.name ?? 'removed'}`, ephemeral: true });
 	},
 };
