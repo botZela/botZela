@@ -1,12 +1,14 @@
 import { EmbedBuilder } from 'discord.js';
 
-export function createEmbed(title: string, description = ''): EmbedBuilder {
-	return new EmbedBuilder()
-		.setColor(0x0fd64f)
-		.setTitle(title)
-		.setDescription(description)
-		.setFooter({ text: "WHAT'S N3XT TEAM ©" })
-		.setTimestamp();
+export function createEmbed(title: string, description?: string): EmbedBuilder {
+	const newEmbed = new EmbedBuilder({
+		color: 0x0fd64f,
+		footer: { text: "WHAT'S N3XT TEAM ©" },
+		timestamp: Date.now(),
+	});
+	if (title && title !== '') newEmbed.setTitle(title);
+	if (description && description !== '') newEmbed.setDescription(description);
+	return newEmbed;
 }
 
 export function createErrorEmbed(title: string, description = ''): EmbedBuilder {
