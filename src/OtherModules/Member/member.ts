@@ -1,15 +1,36 @@
 import { Guild, Snowflake } from 'discord.js';
+import { Document } from 'mongoose';
 import { titleCase } from './stringFunc';
 import gRoles from '../../Models/guildRoles';
+import { ADMINS, PRV_ROLES } from '../../config';
 import { GSpreadSheet } from '../GSpreadSheet';
 
+type GuildDataType =
+	| (Document<
+			unknown,
+			any,
+			{
+				guildId: string;
+				guildName: string;
+				roles: Map<string, string>;
+				defaultRole?: string | undefined;
+			}
+	  > & {
+			guildId: string;
+			guildName: string;
+			roles: Map<string, string>;
+			defaultRole?: string | undefined;
+	  })
+	| null;
 export class Person {
+	public static guildData: GuildDataType = null;
+
 	private firstName: string;
 	private lastName: string;
 	private mail: string;
 	private phone: string;
 	private discordUsername: string;
-	private discordId: string;
+	public discordId: string;
 	public rolesNames: string[];
 	public rolesId: Snowflake[];
 
@@ -24,9 +45,18 @@ export class Person {
 		this.rolesId = [];
 	}
 
+	public static async getAll(guild: Guild, activeSheet: GSpreadSheet) {
+		const users = (await activeSheet.getAll()) as string[][];
+		return Promise.all(users.map((user) => this.createFromArray(user, guild)));
+	}
+
 	public static async create(index: number, guild: Guild, activeSheet: GSpreadSheet) {
-		const out = new Person();
 		const user = (await activeSheet.getRow(index)) as string[];
+		return Person.createFromArray(user, guild);
+	}
+
+	public static async createFromArray(user: string[], guild: Guild) {
+		const out = new Person();
 		out.firstName = user[1];
 		out.lastName = user[2];
 		out.mail = user[3];
@@ -46,30 +76,38 @@ export class Person {
 	}
 
 	private async roles(guildId: string) {
-		const guildData = await gRoles.findOne({ guildId });
-		if (!guildData) return [];
-		const guildRoles = guildData.roles;
+		if (Person.guildData === null) Person.guildData = await gRoles.findOne({ guildId });
+		else if (Person.guildData.guildId !== guildId) Person.guildData = await gRoles.findOne({ guildId });
+
+		if (!Person.guildData) return [];
+		const guildRoles = Person.guildData.roles;
 		const roleIds: string[] = [];
-		if (guildData.defaultRole) {
-			roleIds.push(guildData.defaultRole);
+		if (Person.guildData.defaultRole) {
+			roleIds.push(Person.guildData.defaultRole);
 		}
 		for (const role of this.rolesNames) {
-			try {
-				const roleId = guildRoles.get(role);
-				if (roleId) {
-					roleIds.push(roleId);
-				} else {
-					console.log(`[INFO] Role was not found ${role}`);
-				}
-			} catch (e) {
-				console.log(`[INFO] Role was not found ${role} with Exception ${JSON.stringify(e)}`);
+			const roleId = guildRoles.get(role);
+			if (roleId) {
+				roleIds.push(roleId);
+			} else {
+				console.log(`[INFO] Role was not found ${role}`);
 			}
+		}
+		// Only ENSIAS SERVER
+		if (guildId === '921408078983876678' && ADMINS.includes(this.discordId)) {
+			this.rolesId.push(PRV_ROLES[`${guildId}`].Admin);
+			this.rolesNames.push('Admin');
 		}
 		return roleIds;
 	}
 
 	public get nickName() {
+		if (this.firstName === '' && this.lastName === '') return null;
 		const out = `${titleCase(this.firstName)} ${this.lastName.toUpperCase()}`;
 		return out;
+	}
+
+	public getDiscordUsername() {
+		return this.discordUsername;
 	}
 }

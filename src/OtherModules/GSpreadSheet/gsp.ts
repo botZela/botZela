@@ -12,7 +12,7 @@ export class GSpreadSheet {
 	public worksheetName: string;
 	public worksheetId: number;
 	public endCol: number | null | undefined;
-	public endRow: number | null | undefined;
+	public endRow: number;
 	public endColLetter: string;
 
 	public constructor(spId: string, authFile: string, worksheetIndex: number) {
@@ -22,6 +22,7 @@ export class GSpreadSheet {
 		this.endColLetter = '';
 		this.authFile = authFile;
 		this.spId = spId;
+		this.endRow = 1;
 		this.worksheetIndex = worksheetIndex;
 		// Connect to sheet using authFile
 		const auth = new GoogleAuth({
@@ -41,7 +42,7 @@ export class GSpreadSheet {
 		out.worksheetName = out.worksheetProp?.title ?? '';
 		out.worksheetId = out.worksheetProp?.sheetId ?? 0;
 		out.endCol = out.worksheetProp?.gridProperties?.columnCount;
-		out.endRow = out.worksheetProp?.gridProperties?.rowCount;
+		out.endRow = out.worksheetProp?.gridProperties?.rowCount ?? 1;
 		out.endColLetter = out.endCol ? dec2alpha(out.endCol) : '';
 		return out;
 	}
@@ -79,6 +80,26 @@ export class GSpreadSheet {
 		} catch (err) {
 			console.log(err);
 			return undefined;
+		}
+	}
+
+	public async getAll() {
+		// Get a specifique ROW from the Sheet returning a list of its values
+		const request = {
+			spreadsheetId: this.spId,
+			range: `${this.worksheetName}!A1:${this.endColLetter}${this.endRow}`,
+		};
+		try {
+			const res = (await this.sheets.spreadsheets.values.get(request)).data;
+			const rows = res.values;
+			if (rows?.length) {
+				return rows as unknown[][];
+			}
+			// Console.log("No data found.");
+			return [];
+		} catch (err) {
+			console.log(err);
+			return [];
 		}
 	}
 

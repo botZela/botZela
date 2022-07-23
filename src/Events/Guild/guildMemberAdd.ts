@@ -3,7 +3,6 @@ import gRoles from '../../Models/guildRoles';
 import { GSpreadSheet } from '../../OtherModules/GSpreadSheet';
 import { Person } from '../../OtherModules/Member';
 import { Event } from '../../Structures';
-import { ADMINS, PRV_ROLES } from '../../config';
 import { welcomeMsg, kick } from '../../utils/Guild';
 import { logsMessage } from '../../utils/logsMessage';
 
@@ -46,14 +45,9 @@ const defaultExport: Event<'guildMemberAdd'> = {
 			await activeSheet.updateCell(`G${index}`, `${member.id}`);
 			if (member.pending) return;
 			const newMem = await Person.create(index, guild, activeSheet);
-			const nickName = newMem.nickName;
-			await member.setNickname(nickName);
-			logs = `[INFO] .${user.tag} nickname changed to ${nickName}`;
-			// Only ENSIAS SERVER
-			if (guild.id === '921408078983876678' && ADMINS.includes(member.id)) {
-				newMem.rolesId.push(PRV_ROLES[`${guild.id}`].Admin);
-				newMem.rolesNames.push('Admin');
-			}
+			newMem.discordId = member.id;
+			await member.setNickname(newMem.nickName);
+			logs = `[INFO] .${user.toString()} nickname changed to ${newMem.nickName ?? user.tag}`;
 			await member.roles.add(newMem.rolesId);
 			await activeSheet.colorRow(index, '#F9BB03');
 			logs += `\n[INFO] .${member.nickname ?? user.tag} got Roles ${JSON.stringify(newMem.rolesNames)}`;
