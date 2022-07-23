@@ -30,9 +30,9 @@
 		"glob": "^8.0.3",
 		"googleapis-common": "^6.0.0",
 		"js-yaml": "^4.1.0",
-		"mongoose": "^6.4.5",
+		"mongoose": "^6.4.6",
 		"tslib": "^2.4.0",
-		"zod": "^3.17.9"
+		"zod": "^3.17.10"
 	},
 	"repository": {
 		"type": "git",
