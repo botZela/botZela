@@ -4,9 +4,9 @@ import guildRoles from '../../../../Models/guildRoles';
 import { GSpreadSheet } from '../../../../OtherModules/GSpreadSheet';
 import { Person } from '../../../../OtherModules/Member';
 import { ICommand } from '../../../../Typings';
+import { client } from '../../../../index';
 import { createErrorEmbed, createInfoEmbed } from '../../../../utils';
 import { downgradeRoles, resetRoles, updateRole } from '../../../../utils/Roles';
-// import { client } from '../../../../index';
 
 const defaultExport: ICommand = {
 	name: 'roles',
@@ -53,7 +53,7 @@ const defaultExport: ICommand = {
 		},
 	],
 	dmPermission: false,
-	// guilds: [client.testGuilds.find((guild) => guild.name.includes('ENSIAS'))?.id ?? ''],
+	guilds: [client.testGuilds.find((guild) => guild.name.includes('ENSIAS'))?.id ?? ''],
 	async execute({ interaction }) {
 		if (!interaction.guild) return;
 		await interaction.deferReply({ ephemeral: true });
