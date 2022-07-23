@@ -1,11 +1,11 @@
 import { ApplicationCommandOptionType } from 'discord.js';
-import { ICommand } from '../../../Typings';
-import { FiliereType, GroupeType } from '../../../Typings/Ensias';
-import { client } from '../../../index';
-import { createEmbed } from '../../../utils/Embeds';
-import { flGrpYr } from '../../../utils/Schedule/flGrp';
-import { sendSchedule } from '../../../utils/Schedule/sendSchedule';
-import { logsMessage } from '../../../utils/logsMessage';
+import { ICommand } from '../../../../Typings';
+import { FiliereType, GroupeType } from '../../../../Typings/Ensias';
+import { client } from '../../../../index';
+import { createEmbed } from '../../../../utils/Embeds';
+import { flGrpYr } from '../../../../utils/Schedule/flGrp';
+import { sendSchedule } from '../../../../utils/Schedule/sendSchedule';
+import { logsMessage } from '../../../../utils/logsMessage';
 
 const filieresArray = ['2IA', '2SCL', 'BI&A', 'GD', 'GL', 'IDF', 'IDSIT', 'SSE', 'SSI'];
 const groupesArray = ['G1', 'G2', 'G3', 'G4', 'G5', 'G6', 'G7', 'G8'];
