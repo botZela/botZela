@@ -1,4 +1,4 @@
-import { CommandInteractionOptionResolver, GuildMember, Interaction } from 'discord.js';
+import { CommandInteractionOptionResolver, Interaction } from 'discord.js';
 import { client } from '../..';
 import { Event } from '../../Structures';
 import { ExtendedCommandInteraction } from '../../Typings';
@@ -9,7 +9,6 @@ const defaultExport: Event<'interactionCreate'> = {
 	alias: 'CommandInteraction',
 	async execute(interaction: Interaction) {
 		if (!interaction.isChatInputCommand()) return;
-		const member = interaction.member as GuildMember;
 
 		const command = client.commands.get(interaction.commandName);
 		if (!command) {
@@ -20,17 +19,10 @@ const defaultExport: Event<'interactionCreate'> = {
 		}
 
 		try {
-			if (command.permissions && !command.permissions.some((perm) => member.permissions.has(perm))) {
-				await interaction.reply({
-					content: "Sorry you can't use this Command.",
-					ephemeral: true,
-				});
-			} else {
-				await command.execute({
-					args: interaction.options as CommandInteractionOptionResolver,
-					interaction: interaction as ExtendedCommandInteraction,
-				});
-			}
+			await command.execute({
+				args: interaction.options as CommandInteractionOptionResolver,
+				interaction: interaction as ExtendedCommandInteraction,
+			});
 		} catch (error) {
 			await interaction.reply({
 				content: 'There was an error while executing this command!',

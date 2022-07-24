@@ -6,7 +6,7 @@ import { makeComponents, driveFilesSelectMenuOptions } from '../../../utils/Driv
 
 const defaultExport: IButtonCommand = {
 	id: 'button-drivefiles-prev',
-	// permissions: ['Administrator'],
+	// defaultMemberPermissions: ['Administrator'],
 
 	execute: async ({ interaction }) => {
 		await interaction.deferUpdate();

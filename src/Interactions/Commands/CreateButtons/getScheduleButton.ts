@@ -13,7 +13,7 @@ import { createEmbed } from '../../../utils';
 const defaultExport: ICommand = {
 	name: 'button_schedule',
 	description: 'Create the Schedule button',
-	permissions: ['Administrator'],
+	defaultMemberPermissions: ['Administrator'],
 	guilds: [client.testGuilds.find((guild) => guild.name.includes('ENSIAS'))?.id ?? ''],
 	options: [
 		{

@@ -11,6 +11,9 @@ import { downgradeRoles, resetRoles, updateRole } from '../../../../utils/Roles'
 const defaultExport: ICommand = {
 	name: 'roles',
 	description: 'Update or Reset the roles for a member or everyone ( if the member is not specified)',
+	defaultMemberPermissions: ['Administrator'],
+	dmPermission: false,
+	guilds: [client.testGuilds.find((guild) => guild.name.includes('ENSIAS'))?.id ?? ''],
 	options: [
 		{
 			name: 'reset',
@@ -52,8 +55,6 @@ const defaultExport: ICommand = {
 			],
 		},
 	],
-	dmPermission: false,
-	guilds: [client.testGuilds.find((guild) => guild.name.includes('ENSIAS'))?.id ?? ''],
 	async execute({ interaction }) {
 		if (!interaction.guild) return;
 		await interaction.deferReply({ ephemeral: true });

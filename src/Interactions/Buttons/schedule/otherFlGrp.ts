@@ -11,7 +11,7 @@ import { createEmbed } from '../../../utils';
 const defaultExport: IButtonCommand = {
 	id: 'sendOtherFlGrp',
 	// cooldown: 15 * 60 * 1000,
-	// permissions : ["ADMINISTRATOR"],
+	// defaultMemberPermissions : ["ADMINISTRATOR"],
 	async execute({ interaction }): Promise<void> {
 		const row1 = new ActionRowBuilder<MessageActionRowComponentBuilder>();
 		const row2 = new ActionRowBuilder<MessageActionRowComponentBuilder>();

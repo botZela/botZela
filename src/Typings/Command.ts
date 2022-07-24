@@ -46,47 +46,33 @@ export interface ExtendedModalSubmitInteraction extends ModalSubmitInteraction {
 
 interface BaseCommand {
 	ownerOnly?: boolean;
-	context?: boolean;
 	guilds?: Snowflake[];
 	privateGuilds?: boolean;
-	permissions?: PermissionResolvable[];
 	cooldown?: number;
+	defaultMemberPermissions?: PermissionResolvable | null;
 }
 
 export interface ICommand extends ChatInputApplicationCommandData, BaseCommand {
+	context?: boolean;
 	execute: ExecuteFunction<ExtendedCommandInteraction>;
 }
 
 export interface IContextCommand extends UserApplicationCommandData, BaseCommand {
+	context?: boolean;
 	execute: ExecuteFunction<ExtendedContextMenuInteraction>;
 }
 
-export interface IButtonCommand {
+export interface IButtonCommand extends BaseCommand {
 	id: string;
-	ownerOnly?: boolean;
-	guilds?: Snowflake[];
-	privateGuilds?: boolean;
-	permissions?: PermissionResolvable[];
-	cooldown?: number;
 	execute: ExecuteFunction<ExtendedButtonInteraction>;
 }
 
-export interface ISelectMenuCommand {
+export interface ISelectMenuCommand extends BaseCommand {
 	id: string;
-	ownerOnly?: boolean;
-	guilds?: Snowflake[];
-	privateGuilds?: boolean;
-	permissions?: PermissionResolvable[];
-	cooldown?: number;
 	execute: ExecuteFunction<ExtendedSelectMenuInteraction>;
 }
 
 export interface IModalSubmitCommand extends BaseCommand {
 	id: string;
-	ownerOnly?: boolean;
-	guilds?: Snowflake[];
-	privateGuilds?: boolean;
-	permissions?: PermissionResolvable[];
-
 	execute: ExecuteFunction<ExtendedModalSubmitInteraction>;
 }

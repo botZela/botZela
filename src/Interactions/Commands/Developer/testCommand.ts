@@ -14,7 +14,7 @@ import { ICommand } from '../../../Typings';
 const defaultExport: ICommand = {
 	name: 'test',
 	description: 'Just to test buttons',
-	permissions: ['Administrator'],
+	defaultMemberPermissions: ['Administrator'],
 	options: [
 		{
 			name: 'button',

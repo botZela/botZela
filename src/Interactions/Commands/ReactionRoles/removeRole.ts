@@ -5,7 +5,7 @@ import { ICommand } from '../../../Typings';
 const defaultExport: ICommand = {
 	name: 'remove-role',
 	description: 'remove a custom Reaction role',
-	permissions: ['Administrator'],
+	defaultMemberPermissions: ['Administrator'],
 	options: [
 		{
 			name: 'role',

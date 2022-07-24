@@ -5,7 +5,7 @@ import { ICommand } from '../../../Typings';
 const defaultExport: ICommand = {
 	name: 'resetcooldown',
 	description: 'Reset the cooldown for all users or just a member.',
-	permissions: ['Administrator'],
+	defaultMemberPermissions: ['Administrator'],
 	guilds: [client.testGuilds.find((guild) => guild.name.includes('ENSIAS'))?.id ?? ''],
 	options: [
 		{

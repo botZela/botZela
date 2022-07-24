@@ -18,8 +18,8 @@ const defaultExport: Event<'interactionCreate'> = {
 			return;
 		}
 
-		if (modal.permissions && !modal.permissions.some((perm) => member.permissions.has(perm))) {
-			await interaction.reply({ content: 'You are missing permissions.', ephemeral: true });
+		if (modal.defaultMemberPermissions && !member.permissions.any(modal.defaultMemberPermissions)) {
+			await interaction.reply({ content: 'You are missing Permissions.', ephemeral: true });
 			return;
 		}
 

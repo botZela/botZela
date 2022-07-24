@@ -1,4 +1,4 @@
-import { ApplicationCommandDataResolvable, PermissionResolvable, Snowflake } from 'discord.js';
+import { ApplicationCommandDataResolvable, Snowflake } from 'discord.js';
 
 export interface RegisterCommandsOptions {
 	guildId?: string;
@@ -16,5 +16,4 @@ export type ExtendedApplicationCommandDataResolvable = {
 	guilds?: Snowflake[];
 	privateGuilds?: boolean;
 	cooldown?: number;
-	permissions?: PermissionResolvable[];
 } & ApplicationCommandDataResolvable;

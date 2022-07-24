@@ -13,7 +13,7 @@ import { createEmbed, createErrorEmbed, createInfoEmbed } from '../../../utils';
 const defaultExport: ICommand = {
 	name: 'drivefiles-panel',
 	description: 'Get Drive Files',
-	permissions: ['Administrator'],
+	defaultMemberPermissions: ['Administrator'],
 	options: [
 		{
 			name: 'drive',

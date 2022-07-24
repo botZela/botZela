@@ -19,8 +19,8 @@ const defaultExport: Event<'interactionCreate'> = {
 			return;
 		}
 
-		if (SelectMenu.permissions && !SelectMenu.permissions.some((perm) => member.permissions.has(perm))) {
-			await interaction.reply({ content: 'You are missing permissions.', ephemeral: true });
+		if (SelectMenu.defaultMemberPermissions && !member.permissions.any(SelectMenu.defaultMemberPermissions)) {
+			await interaction.reply({ content: 'You are missing Permissions.', ephemeral: true });
 			return;
 		}
 

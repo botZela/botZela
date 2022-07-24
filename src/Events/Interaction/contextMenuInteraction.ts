@@ -20,7 +20,7 @@ const defaultExport: Event<'interactionCreate'> = {
 		}
 
 		try {
-			if (command.permissions && !command.permissions.some((perm) => member.permissions.has(perm))) {
+			if (command.defaultMemberPermissions && !member.permissions.any(command.defaultMemberPermissions)) {
 				await interaction.reply({
 					content: "Sorry you can't use this Command.",
 					ephemeral: true,

@@ -4,7 +4,7 @@ import { buildEmbed } from '../../../utils/SendEmbed';
 const defaultExport: ICommand = {
 	name: 'sendembed',
 	description: 'Sends Embed',
-	permissions: ['Administrator'],
+	defaultMemberPermissions: ['Administrator'],
 	options: [
 		{
 			name: 'embed',

@@ -18,7 +18,7 @@ const defaultExport: ICommand = {
 		client.testGuilds.find((guild) => guild.name.includes('TEST'))?.id ?? '',
 		client.testGuilds.find((guild) => guild.name.includes('Test_channel'))?.id ?? '',
 	],
-	permissions: ['Administrator'],
+	defaultMemberPermissions: ['Administrator'],
 	async execute({ interaction }) {
 		const category = interaction.options.getChannel('category') as CategoryChannel;
 		await interaction.deferReply({ ephemeral: true });

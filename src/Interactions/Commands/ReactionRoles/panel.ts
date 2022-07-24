@@ -11,7 +11,7 @@ import { ICommand } from '../../../Typings';
 const defaultExport: ICommand = {
 	name: 'panel',
 	description: 'Reaction Role Panel',
-	permissions: ['Administrator'],
+	defaultMemberPermissions: ['Administrator'],
 
 	execute: async ({ interaction }) => {
 		const { guild } = interaction;

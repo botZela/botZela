@@ -5,7 +5,7 @@ import { ICommand } from '../../../Typings';
 const defaultExport: ICommand = {
 	name: 'emit',
 	description: 'Event Emitter',
-	permissions: ['Administrator'],
+	defaultMemberPermissions: ['Administrator'],
 	options: [
 		{
 			name: 'event',

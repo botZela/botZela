@@ -1,10 +1,8 @@
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import { Client } from '../Structures';
 import { IContextCommand } from '../Typings';
-import { Perms } from '../Validation';
 import { importFile } from '../utils';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -20,14 +18,6 @@ export async function contextMenuHandler(client: Client, PG: any, Ascii: any): P
 		if (!command.name) {
 			Table.addRow(file.split('/').at(-1), '🟠 FAILED', 'Missing a name.');
 			continue;
-		}
-		if (command.permissions) {
-			if (command.permissions.every((perm) => Perms.includes(perm))) {
-				// command.defaultPermission = false;
-			} else {
-				Table.addRow(command.name, '🟠 FAILED', 'Permissions are invalid.');
-				continue;
-			}
 		}
 
 		if (command.guilds) {

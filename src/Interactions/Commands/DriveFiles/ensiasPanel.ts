@@ -17,7 +17,7 @@ const yearArray = ['1A', '2A', '3A'];
 const defaultExport: ICommand = {
 	name: 'ensiasfiles',
 	description: 'Get your schedule based on your group and field.',
-	permissions: ['Administrator'],
+	defaultMemberPermissions: ['Administrator'],
 	guilds: [client.testGuilds.find((guild) => guild.name.includes('ENSIAS'))?.id ?? ''],
 	options: [
 		{

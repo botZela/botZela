@@ -13,7 +13,7 @@ import { createEmbed } from '../../../utils';
 const defaultExport: ICommand = {
 	name: 'button_assurance',
 	description: 'Create the Insurance button',
-	permissions: ['Administrator'],
+	defaultMemberPermissions: ['Administrator'],
 	guilds: [client.testGuilds.find((guild) => guild.name.includes('ENSIAS'))?.id ?? ''],
 	options: [
 		{

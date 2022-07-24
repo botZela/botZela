@@ -23,8 +23,8 @@ const defaultExport: Event<'interactionCreate'> = {
 			return;
 		}
 
-		if (Button.permissions && !Button.permissions.some((perm) => member.permissions.has(perm))) {
-			await interaction.reply({ content: 'You are missing permissions.', ephemeral: true });
+		if (Button.defaultMemberPermissions && !member.permissions.any(Button.defaultMemberPermissions)) {
+			await interaction.reply({ content: 'You are missing Permissions.', ephemeral: true });
 			return;
 		}
 

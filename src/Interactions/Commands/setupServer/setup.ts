@@ -171,7 +171,7 @@ const defaultExport: ICommand = {
 			],
 		},
 	],
-	permissions: ['Administrator', 'ManageRoles'],
+	defaultMemberPermissions: ['Administrator', 'ManageRoles'],
 	async execute({ interaction }) {
 		await interaction.deferReply({ ephemeral: true });
 		const { guild } = interaction;

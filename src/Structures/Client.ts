@@ -60,28 +60,6 @@ export class Client extends DiscordClient {
 					return command.guilds?.includes(guild.id);
 				});
 				await guild.commands.set(guildCommands);
-
-				// Register Permission ( Deprecated )
-				// const command = await guild.commands.set(guildCommands);
-				// const Roles = (commandName: string) => {
-				// 	const cmdPerms = this.commandsDataArray.find((c) => c.name === commandName)?.permissions;
-				// 	if (!cmdPerms) return null;
-				// 	return guild.roles.cache.filter((r) => cmdPerms.some((perm) => r.permissions.has(perm)));
-				// };
-				// const fullPermissions: ApplicationCommand[] = command.reduce((acc, r) => {
-				// 	const roles = Roles(r.name);
-				// 	if (!roles) return acc;
-
-				// 	const permissions = roles.reduce((a: , r) => {
-				// 		return [...a, { id: r.id, type: ApplicationCommandOptionType.Role, permission: true }];
-				// 	}, []);
-
-				// 	return [...acc, { id: r.id, permissions }];
-				// }, []);
-				// fullPermissions.map((com) => {
-				// 	com.permissions?.push({ id: guild.ownerId, type: 'USER', permission: true });
-				// });
-				// await guild.commands.permissions.set({ fullPermissions });
 			}
 		});
 	}

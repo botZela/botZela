@@ -5,7 +5,7 @@ import { IButtonCommand } from '../../../Typings';
 const defaultExport: IButtonCommand = {
 	id: 'DeleteMsgSchedule',
 	// cooldown: 15 * 60 * 1000,
-	// permissions : ["ADMINISTRATOR"],
+	// defaultMemberPermissions : ["ADMINISTRATOR"],
 	async execute({ interaction }) {
 		const dm = await interaction.user.createDM();
 		const toDel = await dm.send('You deleted the schedule from your dm.');

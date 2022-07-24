@@ -5,7 +5,7 @@ import { ICommand } from '../../../Typings';
 const defaultExport: ICommand = {
 	name: 'add-role',
 	description: 'Add a custom reaction role',
-	permissions: ['Administrator'],
+	defaultMemberPermissions: ['Administrator'],
 	options: [
 		{
 			name: 'role',
