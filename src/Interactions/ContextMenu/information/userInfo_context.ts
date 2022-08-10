@@ -17,9 +17,9 @@ const defaultExport: IContextCommand = {
 			.setColor('Random')
 			.setAuthor({
 				name: target.user.tag,
-				iconURL: target.user.avatarURL({ size: 512 }) ?? '',
+				iconURL: target.user.displayAvatarURL({ size: 512 }),
 			})
-			.setThumbnail(target.user.avatarURL({ size: 512 }) ?? '')
+			.setThumbnail(target.user.displayAvatarURL({ size: 512 }))
 			.addFields([
 				{ name: 'ID', value: `${target.user.id}` },
 				{
