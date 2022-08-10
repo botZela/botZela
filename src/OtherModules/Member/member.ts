@@ -95,7 +95,7 @@ export class Person {
 		}
 		// Only ENSIAS SERVER
 		if (guildId === '921408078983876678' && ADMINS.includes(this.discordId)) {
-			this.rolesId.push(PRV_ROLES[`${guildId}`].Admin);
+			roleIds.push(PRV_ROLES[`${guildId}`].Admin);
 			this.rolesNames.push('Admin');
 		}
 		return roleIds;
