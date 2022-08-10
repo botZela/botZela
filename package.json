@@ -22,17 +22,17 @@
 	"dependencies": {
 		"@googleapis/drive": "^3.0.1",
 		"@googleapis/sheets": "^3.0.2",
-		"ascii-table3": "^0.7.6",
+		"ascii-table3": "^0.7.7",
 		"axios": "^0.27.2",
 		"cheerio": "1.0.0-rc.12",
-		"discord.js": "^14.0.3",
+		"discord.js": "^14.2.0",
 		"dotenv": "^16.0.1",
 		"glob": "^8.0.3",
 		"googleapis-common": "^6.0.0",
 		"js-yaml": "^4.1.0",
-		"mongoose": "^6.4.6",
+		"mongoose": "^6.5.2",
 		"tslib": "^2.4.0",
-		"zod": "^3.17.10"
+		"zod": "^3.18.0"
 	},
 	"repository": {
 		"type": "git",
@@ -47,10 +47,10 @@
 	"devDependencies": {
 		"@types/glob": "^7.2.0",
 		"@types/js-yaml": "^4.0.5",
-		"@types/node": "^18.0.6",
-		"@typescript-eslint/eslint-plugin": "^5.30.7",
-		"@typescript-eslint/parser": "^5.30.7",
-		"eslint": "^8.20.0",
+		"@types/node": "^18.7.1",
+		"@typescript-eslint/eslint-plugin": "^5.33.0",
+		"@typescript-eslint/parser": "^5.33.0",
+		"eslint": "^8.21.0",
 		"eslint-config-marine": "^9.4.1",
 		"eslint-config-prettier": "^8.5.0",
 		"eslint-plugin-import": "^2.26.0",
