@@ -1,6 +1,6 @@
 import gRoles from '../../Models/guildRoles';
 import { Event } from '../../Structures';
-import { logsMessage } from '../../utils/logsMessage';
+import { logsEmbed } from '../../utils/Logger';
 
 const defaultExport: Event<'roleCreate'> = {
 	name: 'roleCreate',
@@ -18,8 +18,8 @@ const defaultExport: Event<'roleCreate'> = {
 				roles: roleObj,
 			});
 		}
-		const log = `[INFO] ${role.name} has been created.`;
-		await logsMessage(log, role.guild);
+		const log = `${role.name} has been created. (${role.toString()})`;
+		await logsEmbed(log, role.guild, 'info');
 	},
 };
 

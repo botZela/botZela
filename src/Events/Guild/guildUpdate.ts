@@ -6,7 +6,7 @@ import { glob } from 'glob';
 const PG = promisify(glob);
 
 import { Event } from '../../Structures';
-import { importFile, logsMessage } from '../../utils';
+import { importFile, logsEmbed } from '../../utils';
 
 const defaultExport: Event<'guildUpdate'> = {
 	name: 'guildUpdate',
@@ -25,8 +25,8 @@ const defaultExport: Event<'guildUpdate'> = {
 			}
 		}
 
-		const log = `[INFO] Guild Name Changed from "${oldGuild.name}" to "${newGuild.name}".`;
-		await logsMessage(log, newGuild);
+		const log = `Guild Name Changed from "${oldGuild.name}" to "${newGuild.name}".`;
+		await logsEmbed(log, newGuild, 'info');
 	},
 };
 

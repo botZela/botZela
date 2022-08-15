@@ -1,6 +1,6 @@
 import { client } from '../../..';
 import { IButtonCommand } from '../../../Typings';
-import { logsMessage } from '../../../utils/logsMessage';
+import { logsEmbed } from '../../../utils/Logger';
 
 const defaultExport: IButtonCommand = {
 	id: 'schedule_delete_old',
@@ -50,8 +50,8 @@ const defaultExport: IButtonCommand = {
 		await interaction.editReply({
 			content: `Deleted ${msgDeleted} messages from your DMs.`,
 		});
-		const toLog = `[INFO] .${member.nickname ?? member.user.tag} Deleted ${msgDeleted} messages from their DMs.`;
-		await logsMessage(toLog, guild);
+		const toLog = `%user% Deleted ${msgDeleted} messages from their DMs.`;
+		await logsEmbed(toLog, guild, 'info', member);
 	},
 };
 

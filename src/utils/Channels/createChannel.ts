@@ -1,5 +1,5 @@
 import { CategoryChannelResolvable, ChannelType, Guild, OverwriteResolvable } from 'discord.js';
-import { logsMessage } from '../logsMessage';
+import { logsEmbed } from '../Logger';
 
 export async function createChannel(
 	guild: Guild,
@@ -9,7 +9,7 @@ export async function createChannel(
 	overwrites?: OverwriteResolvable[],
 	position?: number,
 ) {
-	let message = `[INFO] .${channelType}_channel : .${name} in guild : .${guild.name}`;
+	let message = `__${channelType}_channel__ (${name}) : `;
 	const types = {
 		text: ChannelType.GuildText,
 		voice: ChannelType.GuildVoice,
@@ -23,13 +23,13 @@ export async function createChannel(
 			position,
 			parent: category,
 		});
-		message += ' Was Created Succesfully.';
-		await logsMessage(message, guild);
+		message += `<#${out.id}> Was Created Succesfully.`;
+		await logsEmbed(message, guild, 'info');
 		return out;
 	} catch (e) {
 		console.log(e);
 		message += ' Was not created';
-		await logsMessage(message, guild);
+		await logsEmbed(message, guild, 'error');
 		return undefined;
 	}
 }

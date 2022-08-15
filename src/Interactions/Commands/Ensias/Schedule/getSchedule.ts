@@ -1,11 +1,11 @@
 import { ApplicationCommandOptionType } from 'discord.js';
 import { ICommand } from '../../../../Typings';
-import { FiliereType, GroupeType } from '../../../../Typings/Ensias';
+import { FiliereNameType, GroupeNameType } from '../../../../Typings/Ensias';
 import { client } from '../../../../index';
 import { createEmbed } from '../../../../utils/Embeds';
+import { logsEmbed } from '../../../../utils/Logger';
 import { flGrpYr } from '../../../../utils/Schedule/flGrp';
 import { sendSchedule } from '../../../../utils/Schedule/sendSchedule';
-import { logsMessage } from '../../../../utils/logsMessage';
 
 const filieresArray = ['2IA', '2SCL', 'BI&A', 'GD', 'GL', 'IDF', 'IDSIT', 'SSE', 'SSI'];
 const groupesArray = ['G1', 'G2', 'G3', 'G4', 'G5', 'G6', 'G7', 'G8'];
@@ -61,13 +61,13 @@ const defaultExport: ICommand = {
 
 		const { filiere: fl, groupe: grp } = flGrpYr(member);
 
-		const filiere = (options.getString('filiere') as FiliereType) ?? fl;
-		const groupe = (options.getString('groupe') as GroupeType) ?? grp;
+		const filiere = (options.getString('filiere') as FiliereNameType) ?? fl?.name;
+		const groupe = (options.getString('groupe') as GroupeNameType) ?? grp?.name;
 		const dm = options.getBoolean('dm') === null ? true : options.getBoolean('dm');
 
 		if (!filiere || !groupe) {
 			return interaction.followUp({
-				content: 'CHAFAAAAAAR',
+				content: 'A HSSLTIII',
 				ephemeral: false,
 			});
 		}
@@ -97,8 +97,8 @@ const defaultExport: ICommand = {
 			],
 			ephemeral: true,
 		});
-		const logs = `[INFO] .${member.nickname ?? member.user.tag} got their finals (Rattrapages) Schedule.`;
-		await logsMessage(logs, guild);
+		const logs = `%user% got their finals (Rattrapages) Schedule.`;
+		await logsEmbed(logs, guild, 'info', member);
 	},
 };
 

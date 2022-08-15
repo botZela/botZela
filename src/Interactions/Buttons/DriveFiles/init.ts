@@ -1,7 +1,7 @@
 import { client } from '../../..';
 import guildDrive from '../../../Models/guildDrive';
 import { IButtonCommand } from '../../../Typings';
-import { createEmbed, logsMessage } from '../../../utils';
+import { createEmbed, logsEmbed } from '../../../utils';
 import { makeComponents, driveFilesSelectMenuOptions } from '../../../utils/DriveFiles';
 
 const defaultExport: IButtonCommand = {
@@ -9,8 +9,10 @@ const defaultExport: IButtonCommand = {
 	// defaultMemberPermissions: ['Administrator'],
 
 	execute: async ({ interaction }) => {
-		const logs = `[INFO] .${interaction.user.tag} have launched ENSIAS DRIVE command.`;
-		if (interaction.guild) await logsMessage(logs, interaction.guild);
+		if (interaction.guild) {
+			const logs = `%user% used DRIVE button.`;
+			await logsEmbed(logs, interaction.guild, 'info', interaction.member);
+		}
 
 		await interaction.deferReply({ ephemeral: true });
 

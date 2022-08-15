@@ -10,8 +10,8 @@ export async function updateRole(member: GuildMember) {
 	if (!guildData) return;
 
 	const roles = guildData.roles;
-	if (year === '3A') {
-		const roleFiliereId = roles.get(`L_${fl}`);
+	if (year.name === '3A') {
+		const roleFiliereId = roles.get(`L_${fl.name ?? ''}`);
 		const roleLaureatId = roles.get('Laureate');
 
 		const promo = new Date().getFullYear().toString();
@@ -20,10 +20,9 @@ export async function updateRole(member: GuildMember) {
 		await member.roles.add([rolePromoId ?? '', roleLaureatId ?? '', roleFiliereId ?? ''].filter((role) => role !== ''));
 
 		const currentYear = roles.get('3A');
-		const currentFl = roles.get(`_${fl}_`);
-		const currentGroupe = groupe ? roles.get(groupe) : '';
-		await member.roles.remove([currentYear ?? '', currentFl ?? '', currentGroupe ?? ''].filter((role) => role !== ''));
-	} else if (year === '2A') {
+		const currentFl = roles.get(`_${fl.name ?? ''}_`);
+		await member.roles.remove([currentYear ?? '', currentFl ?? ''].filter((role) => role !== ''));
+	} else if (year.name === '2A') {
 		const currentYear = roles.get('2A');
 		const nextYear = roles.get('3A');
 
@@ -33,7 +32,8 @@ export async function updateRole(member: GuildMember) {
 		const currentYear = roles.get('1A');
 		const nextYear = roles.get('2A');
 
+		const currentGroupe = groupe?.name ? roles.get(groupe.name) : '';
 		if (nextYear) await member.roles.add(nextYear);
-		if (currentYear) await member.roles.remove(currentYear);
+		if (currentYear) await member.roles.remove([currentYear, currentGroupe ?? '']);
 	}
 }

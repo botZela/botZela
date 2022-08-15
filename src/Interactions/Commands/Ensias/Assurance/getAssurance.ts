@@ -2,7 +2,7 @@ import fs from 'fs';
 import { ApplicationCommandOptionType } from 'discord.js';
 import { client } from '../../../..';
 import { ICommand } from '../../../../Typings';
-import { logsMessage, createEmbed } from '../../../../utils';
+import { createEmbed, logsEmbed } from '../../../../utils';
 import { flGrpYr } from '../../../../utils/Schedule/flGrp';
 
 function firstLastName(nickname: string) {
@@ -57,7 +57,7 @@ const defaultExport: ICommand = {
 		}
 
 		const { filiere, year } = flGrpYr(member);
-		if (year !== '1A' && year !== '2A') {
+		if (year?.name !== '1A' && year?.name !== '2A') {
 			return interaction.followUp({
 				content: 'This command is only available for 1A and 2A Students. Sorry!',
 				ephemeral: true,
@@ -73,13 +73,13 @@ const defaultExport: ICommand = {
 
 		const { lastName, firstName } = firstLastName(member.nickname);
 
-		const text = `__**${year} Insurance.**__ `;
+		const text = `__**${year.name} Insurance.**__ `;
 		let fileNamePdf = `${lastName} ${firstName}.pdf`;
-		let pdfPath = `./data/Schedules/Assurances_${year}/${filiere}/${fileNamePdf}`;
+		let pdfPath = `./data/Schedules/Assurances_${year.name}/${filiere.name ?? 'filiere'}/${fileNamePdf}`;
 
 		if (!fs.existsSync(pdfPath)) {
 			fileNamePdf = `${firstName} ${lastName}.pdf`;
-			pdfPath = `./data/Schedules/Assurances_${year}/${filiere}/${fileNamePdf}`;
+			pdfPath = `./data/Schedules/Assurances_${year.name}/${filiere.name ?? 'filiere'}/${fileNamePdf}`;
 			if (!fs.existsSync(pdfPath)) {
 				return interaction.followUp({
 					content:
@@ -88,7 +88,7 @@ const defaultExport: ICommand = {
 				});
 			}
 		}
-		const embed = createEmbed(`Assurance ${year}`, '__**Your "Assurance" is ready**__ ');
+		const embed = createEmbed(`Assurance ${year.name}`, '__**Your "Assurance" is ready**__ ');
 		await interaction.followUp({
 			content: text,
 			embeds: [embed],
@@ -106,8 +106,8 @@ const defaultExport: ICommand = {
 				files: [pdfPath],
 			});
 		}
-		const logs = `[INFO] .${member.nickname || member.user.tag} got their Insurance.`;
-		await logsMessage(logs, guild);
+		const logs = `%user% got their Insurance.`;
+		await logsEmbed(logs, guild, 'info', member);
 	},
 };
 

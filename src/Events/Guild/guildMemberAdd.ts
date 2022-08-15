@@ -4,7 +4,7 @@ import { GSpreadSheet } from '../../OtherModules/GSpreadSheet';
 import { Person } from '../../OtherModules/Member';
 import { Event } from '../../Structures';
 import { welcomeMsg, kick } from '../../utils/Guild';
-import { logsMessage } from '../../utils/logsMessage';
+import { logsEmbed } from '../../utils/Logger';
 
 const defaultExport: Event<'guildMemberAdd'> = {
 	name: 'guildMemberAdd',
@@ -26,9 +26,11 @@ const defaultExport: Event<'guildMemberAdd'> = {
 			const gAccPath = `${process.cwd()}/credentials/google_account.json`;
 			const activeSheet = await GSpreadSheet.createFromUrl(worksheetUrl, gAccPath, 0);
 			if (user.bot) {
-				logs = `[INFO] .${user.tag} has got [Bots] role.`;
-				await logsMessage(logs, guild);
-				await member.roles.add(guildRoles.get('Bots') ?? '');
+				const botRole = guildRoles.get('Bots');
+				if (!botRole) return;
+				logs = `%user% has got <@&${botRole}> role.`;
+				await logsEmbed(logs, guild, 'info', member);
+				await member.roles.add(botRole);
 				return;
 			}
 			let index = await activeSheet.findCellCol(`${user.tag}`, 'F');
@@ -36,8 +38,8 @@ const defaultExport: Event<'guildMemberAdd'> = {
 				index = await activeSheet.findCellCol(`${user.id}`, 'G');
 				if (index === 0) {
 					await kick(member, guild);
-					logs = `[INFO] .${user.tag} got kicked from the server`;
-					await logsMessage(logs, guild);
+					logs = `${user.tag} got kicked from the server`;
+					await logsEmbed(logs, guild, 'warn');
 					return;
 				}
 				await activeSheet.updateCell(`F${index}`, `${user.tag}`);
@@ -47,11 +49,11 @@ const defaultExport: Event<'guildMemberAdd'> = {
 			const newMem = await Person.create(index, guild, activeSheet);
 			newMem.discordId = member.id;
 			await member.setNickname(newMem.nickName);
-			logs = `[INFO] .${user.toString()} nickname changed to ${newMem.nickName ?? user.tag}`;
+			logs = `%user% nickname changed to __${newMem.nickName ?? user.tag}__`;
 			await member.roles.add(newMem.rolesId);
 			await activeSheet.colorRow(index, '#F9BB03');
-			logs += `\n[INFO] .${member.nickname ?? user.tag} got Roles ${JSON.stringify(newMem.rolesNames)}`;
-			await logsMessage(logs, guild);
+			logs += `\n%user% got Roles ${newMem.rolesId.map((role) => `<@&${role}>`).join(' ')}`;
+			await logsEmbed(logs, guild, 'info', member);
 		} catch (e) {
 			console.error(e);
 			console.log(`[INFO] Sheet does not exist for server ${guild.name}`);

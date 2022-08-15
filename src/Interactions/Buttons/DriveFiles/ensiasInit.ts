@@ -1,7 +1,7 @@
 import { client } from '../../..';
 import ensiasDrive from '../../../Models/guildDrive-Ensias';
 import { IButtonCommand } from '../../../Typings';
-import { createEmbed, logsMessage } from '../../../utils';
+import { createEmbed, logsEmbed } from '../../../utils';
 import { makeComponents, driveFilesSelectMenuOptions } from '../../../utils/DriveFiles';
 import { flGrpYr } from '../../../utils/Schedule/flGrp';
 
@@ -10,8 +10,10 @@ const defaultExport: IButtonCommand = {
 	// defaultMemberPermissions: ['Administrator'],
 
 	execute: async ({ interaction }) => {
-		const logs = `[INFO] .${interaction.user.tag} have used ENSIAS DRIVE button.`;
-		if (interaction.guild) await logsMessage(logs, interaction.guild);
+		if (interaction.guild) {
+			const logs = `%user% used ENSIAS DRIVE button.`;
+			await logsEmbed(logs, interaction.guild, 'info', interaction.member);
+		}
 
 		await interaction.deferReply({ ephemeral: true });
 
@@ -21,7 +23,7 @@ const defaultExport: IButtonCommand = {
 
 		const { filiere, year } = flGrpYr(interaction.member);
 
-		const driveData = await ensiasDrive.findOne({ filiere, year });
+		const driveData = await ensiasDrive.findOne({ filiere: filiere!.name, year: year!.name });
 
 		if (!driveData) {
 			return interaction.followUp({

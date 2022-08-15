@@ -1,5 +1,5 @@
 import { ChannelType, Guild, OverwriteResolvable } from 'discord.js';
-import { logsMessage } from '../logsMessage';
+import { logsEmbed } from '../Logger';
 
 export async function createCategory(
 	guild: Guild,
@@ -7,7 +7,7 @@ export async function createCategory(
 	overwrites?: OverwriteResolvable[],
 	position?: number,
 ) {
-	let message = `[INFO] .${name} category in guild : .${guild.name} `;
+	let message = `${name} category: `;
 	try {
 		const out = await guild.channels.create({
 			name,
@@ -15,13 +15,13 @@ export async function createCategory(
 			permissionOverwrites: overwrites,
 			position,
 		});
-		message += ' Was Created Succesfully.';
-		await logsMessage(message, guild);
+		message += `${out.toString()} Was Created Succesfully.`;
+		await logsEmbed(message, guild, 'info');
 		return out;
 	} catch (e) {
 		message += 'Was not created.';
 		console.log(e);
-		await logsMessage(message, guild);
+		await logsEmbed(message, guild, 'error');
 		return undefined;
 	}
 }

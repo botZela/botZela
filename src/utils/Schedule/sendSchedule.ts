@@ -1,9 +1,9 @@
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, GuildMember } from 'discord.js';
-import { FiliereType, GroupeType } from '../../Typings/Ensias';
+import { FiliereNameType, GroupeNameType } from '../../Typings/Ensias';
 import { createEmbed } from '../Embeds';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export async function sendSchedule(member: GuildMember, filiere: FiliereType, groupe: GroupeType) {
+export async function sendSchedule(member: GuildMember, filiere: FiliereNameType, groupe: GroupeNameType) {
 	const row = new ActionRowBuilder();
 	row.addComponents(
 		new ButtonBuilder().setCustomId('DeleteMsgSchedule').setLabel('Delete Me').setStyle(ButtonStyle.Danger),

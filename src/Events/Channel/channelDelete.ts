@@ -2,7 +2,7 @@ import { DMChannel } from 'discord.js';
 import autoReactChannels from '../../Models/autoReactChannels';
 import gChannels from '../../Models/guildChannels';
 import { Event } from '../../Structures';
-import { logsMessage } from '../../utils';
+import { logsEmbed } from '../../utils';
 import { createCommandsChannel, createLogsChannel } from '../../utils/Command&LogsChannels';
 
 const defaultExport: Event<'channelDelete'> = {
@@ -14,7 +14,7 @@ const defaultExport: Event<'channelDelete'> = {
 		const reactionData = await autoReactChannels.findOne({ channelId: channel.id });
 		if (reactionData) {
 			reactionData.delete();
-			await logsMessage('[INFO] autoReaction Channel has been deleted.', channel.guild);
+			await logsEmbed(`AutoReaction Channel "${channel.name}" has been deleted`, channel.guild, 'warn');
 		}
 		const guildData = await gChannels.findOne({ guildId: channel.guildId });
 		if (!guildData) {

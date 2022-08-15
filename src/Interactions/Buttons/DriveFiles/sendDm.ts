@@ -2,13 +2,13 @@ import { ActionRowBuilder, ButtonBuilder, ButtonStyle, MessageActionRowComponent
 import { client } from '../../..';
 import { generatePublicUrl } from '../../../OtherModules/GDrive';
 import { IButtonCommand } from '../../../Typings';
-import { createEmbed, createErrorEmbed, logsMessage } from '../../../utils';
+import { createEmbed, createErrorEmbed, logsEmbed } from '../../../utils';
 
 const defaultExport: IButtonCommand = {
 	id: 'button-drivefiles-send',
 	execute: async ({ interaction }) => {
-		const logs = `[INFO] .${interaction.user.tag} have received a file from the drive.`;
-		if (interaction.guild) await logsMessage(logs, interaction.guild);
+		const logs = `%user% have received a file from the drive.`;
+		if (interaction.guild) await logsEmbed(logs, interaction.guild, 'info', interaction.member);
 
 		await interaction.deferReply({ ephemeral: true });
 

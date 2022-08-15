@@ -1,7 +1,7 @@
 import { DiscordAPIError, Message, MessageType } from 'discord.js';
 import autoReactChannels from '../../Models/autoReactChannels';
+import { logsEmbed } from '../Logger';
 import { shuffle } from '../choice';
-import { logsMessage } from '../logsMessage';
 
 export async function autoReact(message: Message) {
 	if (!message.inGuild() || (message.type !== MessageType.Default && message.type !== MessageType.Reply)) return;
@@ -35,6 +35,6 @@ export async function autoReact(message: Message) {
 	if (emojisToRemove.length !== 0) {
 		if (!reactionData.random) reactionData.numberOfReactions -= emojisToRemove.length;
 		await reactionData.save();
-		await logsMessage(`[INFO] Removed bad emojis ${JSON.stringify(emojisToRemove)}`, message.guild);
+		await logsEmbed(`Removed bad emojis ${JSON.stringify(emojisToRemove)}`, message.guild, 'error');
 	}
 }

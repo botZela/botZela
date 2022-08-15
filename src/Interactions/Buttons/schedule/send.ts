@@ -1,6 +1,6 @@
 import { client } from '../../..';
 import { IButtonCommand } from '../../../Typings';
-import { createEmbed, logsMessage } from '../../../utils';
+import { createEmbed, logsEmbed } from '../../../utils';
 import { sendSchedule } from '../../../utils/Schedule';
 import { flGrpYr } from '../../../utils/Schedule/flGrp';
 
@@ -24,7 +24,7 @@ const defaultExport: IButtonCommand = {
 
 		const { filiere, groupe, year } = flGrpYr(member);
 
-		if (year !== '1A') {
+		if (year?.name !== '1A') {
 			return interaction.followUp({
 				content: 'This command is only available for 1A Students. Sorry!',
 				ephemeral: true,
@@ -38,12 +38,12 @@ const defaultExport: IButtonCommand = {
 			});
 		}
 
-		await sendSchedule(member, filiere, groupe);
+		await sendSchedule(member, filiere.name, groupe.name);
 
-		// Let text = `__**Your Schedule of this week :**__ \n__Filiere__: ${filiere}\n__Groupe__: ${groupe}\n` ;
-		// let fileNamePng = `Emploi_${filiere}_${groupe}.png`;
-		// let fileNamePdf = `Emploi_${filiere}_${groupe}.pdf`;
-		// let embed = createEmbed(`Schedule ${filiere} ${groupe}`, "__**Your Schedule of this week :**__ ");
+		// Let text = `__**Your Schedule of this week :**__ \n__Filiere__: ${filiere.name}\n__Groupe__: ${groupe.name}\n` ;
+		// let fileNamePng = `Emploi_${filiere.name}_${groupe.name}.png`;
+		// let fileNamePdf = `Emploi_${filiere.name}_${groupe.name}.pdf`;
+		// let embed = createEmbed(`Schedule ${filiere.name} ${groupe.name}`, "__**Your Schedule of this week :**__ ");
 		const text = `__**The Planning of S2 Finals.**__ `;
 		const fileNamePng1 = `Planning_Rattrapages_S2-1.png`;
 		const fileNamePng2 = `Planning_Rattrapages_S2-2.png`;
@@ -63,8 +63,8 @@ const defaultExport: IButtonCommand = {
 			],
 			ephemeral: true,
 		});
-		const logs = `[INFO] .${member.nickname ?? member.user.tag} got their finals (Rattrapages) Schedule.`;
-		await logsMessage(logs, guild);
+		const logs = `%user% got the schedule for branch <@&${filiere.id}> and groupe <@&${groupe.id}>`;
+		await logsEmbed(logs, guild, 'info', member);
 	},
 };
 

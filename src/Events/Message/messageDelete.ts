@@ -1,6 +1,6 @@
 import gDrive from '../../Models/guildDrive';
 import { Event } from '../../Structures';
-import { logsMessage } from '../../utils';
+import { logsEmbed } from '../../utils';
 
 const defaultExport: Event<'messageDelete'> = {
 	name: 'messageDelete',
@@ -8,7 +8,7 @@ const defaultExport: Event<'messageDelete'> = {
 		const driveData = await gDrive.findOne({ messageId: message.id });
 		if (driveData) {
 			driveData.delete();
-			if (message.guild) await logsMessage(`[INFO] Removed a DriveFile Panel Successfully`, message.guild);
+			if (message.guild) await logsEmbed(`Removed a DriveFile Panel Successfully`, message.guild, 'warn');
 			else console.log('[INFO] Message Deleted');
 		}
 	},

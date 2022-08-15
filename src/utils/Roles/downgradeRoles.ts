@@ -49,13 +49,13 @@ export async function downgradeRoles(member: GuildMember) {
 	}
 	const { year, filiere: fl } = flGrpYr(member);
 	if (!fl || !year) return;
-	if (year === '3A') {
+	if (year.name === '3A') {
 		const currentYear = roles.get('3A');
 		const prevYear = roles.get('2A');
 
 		if (prevYear) await member.roles.add(prevYear);
 		if (currentYear) await member.roles.remove(currentYear);
-	} else if (year === '2A') {
+	} else if (year.name === '2A') {
 		const currentYear = roles.get('2A');
 		const prevYear = roles.get('1A');
 
