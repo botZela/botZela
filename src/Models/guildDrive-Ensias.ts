@@ -9,6 +9,7 @@ const Schema = new _Schema({
 		type: String,
 		required: true,
 	},
+	driveResourceKey: String,
 	filiere: {
 		type: String,
 		required: true,

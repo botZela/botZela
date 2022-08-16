@@ -21,9 +21,9 @@ const defaultExport: IButtonCommand = {
 			const embed = createErrorEmbed('Get Files', 'Use the button (__**Get Files**__) again.');
 			return interaction.editReply({ embeds: [embed], components: [] });
 		}
-		const { id: fileId, name: fileName } = userStack.at(-1)!;
-		const fileObj = await generatePublicUrl(fileId);
-		const resultEmbed = createEmbed(`Get Files `, `📄 ${fileName}`);
+		const folder = userStack.at(-1)!;
+		const fileObj = await generatePublicUrl(folder);
+		const resultEmbed = createEmbed(`Get Files `, `📄 ${folder.name}`);
 		const component = new ActionRowBuilder<MessageActionRowComponentBuilder>();
 		if (fileObj.webViewLink) {
 			resultEmbed.addFields([{ name: `View File`, value: `Click [here](${fileObj.webViewLink}) to view the file.` }]);

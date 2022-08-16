@@ -6,8 +6,8 @@ import {
 	MessageActionRowComponentBuilder,
 } from 'discord.js';
 import guildDrive from '../../../Models/guildDrive';
-import { checkDriveId, getDriveName } from '../../../OtherModules/GDrive';
-import { ICommand } from '../../../Typings';
+import { checkDriveId, getDriveName, getIdResourceKey } from '../../../OtherModules/GDrive';
+import { DriveFileInterface, ICommand } from '../../../Typings';
 import { createEmbed, createErrorEmbed, createInfoEmbed } from '../../../utils';
 
 const defaultExport: ICommand = {
@@ -18,7 +18,7 @@ const defaultExport: ICommand = {
 		{
 			name: 'drive',
 			type: ApplicationCommandOptionType.String,
-			description: 'The id of the drive that you want to create.',
+			description: 'The url of the drive that you want to create.',
 			required: true,
 		},
 		{
@@ -45,12 +45,13 @@ const defaultExport: ICommand = {
 		}
 
 		const msgId = options.getString('message');
-		const driveId = options.getString('drive');
+		const driveUrl = options.getString('drive', true);
 
-		if (!driveId) {
+		const results = getIdResourceKey(driveUrl);
+		if (results === null) {
 			const embed = createErrorEmbed(
 				'Get Files',
-				'Please enter a drive Id (https://drive.google.com/drive/u/0/folders/**driveId**)',
+				'Please enter a valide drive url (https://drive.google.com/drive/folders/**driveId**)',
 			);
 			return interaction.followUp({
 				embeds: [embed],
@@ -58,16 +59,22 @@ const defaultExport: ICommand = {
 			});
 		}
 
-		if (!(await checkDriveId(driveId))) {
-			const embed = createErrorEmbed('Get Files', 'The drive Id that you provided is not valid');
+		const folder: DriveFileInterface = {
+			name: '',
+			id: results.id,
+			resourceKey: results.resourceKey,
+		};
+
+		if (!(await checkDriveId(folder))) {
+			const embed = createErrorEmbed('Get Files', 'The drive url that you provided is not valid');
 			return interaction.followUp({ embeds: [embed], ephemeral: true });
 		}
-		const driveName = options.getString('name') ?? (await getDriveName(driveId));
+		folder.name = options.getString('name') ?? (await getDriveName(folder));
 		const driveData = await guildDrive.find({ guildId: guild.id, channelId: channel.id });
 
 		const panelEmbed = createEmbed(
 			`Get Files `,
-			`The easiest way to get access directly to the files that you are looking for.\nCurrent folder : __**${driveName}**__.\n`,
+			`The easiest way to get access directly to the files that you are looking for.\nCurrent folder : __**${folder.name}**__.\n`,
 		).addFields(
 			{ name: 'Any Suggestions', value: 'Consider sending us your feedback in <#922875567357984768>, Thanks.' },
 			{ name: 'Any Errors', value: 'Consider sending us your feedback in <#939564676038140004>, Thanks.' },
@@ -87,8 +94,12 @@ const defaultExport: ICommand = {
 		if (msgId && driveData.map((x) => x.messageId).includes(msgId)) {
 			sentMessage = await channel.messages.fetch(msgId);
 			await sentMessage.edit({ embeds: [panelEmbed], components });
-			driveData.find((x) => x.messageId === msgId)!.driveId = driveId;
+
+			driveData.find((x) => x.messageId === msgId)!.driveId = folder.id;
+			driveData.find((x) => x.messageId === msgId)!.driveResourceKey = folder.resourceKey;
+			driveData.find((x) => x.messageId === msgId)!.driveName = folder.name;
 			await driveData.find((x) => x.messageId === msgId)!.save();
+
 			const embed = createInfoEmbed('Get Files', 'The panel was updated with the new drive.');
 			return interaction.followUp({
 				embeds: [embed],
@@ -107,8 +118,9 @@ const defaultExport: ICommand = {
 			channelId: channel.id,
 			guildName: guild.name,
 			messageId: sentMessage.id,
-			driveName,
-			driveId,
+			driveName: folder.name,
+			driveId: folder.id,
+			driveResourceKey: folder.resourceKey,
 		});
 		if (msgId) {
 			const embed = createInfoEmbed('Get Files', 'The panel was updated with the new drive.');

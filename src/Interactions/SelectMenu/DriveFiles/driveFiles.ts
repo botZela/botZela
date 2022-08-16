@@ -22,14 +22,15 @@ const defaultExport: ISelectMenuCommand = {
 
 		const { values, component } = interaction;
 
-		const fileId = values[0];
-		const fileIndex = component.options.findIndex((x) => x.value === fileId);
-		// const fileDesc = component.options.at(fileIndex)?.description;
+		const file = JSON.parse(values[0]) as { id: string; rk?: string };
+		const fileIndex = component.options
+			.map((x) => (JSON.parse(x.value) as { id: string; rk?: string }).id)
+			.findIndex((x) => x === file.id);
 		const fileName = component.options.at(fileIndex)?.label;
 		const fileEmoji = component.options.at(fileIndex)?.emoji;
 
 		if (fileEmoji?.name === '📄') {
-			const fileObj = await generatePublicUrl(fileId);
+			const fileObj = await generatePublicUrl({ name: fileName ?? '', id: file.id, resourceKey: file.rk });
 			const resultEmbed = createEmbed(`Get Files `, `📄 ${fileName ?? 'File'}`);
 			const component = new ActionRowBuilder<MessageActionRowComponentBuilder>().addComponents(
 				new ButtonBuilder({
@@ -72,11 +73,11 @@ const defaultExport: ISelectMenuCommand = {
 				components: [component],
 				embeds: [resultEmbed],
 			});
-			userStack.push({ id: fileId, name: fileName ?? '' });
+			userStack.push({ id: file.id, name: fileName ?? '' });
 			return;
 		}
 
-		const options = await driveFilesSelectMenuOptions(fileId);
+		const options = await driveFilesSelectMenuOptions({ id: file.id, name: '', resourceKey: file.rk });
 		if (!options) {
 			const errorEmbed = createEmbed(`Get Files`, 'This Folder is Empty.').addFields(
 				{ name: 'Any Suggestions', value: 'Consider sending us your feedback in <#922875567357984768>, Thanks.' },
@@ -85,17 +86,19 @@ const defaultExport: ISelectMenuCommand = {
 			await interaction.followUp({ embeds: [errorEmbed], ephemeral: true });
 			return;
 		}
-		userStack.push({ id: fileId, name: fileName ?? '' });
+		userStack.push({ id: file.id, name: fileName ?? '', resourceKey: file.rk });
 		const path = userStack.map((x) => x.name).join('/');
+
+		const link = `https://drive.google.com/drive/folders/${file.id}${file.rk ? `?resourcekey=${file.rk}` : ''}`;
 		const panelEmbed = createEmbed(
 			`Get Files `,
-			`📁 [${path}](https://drive.google.com/drive/folders/${fileId})\nThe easiest way to get access directly to the files that you are looking for.\n`,
+			`📁 [${path}](${link})\nThe easiest way to get access directly to the files that you are looking for.\n`,
 		).addFields(
 			{ name: 'Any Suggestions', value: 'Consider sending us your feedback in <#922875567357984768>, Thanks.' },
 			{ name: 'Any Errors', value: 'Consider sending us your feedback in <#939564676038140004>, Thanks.' },
 		);
 
-		const components = makeComponents(options, fileId);
+		const components = makeComponents(options, link);
 
 		await interaction.editReply({
 			embeds: [panelEmbed],

@@ -22,6 +22,7 @@ const Schema = new _Schema({
 		type: String,
 		required: true,
 	},
+	driveResourceKey: String,
 });
 
 export default model('guild-drive', Schema);

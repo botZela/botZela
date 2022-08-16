@@ -1,5 +1,6 @@
 import { drive as GoogleDrive, drive_v3 } from '@googleapis/drive';
 import { GoogleAuth } from 'googleapis-common';
+import { DriveFileInterface } from '../../Typings';
 
 const authFile = `${process.cwd()}/credentials/google_account.json`;
 const auth = new GoogleAuth({
@@ -11,12 +12,19 @@ const drive = GoogleDrive({
 	auth: auth,
 } as unknown as drive_v3.Options);
 
-export async function checkDriveId(driveId: string): Promise<boolean> {
+export async function checkDriveId(folder: DriveFileInterface): Promise<boolean> {
 	try {
-		const result = await drive.files.get({
-			fileId: driveId,
-			fields: 'shared',
-		});
+		const result = await drive.files.get(
+			{
+				fileId: folder.id,
+				fields: 'shared',
+			},
+			{
+				headers: {
+					'X-Goog-Drive-Resource-Keys': folder.resourceKey ? `${folder.id}/${folder.resourceKey}` : '',
+				},
+			},
+		);
 		if (result.data.shared) return result.data.shared;
 		return false;
 	} catch (error) {
@@ -24,17 +32,73 @@ export async function checkDriveId(driveId: string): Promise<boolean> {
 	}
 }
 
-export async function getDriveName(driveId: string): Promise<string> {
+export async function getDriveName(folder: DriveFileInterface): Promise<string> {
 	try {
-		const result = await drive.files.get({
-			fileId: driveId,
-			fields: 'name',
-		});
+		const result = await drive.files.get(
+			{
+				fileId: folder.id,
+				fields: 'name',
+			},
+			{
+				headers: {
+					'X-Goog-Drive-Resource-Keys': folder.resourceKey ? `${folder.id}/${folder.resourceKey}` : '',
+				},
+			},
+		);
 		if (result.data.name) return result.data.name;
 		return 'Folder';
 	} catch (error) {
 		return '';
 	}
+}
+
+export async function driveSearch(folder: DriveFileInterface) {
+	try {
+		const res = await drive.files.list(
+			{
+				q: `'${folder.id}' in parents`,
+				pageSize: 1000,
+				orderBy: 'folder, name',
+				fields: 'files(id, name, mimeType, shortcutDetails, resourceKey)',
+				spaces: 'drive',
+			},
+			{
+				headers: {
+					'X-Goog-Drive-Resource-Keys': folder.resourceKey ? `${folder.id}/${folder.resourceKey}` : '',
+				},
+			},
+		);
+		return res.data.files;
+	} catch (error) {
+		console.log(error);
+		return [];
+	}
+}
+
+export async function generatePublicUrl(folder: DriveFileInterface): Promise<drive_v3.Schema$File> {
+	try {
+		const result = await drive.files.get(
+			{
+				fileId: folder.id,
+				fields: 'webViewLink, webContentLink',
+			},
+			{
+				headers: {
+					'X-Goog-Drive-Resource-Keys': folder.resourceKey ? `${folder.id}/${folder.resourceKey}` : '',
+				},
+			},
+		);
+		return result.data;
+	} catch (error) {
+		console.log(error);
+		return {};
+	}
+}
+
+export function getIdResourceKey(url: string) {
+	const regExResults = /\/drive\/(u\/0\/)?folders\/([a-zA-Z0-9-_]+)(\?resourcekey=([a-zA-Z0-9-_]+))?/.exec(url);
+	if (regExResults === null) return null;
+	return { id: regExResults[2], resourceKey: regExResults[4] };
 }
 
 export async function driveSearchRec(driveId: string, path: string[]) {
@@ -59,34 +123,5 @@ export async function driveSearchRec(driveId: string, path: string[]) {
 		}
 	} catch (error) {
 		console.log(error);
-	}
-}
-
-export async function driveSearch(driveId: string) {
-	try {
-		const res = await drive.files.list({
-			q: `'${driveId}' in parents`,
-			pageSize: 1000,
-			orderBy: 'folder, name',
-			fields: 'files(id, name, mimeType, shortcutDetails)',
-			spaces: 'drive',
-		});
-		return res.data.files;
-	} catch (error) {
-		console.log(error);
-		return [];
-	}
-}
-
-export async function generatePublicUrl(id: string): Promise<drive_v3.Schema$File> {
-	try {
-		const result = await drive.files.get({
-			fileId: id,
-			fields: 'webViewLink, webContentLink',
-		});
-		return result.data;
-	} catch (error) {
-		console.log(error);
-		return {};
 	}
 }

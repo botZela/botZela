@@ -9,7 +9,7 @@ import {
 
 export function makeComponents(
 	options: SelectMenuComponentOptionData[],
-	fileId: string,
+	link: string,
 	page = 1,
 ): ActionRowBuilder<MessageActionRowComponentBuilder>[] {
 	const totalPages = Math.ceil(options.length / 25);
@@ -51,7 +51,7 @@ export function makeComponents(
 			}),
 			new ButtonBuilder({
 				style: ButtonStyle.Link,
-				url: `https://drive.google.com/drive/folders/${fileId}`,
+				url: link,
 				label: 'View Folder',
 				emoji: '📁',
 			}),

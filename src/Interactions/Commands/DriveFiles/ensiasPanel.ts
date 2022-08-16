@@ -7,8 +7,8 @@ import {
 } from 'discord.js';
 import { client } from '../../..';
 import ensiasDrive from '../../../Models/guildDrive-Ensias';
-import { checkDriveId, getDriveName } from '../../../OtherModules/GDrive';
-import { ICommand } from '../../../Typings';
+import { checkDriveId, getDriveName, getIdResourceKey } from '../../../OtherModules/GDrive';
+import { DriveFileInterface, ICommand } from '../../../Typings';
 import { createEmbed, createErrorEmbed, createInfoEmbed } from '../../../utils';
 
 const filieresArray = ['2IA', '2SCL', 'BI&A', 'GD', 'GL', 'IDF', 'IDSIT', 'SSE', 'SSI'];
@@ -28,7 +28,7 @@ const defaultExport: ICommand = {
 				{
 					name: 'drive',
 					type: ApplicationCommandOptionType.String,
-					description: 'The id of the drive that you want to create.',
+					description: 'The url of the drive that you want to create.',
 					required: true,
 				},
 				{
@@ -78,14 +78,15 @@ const defaultExport: ICommand = {
 		const subCommand = options.getSubcommand();
 
 		if (subCommand === 'add') {
-			const filiere = options.getString('filiere')!;
-			const year = options.getString('year')!;
-			const driveId = options.getString('drive');
+			const filiere = options.getString('filiere', true);
+			const year = options.getString('year', true);
+			const driveUrl = options.getString('drive', true);
 
-			if (!driveId) {
+			const results = getIdResourceKey(driveUrl);
+			if (results === null) {
 				const embed = createErrorEmbed(
 					'Get Files',
-					'Please enter a drive Id (https://drive.google.com/drive/u/0/folders/**driveId**)',
+					'Please enter a valide drive url (https://drive.google.com/drive/folders/**driveId**)',
 				);
 				return interaction.followUp({
 					embeds: [embed],
@@ -93,20 +94,27 @@ const defaultExport: ICommand = {
 				});
 			}
 
-			if (!(await checkDriveId(driveId))) {
-				const embed = createErrorEmbed('Get Files', 'The drive Id that you provided is not valid');
+			const folder: DriveFileInterface = {
+				name: '',
+				id: results.id,
+				resourceKey: results.resourceKey,
+			};
+
+			if (!(await checkDriveId(folder))) {
+				const embed = createErrorEmbed('Get Files', 'The drive url that you provided is not valid');
 				return interaction.followUp({
 					embeds: [embed],
 					ephemeral: true,
 				});
 			}
 
-			const driveName = options.getString('name') ?? (await getDriveName(driveId));
+			folder.name = options.getString('name') ?? (await getDriveName(folder));
 			const driveData = await ensiasDrive.findOne({ filiere, year });
 
 			if (driveData) {
-				driveData.driveId = driveId;
-				driveData.driveName = driveName;
+				driveData.driveId = folder.id;
+				driveData.driveResourceKey = folder.resourceKey;
+				driveData.driveName = folder.name;
 				await driveData.save();
 				const embed = createInfoEmbed(
 					'Get Files',
@@ -121,8 +129,9 @@ const defaultExport: ICommand = {
 			await ensiasDrive.create({
 				filiere,
 				year,
-				driveName,
-				driveId,
+				driveName: folder.name,
+				driveId: folder.id,
+				driveResourceKey: folder.resourceKey,
 			});
 			const embed = createInfoEmbed(
 				'Get Files',

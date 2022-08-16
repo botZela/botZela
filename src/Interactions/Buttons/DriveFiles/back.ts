@@ -20,9 +20,9 @@ const defaultExport: IButtonCommand = {
 
 		if (stack.length > 1) stack.pop();
 
-		const folderId = stack.at(-1)?.id ?? stack.at(0)!.id;
+		const folder = stack.at(-1) ?? stack.at(0)!;
 
-		const options = await driveFilesSelectMenuOptions(folderId);
+		const options = await driveFilesSelectMenuOptions(folder);
 		if (!options) {
 			const errorEmbed = createEmbed(`Get Files`, 'This Folder is Empty.').addFields(
 				{ name: 'Any Suggestions', value: 'Consider sending us your feedback in <#922875567357984768>, Thanks.' },
@@ -35,15 +35,19 @@ const defaultExport: IButtonCommand = {
 			.get(interaction.member.id)!
 			.map((x) => x.name)
 			.join('/');
+
+		const link = `https://drive.google.com/drive/folders/${folder.id}${
+			folder.resourceKey ? `?resourcekey=${folder.resourceKey}` : ''
+		}`;
 		const panelEmbed = createEmbed(
 			`Get Files `,
-			`📁 [${path}](https://drive.google.com/drive/folders/${folderId})\nThe easiest way to get access directly to the files that you are looking for.\n`,
+			`📁 [${path}](${link})\nThe easiest way to get access directly to the files that you are looking for.\n`,
 		).addFields(
 			{ name: 'Any Suggestions', value: 'Consider sending us your feedback in <#922875567357984768>, Thanks.' },
 			{ name: 'Any Errors', value: 'Consider sending us your feedback in <#939564676038140004>, Thanks.' },
 		);
 
-		const components = makeComponents(options, folderId);
+		const components = makeComponents(options, link);
 		// Disable back button if we hit the first element
 		components
 			.at(2)!

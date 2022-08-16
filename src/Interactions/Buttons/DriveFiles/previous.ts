@@ -21,9 +21,9 @@ const defaultExport: IButtonCommand = {
 			const embed = createErrorEmbed('Get Files', 'Use the button (__**Get Files**__) again.');
 			return interaction.editReply({ embeds: [embed], components: [] });
 		}
-		const folderId = stack.at(-1)!.id;
+		const folder = stack.at(-1)!;
 
-		const options = await driveFilesSelectMenuOptions(folderId);
+		const options = await driveFilesSelectMenuOptions(folder);
 		if (!options) {
 			const errorEmbed = createEmbed(`Get Files`, 'This Folder is Empty.').addFields(
 				{ name: 'Any Suggestions', value: 'Consider sending us your feedback in <#922875567357984768>, Thanks.' },
@@ -33,10 +33,13 @@ const defaultExport: IButtonCommand = {
 			return;
 		}
 
+		const link = `https://drive.google.com/drive/folders/${folder.id}${
+			folder.resourceKey ? `?resourcekey=${folder.resourceKey}` : ''
+		}`;
 		let page = 1;
 		if (messageComponents[1].components[1].type === ComponentType.Button)
 			page = parseInt(messageComponents[1].components[1].customId!, 10) - 1;
-		const components = makeComponents(options, folderId, page);
+		const components = makeComponents(options, link, page);
 		await interaction.editReply({ components });
 	},
 };
