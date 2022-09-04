@@ -116,7 +116,7 @@ const defaultExport: ICommand = {
 				msg = `Everyone on the server Passed to the **Next Year**`;
 			}
 			await interaction.followUp({
-				embeds: [createInfoEmbed(`Role Downgrade`, msg)],
+				embeds: [createInfoEmbed(`Role Upgrade`, msg)],
 				ephemeral: true,
 			});
 		} else if (subCommand === 'downgrade') {

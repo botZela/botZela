@@ -19,21 +19,18 @@ export async function updateRole(member: GuildMember) {
 
 		await member.roles.add([rolePromoId ?? '', roleLaureatId ?? '', roleFiliereId ?? ''].filter((role) => role !== ''));
 
-		const currentYear = roles.get('3A');
 		const currentFl = roles.get(`_${fl.name ?? ''}_`);
-		await member.roles.remove([currentYear ?? '', currentFl ?? ''].filter((role) => role !== ''));
+		await member.roles.remove([year.id, currentFl ?? ''].filter((role) => role !== ''));
 	} else if (year.name === '2A') {
-		const currentYear = roles.get('2A');
 		const nextYear = roles.get('3A');
 
 		if (nextYear) await member.roles.add(nextYear);
-		if (currentYear) await member.roles.remove(currentYear);
+		await member.roles.remove(year.id);
 	} else {
-		const currentYear = roles.get('1A');
 		const nextYear = roles.get('2A');
 
 		const currentGroupe = groupe?.name ? roles.get(groupe.name) : '';
 		if (nextYear) await member.roles.add(nextYear);
-		if (currentYear) await member.roles.remove([currentYear, currentGroupe ?? '']);
+		await member.roles.remove([year.id, currentGroupe ?? '']);
 	}
 }
