@@ -14,6 +14,7 @@ export class GSpreadSheet {
 	public endCol: number | null | undefined;
 	public endRow: number;
 	public endColLetter: string;
+	public headerNames: string[];
 
 	public constructor(spId: string, authFile: string, worksheetIndex: number) {
 		// Init of the Class
@@ -24,6 +25,7 @@ export class GSpreadSheet {
 		this.spId = spId;
 		this.endRow = 1;
 		this.worksheetIndex = worksheetIndex;
+		this.headerNames = [];
 		// Connect to sheet using authFile
 		const auth = new GoogleAuth({
 			keyFile: this.authFile,
@@ -44,6 +46,7 @@ export class GSpreadSheet {
 		out.endCol = out.worksheetProp?.gridProperties?.columnCount;
 		out.endRow = out.worksheetProp?.gridProperties?.rowCount ?? 1;
 		out.endColLetter = out.endCol ? dec2alpha(out.endCol) : '';
+		out.headerNames = (await out.getRow(1)) as string[];
 		return out;
 	}
 
@@ -167,7 +170,7 @@ export class GSpreadSheet {
 		}
 	}
 
-	public async check() {
+	public check() {
 		const wantedTitles = [
 			'Timestamp',
 			'First Name',
@@ -177,16 +180,14 @@ export class GSpreadSheet {
 			'Discord Username',
 			'ID Discord',
 		];
-		let check = true;
 		const n = wantedTitles.length;
-		const firstRow = (await this.getRow(1)).slice(0, n);
+		const firstRow = this.headerNames.slice(0, n);
 		for (let i = 0; i < n; i++) {
 			if (firstRow[i] !== wantedTitles[i]) {
-				check = false;
-				break;
+				return false;
 			}
 		}
-		return check;
+		return true;
 	}
 
 	/**
@@ -253,5 +254,16 @@ export class GSpreadSheet {
 	public async findCellCol(value: unknown, col: string) {
 		const columns = await this.getCol(col);
 		return columns.indexOf(value) + 1;
+	}
+
+	public async getRowDict(row: number) {
+		const data = await this.getRow(row);
+		const output: Map<string, unknown> = new Map();
+
+		for (let i = 0; i < data.length; i++) {
+			output.set(this.headerNames[i], data[i]);
+		}
+
+		return output;
 	}
 }
