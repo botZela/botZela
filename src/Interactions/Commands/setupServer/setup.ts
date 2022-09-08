@@ -12,6 +12,7 @@ import linksModel from '../../../Models/guildLinks';
 import gRoles from '../../../Models/guildRoles';
 import { ICommand } from '../../../Typings';
 import { checkSpreadsheet } from '../../../utils/SetupServer/checkLinks';
+import { checkStatus } from '../../../utils/SetupServer/checkStatus';
 import { setupServer } from '../../../utils/SetupServer/setupServer';
 
 type TChannelObj = { COMMAND: string } | { INTRODUCE: string } | { LOGS: string };
@@ -159,6 +160,11 @@ const defaultExport: ICommand = {
 		},
 		{
 			type: ApplicationCommandOptionType.Subcommand,
+			name: 'status',
+			description: 'Check the options for the server.',
+		},
+		{
+			type: ApplicationCommandOptionType.Subcommand,
 			name: 'default_role',
 			description: 'Define the default role of the server',
 			options: [
@@ -182,6 +188,8 @@ const defaultExport: ICommand = {
 		if (subCommand === 'server') {
 			await setupServer(interaction);
 			return interaction.followUp({ content: 'Setting up the server .... ', ephemeral: true });
+		} else if (subCommand === 'status') {
+			return checkStatus(interaction);
 		} else if (subCommand === 'default_role') {
 			const guildData = await gRoles.findOne({ guildId: guild.id });
 			const roleData = interaction.options.getRole('role');
