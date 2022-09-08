@@ -57,9 +57,9 @@ const defaultExport: ICommand = {
 		}
 
 		const { filiere, year } = flGrpYr(member);
-		if (year?.name !== '1A' && year?.name !== '2A') {
+		if (year?.name !== '2A' && year?.name !== '3A') {
 			return interaction.followUp({
-				content: 'This command is only available for 1A and 2A Students. Sorry!',
+				content: 'This command is only available for 2A and 3A Students. Sorry!',
 				ephemeral: true,
 			});
 		}
