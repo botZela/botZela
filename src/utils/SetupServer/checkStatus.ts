@@ -30,11 +30,20 @@ export async function checkStatus(interaction: ExtendedCommandInteraction) {
 
 	const rolesData = (await gRoles.findOne({ guildId: interaction.guild?.id }))?.roles;
 	if (rolesData) {
-		const field: EmbedField = { name: 'Roles', value: '', inline: false };
-		rolesData.forEach((role) => {
-			field.value += `<@&${role}> `;
-		});
-		embedFields.push(field);
+		const rolesArray = [...rolesData.values()].map((x) => `<@&${x}> `);
+		const total = rolesArray.reduce((acc, x) => acc + x.length, 0);
+		const n = total % 1024 === 0 && total > 0 ? Math.floor(total / 1024) : Math.ceil(total / 1024);
+		const pageSize = Math.floor(rolesArray.length / n);
+		for (let i = 0; i < n; i++) {
+			const field: EmbedField = { name: `Roles${n === 1 ? '' : ` ${i + 1}`}`, value: '', inline: true };
+			const data = rolesArray.slice(i * pageSize, (i + 1) * pageSize);
+
+			data.forEach((role) => {
+				field.value += `${role}`;
+			});
+
+			embedFields.push(field);
+		}
 	}
 
 	const autoReactData = await autoReactChannels.find({ guildId: interaction.guild?.id });
@@ -50,5 +59,8 @@ export async function checkStatus(interaction: ExtendedCommandInteraction) {
 	}
 
 	embed.addFields(embedFields);
-	return interaction.followUp({ embeds: [embed], ephemeral: true });
+	return interaction.followUp({
+		embeds: [embed],
+		ephemeral: true,
+	});
 }

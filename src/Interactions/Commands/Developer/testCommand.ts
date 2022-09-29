@@ -1,13 +1,16 @@
 import {
 	ActionRowBuilder,
 	ApplicationCommandOptionType,
+	bold,
 	ButtonBuilder,
 	ButtonStyle,
+	EmbedBuilder,
 	MessageActionRowComponentBuilder,
 	ModalActionRowComponentBuilder,
 	ModalBuilder,
 	TextInputBuilder,
 	TextInputStyle,
+	WebhookClient,
 } from 'discord.js';
 import { ICommand } from '../../../Typings';
 
@@ -19,6 +22,11 @@ const defaultExport: ICommand = {
 		{
 			name: 'button',
 			description: 'Create test Buttons',
+			type: ApplicationCommandOptionType.Subcommand,
+		},
+		{
+			name: 'embed',
+			description: 'Create test Embed',
 			type: ApplicationCommandOptionType.Subcommand,
 		},
 		{
@@ -64,6 +72,21 @@ const defaultExport: ICommand = {
 			});
 			modal.addComponents(action1, action2);
 			await interaction.showModal(modal);
+		} else if (subCommand === 'embed') {
+			const embed = new EmbedBuilder({
+				author: {
+					name: interaction.member.user.tag,
+					iconURL: interaction.member.displayAvatarURL(),
+				},
+				description: bold(`${interaction.member.user.toString()} created an embed`),
+				footer: { text: 'AAAA' },
+			}).setTimestamp();
+			const webhook = new WebhookClient({
+				url: 'https://discord.com/api/webhooks/1008513912544694312/z8NNqFW2YxUOLHJ_uLRh2JCoFYgVVCHdHUO3KPKQkTfsbtfeyXWM7-XDkU7E_pDuOwHa',
+			});
+
+			await webhook.send({ embeds: [embed] });
+			// await interaction.reply({ embeds: [embed] });
 		} else if (subCommand === 'error') {
 			throw new Error('Crashing the Bot');
 		}

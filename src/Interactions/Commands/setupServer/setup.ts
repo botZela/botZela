@@ -2,6 +2,7 @@ import {
 	ApplicationCommandOptionType,
 	CategoryChannel,
 	ChannelType,
+	ForumChannel,
 	GuildBasedChannel,
 	StageChannel,
 } from 'discord.js';
@@ -206,7 +207,7 @@ const defaultExport: ICommand = {
 		const subCommandGroup = interaction.options.getSubcommandGroup();
 		if (subCommandGroup === 'channels') {
 			const channel = interaction.options.getChannel('channel') as GuildBasedChannel;
-			if (channel instanceof CategoryChannel || channel instanceof StageChannel) {
+			if (channel instanceof CategoryChannel || channel instanceof StageChannel || channel instanceof ForumChannel) {
 				return;
 			}
 			const guildData = await gChannels.findOne({ guildId: guild.id });
