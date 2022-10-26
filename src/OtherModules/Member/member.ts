@@ -67,12 +67,12 @@ export class Person {
 		if (user.get('Timestamp')) {
 			out.timestamp = dayjs(user.get('Timestamp'), 'DD-MM-YYYY HH:mm:ss').toDate();
 		}
-		out.firstName = user.get('First Name') ?? '';
-		out.lastName = user.get('Last Name') ?? ' ';
-		out.mail = user.get('Email') ?? '';
-		out.phone = user.get('Phone Number') ?? '';
-		out.discordUsername = user.get('Discord Username') ?? '';
-		out.discordId = user.get('ID Discord') ?? '';
+		out.firstName = user.get('First Name')?.trim() ?? '';
+		out.lastName = user.get('Last Name')?.trim() ?? ' ';
+		out.mail = user.get('Email')?.trim() ?? '';
+		out.phone = user.get('Phone Number')?.trim() ?? '';
+		out.discordUsername = user.get('Discord Username')?.trim() ?? '';
+		out.discordId = user.get('ID Discord')?.trim() ?? '';
 		out.rolesNames = [];
 		const userArray = [...user.values()];
 		for (let i = 7; i < userArray.length; i++) {
@@ -92,6 +92,7 @@ export class Person {
 
 	public static async createFromArray(user: string[], guild: Guild) {
 		const out = new Person();
+		user = user.map((x) => x.trim());
 		out.timestamp = dayjs(user[0], 'DD-MM-YYYY HH:mm:ss').toDate();
 		out.firstName = user[1];
 		out.lastName = user[2];
