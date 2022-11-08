@@ -9,7 +9,7 @@ const defaultExport: ICommand = {
 	name: 'ensiasdata',
 	description: 'Get your schedule based on your group and field.',
 	defaultMemberPermissions: ['Administrator'],
-	guilds: [client.testGuilds.find((guild) => guild.name.includes('TEST'))?.id ?? ''],
+	guilds: [client.testGuilds.find((guild) => guild.name.includes('ENSIAS'))?.id ?? ''],
 	options: [
 		{
 			name: 'add',

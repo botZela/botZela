@@ -16,7 +16,7 @@ const defaultExport: ICommand = {
 	description: 'Get your schedule based on your group and field.',
 	cooldown: 10 * 1000,
 	// Permissions: [],
-	guilds: [client.testGuilds.find((guild) => guild.name.includes('TEST'))?.id ?? ''],
+	guilds: [client.testGuilds.find((guild) => guild.name.includes('ENSIAS'))?.id ?? ''],
 	options: [
 		{
 			name: 'annee',
@@ -47,7 +47,7 @@ const defaultExport: ICommand = {
 			return interaction.followUp({ content: 'This command is used inside a server ...', ephemeral: true });
 		}
 
-		if (guild.id !== client.testGuilds.find((server) => server.name.includes('TEST'))?.id) {
+		if (guild.id !== client.testGuilds.find((server) => server.name.includes('ENSIAS'))?.id) {
 			return interaction.followUp({
 				content: 'This command is not available for this server.',
 				ephemeral: true,
