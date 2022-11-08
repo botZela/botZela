@@ -7,6 +7,8 @@ declare global {
 			guildId: string;
 			environment: 'dev' | 'prod' | 'debug';
 			DatabaseUri: string;
+			EmailUser: string;
+			EmailPass: string;
 		}
 	}
 }
