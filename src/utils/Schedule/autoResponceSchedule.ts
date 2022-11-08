@@ -1,6 +1,6 @@
 import { Message } from 'discord.js';
 import { flGrpYr } from './flGrp';
-import { sendSchedule } from './sendSchedule';
+// import { sendSchedule } from './sendSchedule';
 import { logsEmbed } from '../Logger';
 
 export async function messageSchedule(message: Message) {
@@ -28,7 +28,7 @@ export async function messageSchedule(message: Message) {
 			response.delete().catch(console.error);
 		}, 10 * 1000);
 	}
-	await sendSchedule(member, fl.name, grp.name);
+	// await sendSchedule(member, fl.name, grp.name);
 	const response = await channel.send(
 		`${member.toString()} Your Schedule for branch ${fl.name ?? '"Your Branch"'} and groupe ${
 			grp.name ?? '"Your Groupe"'

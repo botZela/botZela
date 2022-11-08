@@ -1,4 +1,10 @@
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, MessageActionRowComponentBuilder } from 'discord.js';
+import {
+	ActionRowBuilder,
+	ButtonBuilder,
+	ButtonStyle,
+	MessageActionRowComponentBuilder,
+	SelectMenuComponent,
+} from 'discord.js';
 import { client } from '../../..';
 import { generatePublicUrl } from '../../../OtherModules/GDrive';
 import { ISelectMenuCommand } from '../../../Typings';
@@ -20,8 +26,9 @@ const defaultExport: ISelectMenuCommand = {
 			return interaction.editReply({ embeds: [embed], components: [] });
 		}
 
-		const { values, component } = interaction;
+		const { values } = interaction;
 
+		const component = interaction.component as SelectMenuComponent;
 		const file = JSON.parse(values[0]) as { id: string; rk?: string };
 		const fileIndex = component.options
 			.map((x) => (JSON.parse(x.value) as { id: string; rk?: string }).id)

@@ -5,18 +5,18 @@ import {
 	ButtonStyle,
 	MessageActionRowComponentBuilder,
 } from 'discord.js';
-import { client } from '../../..';
-import ensiasDrive from '../../../Models/guildDrive-Ensias';
-import { checkDriveId, getDriveName, getIdResourceKey } from '../../../OtherModules/GDrive';
-import { DriveFileInterface, ICommand } from '../../../Typings';
-import { createEmbed, createErrorEmbed, createInfoEmbed } from '../../../utils';
+import { client } from '../../../..';
+import ensiasDrive from '../../../../Models/guildDrive-Ensias';
+import { checkDriveId, getDriveName, getIdResourceKey } from '../../../../OtherModules/GDrive';
+import { DriveFileInterface, ICommand } from '../../../../Typings';
+import { createEmbed, createErrorEmbed, createInfoEmbed } from '../../../../utils';
 
 const filieresArray = ['2IA', '2SCL', 'BI&A', 'GD', 'GL', 'IDF', 'IDSIT', 'SSE', 'SSI'];
 const yearArray = ['1A', '2A', '3A'];
 
 const defaultExport: ICommand = {
 	name: 'ensiasfiles',
-	description: 'Get your schedule based on your group and field.',
+	description: 'Add and show panel for ensias drives.',
 	defaultMemberPermissions: ['Administrator'],
 	guilds: [client.testGuilds.find((guild) => guild.name.includes('ENSIAS'))?.id ?? ''],
 	options: [

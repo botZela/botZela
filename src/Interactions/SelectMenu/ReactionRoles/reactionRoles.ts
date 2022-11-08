@@ -1,4 +1,4 @@
-import { MessageSelectOption } from 'discord.js';
+import { MessageSelectOption, SelectMenuComponent } from 'discord.js';
 import { ISelectMenuCommand } from '../../../Typings';
 
 const defaultExport: ISelectMenuCommand = {
@@ -9,7 +9,7 @@ const defaultExport: ISelectMenuCommand = {
 
 		const { values, member } = interaction;
 
-		const component = interaction.component;
+		const component = interaction.component as SelectMenuComponent;
 		const removed = (component.options as MessageSelectOption[])
 			.filter((option): boolean => !values.includes(option.value))
 			.map((option) => option.value);

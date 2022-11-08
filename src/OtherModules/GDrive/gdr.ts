@@ -5,7 +5,7 @@ import { DriveFileInterface } from '../../Typings';
 const authFile = `${process.cwd()}/credentials/google_account.json`;
 const auth = new GoogleAuth({
 	keyFile: authFile,
-	scopes: ['https://www.googleapis.com/auth/drive.metadata.readonly'],
+	scopes: ['https://www.googleapis.com/auth/drive'],
 });
 const drive = GoogleDrive({
 	version: 'v3',
@@ -75,16 +75,52 @@ export async function driveSearch(folder: DriveFileInterface) {
 	}
 }
 
-export async function generatePublicUrl(folder: DriveFileInterface): Promise<drive_v3.Schema$File> {
+export async function driveSearchName(folder: DriveFileInterface, fileName: string) {
 	try {
-		const result = await drive.files.get(
+		const res = await drive.files.list(
 			{
-				fileId: folder.id,
-				fields: 'webViewLink, webContentLink',
+				q: `'${folder.id}' in parents and name contains '${fileName}'`,
+				pageSize: 1000,
+				orderBy: 'folder, name',
+				fields: 'files(id, name, mimeType, shortcutDetails, resourceKey)',
+				spaces: 'drive',
 			},
 			{
 				headers: {
 					'X-Goog-Drive-Resource-Keys': folder.resourceKey ? `${folder.id}/${folder.resourceKey}` : '',
+				},
+			},
+		);
+		return res.data.files;
+	} catch (error) {
+		console.log(error);
+		return [];
+	}
+}
+
+export async function givePermissionsToAnyone(fileId: string) {
+	await drive.permissions.create({
+		fileId: fileId,
+		requestBody: {
+			role: 'reader',
+			type: 'anyone',
+		},
+	});
+}
+
+export async function getFile(
+	file: DriveFileInterface,
+	fields: (keyof drive_v3.Schema$File)[],
+): Promise<drive_v3.Schema$File> {
+	try {
+		const result = await drive.files.get(
+			{
+				fileId: file.id,
+				fields: fields.join(','),
+			},
+			{
+				headers: {
+					'X-Goog-Drive-Resource-Keys': file.resourceKey ? `${file.id}/${file.resourceKey}` : '',
 				},
 			},
 		);
@@ -93,6 +129,10 @@ export async function generatePublicUrl(folder: DriveFileInterface): Promise<dri
 		console.log(error);
 		return {};
 	}
+}
+
+export async function generatePublicUrl(folder: DriveFileInterface): Promise<drive_v3.Schema$File> {
+	return getFile(folder, ['webViewLink', 'webContentLink']);
 }
 
 export function getIdResourceKey(url: string) {
