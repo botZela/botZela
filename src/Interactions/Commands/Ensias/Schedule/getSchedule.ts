@@ -57,7 +57,7 @@ const defaultExport: ICommand = {
 		const { filiere: fl, groupe: grp, year: yr } = flGrpYr(member);
 		const filiere = (options.getString('filiere') as FiliereNameType) ?? fl?.name;
 		const groupe = (options.getString('groupe') as GroupeNameType) ?? grp?.name;
-		const year = (options.getString('year') as YearNameType) ?? yr?.name;
+		const year = (options.getString('annee') as YearNameType) ?? yr?.name;
 
 		await sendSchedule(interaction, filiere, groupe, year);
 	},
