@@ -1,6 +1,19 @@
 import { Schema as _Schema, model } from 'mongoose';
 
-const Schema = new _Schema({
+interface IDriveFile {
+	driveName: string;
+	driveId: string;
+	driveMimeType: string;
+	driveResourceKey?: string;
+}
+
+export interface EnsiasDriveSchema {
+	drivesArray: IDriveFile[];
+	filiere: string;
+	year: string;
+}
+
+const driveFile = new _Schema({
 	driveName: {
 		type: String,
 		required: true,
@@ -9,7 +22,19 @@ const Schema = new _Schema({
 		type: String,
 		required: true,
 	},
+	driveMimeType: {
+		type: String,
+		required: true,
+	},
 	driveResourceKey: String,
+});
+
+const Schema = new _Schema({
+	drivesArray: {
+		type: Array,
+		of: driveFile,
+		required: true,
+	},
 	filiere: {
 		type: String,
 		required: true,
@@ -20,4 +45,4 @@ const Schema = new _Schema({
 	},
 });
 
-export default model('ensias-drive', Schema);
+export default model<EnsiasDriveSchema>('ensias-drive', Schema);

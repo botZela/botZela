@@ -1,7 +1,8 @@
 import { client } from '../../..';
-import { IButtonCommand } from '../../../Typings';
-import { createEmbed, createErrorEmbed } from '../../../utils';
-import { makeComponents, driveFilesSelectMenuOptions } from '../../../utils/DriveFiles';
+import ensiasDrive from '../../../Models/guildDrive-Ensias';
+import { DriveFileInterface, IButtonCommand, IPath } from '../../../Typings';
+import { createErrorEmbed } from '../../../utils';
+import { driveFilesEmbed } from '../../../utils/DriveFiles';
 
 const defaultExport: IButtonCommand = {
 	id: 'button-drivefiles-back',
@@ -22,38 +23,35 @@ const defaultExport: IButtonCommand = {
 
 		const folder = stack.at(-1) ?? stack.at(0)!;
 
-		const options = await driveFilesSelectMenuOptions(folder);
-		if (!options) {
-			const errorEmbed = createEmbed(`Get Files`, 'This Folder is Empty.').addFields(
-				{ name: 'Any Suggestions', value: 'Consider sending us your feedback in <#922875567357984768>, Thanks.' },
-				{ name: 'Any Errors', value: 'Consider sending us your feedback in <#939564676038140004>, Thanks.' },
-			);
-			await interaction.editReply({ embeds: [errorEmbed] });
+		if (folder.id === 'ensiasDrive') {
+			const [year, filiere] = folder.name.split('_');
+			const driveData = await ensiasDrive.findOne({ filiere: filiere, year: year });
+			const driveArray: DriveFileInterface[] = driveData!.drivesArray.map((drive) => ({
+				id: drive.driveId,
+				name: drive.driveName,
+				resourceKey: drive.driveResourceKey,
+				mimeType: drive.driveMimeType,
+			}));
+
+			const path: IPath = {
+				name: folder.name,
+				link: interaction.message.url,
+			};
+
+			const response = await driveFilesEmbed(driveArray, path, 1);
+			await interaction.editReply(response);
 			return;
 		}
-		const path = client.gdFolderStack
-			.get(interaction.member.id)!
-			.map((x) => x.name)
-			.join('/');
 
-		const link = `https://drive.google.com/drive/folders/${folder.id}${
-			folder.resourceKey ? `?resourcekey=${folder.resourceKey}` : ''
-		}`;
-		const panelEmbed = createEmbed(
-			`Get Files `,
-			`📁 [${path}](${link})\nThe easiest way to get access directly to the files that you are looking for.\n`,
-		).addFields(
-			{ name: 'Any Suggestions', value: 'Consider sending us your feedback in <#922875567357984768>, Thanks.' },
-			{ name: 'Any Errors', value: 'Consider sending us your feedback in <#939564676038140004>, Thanks.' },
-		);
+		const path: IPath = {
+			name: stack.map((x) => x.name).join('/'),
+			link: `https://drive.google.com/drive/folders/${folder.id}${
+				folder.resourceKey ? `?resourcekey=${folder.resourceKey}` : ''
+			}`,
+		};
 
-		const components = makeComponents(options, link);
-		// Disable back button if we hit the first element
-		components
-			.at(2)!
-			.components.at(0)!
-			.setDisabled(stack.length === 1);
-		await interaction.editReply({ embeds: [panelEmbed], components });
+		const response = await driveFilesEmbed(folder, path, stack.length);
+		await interaction.editReply(response);
 	},
 };
 

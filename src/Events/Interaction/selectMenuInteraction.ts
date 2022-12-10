@@ -7,7 +7,7 @@ const defaultExport: Event<'interactionCreate'> = {
 	name: 'interactionCreate',
 	alias: 'SelectMenuInteraction',
 	async execute(interaction: Interaction): Promise<void> {
-		if (!interaction.isSelectMenu()) return;
+		if (!interaction.isStringSelectMenu()) return;
 
 		const { customId, guild } = interaction;
 		const member = interaction.member as GuildMember;

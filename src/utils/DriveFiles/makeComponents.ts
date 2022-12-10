@@ -1,21 +1,23 @@
 import {
 	ActionRowBuilder,
-	SelectMenuBuilder,
+	StringSelectMenuBuilder,
 	ButtonBuilder,
 	SelectMenuComponentOptionData,
 	ButtonStyle,
 	MessageActionRowComponentBuilder,
 } from 'discord.js';
+import { IPath } from '../../Typings';
 
 export function makeComponents(
 	options: SelectMenuComponentOptionData[],
-	link: string,
+	path: IPath,
+	stackSize: number,
 	page = 1,
 ): ActionRowBuilder<MessageActionRowComponentBuilder>[] {
 	const totalPages = Math.ceil(options.length / 25);
 	return [
 		new ActionRowBuilder<MessageActionRowComponentBuilder>().addComponents(
-			new SelectMenuBuilder()
+			new StringSelectMenuBuilder()
 				.setCustomId('drivefiles-menu')
 				.setPlaceholder('Select a folder: ')
 				.addOptions(options.slice(25 * (page - 1), 25 * page)),
@@ -48,10 +50,11 @@ export function makeComponents(
 				label: 'Back',
 				style: ButtonStyle.Secondary,
 				emoji: '⬅',
+				disabled: stackSize === 1,
 			}),
 			new ButtonBuilder({
 				style: ButtonStyle.Link,
-				url: link,
+				url: path.link,
 				label: 'View Folder',
 				emoji: '📁',
 			}),

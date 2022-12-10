@@ -29,6 +29,7 @@ const defaultExport: Event<'ready'> = {
 				useNewUrlParser: true,
 				useUnifiedTopology: true,
 			} as ConnectOptions);
+			mongoose.set('strictQuery', false);
 			console.log('[INFO] The Client is now connected to the DataBase.');
 		} catch (err) {
 			console.log('[ERROR] The Client did not connect to the DataBase Please Check the DatabaseUri.');

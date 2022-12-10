@@ -7,7 +7,7 @@ import {
 } from 'discord.js';
 import { client } from '../../../..';
 import ensiasDrive from '../../../../Models/guildDrive-Ensias';
-import { checkDriveId, getDriveName, getIdResourceKey } from '../../../../OtherModules/GDrive';
+import { checkDriveId, getFile, getIdResourceKey } from '../../../../OtherModules/GDrive';
 import { DriveFileInterface, ICommand } from '../../../../Typings';
 import { createEmbed, createErrorEmbed, createInfoEmbed } from '../../../../utils';
 
@@ -18,7 +18,7 @@ const defaultExport: ICommand = {
 	name: 'ensiasfiles',
 	description: 'Add and show panel for ensias drives.',
 	defaultMemberPermissions: ['Administrator'],
-	guilds: [client.testGuilds.find((guild) => guild.name.includes('ENSIAS'))?.id ?? ''],
+	guilds: [client.testGuilds.find((guild) => guild.name.includes('TEST'))?.id ?? ''],
 	options: [
 		{
 			name: 'add',
@@ -108,13 +108,18 @@ const defaultExport: ICommand = {
 				});
 			}
 
-			folder.name = options.getString('name') ?? (await getDriveName(folder));
+			const fetched = await getFile(folder, ['name', 'mimeType']);
+			folder.name = options.getString('name') ?? fetched.name ?? '';
+			folder.mimeType = fetched.mimeType ?? 'application/vnd.google-apps.folder';
 			const driveData = await ensiasDrive.findOne({ filiere, year });
 
 			if (driveData) {
-				driveData.driveId = folder.id;
-				driveData.driveResourceKey = folder.resourceKey;
-				driveData.driveName = folder.name;
+				driveData.drivesArray.push({
+					driveId: folder.id,
+					driveResourceKey: folder.resourceKey,
+					driveName: folder.name,
+					driveMimeType: folder.mimeType,
+				});
 				await driveData.save();
 				const embed = createInfoEmbed(
 					'Get Files',
@@ -129,9 +134,14 @@ const defaultExport: ICommand = {
 			await ensiasDrive.create({
 				filiere,
 				year,
-				driveName: folder.name,
-				driveId: folder.id,
-				driveResourceKey: folder.resourceKey,
+				drivesArray: [
+					{
+						driveName: folder.name,
+						driveId: folder.id,
+						driveResourceKey: folder.resourceKey,
+						driveMimeType: folder.mimeType,
+					},
+				],
 			});
 			const embed = createInfoEmbed(
 				'Get Files',

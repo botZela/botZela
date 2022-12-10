@@ -1,8 +1,8 @@
 import { client } from '../../..';
 import guildDrive from '../../../Models/guildDrive';
-import { DriveFileInterface, IButtonCommand } from '../../../Typings';
-import { createEmbed, logsEmbed } from '../../../utils';
-import { makeComponents, driveFilesSelectMenuOptions } from '../../../utils/DriveFiles';
+import { DriveFileInterface, IButtonCommand, IPath } from '../../../Typings';
+import { logsEmbed } from '../../../utils';
+import { driveFilesEmbed } from '../../../utils/DriveFiles/genEmbed';
 
 const defaultExport: IButtonCommand = {
 	id: 'button-drivefiles-init',
@@ -34,31 +34,15 @@ const defaultExport: IButtonCommand = {
 		client.gdFolderStack.set(interaction.member.id, []);
 		client.gdFolderStack.get(interaction.member.id)!.push(folder);
 
-		const options = await driveFilesSelectMenuOptions(folder);
-		if (!options) {
-			const errorEmbed = createEmbed(`Get Files`, 'This Folder is Empty.').addFields(
-				{ name: 'Any Suggestions', value: 'Consider sending us your feedback in <#922875567357984768>, Thanks.' },
-				{ name: 'Any Errors', value: 'Consider sending us your feedback in <#939564676038140004>, Thanks.' },
-			);
-			await interaction.followUp({ embeds: [errorEmbed], ephemeral: false });
-			return;
-		}
+		const path: IPath = {
+			link: `https://drive.google.com/drive/folders/${folder.id}${
+				folder.resourceKey ? `?resourcekey=${folder.resourceKey}` : ''
+			}`,
+			name: folder.name,
+		};
+		const response = await driveFilesEmbed(folder, path, 1);
 
-		const link = `https://drive.google.com/drive/folders/${folder.id}${
-			folder.resourceKey ? `?resourcekey=${folder.resourceKey}` : ''
-		}`;
-		const panelEmbed = createEmbed(
-			`Get Files `,
-			`📁 [${folder.name}](${link})\nThe easiest way to get access directly to the files that you are looking for.\n`,
-		).addFields(
-			{ name: 'Any Suggestions', value: 'Consider sending us your feedback in <#922875567357984768>, Thanks.' },
-			{ name: 'Any Errors', value: 'Consider sending us your feedback in <#939564676038140004>, Thanks.' },
-		);
-
-		const components = makeComponents(options, link);
-		// Disable back button because it is the first folder
-		components.at(2)!.components.at(0)!.setDisabled(true);
-		await interaction.followUp({ embeds: [panelEmbed], components, ephemeral: false });
+		await interaction.followUp(response);
 	},
 };
 

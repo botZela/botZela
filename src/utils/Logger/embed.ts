@@ -1,4 +1,4 @@
-import { ColorResolvable, EmbedBuilder, Guild, GuildMember, TextChannel } from 'discord.js';
+import { EmbedBuilder, Guild, GuildMember, TextChannel } from 'discord.js';
 import { client } from '../..';
 import gChannels from '../../Models/guildChannels';
 
@@ -8,7 +8,7 @@ const embedColors = {
 	error: 'Red',
 	warn: 'Orange',
 	other: 'Blue',
-};
+} as const;
 
 export async function logsEmbed(message: string, guild: Guild, type: logsType, member?: GuildMember): Promise<void> {
 	console.log(
@@ -28,7 +28,7 @@ export async function logsEmbed(message: string, guild: Guild, type: logsType, m
 		},
 	})
 		.setTimestamp()
-		.setColor(embedColors[type] as ColorResolvable);
+		.setColor(embedColors[type]);
 
 	try {
 		const guildChannels = (await gChannels.findOne({ guildId: guild.id }))?.channels;

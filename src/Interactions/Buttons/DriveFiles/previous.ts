@@ -1,8 +1,9 @@
 import { ComponentType } from 'discord.js';
 import { client } from '../../..';
-import { IButtonCommand } from '../../../Typings';
-import { createEmbed, createErrorEmbed } from '../../../utils';
-import { makeComponents, driveFilesSelectMenuOptions } from '../../../utils/DriveFiles';
+import ensiasDrive from '../../../Models/guildDrive-Ensias';
+import { DriveFileInterface, IButtonCommand, IPath } from '../../../Typings';
+import { createErrorEmbed } from '../../../utils';
+import { driveFilesEmbed } from '../../../utils/DriveFiles';
 
 const defaultExport: IButtonCommand = {
 	id: 'button-drivefiles-prev',
@@ -23,24 +24,39 @@ const defaultExport: IButtonCommand = {
 		}
 		const folder = stack.at(-1)!;
 
-		const options = await driveFilesSelectMenuOptions(folder);
-		if (!options) {
-			const errorEmbed = createEmbed(`Get Files`, 'This Folder is Empty.').addFields(
-				{ name: 'Any Suggestions', value: 'Consider sending us your feedback in <#922875567357984768>, Thanks.' },
-				{ name: 'Any Errors', value: 'Consider sending us your feedback in <#939564676038140004>, Thanks.' },
-			);
-			await interaction.followUp({ embeds: [errorEmbed], ephemeral: false });
+		let page = 1;
+		if (messageComponents[1].components[1].type === ComponentType.Button)
+			page = parseInt(messageComponents[1].components[1].customId!, 10) + 1;
+
+		if (folder.id === 'ensiasDrive') {
+			const [year, filiere] = folder.name.split('_');
+			const driveData = await ensiasDrive.findOne({ filiere: filiere, year: year });
+			const driveArray: DriveFileInterface[] = driveData!.drivesArray.map((drive) => ({
+				id: drive.driveId,
+				name: drive.driveName,
+				resourceKey: drive.driveResourceKey,
+				mimeType: drive.driveMimeType,
+			}));
+
+			const path: IPath = {
+				name: folder.name,
+				link: interaction.message.url,
+			};
+
+			const response = await driveFilesEmbed(driveArray, path, 1, page);
+			await interaction.editReply(response);
 			return;
 		}
 
-		const link = `https://drive.google.com/drive/folders/${folder.id}${
-			folder.resourceKey ? `?resourcekey=${folder.resourceKey}` : ''
-		}`;
-		let page = 1;
-		if (messageComponents[1].components[1].type === ComponentType.Button)
-			page = parseInt(messageComponents[1].components[1].customId!, 10) - 1;
-		const components = makeComponents(options, link, page);
-		await interaction.editReply({ components });
+		const path: IPath = {
+			name: stack.map((x) => x.name).join('/'),
+			link: `https://drive.google.com/drive/folders/${folder.id}${
+				folder.resourceKey ? `?resourcekey=${folder.resourceKey}` : ''
+			}`,
+		};
+
+		const response = await driveFilesEmbed(folder, path, stack.length, page);
+		await interaction.editReply(response);
 	},
 };
 
