@@ -18,7 +18,7 @@ const defaultExport: ICommand = {
 	name: 'ensiasfiles',
 	description: 'Add and show panel for ensias drives.',
 	defaultMemberPermissions: ['Administrator'],
-	guilds: [client.testGuilds.find((guild) => guild.name.includes('TEST'))?.id ?? ''],
+	guilds: [client.testGuilds.find((guild) => guild.name.includes('ENSIAS'))?.id ?? ''],
 	options: [
 		{
 			name: 'add',
