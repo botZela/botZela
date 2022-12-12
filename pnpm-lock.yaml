@@ -5,6 +5,7 @@ specifiers:
   '@googleapis/sheets': ^4.0.0
   '@types/glob': ^8.0.0
   '@types/js-yaml': ^4.0.5
+  '@types/nodemailer': ^6.4.6
   '@types/node': ^18.11.11
   '@typescript-eslint/eslint-plugin': ^5.46.0
   '@typescript-eslint/parser': ^5.46.0
@@ -23,6 +24,7 @@ specifiers:
   googleapis-common: ^6.0.4
   husky: ^8.0.2
   js-yaml: ^4.1.0
+  nodemailer: ^6.8.0
   mongoose: ^6.8.0
   prettier: ^2.8.1
   ts-node: ^10.9.1
@@ -43,6 +45,7 @@ dependencies:
   glob: 8.0.3
   googleapis-common: 6.0.4
   js-yaml: 4.1.0
+  nodemailer: 6.8.0
   mongoose: 6.8.0
   tslib: 2.4.1
   zod: 3.19.1
@@ -50,6 +53,7 @@ dependencies:
 devDependencies:
   '@types/glob': 8.0.0
   '@types/js-yaml': 4.0.5
+  '@types/nodemailer': 6.4.6
   '@types/node': 18.11.11
   '@typescript-eslint/eslint-plugin': 5.46.0_5mle7isnkfgjmrghnnczirv6iy
   '@typescript-eslint/parser': 5.46.0_ha6vam6werchizxrnqvarmz2zu
@@ -1162,6 +1166,13 @@ packages:
   /@types/node/18.11.11:
     resolution:
       { integrity: sha512-KJ021B1nlQUBLopzZmPBVuGU9un7WJd/W4ya7Ih02B4Uwky5Nja0yGYav2EfYIk0RR2Q9oVhf60S2XR1BCWJ2g== }
+
+  /@types/nodemailer/6.4.6:
+    resolution:
+      { integrity: sha512-pD6fL5GQtUKvD2WnPmg5bC2e8kWCAPDwMPmHe/ohQbW+Dy0EcHgZ2oCSuPlWNqk74LS5BVMig1SymQbFMPPK3w== }
+    dependencies:
+      '@types/node': 18.11.9
+    dev: true
 
   /@types/semver/7.3.13:
     resolution:
@@ -3003,6 +3014,12 @@ packages:
     resolution:
       { integrity: sha512-dPEtOeMvF9VMcYV/1Wb8CPoVAXtp6MKMlcbAt4ddqmGqUJ6fQZFXkNZNkNlfevtNkGtaSoXf/vNNNSvgrdXwtA== }
     engines: { node: '>= 6.13.0' }
+    dev: false
+
+  /nodemailer/6.8.0:
+    resolution:
+      { integrity: sha512-EjYvSmHzekz6VNkNd12aUqAco+bOkRe3Of5jVhltqKhEsjw/y0PYPJfp83+s9Wzh1dspYAkUW/YNQ350NATbSQ== }
+    engines: { node: '>=6.0.0' }
     dev: false
 
   /normalize-path/3.0.0:

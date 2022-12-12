@@ -11,7 +11,7 @@ export class GSpreadSheet {
 	public worksheetProp: sheets_v4.Schema$SheetProperties | undefined;
 	public worksheetName: string;
 	public worksheetId: number;
-	public endCol: number | null | undefined;
+	public endCol: number;
 	public endRow: number;
 	public endColLetter: string;
 	public headerNames: string[];
@@ -23,6 +23,7 @@ export class GSpreadSheet {
 		this.endColLetter = '';
 		this.authFile = authFile;
 		this.spId = spId;
+		this.endCol = 1;
 		this.endRow = 1;
 		this.worksheetIndex = worksheetIndex;
 		this.headerNames = [];
@@ -43,7 +44,7 @@ export class GSpreadSheet {
 		out.worksheetProp = await out.getWorksheetProp();
 		out.worksheetName = out.worksheetProp?.title ?? '';
 		out.worksheetId = out.worksheetProp?.sheetId ?? 0;
-		out.endCol = out.worksheetProp?.gridProperties?.columnCount;
+		out.endCol = out.worksheetProp?.gridProperties?.columnCount ?? 1;
 		out.endRow = out.worksheetProp?.gridProperties?.rowCount ?? 1;
 		out.endColLetter = out.endCol ? dec2alpha(out.endCol) : '';
 		out.headerNames = (await out.getRow(1)) as string[];
@@ -260,10 +261,39 @@ export class GSpreadSheet {
 		const data = await this.getRow(row);
 		const output: Map<string, unknown> = new Map();
 
-		for (let i = 0; i < data.length; i++) {
-			output.set(this.headerNames[i], data[i]);
+		for (let i = 0; i < this.endCol; i++) {
+			output.set(this.headerNames[i], data[i] ?? '');
 		}
 
 		return output;
+	}
+
+	public async getAllDict() {
+		const data = await this.getAll();
+
+		const out = data.map((row, index) => {
+			const map: Map<string, unknown> = new Map();
+			map.set('index', index + 1);
+			for (let i = 0; i < this.endCol; i++) {
+				map.set(this.headerNames[i], row[i] ?? '');
+			}
+			return map;
+		});
+
+		return out;
+	}
+
+	public getCellRefFromIndex(row: number, col: number) {
+		return `${dec2alpha(col)}${row}`;
+	}
+
+	public getColIndDict(col: string) {
+		return this.headerNames.indexOf(col) + 1;
+	}
+
+	public async setCellDict(row: number, col: string, value: string) {
+		const colIndex = this.getColIndDict(col);
+		const cell = this.getCellRefFromIndex(row, colIndex);
+		await this.updateCell(cell, value);
 	}
 }
