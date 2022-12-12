@@ -2,8 +2,8 @@ import { SelectMenuComponentOptionData } from 'discord.js';
 import { driveSearch } from '../../OtherModules/GDrive';
 import { DriveFileInterface } from '../../Typings';
 
-export async function driveFilesSelectMenuOptions(folder: DriveFileInterface) {
-	const output = (await driveSearch(folder))
+export function driveFilesSelectMenuOptionsFromArray(folders: DriveFileInterface[] | undefined) {
+	const output = folders
 		?.map((file) => {
 			let value: string | undefined;
 			let description: string | undefined;
@@ -36,5 +36,16 @@ export async function driveFilesSelectMenuOptions(folder: DriveFileInterface) {
 			return undefined;
 		})
 		.filter((x): x is SelectMenuComponentOptionData => x !== undefined);
+	return output?.length === 0 ? undefined : output;
+}
+
+export async function driveFilesSelectMenuOptions(folder: DriveFileInterface | DriveFileInterface[]) {
+	if (Array.isArray(folder)) {
+		const output = driveFilesSelectMenuOptionsFromArray(folder);
+		return output?.length === 0 ? undefined : output;
+	}
+	const folderArray = await driveSearch(folder);
+	const output = driveFilesSelectMenuOptionsFromArray(folderArray as DriveFileInterface[]);
+
 	return output?.length === 0 ? undefined : output;
 }

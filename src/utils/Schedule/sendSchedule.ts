@@ -61,7 +61,7 @@ export async function sendSchedule(
 			.map((file) => getFile(file, ['id', 'mimeType', 'webViewLink', 'webContentLink', 'permissions'])),
 	);
 
-	let pngLink = '';
+	let pngLink: string | undefined = undefined;
 	const pngLinks: { webViewLink?: string; webContentLink?: string } = {};
 	const pdfLinks: { webViewLink?: string; webContentLink?: string } = {};
 	const anyonePerm = {
@@ -116,7 +116,9 @@ export async function sendSchedule(
 		{ name: 'Any Suggestions', value: 'Consider sending us your feedback in <#922875567357984768>, Thanks.' },
 		{ name: 'Any Errors', value: 'Consider sending them in <#939564676038140004>, Thanks.' },
 	);
-	resultEmbed.setImage(pngLink);
+
+	if (pngLink) resultEmbed.setImage(pngLink);
+
 	await interaction.editReply({
 		components: [component],
 		embeds: [resultEmbed],

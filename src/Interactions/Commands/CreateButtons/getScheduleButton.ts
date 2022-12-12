@@ -28,17 +28,18 @@ const defaultExport: ICommand = {
 		const { channel, options } = interaction;
 		const msgId = options.getString('message');
 		const row = new ActionRowBuilder<MessageActionRowComponentBuilder>();
-		const embed = createEmbed('Get your Schedule Customised for You')
+		const embed = createEmbed('Get your Schedule Customized for You')
 			.setColor('Red')
-			.setDescription(
-				"To get your Custom Schedule just type whatever you want in this channel, you will get it in Direct Messages.\nOr just press the button below ,`📅 Waa Tarii9 Siift l'emploi`, for more convenience.\n",
-			)
+			.setDescription("To get your Custom Schedule just press the button below ,`📅 Waa Tarii9 Siift l'emploi`.")
 			.addFields([
+				// {
+				// 	name: '`️🗑️ Delete old "DMed" Schedules`',
+				// 	value: `By pressing this button, all the old messages that the bot sent you will be deleted, except the last two. ⚠️**Use with Caution**⚠️`,
+				// },
 				{
-					name: '`️🗑️ Delete old "DMed" Schedules`',
-					value: `By pressing this button, all the old messages that the bot sent you will be deleted, except the last two. ⚠️**Use with Caution**⚠️`,
+					name: 'Any Suggestions',
+					value: `Consider sending us your feedback in <#922875567357984768>, Thanks.`,
 				},
-				{ name: 'Any Suggestions', value: `Consider sending us your feedback in <#922875567357984768>, Thanks.` },
 			]);
 
 		row.addComponents(
@@ -57,15 +58,14 @@ const defaultExport: ICommand = {
 		//         .setEmoji("📅")
 		// )
 
-		row.addComponents(
-			new ButtonBuilder()
-				.setCustomId('schedule_delete_old')
-				.setLabel('Delete Old "DMed" Schedules ')
-				.setStyle(ButtonStyle.Danger)
-				.setEmoji('🗑️'),
-		);
+		// row.addComponents(
+		// 	new ButtonBuilder()
+		// 		.setCustomId('schedule_delete_old')
+		// 		.setLabel('Delete Old "DMed" Schedules ')
+		// 		.setStyle(ButtonStyle.Danger)
+		// 		.setEmoji('🗑️'),
+		// );
 
-		// TODO : Hide the /button_schedule
 		if (!channel) {
 			return interaction.followUp({
 				content: "Couldn't find the Channel",
@@ -79,9 +79,15 @@ const defaultExport: ICommand = {
 		});
 		if (msgId) {
 			const message = await channel.messages.fetch(msgId);
-			await message.edit({ embeds: [embed], components: [row] });
+			await message.edit({
+				embeds: [embed],
+				components: [row],
+			});
 		} else {
-			await channel.send({ embeds: [embed], components: [row] });
+			await channel.send({
+				embeds: [embed],
+				components: [row],
+			});
 		}
 	},
 };

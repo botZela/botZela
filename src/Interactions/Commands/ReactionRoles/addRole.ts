@@ -28,7 +28,7 @@ const defaultExport: ICommand = {
 	],
 	execute: async ({ interaction }) => {
 		const { options, guild } = interaction;
-		if (!guild || !guild.members.me) {
+		if (!guild?.members.me) {
 			return interaction.reply({ content: 'This command is used inside a server ...', ephemeral: true });
 		}
 		const role = options.getRole('role');

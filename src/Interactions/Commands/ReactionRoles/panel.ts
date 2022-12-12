@@ -3,7 +3,7 @@ import {
 	EmbedBuilder,
 	ActionRowBuilder,
 	MessageActionRowComponentBuilder,
-	SelectMenuBuilder,
+	StringSelectMenuBuilder,
 } from 'discord.js';
 import rrModel, { RolesType } from '../../../Models/reactionRoles';
 import { ICommand } from '../../../Typings';
@@ -16,7 +16,7 @@ const defaultExport: ICommand = {
 	execute: async ({ interaction }) => {
 		const { guild } = interaction;
 
-		if (!guild || !guild.members.me) {
+		if (!guild?.members.me) {
 			return interaction.reply({ content: 'This command is used inside a server ...', ephemeral: true });
 		}
 
@@ -45,7 +45,7 @@ const defaultExport: ICommand = {
 
 		const components = [
 			new ActionRowBuilder<MessageActionRowComponentBuilder>().addComponents(
-				new SelectMenuBuilder()
+				new StringSelectMenuBuilder()
 					.setCustomId('reaction-roles')
 					.setMinValues(0)
 					.setMaxValues(options.length)

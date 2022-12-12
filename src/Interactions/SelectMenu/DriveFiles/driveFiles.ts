@@ -3,11 +3,11 @@ import {
 	ButtonBuilder,
 	ButtonStyle,
 	MessageActionRowComponentBuilder,
-	SelectMenuComponent,
+	StringSelectMenuComponent,
 } from 'discord.js';
 import { client } from '../../..';
 import { generatePublicUrl } from '../../../OtherModules/GDrive';
-import { ISelectMenuCommand } from '../../../Typings';
+import { IPath, ISelectMenuCommand } from '../../../Typings';
 import { createEmbed, createErrorEmbed } from '../../../utils';
 import { makeComponents, driveFilesSelectMenuOptions } from '../../../utils/DriveFiles';
 
@@ -28,7 +28,7 @@ const defaultExport: ISelectMenuCommand = {
 
 		const { values } = interaction;
 
-		const component = interaction.component as SelectMenuComponent;
+		const component = interaction.component as StringSelectMenuComponent;
 		const file = JSON.parse(values[0]) as { id: string; rk?: string };
 		const fileIndex = component.options
 			.map((x) => (JSON.parse(x.value) as { id: string; rk?: string }).id)
@@ -94,18 +94,20 @@ const defaultExport: ISelectMenuCommand = {
 			return;
 		}
 		userStack.push({ id: file.id, name: fileName ?? '', resourceKey: file.rk });
-		const path = userStack.map((x) => x.name).join('/');
+		const path: IPath = {
+			name: userStack.map((x) => x.name).join('/'),
+			link: `https://drive.google.com/drive/folders/${file.id}${file.rk ? `?resourcekey=${file.rk}` : ''}`,
+		};
 
-		const link = `https://drive.google.com/drive/folders/${file.id}${file.rk ? `?resourcekey=${file.rk}` : ''}`;
 		const panelEmbed = createEmbed(
 			`Get Files `,
-			`📁 [${path}](${link})\nThe easiest way to get access directly to the files that you are looking for.\n`,
+			`📁 [${path.name}](${path.link})\nThe easiest way to get access directly to the files that you are looking for.\n`,
 		).addFields(
 			{ name: 'Any Suggestions', value: 'Consider sending us your feedback in <#922875567357984768>, Thanks.' },
 			{ name: 'Any Errors', value: 'Consider sending us your feedback in <#939564676038140004>, Thanks.' },
 		);
 
-		const components = makeComponents(options, link);
+		const components = makeComponents(options, path, userStack.length);
 
 		await interaction.editReply({
 			embeds: [panelEmbed],

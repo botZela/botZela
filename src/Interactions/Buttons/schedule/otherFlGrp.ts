@@ -3,7 +3,7 @@ import {
 	ButtonBuilder,
 	ButtonStyle,
 	MessageActionRowComponentBuilder,
-	SelectMenuBuilder,
+	StringSelectMenuBuilder,
 } from 'discord.js';
 import { IButtonCommand } from '../../../Typings';
 import { createEmbed } from '../../../utils';
@@ -40,11 +40,11 @@ const defaultExport: IButtonCommand = {
 		}));
 
 		row1.addComponents(
-			new SelectMenuBuilder().setCustomId('filiere').setMinValues(1).setMaxValues(1).addOptions(filieres),
+			new StringSelectMenuBuilder().setCustomId('filiere').setMinValues(1).setMaxValues(1).addOptions(filieres),
 		);
 
 		row2.addComponents(
-			new SelectMenuBuilder().setCustomId('groupe').setMinValues(1).setMaxValues(1).addOptions(groupes),
+			new StringSelectMenuBuilder().setCustomId('groupe').setMinValues(1).setMaxValues(1).addOptions(groupes),
 		);
 
 		row3.addComponents(
