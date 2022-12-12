@@ -1,6 +1,6 @@
 import nodemailer from 'nodemailer';
 
-export function sendMail(to: string, subject: string, messageHtml: string, messageTxt: string): boolean {
+export function sendMail(to: string, subject: string, messageHtml: string, messageTxt: string) {
 	const transporter = nodemailer.createTransport({
 		service: 'gmail',
 		auth: {
@@ -21,9 +21,7 @@ export function sendMail(to: string, subject: string, messageHtml: string, messa
 		if (error) {
 			console.error(error);
 		} else {
-			console.log(`Email sent: ${info.response}`);
+			console.log(`Email sent to ${to}: ${info.response}`);
 		}
 	});
-
-	return true;
 }

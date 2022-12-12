@@ -266,4 +266,33 @@ export class GSpreadSheet {
 
 		return output;
 	}
+
+	public async getAllDict() {
+		const data = await this.getAll();
+
+		const out = data.map((row, index) => {
+			const map: Map<string, unknown> = new Map();
+			map.set('index', index + 1);
+			for (let i = 0; i < row.length; i++) {
+				map.set(this.headerNames[i], row[i]);
+			}
+			return map;
+		});
+
+		return out;
+	}
+
+	public getCellRefFromIndex(row: number, col: number) {
+		return `${dec2alpha(col)}${row}`;
+	}
+
+	public getColIndDict(col: string) {
+		return this.headerNames.indexOf(col) + 1;
+	}
+
+	public async setCellDict(row: number, col: string, value: string) {
+		const colIndex = this.getColIndDict(col);
+		const cell = this.getCellRefFromIndex(row, colIndex);
+		await this.updateCell(cell, value);
+	}
 }
