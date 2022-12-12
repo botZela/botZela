@@ -28,7 +28,7 @@ const defaultExport: ICommand = {
 			const gAccPath = `${process.cwd()}/credentials/google_account.json`;
 			const activeSheet = await GSpreadSheet.createFromUrl(worksheetUrl, gAccPath, 0);
 			const members = (await activeSheet.getAllDict()).filter(
-				(row) => ['FALSE', ''].includes(row.get('Mailed') as string) && row.get('ID Discord') !== '',
+				(row) => ['FALSE', ''].includes(row.get('Mailed') as string) && row.get('ID Discord') === '',
 			);
 
 			const htmlText = await fs.readFile(`${process.cwd()}/templates/mail.html`, 'utf-8');
