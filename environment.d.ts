@@ -4,6 +4,9 @@ declare global {
 	namespace NodeJS {
 		interface ProcessEnv {
 			TOKEN: string;
+			TEST_GUILDS: string;
+			ADMINS: string;
+			PRV_ROLES: string;
 			guildId: string;
 			environment: 'dev' | 'prod' | 'debug';
 			DatabaseUri: string;
