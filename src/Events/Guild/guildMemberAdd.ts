@@ -23,8 +23,7 @@ const defaultExport: Event<'guildMemberAdd'> = {
 			if (!guildRoles) return console.log(`[INFO] Roles are not defined for server ${guild.name}`);
 		}
 		try {
-			const gAccPath = `${process.cwd()}/credentials/google_account.json`;
-			const activeSheet = await GSpreadSheet.createFromUrl(worksheetUrl, gAccPath, 0);
+			const activeSheet = await GSpreadSheet.createFromUrl(worksheetUrl, 0);
 			if (user.bot) {
 				const botRole = guildRoles.get('Bots');
 				if (!botRole) return;

@@ -9,6 +9,8 @@ declare global {
 			DatabaseUri: string;
 			EmailUser: string;
 			EmailPass: string;
+			GOOGLE_CLIENT_EMAIL: string;
+			GOOGLE_PRIVATE_KEY: string;
 		}
 	}
 }

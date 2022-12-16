@@ -16,12 +16,11 @@ export class GSpreadSheet {
 	public endColLetter: string;
 	public headerNames: string[];
 
-	public constructor(spId: string, authFile: string, worksheetIndex: number) {
+	public constructor(spId: string, worksheetIndex: number) {
 		// Init of the Class
 		this.worksheetId = 0;
 		this.worksheetName = '';
 		this.endColLetter = '';
-		this.authFile = authFile;
 		this.spId = spId;
 		this.endCol = 1;
 		this.endRow = 1;
@@ -29,7 +28,10 @@ export class GSpreadSheet {
 		this.headerNames = [];
 		// Connect to sheet using authFile
 		const auth = new GoogleAuth({
-			keyFile: this.authFile,
+			credentials: {
+				client_email: process.env.GOOGLE_CLIENT_EMAIL,
+				private_key: process.env.GOOGLE_PRIVATE_KEY,
+			},
 			scopes: ['https://www.googleapis.com/auth/spreadsheets'],
 		});
 		this.sheets = GoogleSheets({
@@ -38,9 +40,9 @@ export class GSpreadSheet {
 		} as unknown as sheets_v4.Options);
 	}
 
-	public static async createFromId(spId: string, authFile: string, worksheetIndex: number): Promise<GSpreadSheet> {
+	public static async createFromId(spId: string, worksheetIndex: number): Promise<GSpreadSheet> {
 		// Create the Class using the Id
-		const out = new GSpreadSheet(spId, authFile, worksheetIndex);
+		const out = new GSpreadSheet(spId, worksheetIndex);
 		out.worksheetProp = await out.getWorksheetProp();
 		out.worksheetName = out.worksheetProp?.title ?? '';
 		out.worksheetId = out.worksheetProp?.sheetId ?? 0;
@@ -51,12 +53,12 @@ export class GSpreadSheet {
 		return out;
 	}
 
-	public static createFromUrl(url: string, authFile: string, worksheetIndex: number): Promise<GSpreadSheet> {
+	public static createFromUrl(url: string, worksheetIndex: number): Promise<GSpreadSheet> {
 		// Create the Class using the sheet url
 		const regExResults = new RegExp('/spreadsheets/d/([a-zA-Z0-9-_]+)').exec(url);
 		if (regExResults === null) throw Error('RegEx Did not match with the link');
 		const spreadsheetId = regExResults[1];
-		return GSpreadSheet.createFromId(spreadsheetId, authFile, worksheetIndex);
+		return GSpreadSheet.createFromId(spreadsheetId, worksheetIndex);
 	}
 
 	public async getWorksheets(): Promise<sheets_v4.Schema$Sheet[] | undefined> {

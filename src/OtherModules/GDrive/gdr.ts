@@ -2,9 +2,11 @@ import { drive as GoogleDrive, drive_v3 } from '@googleapis/drive';
 import { GoogleAuth } from 'googleapis-common';
 import { DriveFileInterface } from '../../Typings';
 
-const authFile = `${process.cwd()}/credentials/google_account.json`;
 const auth = new GoogleAuth({
-	keyFile: authFile,
+	credentials: {
+		client_email: process.env.GOOGLE_CLIENT_EMAIL,
+		private_key: process.env.GOOGLE_PRIVATE_KEY,
+	},
 	scopes: ['https://www.googleapis.com/auth/drive'],
 });
 const drive = GoogleDrive({
@@ -135,10 +137,20 @@ export async function generatePublicUrl(folder: DriveFileInterface): Promise<dri
 	return getFile(folder, ['webViewLink', 'webContentLink']);
 }
 
+function getQueryParam(param: string, url: string) {
+	const rx = new RegExp(`[?&]${param}=([^&]+).*\$`);
+	const returnVal = url.match(rx);
+	return returnVal === null ? undefined : decodeURIComponent(returnVal[1].replace(/\+/g, ' '));
+}
+
 export function getIdResourceKey(url: string) {
 	const regExResults = /\/drive\/(u\/0\/)?folders\/([a-zA-Z0-9-_]+)(\?resourcekey=([a-zA-Z0-9-_]+))?/.exec(url);
 	if (regExResults === null) return null;
-	return { id: regExResults[2], resourceKey: regExResults[4] };
+	const output = {
+		id: regExResults[2],
+		resourceKey: getQueryParam('resourcekey', url),
+	};
+	return output;
 }
 
 export async function driveSearchRec(driveId: string, path: string[]) {

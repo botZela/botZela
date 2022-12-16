@@ -64,7 +64,7 @@ export async function setupServer(message: Message | ExtendedCommandInteraction)
 				return;
 			}
 			console.log(`[INFO] SpreadSheet URL of guild ${guild.name}.\n${sheetUrl}`);
-			const testSheet = await GSpreadSheet.createFromUrl(sheetUrl, './credentials/google_account.json', 0);
+			const testSheet = await GSpreadSheet.createFromUrl(sheetUrl, 0);
 			try {
 				if (testSheet.check()) {
 					const wsData = await linksModel.findOne({ guildId: guild.id });

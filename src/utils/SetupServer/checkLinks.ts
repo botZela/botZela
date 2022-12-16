@@ -25,7 +25,7 @@ export async function checkSpreadsheet(message: Message | CommandInteraction, li
 	}
 
 	try {
-		const testSheet = await GSpreadSheet.createFromUrl(link, './credentials/google_account.json', 0);
+		const testSheet = await GSpreadSheet.createFromUrl(link, 0);
 		if (testSheet.check()) {
 			const wsData = await linksModel.findOne({ guildId: guild.id });
 			if (wsData) {

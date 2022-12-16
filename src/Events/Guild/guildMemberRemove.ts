@@ -16,8 +16,7 @@ const defaultExport: Event<'guildMemberRemove'> = {
 			return;
 		}
 		try {
-			const gAccPath = `${process.cwd()}/credentials/google_account.json`;
-			const activeSheet = await GSpreadSheet.createFromUrl(worksheetUrl, gAccPath, 0);
+			const activeSheet = await GSpreadSheet.createFromUrl(worksheetUrl, 0);
 			if (user.bot) {
 				logs = `${user.tag} is gone from the server.`;
 				await logsEmbed(logs, guild, 'warn');

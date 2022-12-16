@@ -67,8 +67,7 @@ const defaultExport: ICommand = {
 					embeds: [createErrorEmbed("Couldn't find the spreadsheeat link")],
 					ephemeral: true,
 				});
-			const gAccPath = `${process.cwd()}/credentials/google_account.json`;
-			const activeSheet = await GSpreadSheet.createFromUrl(worksheetUrl, gAccPath, 0);
+			const activeSheet = await GSpreadSheet.createFromUrl(worksheetUrl, 0);
 			if (target) {
 				let index = await activeSheet.findCellCol(`${target.user.tag}`, 'F');
 				if (index === 0) {
