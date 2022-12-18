@@ -1,11 +1,13 @@
+import { sheets_v4 } from '@googleapis/sheets';
+
 // Convert a number 0 ... 25 to alphabets A ... Z
 function num2alpha(number: number): string {
 	const code = 'A'.charCodeAt(0) + number;
 	return String.fromCharCode(code);
 }
 
-function dec2alpha(number: number): string {
-	number -= 1;
+export function dec2alpha(number: number): string {
+	number--;
 	const out: string[] = [];
 	const base = 26;
 	let r = number % base;
@@ -18,7 +20,7 @@ function dec2alpha(number: number): string {
 	return out.reverse().join('');
 }
 
-function hexToRgb(hex: string) {
+export function hexToRgb(hex: string) {
 	// Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
 	const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
 	hex = hex.replace(shorthandRegex, (m, r: string, g: string, b: string) => r + r + g + g + b + b);
@@ -30,4 +32,22 @@ function hexToRgb(hex: string) {
 	};
 }
 
-export { dec2alpha, hexToRgb };
+export function gridRangeDimensions(cell: sheets_v4.Schema$GridRange): [number, number] {
+	// TODO: handle the undefined and null cases
+	const rows = cell.endRowIndex! - cell.startRowIndex!;
+	const cols = cell.endColumnIndex! - cell.startColumnIndex!;
+	return [rows, cols];
+}
+
+export function gridRangeToA1(cell: sheets_v4.Schema$GridRange) {
+	// TODO: handle the undefined and null cases
+
+	const startColumn = dec2alpha(cell.startColumnIndex! + 1);
+	const endColumn = dec2alpha(cell.endColumnIndex!);
+	const startRow = cell.startRowIndex! + 1;
+	const endRow = cell.endRowIndex!;
+
+	const isCell = startRow === endRow && startColumn === endColumn;
+	if (isCell) return `${startRow}${startColumn}`;
+	return `${startColumn}${startRow}:${endColumn}${endRow}`;
+}

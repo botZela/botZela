@@ -75,6 +75,20 @@ export class GSpreadSheet {
 		}
 	}
 
+	public async getWorksheetMergedCells() {
+		// Get the Merged Cells of the sheets
+		const worksheets = await this.getWorksheets();
+		if (!worksheets) {
+			return undefined;
+		}
+		try {
+			return worksheets[this.worksheetIndex].merges;
+		} catch (err) {
+			console.log(err);
+			return undefined;
+		}
+	}
+
 	public async getWorksheetProp() {
 		// Get the properties of the sheets
 		const worksheets = await this.getWorksheets();
@@ -153,6 +167,21 @@ export class GSpreadSheet {
 		}
 	}
 
+	public async batchGetCells(cells: string[]) {
+		// Get the value of a Specifique CELL
+		const request = {
+			spreadsheetId: this.spId,
+			ranges: cells.map((cell) => `${this.worksheetName}!${cell}`),
+		};
+		try {
+			const res = (await this.sheets.spreadsheets.values.batchGet(request)).data;
+			return res.valueRanges;
+		} catch (err) {
+			console.log(err);
+			return [];
+		}
+	}
+
 	public async getCell(cell: string) {
 		// Get the value of a Specifique CELL
 		const request = {
@@ -193,6 +222,20 @@ export class GSpreadSheet {
 		return true;
 	}
 
+	public async batchUpdate(data: sheets_v4.Schema$ValueRange[]): Promise<void> {
+		const request: sheets_v4.Schema$BatchUpdateValuesRequest = {
+			valueInputOption: 'USER_ENTERED',
+			data,
+		};
+		try {
+			await this.sheets.spreadsheets.values.batchUpdate({ spreadsheetId: this.spId, requestBody: request });
+			// Const result = (await this.sheets.spreadsheets.values.update(request)).data;
+			// Console.log('%d cells updated.', result.updatedCells);
+		} catch (err) {
+			console.log(err);
+		}
+	}
+
 	/**
 	 * Update "A1" cell with a value
 	 * @param {string} cell The cell "B12".
@@ -215,6 +258,27 @@ export class GSpreadSheet {
 			// Console.log('%d cells updated.', result.updatedCells);
 		} catch (err) {
 			console.log(err);
+		}
+	}
+
+	public async unMerge(cells: sheets_v4.Schema$GridRange[]) {
+		// Color a Row with a HEX Color
+		// const requests: sheets_v4.Schema$Request[] = [];
+		const requests: sheets_v4.Schema$Request[] = cells.map((cell) => ({
+			unmergeCells: {
+				range: cell,
+			},
+		}));
+		const batchUpdateRequest: sheets_v4.Schema$BatchUpdateSpreadsheetRequest = {
+			requests,
+		};
+		try {
+			await this.sheets.spreadsheets.batchUpdate({
+				spreadsheetId: this.spId,
+				resource: batchUpdateRequest,
+			} as sheets_v4.Params$Resource$Spreadsheets$Batchupdate);
+		} catch (err) {
+			console.error(err);
 		}
 	}
 
