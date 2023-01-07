@@ -37,17 +37,18 @@ yarn
 Copy the `.env.example` to `.env` and set the variables.
 
 ```
-TOKEN=YOUR_DISCORD_BOT_TOKEN
-DatabaseUri=YOUR_MONGODB_ATLAS_LINK
-```
+TOKEN = YOUR_DISCORD_BOT_TOKEN
+TEST_GUILDS =[{"name":"GUILD_NAME","id":"GUILD_ID"}]
+ADMINS = "ADMIN_ID1 ADMIN_ID2"
+PRV_ROLES={"GUILD_ID":{"ROLE_NAME":"ROLE_ID"}}
 
-cope `config.ts.example` to `src/config.ts`, and change the `testGuilds` to the Servers where you want the commands to be loaded.
+DatabaseUri = YOUR_MONGODB_ATLAS_LINK
 
-```ts
-export const testGuilds = [
-	{ name: 'SERVER_NAME_1', id: 'SERVER_ID_1' },
-	{ name: 'SERVER_NAME_2', id: 'SERVER_ID_2' },
-];
+EmailUser = EMAIL
+EmailPass = Mailing_SERICE_Password
+
+GOOGLE_CLIENT_EMAIL = "SERVICE_ACCOUNT_EMAIL"
+GOOGLE_PRIVATE_KEY = "SERVICE_ACCOUNT_PRIVATE_KEY"
 ```
 
 Run the bot
