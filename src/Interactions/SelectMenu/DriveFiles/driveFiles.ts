@@ -7,7 +7,7 @@ import {
 } from 'discord.js';
 import { client } from '../../..';
 import { generatePublicUrl } from '../../../OtherModules/GDrive';
-import { IPath, ISelectMenuCommand } from '../../../Typings';
+import { DriveFileInterface, IPath, ISelectMenuCommand } from '../../../Typings';
 import { createEmbed, createErrorEmbed } from '../../../utils';
 import { makeComponents, driveFilesSelectMenuOptions } from '../../../utils/DriveFiles';
 
@@ -35,9 +35,10 @@ const defaultExport: ISelectMenuCommand = {
 			.findIndex((x) => x === file.id);
 		const fileName = component.options.at(fileIndex)?.label;
 		const fileEmoji = component.options.at(fileIndex)?.emoji;
+		const driveFile: DriveFileInterface = { name: fileName ?? '', id: file.id, resourceKey: file.rk };
 
 		if (fileEmoji?.name === '📄') {
-			const fileObj = await generatePublicUrl({ name: fileName ?? '', id: file.id, resourceKey: file.rk });
+			const fileObj = await generatePublicUrl(driveFile);
 			const resultEmbed = createEmbed(`Get Files `, `📄 ${fileName ?? 'File'}`);
 			const component = new ActionRowBuilder<MessageActionRowComponentBuilder>().addComponents(
 				new ButtonBuilder({
@@ -80,7 +81,7 @@ const defaultExport: ISelectMenuCommand = {
 				components: [component],
 				embeds: [resultEmbed],
 			});
-			userStack.push({ id: file.id, name: fileName ?? '' });
+			userStack.push(driveFile);
 			return;
 		}
 
@@ -93,7 +94,7 @@ const defaultExport: ISelectMenuCommand = {
 			await interaction.followUp({ embeds: [errorEmbed], ephemeral: true });
 			return;
 		}
-		userStack.push({ id: file.id, name: fileName ?? '', resourceKey: file.rk });
+		userStack.push(driveFile);
 		const path: IPath = {
 			name: userStack.map((x) => x.name).join('/'),
 			link: `https://drive.google.com/drive/folders/${file.id}${file.rk ? `?resourcekey=${file.rk}` : ''}`,

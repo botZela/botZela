@@ -20,10 +20,10 @@
 		"check-lint": "eslint src"
 	},
 	"dependencies": {
-		"@googleapis/drive": "^4.0.0",
-		"@googleapis/sheets": "^4.0.0",
+		"@googleapis/drive": "^4.0.1",
+		"@googleapis/sheets": "^4.0.1",
 		"ascii-table3": "^0.8.0",
-		"axios": "^1.2.1",
+		"axios": "^1.2.2",
 		"cheerio": "1.0.0-rc.12",
 		"dayjs": "^1.11.7",
 		"discord.js": "^14.7.1",
@@ -31,10 +31,10 @@
 		"glob": "^8.0.3",
 		"googleapis-common": "^6.0.4",
 		"js-yaml": "^4.1.0",
+		"mongoose": "^6.8.3",
 		"nodemailer": "^6.8.0",
-		"mongoose": "^6.8.0",
 		"tslib": "^2.4.1",
-		"zod": "^3.19.1"
+		"zod": "^3.20.2"
 	},
 	"repository": {
 		"type": "git",
@@ -49,17 +49,17 @@
 	"devDependencies": {
 		"@types/glob": "^8.0.0",
 		"@types/js-yaml": "^4.0.5",
-		"@types/nodemailer": "^6.4.6",
-		"@types/node": "^18.11.11",
-		"@typescript-eslint/eslint-plugin": "^5.46.0",
-		"@typescript-eslint/parser": "^5.46.0",
-		"eslint": "^8.29.0",
+		"@types/node": "^18.11.18",
+		"@types/nodemailer": "^6.4.7",
+		"@typescript-eslint/eslint-plugin": "^5.48.0",
+		"@typescript-eslint/parser": "^5.48.0",
+		"eslint": "^8.31.0",
 		"eslint-config-marine": "^9.4.1",
-		"eslint-config-prettier": "^8.5.0",
+		"eslint-config-prettier": "^8.6.0",
 		"eslint-plugin-import": "^2.26.0",
 		"eslint-plugin-prettier": "^4.2.1",
-		"husky": "^8.0.2",
-		"prettier": "^2.8.1",
+		"husky": "^8.0.3",
+		"prettier": "^2.8.2",
 		"ts-node": "^10.9.1",
 		"ts-node-dev": "^2.0.0",
 		"typescript": "^4.9.4"
