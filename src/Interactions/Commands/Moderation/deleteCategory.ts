@@ -20,8 +20,8 @@ const defaultExport: ICommand = {
 	],
 	defaultMemberPermissions: ['Administrator'],
 	async execute({ interaction }) {
-		const category = interaction.options.getChannel('category')!;
 		await interaction.deferReply({ ephemeral: true });
+		const category = interaction.options.getChannel<ChannelType.GuildCategory>('category');
 		if (!(category instanceof CategoryChannel)) {
 			return interaction.followUp('Please select a category');
 		}
