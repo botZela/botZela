@@ -13,7 +13,7 @@ const defaultExport: Event<'channelDelete'> = {
 		}
 		const reactionData = await autoReactChannels.findOne({ channelId: channel.id });
 		if (reactionData) {
-			reactionData.delete();
+			await reactionData.deleteOne();
 			await logsEmbed(`AutoReaction Channel "${channel.name}" has been deleted`, channel.guild, 'warn');
 		}
 		const guildData = await gChannels.findOne({ guildId: channel.guildId });

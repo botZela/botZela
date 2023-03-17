@@ -1,7 +1,6 @@
 import process from 'node:process';
-import { promisify } from 'util';
 import { Client as DiscordClient, Collection, Partials } from 'discord.js';
-import glob from 'glob';
+import { glob } from 'glob';
 import Handlers from '../Handlers';
 import {
 	DriveFileInterface,
@@ -17,8 +16,6 @@ import { testGuilds } from '../config';
 import { errors } from '../utils/Error';
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
 const { AsciiTable3 } = require('ascii-table3');
-
-const PG = promisify(glob);
 
 export class Client extends DiscordClient {
 	public commands: Collection<string, ICommand> = new Collection();
@@ -47,7 +44,7 @@ export class Client extends DiscordClient {
 
 	public async registerModules() {
 		for (const [, handler] of Object.entries(Handlers)) {
-			await handler(this, PG, AsciiTable3);
+			await handler(this, glob, AsciiTable3);
 		}
 
 		/* Register Commands to specific guilds */
