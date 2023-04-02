@@ -114,7 +114,7 @@ const defaultExport: ICommand = {
 			const driveData = await ensiasData.findOne({ driveName: name });
 
 			if (driveData) {
-				driveData.delete();
+				await driveData.deleteOne();
 				const embed = createInfoEmbed('Ensias Data', `The Data for ${name} was deleted successfully.`);
 				return interaction.followUp({
 					embeds: [embed],

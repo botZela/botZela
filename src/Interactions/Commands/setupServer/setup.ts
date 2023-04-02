@@ -1,11 +1,4 @@
-import {
-	ApplicationCommandOptionType,
-	CategoryChannel,
-	ChannelType,
-	ForumChannel,
-	GuildBasedChannel,
-	StageChannel,
-} from 'discord.js';
+import { ApplicationCommandOptionType, ChannelType } from 'discord.js';
 import { z } from 'zod';
 import autoReactChannels from '../../../Models/autoReactChannels';
 import gChannels from '../../../Models/guildChannels';
@@ -89,6 +82,7 @@ const defaultExport: ICommand = {
 							name: 'channel',
 							description: 'logs Channel',
 							type: ApplicationCommandOptionType.Channel,
+							channelTypes: [ChannelType.GuildText],
 							required: true,
 						},
 					],
@@ -102,6 +96,7 @@ const defaultExport: ICommand = {
 							name: 'channel',
 							description: 'commands Channel',
 							type: ApplicationCommandOptionType.Channel,
+							channelTypes: [ChannelType.GuildText],
 							required: true,
 						},
 					],
@@ -115,6 +110,7 @@ const defaultExport: ICommand = {
 							name: 'channel',
 							description: 'introduce Channel',
 							type: ApplicationCommandOptionType.Channel,
+							channelTypes: [ChannelType.GuildText],
 							required: true,
 						},
 					],
@@ -206,10 +202,7 @@ const defaultExport: ICommand = {
 
 		const subCommandGroup = interaction.options.getSubcommandGroup();
 		if (subCommandGroup === 'channels') {
-			const channel = interaction.options.getChannel('channel') as GuildBasedChannel;
-			if (channel instanceof CategoryChannel || channel instanceof StageChannel || channel instanceof ForumChannel) {
-				return;
-			}
+			const channel = interaction.options.getChannel<ChannelType.GuildText>('channel')!;
 			const guildData = await gChannels.findOne({ guildId: guild.id });
 			const channelType = subCommand.toUpperCase();
 
@@ -288,7 +281,7 @@ const defaultExport: ICommand = {
 				const channel = interaction.options.getChannel('channel', true);
 				const reactionData = await autoReactChannels.findOne({ channelId: channel.id });
 				if (reactionData) {
-					reactionData.delete();
+					await reactionData.deleteOne();
 					await interaction.followUp({
 						content: `Disabled auto reaction from <#${channel.id}>`,
 						ephemeral: true,
