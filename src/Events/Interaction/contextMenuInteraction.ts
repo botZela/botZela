@@ -1,8 +1,8 @@
-import { GuildMember, Interaction } from 'discord.js';
-import { client } from '../..';
-import { Event } from '../../Structures';
-import { ExtendedContextMenuInteraction } from '../../Typings';
-import { createErrorEmbed } from '../../utils';
+import type { GuildMember, Interaction } from 'discord.js';
+import type { Event } from '../../Structures';
+import type { ExtendedContextMenuInteraction } from '../../Typings';
+import { client } from '../../index.js';
+import { createErrorEmbed } from '../../utils/index.js';
 
 const defaultExport: Event<'interactionCreate'> = {
 	name: 'interactionCreate',

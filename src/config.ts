@@ -1,13 +1,15 @@
+import process from 'node:process';
 import 'dotenv/config';
+
 interface ITestGuild {
-	name: string;
-	id: string;
+  id: string;
+  name: string;
 }
 
 interface IPrv_Roles {
-	[key: string]: {
-		[key2: string]: string;
-	};
+  [key: string]: {
+    [key2: string]: string;
+  };
 }
 
 export const testGuilds = JSON.parse(process.env.TEST_GUILDS) as ITestGuild[];

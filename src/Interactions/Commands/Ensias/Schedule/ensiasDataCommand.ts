@@ -1,9 +1,9 @@
 import { ApplicationCommandOptionType } from 'discord.js';
-import { client } from '../../../..';
-import ensiasData from '../../../../Models/ensiasData';
-import { checkDriveId, getIdResourceKey } from '../../../../OtherModules/GDrive';
-import { DriveFileInterface, ICommand } from '../../../../Typings';
-import { createErrorEmbed, createInfoEmbed } from '../../../../utils';
+import ensiasData from '../../../../Models/ensiasData.js';
+import { checkDriveId, getIdResourceKey } from '../../../../OtherModules/GDrive/index.js';
+import type { DriveFileInterface, ICommand } from '../../../../Typings';
+import { client } from '../../../../index.js';
+import { createErrorEmbed, createInfoEmbed } from '../../../../utils/index.js';
 
 const defaultExport: ICommand = {
 	name: 'ensiasdata',
@@ -52,6 +52,7 @@ const defaultExport: ICommand = {
 			const embed = createErrorEmbed('Get Files', 'This command is used inside a server ...');
 			return interaction.followUp({ embeds: [embed], ephemeral: true });
 		}
+
 		const subCommand = options.getSubcommand();
 
 		if (subCommand === 'add') {
@@ -109,6 +110,7 @@ const defaultExport: ICommand = {
 				ephemeral: true,
 			});
 		}
+
 		if (subCommand === 'remove') {
 			const name = options.getString('name', true);
 			const driveData = await ensiasData.findOne({ driveName: name });

@@ -1,15 +1,10 @@
-import {
-	ActionRowBuilder,
-	ButtonBuilder,
-	ButtonStyle,
-	InteractionReplyOptions,
-	MessageActionRowComponentBuilder,
-} from 'discord.js';
-import { makeComponents } from './makeComponents';
-import { driveFilesSelectMenuOptions } from './makeSelectMenuOption';
-import { generatePublicUrl } from '../../OtherModules/GDrive';
-import { DriveFileInterface, IPath } from '../../Typings';
-import { createEmbed } from '../Embeds';
+import type { InteractionReplyOptions, MessageActionRowComponentBuilder } from 'discord.js';
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle } from 'discord.js';
+import { generatePublicUrl } from '../../OtherModules/GDrive/index.js';
+import type { DriveFileInterface, IPath } from '../../Typings';
+import { createEmbed } from '../Embeds/index.js';
+import { makeComponents } from './makeComponents.js';
+import { driveFilesSelectMenuOptions } from './makeSelectMenuOption.js';
 
 export async function fileEmbed(file: DriveFileInterface): Promise<InteractionReplyOptions> {
 	const fileObj = await generatePublicUrl({ name: file.name, id: file.id, resourceKey: file.resourceKey });
@@ -28,6 +23,7 @@ export async function fileEmbed(file: DriveFileInterface): Promise<InteractionRe
 			new ButtonBuilder({ style: ButtonStyle.Link, url: fileObj.webViewLink, label: 'View File', emoji: '📃' }),
 		);
 	}
+
 	if (fileObj.webContentLink) {
 		resultEmbed.addFields([
 			{ name: `Download File`, value: `Click [here](${fileObj.webContentLink}) to download the file.` },
@@ -47,6 +43,7 @@ export async function fileEmbed(file: DriveFileInterface): Promise<InteractionRe
 			}),
 		);
 	}
+
 	resultEmbed.addFields(
 		{ name: 'Any Suggestions', value: 'Consider sending us your feedback in <#922875567357984768>, Thanks.' },
 		{ name: 'Any Errors', value: 'Consider sending us your feedback in <#939564676038140004>, Thanks.' },

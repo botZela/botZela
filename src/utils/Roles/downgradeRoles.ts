@@ -1,12 +1,12 @@
-import { GuildMember } from 'discord.js';
-import guildRoles from '../../Models/guildRoles';
-import { flGrpYr } from '../Schedule/flGrp';
+import type { GuildMember } from 'discord.js';
+import guildRoles from '../../Models/guildRoles.js';
+import { flGrpYr } from '../Schedule/flGrp.js';
 
 const filieresArray = ['2IA', '2SCL', 'BI&A', 'GD', 'GL', 'IDF', 'IDSIT', 'SSE', 'SSI'];
-const firstPromo = 1995;
+const firstPromo = 1_995;
 
-function range(size: number, startAt = 0): ReadonlyArray<number> {
-	return [...Array(size).keys()].map((i) => i + startAt);
+function range(size: number, startAt = 0): readonly number[] {
+	return [...Array.from({ length: size }).keys()].map((ii) => ii + startAt);
 }
 
 export async function downgradeRoles(member: GuildMember) {
@@ -47,6 +47,7 @@ export async function downgradeRoles(member: GuildMember) {
 
 		return;
 	}
+
 	const { year, filiere: fl } = flGrpYr(member);
 	if (!fl || !year) return;
 	if (year.name === '3A') {

@@ -1,12 +1,6 @@
-import {
-	ActionRowBuilder,
-	StringSelectMenuBuilder,
-	ButtonBuilder,
-	SelectMenuComponentOptionData,
-	ButtonStyle,
-	MessageActionRowComponentBuilder,
-} from 'discord.js';
-import { IPath } from '../../Typings';
+import type { SelectMenuComponentOptionData, MessageActionRowComponentBuilder } from 'discord.js';
+import { ActionRowBuilder, StringSelectMenuBuilder, ButtonBuilder, ButtonStyle } from 'discord.js';
+import type { IPath } from '../../Typings';
 
 export function makeComponents(
 	options: SelectMenuComponentOptionData[],

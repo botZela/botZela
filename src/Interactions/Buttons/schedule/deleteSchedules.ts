@@ -1,10 +1,10 @@
-import { client } from '../../..';
-import { IButtonCommand } from '../../../Typings';
-import { logsEmbed } from '../../../utils/Logger';
+import type { IButtonCommand } from '../../../Typings';
+import { client } from '../../../index.js';
+import { logsEmbed } from '../../../utils/Logger/index.js';
 
 const defaultExport: IButtonCommand = {
 	id: 'schedule_delete_old',
-	cooldown: 30 * 60 * 1000,
+	cooldown: 30 * 60 * 1_000,
 	// Permissions : ["ADMINISTRATOR"],
 	async execute({ interaction }) {
 		const { member, guild } = interaction;
@@ -23,8 +23,8 @@ const defaultExport: IButtonCommand = {
 		const dmChannel = await client.users.createDM(member.id);
 
 		const firstMsgs = (await dmChannel.messages.fetch({ limit: 30 }))
-			.filter((m) => m.author.id === client.user?.id)
-			.map((m) => m.id);
+			.filter((msg) => msg.author.id === client.user?.id)
+			.map((msg) => msg.id);
 
 		let lastMsgId = firstMsgs.at(1) ?? firstMsgs.at(0);
 		if (!lastMsgId) return;
@@ -32,16 +32,17 @@ const defaultExport: IButtonCommand = {
 		let msgDeleted = 0;
 		do {
 			botsMsgs = (await dmChannel.messages.fetch({ limit: 100, before: lastMsgId })).filter(
-				(m) => m.author.id === client.user?.id,
+				(msg) => msg.author.id === client.user?.id,
 			);
 			lastMsgId = botsMsgs.at(-1)?.id;
 			msgDeleted += botsMsgs.size;
-			for (const [, m] of botsMsgs) {
-				if (m.deletable) {
+			for (const [, msg] of botsMsgs) {
+				if (msg.deletable) {
 					try {
-						await m.delete();
-					} catch (e) {
-						return console.error(e);
+						await msg.delete();
+					} catch (error) {
+						console.error(error);
+						return;
 					}
 				}
 			}

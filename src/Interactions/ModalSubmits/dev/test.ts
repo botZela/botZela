@@ -1,4 +1,4 @@
-import { IModalSubmitCommand } from '../../../Typings';
+import type { IModalSubmitCommand } from '../../../Typings';
 
 const defaultExport: IModalSubmitCommand = {
 	id: 'testmodal',

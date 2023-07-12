@@ -1,2 +1,2 @@
-export * from './message';
-export * from './embed';
+export * from './message.js';
+export * from './embed.js';

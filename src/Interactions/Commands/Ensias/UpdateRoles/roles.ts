@@ -1,12 +1,13 @@
-import { ApplicationCommandOptionType, GuildMember } from 'discord.js';
-import linksModel from '../../../../Models/guildLinks';
-import guildRoles from '../../../../Models/guildRoles';
-import { GSpreadSheet } from '../../../../OtherModules/GSpreadSheet';
-import { Person } from '../../../../OtherModules/Member';
-import { ICommand } from '../../../../Typings';
-import { client } from '../../../../index';
-import { createErrorEmbed, createInfoEmbed } from '../../../../utils';
-import { downgradeRoles, resetRoles, updateRole } from '../../../../utils/Roles';
+import type { GuildMember } from 'discord.js';
+import { ApplicationCommandOptionType } from 'discord.js';
+import linksModel from '../../../../Models/guildLinks.js';
+import guildRoles from '../../../../Models/guildRoles.js';
+import { GSpreadSheet } from '../../../../OtherModules/GSpreadSheet/index.js';
+import { Person } from '../../../../OtherModules/Member/index.js';
+import type { ICommand } from '../../../../Typings';
+import { client } from '../../../../index.js';
+import { downgradeRoles, resetRoles, updateRole } from '../../../../utils/Roles/index.js';
+import { createErrorEmbed, createInfoEmbed } from '../../../../utils/index.js';
 
 const defaultExport: ICommand = {
 	name: 'roles',
@@ -75,8 +76,10 @@ const defaultExport: ICommand = {
 					if (index === 0) {
 						return;
 					}
+
 					await activeSheet.updateCell(`F${index}`, `${target.user.tag}`);
 				}
+
 				await activeSheet.updateCell(`G${index}`, `${target.id}`);
 
 				const newMem = await Person.create(index, interaction.guild, activeSheet);
@@ -84,9 +87,10 @@ const defaultExport: ICommand = {
 			} else {
 				const userArray = await Person.getAll(interaction.guild, activeSheet);
 				await Promise.all(
-					(await interaction.guild.members.fetch()).map((user) => resetRoles(user, userArray.slice(1))),
+					(await interaction.guild.members.fetch()).map(async (user) => resetRoles(user, userArray.slice(1))),
 				);
 			}
+
 			await interaction.followUp({
 				content: `Congratulations for our new laureats of year ${new Date().getFullYear()} `,
 				ephemeral: true,
@@ -111,9 +115,10 @@ const defaultExport: ICommand = {
 				await updateRole(target);
 				msg = `<@${target.id}> Passed to the **Next Year**`;
 			} else {
-				await Promise.all((await interaction.guild.members.fetch()).map((user) => updateRole(user)));
+				await Promise.all((await interaction.guild.members.fetch()).map(async (user) => updateRole(user)));
 				msg = `Everyone on the server Passed to the **Next Year**`;
 			}
+
 			await interaction.followUp({
 				embeds: [createInfoEmbed(`Role Upgrade`, msg)],
 				ephemeral: true,
@@ -124,9 +129,10 @@ const defaultExport: ICommand = {
 				await downgradeRoles(target);
 				msg = `<@${target.id}> Got **Downgraded**`;
 			} else {
-				await Promise.all((await interaction.guild.members.fetch()).map((user) => downgradeRoles(user)));
+				await Promise.all((await interaction.guild.members.fetch()).map(async (user) => downgradeRoles(user)));
 				msg = `Everyone on the server Got **Downgraded**`;
 			}
+
 			await interaction.followUp({
 				embeds: [createInfoEmbed(`Role Downgrade`, msg)],
 				ephemeral: true,

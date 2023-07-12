@@ -1,9 +1,9 @@
 import { DMChannel } from 'discord.js';
-import autoReactChannels from '../../Models/autoReactChannels';
-import gChannels from '../../Models/guildChannels';
-import { Event } from '../../Structures';
-import { logsEmbed } from '../../utils';
-import { createCommandsChannel, createLogsChannel } from '../../utils/Command&LogsChannels';
+import autoReactChannels from '../../Models/autoReactChannels.js';
+import gChannels from '../../Models/guildChannels.js';
+import type { Event } from '../../Structures';
+import { createCommandsChannel, createLogsChannel } from '../../utils/Command&LogsChannels/index.js';
+import { logsEmbed } from '../../utils/index.js';
 
 const defaultExport: Event<'channelDelete'> = {
 	name: 'channelDelete',
@@ -11,15 +11,18 @@ const defaultExport: Event<'channelDelete'> = {
 		if (channel instanceof DMChannel) {
 			return;
 		}
+
 		const reactionData = await autoReactChannels.findOne({ channelId: channel.id });
 		if (reactionData) {
 			await reactionData.deleteOne();
 			await logsEmbed(`AutoReaction Channel "${channel.name}" has been deleted`, channel.guild, 'warn');
 		}
+
 		const guildData = await gChannels.findOne({ guildId: channel.guildId });
 		if (!guildData) {
 			return;
 		}
+
 		const guildChannels = guildData.channels;
 
 		if (channel.id === guildChannels.get('COMMANDS')) {

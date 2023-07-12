@@ -1,9 +1,9 @@
-import fs from 'fs';
+import fs from 'node:fs/promises';
 import { ApplicationCommandOptionType } from 'discord.js';
-import { client } from '../../../..';
-import { ICommand } from '../../../../Typings';
-import { createEmbed, logsEmbed } from '../../../../utils';
-import { flGrpYr } from '../../../../utils/Schedule/flGrp';
+import type { ICommand } from '../../../../Typings';
+import { client } from '../../../../index.js';
+import { flGrpYr } from '../../../../utils/Schedule/flGrp.js';
+import { createEmbed, logsEmbed } from '../../../../utils/index.js';
 
 function firstLastName(nickname: string) {
 	const arrayName = nickname.split(/ +/g);
@@ -13,15 +13,17 @@ function firstLastName(nickname: string) {
 			firstName: arrayName.at(1)!.toUpperCase(),
 		};
 	}
+
 	const lastNameArray: string[] = [];
 	const firstNameArray: string[] = [];
-	arrayName.forEach((name) => {
+	for (const name of arrayName) {
 		if (name === name.toUpperCase()) {
 			lastNameArray.push(name);
 		} else {
 			firstNameArray.push(name);
 		}
-	});
+	}
+
 	return {
 		lastName: lastNameArray.join(' ').toUpperCase(),
 		firstName: firstNameArray.join(' ').toUpperCase(),
@@ -31,7 +33,7 @@ function firstLastName(nickname: string) {
 const defaultExport: ICommand = {
 	name: 'getassurance',
 	description: 'Get your schedule based on your group and field.',
-	cooldown: 10 * 1000,
+	cooldown: 10 * 1_000,
 	// Permissions: [],
 	guilds: [client.testGuilds.find((guild) => guild.name.includes('ENSIAS'))?.id ?? ''],
 	options: [
@@ -77,10 +79,14 @@ const defaultExport: ICommand = {
 		let fileNamePdf = `${lastName} ${firstName}.pdf`;
 		let pdfPath = `./data/Schedules/Assurances_${year.name}/${filiere.name ?? 'filiere'}/${fileNamePdf}`;
 
-		if (!fs.existsSync(pdfPath)) {
+		try {
+			await fs.access(pdfPath);
+		} catch {
 			fileNamePdf = `${firstName} ${lastName}.pdf`;
 			pdfPath = `./data/Schedules/Assurances_${year.name}/${filiere.name ?? 'filiere'}/${fileNamePdf}`;
-			if (!fs.existsSync(pdfPath)) {
+			try {
+				await fs.access(pdfPath);
+			} catch {
 				return interaction.followUp({
 					content:
 						"Can't find Your Insurance. Please Check your nickname, and tell the problem to one of the <@&921522743604813874>",
@@ -88,6 +94,7 @@ const defaultExport: ICommand = {
 				});
 			}
 		}
+
 		const embed = createEmbed(`Assurance ${year.name}`, '__**Your "Assurance" is ready**__ ');
 		await interaction.followUp({
 			content: text,
@@ -106,6 +113,7 @@ const defaultExport: ICommand = {
 				files: [pdfPath],
 			});
 		}
+
 		const logs = `%user% got their Insurance.`;
 		await logsEmbed(logs, guild, 'info', member);
 	},

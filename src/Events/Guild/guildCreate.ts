@@ -1,6 +1,6 @@
-import gRoles from '../../Models/guildRoles';
-import { Event } from '../../Structures';
-import { setupLogsCommandsChannels } from '../../utils/Command&LogsChannels';
+import gRoles from '../../Models/guildRoles.js';
+import type { Event } from '../../Structures';
+import { setupLogsCommandsChannels } from '../../utils/Command&LogsChannels/index.js';
 
 const defaultExport: Event<'guildCreate'> = {
 	name: 'guildCreate',
@@ -12,9 +12,9 @@ const defaultExport: Event<'guildCreate'> = {
 
 		const roleObj = new Map<string, string>();
 
-		roles.forEach((role) => {
+		for (const role of roles.values()) {
 			roleObj.set(role.name, role.id);
-		});
+		}
 
 		if (guildData) {
 			guildData.roles = roleObj;
@@ -26,6 +26,7 @@ const defaultExport: Event<'guildCreate'> = {
 				roles: roleObj,
 			});
 		}
+
 		await setupLogsCommandsChannels(guild);
 	},
 };

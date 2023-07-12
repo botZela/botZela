@@ -1,4 +1,4 @@
-import { ICommand, IContextCommand } from '../Typings/Command';
+import type { ICommand, IContextCommand } from '../Typings/Command';
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class Command {

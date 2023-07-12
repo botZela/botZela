@@ -1,4 +1,4 @@
-import {
+import type {
 	ButtonInteraction,
 	ChatInputApplicationCommandData,
 	ChatInputCommandInteraction,
@@ -14,8 +14,8 @@ import {
 } from 'discord.js';
 
 interface ExecuteOptions<T> {
-	interaction: T;
 	args?: CommandInteractionOptionResolver;
+	interaction: T;
 }
 
 type ExecuteFunction<T> = (options: ExecuteOptions<T>) => Promise<unknown>;
@@ -45,11 +45,11 @@ export interface ExtendedModalSubmitInteraction extends ModalSubmitInteraction {
 }
 
 interface BaseCommand {
-	ownerOnly?: boolean;
-	guilds?: Snowflake[];
-	privateGuilds?: boolean;
 	cooldown?: number;
 	defaultMemberPermissions?: PermissionResolvable | null;
+	guilds?: Snowflake[];
+	ownerOnly?: boolean;
+	privateGuilds?: boolean;
 }
 
 export interface ICommand extends ChatInputApplicationCommandData, BaseCommand {
@@ -63,16 +63,16 @@ export interface IContextCommand extends UserApplicationCommandData, BaseCommand
 }
 
 export interface IButtonCommand extends BaseCommand {
-	id: string;
 	execute: ExecuteFunction<ExtendedButtonInteraction>;
+	id: string;
 }
 
 export interface ISelectMenuCommand extends BaseCommand {
-	id: string;
 	execute: ExecuteFunction<ExtendedSelectMenuInteraction>;
+	id: string;
 }
 
 export interface IModalSubmitCommand extends BaseCommand {
-	id: string;
 	execute: ExecuteFunction<ExtendedModalSubmitInteraction>;
+	id: string;
 }

@@ -1,3 +1,4 @@
+import type { MessageActionRowComponentBuilder, ModalActionRowComponentBuilder } from 'discord.js';
 import {
 	ActionRowBuilder,
 	ApplicationCommandOptionType,
@@ -5,14 +6,12 @@ import {
 	ButtonBuilder,
 	ButtonStyle,
 	EmbedBuilder,
-	MessageActionRowComponentBuilder,
-	ModalActionRowComponentBuilder,
 	ModalBuilder,
 	TextInputBuilder,
 	TextInputStyle,
 	WebhookClient,
 } from 'discord.js';
-import { ICommand } from '../../../Typings';
+import type { ICommand } from '../../../Typings';
 
 const defaultExport: ICommand = {
 	name: 'test',

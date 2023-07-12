@@ -3,14 +3,15 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Collection } from 'discord.js';
-import { Client } from '../Structures';
-import { IButtonCommand } from '../Typings';
-import { importFile } from '../utils';
+import type { Client } from '../Structures';
+import type { IButtonCommand } from '../Typings';
+import { importFile } from '../utils/index.js';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function buttonHandler(client: Client, PG: any, Ascii: any): Promise<void> {
 	const Table = new Ascii('Buttons Handled');
 
+	// eslint-disable-next-line n/no-path-concat
 	const buttonsFolder: string[] = await PG(`${__dirname}/../Interactions/Buttons/**/*.{ts,js}`);
 	if (!buttonsFolder.length) return;
 
@@ -24,6 +25,7 @@ export async function buttonHandler(client: Client, PG: any, Ascii: any): Promis
 			);
 			continue;
 		}
+
 		if (buttonFile.cooldown) {
 			client.buttonsCooldown.set(buttonFile.id, new Collection());
 		}

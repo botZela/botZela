@@ -7,9 +7,9 @@ export const RolesSchema = new _Schema({
 });
 
 export interface RolesType {
-	roleId: string;
 	roleDescription?: string;
 	roleEmoji?: string;
+	roleId: string;
 }
 
 /**

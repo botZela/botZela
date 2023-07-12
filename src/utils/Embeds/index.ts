@@ -1,1 +1,1 @@
-export * from './embedGen';
+export * from './embedGen.js';

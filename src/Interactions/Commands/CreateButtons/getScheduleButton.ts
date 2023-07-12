@@ -1,14 +1,8 @@
-import {
-	ActionRowBuilder,
-	ApplicationCommandOptionType,
-	ButtonBuilder,
-	ButtonStyle,
-	Message,
-	MessageActionRowComponentBuilder,
-} from 'discord.js';
-import { client } from '../../..';
-import { ICommand } from '../../../Typings';
-import { createEmbed } from '../../../utils';
+import type { MessageActionRowComponentBuilder } from 'discord.js';
+import { ActionRowBuilder, ApplicationCommandOptionType, ButtonBuilder, ButtonStyle, Message } from 'discord.js';
+import type { ICommand } from '../../../Typings';
+import { client } from '../../../index.js';
+import { createEmbed } from '../../../utils/index.js';
 
 const defaultExport: ICommand = {
 	name: 'button_schedule',
@@ -74,9 +68,9 @@ const defaultExport: ICommand = {
 		}
 
 		await interaction.deferReply();
-		await interaction.fetchReply().then((inter) => {
-			if (inter instanceof Message) return inter.delete();
-		});
+		const inter = await interaction.fetchReply();
+		if (inter instanceof Message) return inter.delete();
+
 		if (msgId) {
 			const message = await channel.messages.fetch(msgId);
 			await message.edit({

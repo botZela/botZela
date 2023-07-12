@@ -1,5 +1,6 @@
-import { ChannelType, Guild, OverwriteResolvable } from 'discord.js';
-import { logsEmbed } from '../Logger';
+import type { Guild, OverwriteResolvable } from 'discord.js';
+import { ChannelType } from 'discord.js';
+import { logsEmbed } from '../Logger/index.js';
 
 export async function createCategory(
 	guild: Guild,
@@ -18,9 +19,9 @@ export async function createCategory(
 		message += `${out.toString()} Was Created Succesfully.`;
 		await logsEmbed(message, guild, 'info');
 		return out;
-	} catch (e) {
+	} catch (error) {
 		message += 'Was not created.';
-		console.log(e);
+		console.log(error);
 		await logsEmbed(message, guild, 'error');
 		return undefined;
 	}

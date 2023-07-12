@@ -1,19 +1,31 @@
 /* eslint-disable camelcase */
-import { sheets as GoogleSheets, sheets_v4 } from '@googleapis/sheets';
+import process from 'node:process';
+import type { sheets_v4 } from '@googleapis/sheets';
+import { sheets as GoogleSheets } from '@googleapis/sheets';
 import { GoogleAuth } from 'googleapis-common';
-import { dec2alpha, hexToRgb } from './cal';
+import { dec2alpha, hexToRgb } from './cal.js';
 
 export class GSpreadSheet {
 	public authFile: string | undefined;
+
 	public sheets: sheets_v4.Sheets;
+
 	public spId: string;
+
 	public worksheetIndex: number;
+
 	public worksheetProp: sheets_v4.Schema$SheetProperties | undefined;
+
 	public worksheetName: string;
+
 	public worksheetId: number;
+
 	public endCol: number;
+
 	public endRow: number;
+
 	public endColLetter: string;
+
 	public headerNames: string[];
 
 	public constructor(spId: string, worksheetIndex: number) {
@@ -36,7 +48,7 @@ export class GSpreadSheet {
 		});
 		this.sheets = GoogleSheets({
 			version: 'v4',
-			auth: auth,
+			auth,
 		} as unknown as sheets_v4.Options);
 	}
 
@@ -53,11 +65,11 @@ export class GSpreadSheet {
 		return out;
 	}
 
-	public static createFromUrl(url: string, worksheetIndex: number): Promise<GSpreadSheet> {
+	public static async createFromUrl(url: string, worksheetIndex: number): Promise<GSpreadSheet> {
 		// Create the Class using the sheet url
-		const regExResults = new RegExp('/spreadsheets/d/([a-zA-Z0-9-_]+)').exec(url);
-		if (regExResults === null) throw Error('RegEx Did not match with the link');
-		const spreadsheetId = regExResults[1];
+		const regExResults = /\/spreadsheets\/d\/(?<id>[\w-]+)/.exec(url);
+		const spreadsheetId = regExResults?.groups?.id;
+		if (spreadsheetId === undefined) throw new Error('RegEx Did not match with the link');
 		return GSpreadSheet.createFromId(spreadsheetId, worksheetIndex);
 	}
 
@@ -69,8 +81,8 @@ export class GSpreadSheet {
 		try {
 			const res = (await this.sheets.spreadsheets.get(request)).data;
 			return res.sheets;
-		} catch (err) {
-			console.log(err);
+		} catch (error) {
+			console.log(error);
 			return [];
 		}
 	}
@@ -81,10 +93,11 @@ export class GSpreadSheet {
 		if (!worksheets) {
 			return undefined;
 		}
+
 		try {
 			return worksheets[this.worksheetIndex].properties;
-		} catch (err) {
-			console.log(err);
+		} catch (error) {
+			console.log(error);
 			return undefined;
 		}
 	}
@@ -101,10 +114,11 @@ export class GSpreadSheet {
 			if (rows?.length) {
 				return rows as unknown[][];
 			}
+
 			// Console.log("No data found.");
 			return [];
-		} catch (err) {
-			console.log(err);
+		} catch (error) {
+			console.log(error);
 			return [];
 		}
 	}
@@ -121,10 +135,11 @@ export class GSpreadSheet {
 			if (rows?.length) {
 				return rows[0] as unknown[];
 			}
+
 			// Console.log("No data found.");
 			return [];
-		} catch (err) {
-			console.log(err);
+		} catch (error) {
+			console.log(error);
 			return [];
 		}
 	}
@@ -140,15 +155,17 @@ export class GSpreadSheet {
 			const rows = res.values;
 			if (rows?.length) {
 				const cols: unknown[] = [];
-				rows.forEach((row: unknown[]) => {
+				for (const row of rows) {
 					cols.push(row[0]);
-				});
+				}
+
 				return cols;
 			}
+
 			// Console.log("No Idata found.");
 			return [];
-		} catch (err) {
-			console.log(err);
+		} catch (error) {
+			console.log(error);
 			return [];
 		}
 	}
@@ -165,10 +182,11 @@ export class GSpreadSheet {
 			if (rows?.length) {
 				return rows[0][0] as unknown;
 			}
+
 			// Console.log("No data found.");
 			return '';
-		} catch (err) {
-			console.log(err);
+		} catch (error) {
+			console.log(error);
 			return '';
 		}
 	}
@@ -183,20 +201,22 @@ export class GSpreadSheet {
 			'Discord Username',
 			'ID Discord',
 		];
-		const n = wantedTitles.length;
-		const firstRow = this.headerNames.slice(0, n);
-		for (let i = 0; i < n; i++) {
-			if (firstRow[i] !== wantedTitles[i]) {
+		const len = wantedTitles.length;
+		const firstRow = this.headerNames.slice(0, len);
+		for (let ii = 0; ii < len; ii++) {
+			if (firstRow[ii] !== wantedTitles[ii]) {
 				return false;
 			}
 		}
+
 		return true;
 	}
 
 	/**
 	 * Update "A1" cell with a value
-	 * @param {string} cell The cell "B12".
-	 * @param {string} value The new Value.
+	 *
+	 * @param cell - The cell "B12".
+	 * @param value - The new Value.
 	 */
 	public async updateCell(cell: string, value: string): Promise<void> {
 		const values = [[value]];
@@ -213,15 +233,15 @@ export class GSpreadSheet {
 			await this.sheets.spreadsheets.values.update(request);
 			// Const result = (await this.sheets.spreadsheets.values.update(request)).data;
 			// Console.log('%d cells updated.', result.updatedCells);
-		} catch (err) {
-			console.log(err);
+		} catch (error) {
+			console.log(error);
 		}
 	}
 
 	public async colorRow(row: number, color: string) {
 		// Color a Row with a HEX Color
 		const requests: sheets_v4.Schema$Request[] = [];
-		const { r, g, b } = hexToRgb(color);
+		const { red, green, blue } = hexToRgb(color);
 		requests.push({
 			repeatCell: {
 				range: {
@@ -232,9 +252,9 @@ export class GSpreadSheet {
 				cell: {
 					userEnteredFormat: {
 						backgroundColor: {
-							red: r,
-							green: g,
-							blue: b,
+							red,
+							green,
+							blue,
 						},
 					},
 				},
@@ -249,8 +269,8 @@ export class GSpreadSheet {
 				spreadsheetId: this.spId,
 				resource: batchUpdateRequest,
 			} as sheets_v4.Params$Resource$Spreadsheets$Batchupdate);
-		} catch (err) {
-			console.error(err);
+		} catch (error) {
+			console.error(error);
 		}
 	}
 
@@ -263,8 +283,8 @@ export class GSpreadSheet {
 		const data = await this.getRow(row);
 		const output: Map<string, unknown> = new Map();
 
-		for (let i = 0; i < this.endCol; i++) {
-			output.set(this.headerNames[i], data[i] ?? '');
+		for (let ii = 0; ii < this.endCol; ii++) {
+			output.set(this.headerNames[ii], data[ii] ?? '');
 		}
 
 		return output;
@@ -273,16 +293,15 @@ export class GSpreadSheet {
 	public async getAllDict() {
 		const data = await this.getAll();
 
-		const out = data.map((row, index) => {
+		return data.map((row, index) => {
 			const map: Map<string, unknown> = new Map();
 			map.set('index', index + 1);
-			for (let i = 0; i < this.endCol; i++) {
-				map.set(this.headerNames[i], row[i] ?? '');
+			for (let ii = 0; ii < this.endCol; ii++) {
+				map.set(this.headerNames[ii], row[ii] ?? '');
 			}
+
 			return map;
 		});
-
-		return out;
 	}
 
 	public getCellRefFromIndex(row: number, col: number) {

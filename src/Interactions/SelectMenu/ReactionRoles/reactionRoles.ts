@@ -1,5 +1,5 @@
-import { MessageSelectOption, SelectMenuComponent } from 'discord.js';
-import { ISelectMenuCommand } from '../../../Typings';
+import type { MessageSelectOption, SelectMenuComponent } from 'discord.js';
+import type { ISelectMenuCommand } from '../../../Typings';
 
 const defaultExport: ISelectMenuCommand = {
 	id: 'reaction-roles',
@@ -17,6 +17,7 @@ const defaultExport: ISelectMenuCommand = {
 		if (values.length !== 0) {
 			await member.roles.add(values);
 		}
+
 		if (removed.length !== 0) {
 			await member.roles.remove(removed);
 		}

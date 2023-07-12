@@ -30,8 +30,8 @@ export const zStructureType = z.union([zCategoryType, zChannelType]);
 
 export type StructureType = z.infer<typeof zStructureType>;
 
-export type ChannelListType = [string, 'channel', 'text' | 'voice' | 'stage'];
+export type ChannelListType = [string, 'channel', 'stage' | 'text' | 'voice'];
 
 export type CategoryListType = [string, 'category', ChannelListType[]?];
 
-export type StructureListType = ChannelListType | CategoryListType;
+export type StructureListType = CategoryListType | ChannelListType;

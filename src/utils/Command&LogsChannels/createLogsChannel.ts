@@ -1,13 +1,15 @@
-import { CategoryChannelResolvable, Guild, OverwriteResolvable, TextChannel } from 'discord.js';
-import { client } from '../..';
-import gChannels from '../../Models/guildChannels';
-import { createChannel } from '../Channels/createChannel';
+import type { CategoryChannelResolvable, Guild, OverwriteResolvable, TextChannel } from 'discord.js';
+import gChannels from '../../Models/guildChannels.js';
+import { client } from '../../index.js';
+import { createChannel } from '../Channels/createChannel.js';
 
 export async function createLogsChannel(
 	guild: Guild,
-	overwrites?: OverwriteResolvable[],
+	overwrites_param?: OverwriteResolvable[],
 	category?: CategoryChannelResolvable,
 ) {
+	let overwrites = overwrites_param;
+
 	if (!overwrites && client.user) {
 		overwrites = [
 			{
@@ -20,6 +22,7 @@ export async function createLogsChannel(
 			},
 		];
 	}
+
 	const logs = (await createChannel(guild, '『🤖』botZela-logs', 'text', category, overwrites)) as TextChannel;
 
 	const guildData = await gChannels.findOne({ guildId: guild.id });

@@ -1,5 +1,5 @@
-import { Snowflake } from 'discord.js';
-import { choice } from '../choice';
+import type { Snowflake } from 'discord.js';
+import { choice } from '../choice.js';
 
 export function greetings(memberId: Snowflake) {
 	const emojis = [`:confetti_ball:`, `:tada:`, `:partying_face:`, `:innocent:`, `:sparkles:`];
@@ -25,6 +25,5 @@ export function greetings(memberId: Snowflake) {
 		`Big <@${memberId}> showed up ${emoji}!`,
 		`<@${memberId}> just showed up ${emoji}. Hold my beer.`,
 	];
-	const message = choice(welcomeMsgs);
-	return message;
+	return choice(welcomeMsgs);
 }

@@ -4,9 +4,10 @@ export function choice<T>(list: T[]): T {
 
 export function shuffle<T>(list: T[], size?: number): T[] {
 	const array = [...list];
-	for (let i = array.length - 1; i > 0; i--) {
-		const j = Math.floor(Math.random() * (i + 1));
-		[array[i], array[j]] = [array[j], array[i]];
+	for (let ii = array.length - 1; ii > 0; ii--) {
+		const jj = Math.floor(Math.random() * (ii + 1));
+		[array[ii], array[jj]] = [array[jj], array[ii]];
 	}
+
 	return size ? array.slice(0, size) : array;
 }

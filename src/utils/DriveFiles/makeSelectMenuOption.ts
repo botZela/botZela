@@ -1,6 +1,6 @@
-import { SelectMenuComponentOptionData } from 'discord.js';
-import { driveSearch } from '../../OtherModules/GDrive';
-import { DriveFileInterface } from '../../Typings';
+import type { SelectMenuComponentOptionData } from 'discord.js';
+import { driveSearch } from '../../OtherModules/GDrive/index.js';
+import type { DriveFileInterface } from '../../Typings';
 
 export function driveFilesSelectMenuOptionsFromArray(folders: DriveFileInterface[] | undefined) {
 	const output = folders
@@ -18,12 +18,14 @@ export function driveFilesSelectMenuOptionsFromArray(folders: DriveFileInterface
 					description =
 						file.shortcutDetails.targetMimeType === 'application/vnd.google-apps.folder' ? 'Folder' : 'File';
 				}
+
 				const label = file.name;
 				if (!value) {
 					folder.id = file.id;
 					if (file.resourceKey) folder.rk = file.resourceKey;
 					value = JSON.stringify(folder);
 				}
+
 				if (!description) description = file.mimeType === 'application/vnd.google-apps.folder' ? 'Folder' : 'File';
 				const output: SelectMenuComponentOptionData = {
 					label,
@@ -33,6 +35,7 @@ export function driveFilesSelectMenuOptionsFromArray(folders: DriveFileInterface
 				};
 				return output;
 			}
+
 			return undefined;
 		})
 		.filter((x): x is SelectMenuComponentOptionData => x !== undefined);
@@ -44,6 +47,7 @@ export async function driveFilesSelectMenuOptions(folder: DriveFileInterface | D
 		const output = driveFilesSelectMenuOptionsFromArray(folder);
 		return output?.length === 0 ? undefined : output;
 	}
+
 	const folderArray = await driveSearch(folder);
 	const output = driveFilesSelectMenuOptionsFromArray(folderArray as DriveFileInterface[]);
 

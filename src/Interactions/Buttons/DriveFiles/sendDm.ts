@@ -1,8 +1,9 @@
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, MessageActionRowComponentBuilder } from 'discord.js';
-import { client } from '../../..';
-import { generatePublicUrl } from '../../../OtherModules/GDrive';
-import { IButtonCommand } from '../../../Typings';
-import { createEmbed, createErrorEmbed, logsEmbed } from '../../../utils';
+import type { MessageActionRowComponentBuilder } from 'discord.js';
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle } from 'discord.js';
+import { generatePublicUrl } from '../../../OtherModules/GDrive/index.js';
+import type { IButtonCommand } from '../../../Typings';
+import { client } from '../../../index.js';
+import { createEmbed, createErrorEmbed, logsEmbed } from '../../../utils/index.js';
 
 const defaultExport: IButtonCommand = {
 	id: 'button-drivefiles-send',
@@ -21,6 +22,7 @@ const defaultExport: IButtonCommand = {
 			const embed = createErrorEmbed('Get Files', 'Use the button (__**Get Files**__) again.');
 			return interaction.editReply({ embeds: [embed], components: [] });
 		}
+
 		const folder = userStack.at(-1)!;
 		const fileObj = await generatePublicUrl(folder);
 		const resultEmbed = createEmbed(`Get Files `, `📄 ${folder.name}`);
@@ -31,6 +33,7 @@ const defaultExport: IButtonCommand = {
 				new ButtonBuilder({ style: ButtonStyle.Link, url: fileObj.webViewLink, label: 'View File', emoji: '📃' }),
 			);
 		}
+
 		if (fileObj.webContentLink) {
 			resultEmbed.addFields([
 				{ name: `Download File`, value: `Click [here](${fileObj.webContentLink}) to download the file.` },
@@ -44,6 +47,7 @@ const defaultExport: IButtonCommand = {
 				}),
 			);
 		}
+
 		await interaction.member.send({
 			components: [component],
 			embeds: [resultEmbed],

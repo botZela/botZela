@@ -1,8 +1,8 @@
 import { ApplicationCommandOptionType } from 'discord.js';
-import { ICommand } from '../../../../Typings';
-import { client } from '../../../../index';
-import { createEmbed } from '../../../../utils/Embeds';
-import { getArticle } from '../../../../utils/GetArticle';
+import type { ICommand } from '../../../../Typings';
+import { client } from '../../../../index.js';
+import { createEmbed } from '../../../../utils/Embeds/index.js';
+import { getArticle } from '../../../../utils/GetArticle/index.js';
 
 const defaultExport: ICommand = {
 	name: 'getarticle',

@@ -1,9 +1,9 @@
-import { buttonHandler } from './Buttons';
-import { commandHandler } from './Commands';
-import { contextMenuHandler } from './ContextMenuCommands';
-import { eventHandler } from './Events';
-import { modalSubmitHandler } from './ModalSubmits';
-import { selectMenuHandler } from './SelectMenu';
+import { buttonHandler } from './Buttons.js';
+import { commandHandler } from './Commands.js';
+import { contextMenuHandler } from './ContextMenuCommands.js';
+import { eventHandler } from './Events.js';
+import { modalSubmitHandler } from './ModalSubmits.js';
+import { selectMenuHandler } from './SelectMenu.js';
 
 export default {
 	buttonHandler,

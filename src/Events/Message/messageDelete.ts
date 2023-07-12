@@ -1,6 +1,6 @@
-import gDrive from '../../Models/guildDrive';
-import { Event } from '../../Structures';
-import { logsEmbed } from '../../utils';
+import gDrive from '../../Models/guildDrive.js';
+import type { Event } from '../../Structures';
+import { logsEmbed } from '../../utils/index.js';
 
 const defaultExport: Event<'messageDelete'> = {
 	name: 'messageDelete',

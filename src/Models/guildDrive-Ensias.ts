@@ -1,9 +1,9 @@
 import { Schema as _Schema, model } from 'mongoose';
 
 interface IDriveFile {
-	driveName: string;
 	driveId: string;
 	driveMimeType: string;
+	driveName: string;
 	driveResourceKey?: string;
 }
 

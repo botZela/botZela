@@ -1,2 +1,2 @@
-export * from './createCategory';
-export * from './createChannel';
+export * from './createCategory.js';
+export * from './createChannel.js';

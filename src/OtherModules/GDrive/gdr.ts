@@ -1,6 +1,9 @@
-import { drive as GoogleDrive, drive_v3 } from '@googleapis/drive';
+/* eslint-disable id-length */
+import process from 'node:process';
+import type { drive_v3 } from '@googleapis/drive';
+import { drive as GoogleDrive } from '@googleapis/drive';
 import { GoogleAuth } from 'googleapis-common';
-import { DriveFileInterface } from '../../Typings';
+import type { DriveFileInterface } from '../../Typings';
 
 const auth = new GoogleAuth({
 	credentials: {
@@ -11,7 +14,7 @@ const auth = new GoogleAuth({
 });
 const drive = GoogleDrive({
 	version: 'v3',
-	auth: auth,
+	auth,
 } as unknown as drive_v3.Options);
 
 export async function checkDriveId(folder: DriveFileInterface): Promise<boolean> {
@@ -29,7 +32,7 @@ export async function checkDriveId(folder: DriveFileInterface): Promise<boolean>
 		);
 		if (result.data.shared) return result.data.shared;
 		return false;
-	} catch (error) {
+	} catch {
 		return false;
 	}
 }
@@ -49,7 +52,7 @@ export async function getDriveName(folder: DriveFileInterface): Promise<string> 
 		);
 		if (result.data.name) return result.data.name;
 		return 'Folder';
-	} catch (error) {
+	} catch {
 		return '';
 	}
 }
@@ -59,7 +62,7 @@ export async function driveSearch(folder: DriveFileInterface) {
 		const res = await drive.files.list(
 			{
 				q: `'${folder.id}' in parents`,
-				pageSize: 1000,
+				pageSize: 1_000,
 				orderBy: 'folder, name',
 				fields: 'files(id, name, mimeType, shortcutDetails, resourceKey)',
 				spaces: 'drive',
@@ -82,7 +85,7 @@ export async function driveSearchName(folder: DriveFileInterface, fileName: stri
 		const res = await drive.files.list(
 			{
 				q: `'${folder.id}' in parents and name contains '${fileName}'`,
-				pageSize: 1000,
+				pageSize: 1_000,
 				orderBy: 'folder, name',
 				fields: 'files(id, name, mimeType, shortcutDetails, resourceKey)',
 				spaces: 'drive',
@@ -102,7 +105,7 @@ export async function driveSearchName(folder: DriveFileInterface, fileName: stri
 
 export async function givePermissionsToAnyone(fileId: string) {
 	await drive.permissions.create({
-		fileId: fileId,
+		fileId,
 		requestBody: {
 			role: 'reader',
 			type: 'anyone',
@@ -138,19 +141,21 @@ export async function generatePublicUrl(folder: DriveFileInterface): Promise<dri
 }
 
 function getQueryParam(param: string, url: string) {
-	const rx = new RegExp(`[?&]${param}=([^&]+).*\$`);
+	const rx = new RegExp(`[?&]${param}=([^&]+).*`);
 	const returnVal = url.match(rx);
-	return returnVal === null ? undefined : decodeURIComponent(returnVal[1].replace(/\+/g, ' '));
+	return returnVal === null ? undefined : decodeURIComponent(returnVal[1].replaceAll('+', ' '));
 }
 
 export function getIdResourceKey(url: string) {
-	const regExResults = /\/drive\/(u\/0\/)?folders\/([a-zA-Z0-9-_]+)(\?resourcekey=([a-zA-Z0-9-_]+))?/.exec(url);
+	// eslint-disable-next-line unicorn/no-unsafe-regex
+	const regExResults = /\/drive\/(?<u>\/0\/)?folders\/(?<id>[\w-]+)(?<a>\?resourcekey=(?<resourcekey>[\w-]+))?/.exec(
+		url,
+	);
 	if (regExResults === null) return null;
-	const output = {
+	return {
 		id: regExResults[2],
 		resourceKey: getQueryParam('resourcekey', url),
 	};
-	return output;
 }
 
 export async function driveSearchRec(driveId: string, path: string[]) {
@@ -163,13 +168,14 @@ export async function driveSearchRec(driveId: string, path: string[]) {
 		});
 		const key = path.shift();
 		if (key) {
-			res.data.files?.forEach((file) => {
-				if (file.name === key && key) {
-					console.log('found', file.name);
+			if (res.data.files)
+				for (const file of res.data.files) {
+					if (file.name === key) {
+						console.log('found', file.name);
 
-					if (file.id) driveSearchRec(file.id, path).catch(console.error);
+						if (file.id) await driveSearchRec(file.id, path);
+					}
 				}
-			});
 		} else {
 			return driveId;
 		}

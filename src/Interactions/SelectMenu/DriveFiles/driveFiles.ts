@@ -1,15 +1,10 @@
-import {
-	ActionRowBuilder,
-	ButtonBuilder,
-	ButtonStyle,
-	MessageActionRowComponentBuilder,
-	StringSelectMenuComponent,
-} from 'discord.js';
-import { client } from '../../..';
-import { generatePublicUrl } from '../../../OtherModules/GDrive';
-import { DriveFileInterface, IPath, ISelectMenuCommand } from '../../../Typings';
-import { createEmbed, createErrorEmbed } from '../../../utils';
-import { makeComponents, driveFilesSelectMenuOptions } from '../../../utils/DriveFiles';
+import type { MessageActionRowComponentBuilder, StringSelectMenuComponent } from 'discord.js';
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle } from 'discord.js';
+import { generatePublicUrl } from '../../../OtherModules/GDrive/index.js';
+import type { DriveFileInterface, IPath, ISelectMenuCommand } from '../../../Typings';
+import { client } from '../../../index.js';
+import { makeComponents, driveFilesSelectMenuOptions } from '../../../utils/DriveFiles/index.js';
+import { createEmbed, createErrorEmbed } from '../../../utils/index.js';
 
 const defaultExport: ISelectMenuCommand = {
 	id: 'drivefiles-menu',
@@ -20,6 +15,7 @@ const defaultExport: ISelectMenuCommand = {
 			const embed = createErrorEmbed('Get Files', 'This command is used inside a server ...');
 			return interaction.followUp({ embeds: [embed], ephemeral: true });
 		}
+
 		const userStack = client.gdFolderStack.get(interaction.member.id);
 		if (!userStack) {
 			const embed = createErrorEmbed('Get Files', 'Use the button (__**Get Files**__) again.');
@@ -32,7 +28,7 @@ const defaultExport: ISelectMenuCommand = {
 		const file = JSON.parse(values[0]) as { id: string; rk?: string };
 		const fileIndex = component.options
 			.map((x) => (JSON.parse(x.value) as { id: string; rk?: string }).id)
-			.findIndex((x) => x === file.id);
+			.indexOf(file.id);
 		const fileName = component.options.at(fileIndex)?.label;
 		const fileEmoji = component.options.at(fileIndex)?.emoji;
 		const driveFile: DriveFileInterface = { name: fileName ?? '', id: file.id, resourceKey: file.rk };
@@ -54,6 +50,7 @@ const defaultExport: ISelectMenuCommand = {
 					new ButtonBuilder({ style: ButtonStyle.Link, url: fileObj.webViewLink, label: 'View File', emoji: '📃' }),
 				);
 			}
+
 			if (fileObj.webContentLink) {
 				resultEmbed.addFields([
 					{ name: `Download File`, value: `Click [here](${fileObj.webContentLink}) to download the file.` },
@@ -73,6 +70,7 @@ const defaultExport: ISelectMenuCommand = {
 					}),
 				);
 			}
+
 			resultEmbed.addFields(
 				{ name: 'Any Suggestions', value: 'Consider sending us your feedback in <#922875567357984768>, Thanks.' },
 				{ name: 'Any Errors', value: 'Consider sending us your feedback in <#939564676038140004>, Thanks.' },
@@ -94,6 +92,7 @@ const defaultExport: ISelectMenuCommand = {
 			await interaction.followUp({ embeds: [errorEmbed], ephemeral: true });
 			return;
 		}
+
 		userStack.push(driveFile);
 		const path: IPath = {
 			name: userStack.map((x) => x.name).join('/'),
@@ -112,7 +111,7 @@ const defaultExport: ISelectMenuCommand = {
 
 		await interaction.editReply({
 			embeds: [panelEmbed],
-			components: components,
+			components,
 		});
 	},
 };

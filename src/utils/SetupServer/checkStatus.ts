@@ -1,10 +1,10 @@
-import { EmbedField } from 'discord.js';
-import autoReactChannels from '../../Models/autoReactChannels';
-import gChannels from '../../Models/guildChannels';
-import linksModel from '../../Models/guildLinks';
-import gRoles from '../../Models/guildRoles';
-import { ExtendedCommandInteraction } from '../../Typings';
-import { createInfoEmbed } from '../Embeds';
+import type { EmbedField } from 'discord.js';
+import autoReactChannels from '../../Models/autoReactChannels.js';
+import gChannels from '../../Models/guildChannels.js';
+import linksModel from '../../Models/guildLinks.js';
+import gRoles from '../../Models/guildRoles.js';
+import type { ExtendedCommandInteraction } from '../../Typings';
+import { createInfoEmbed } from '../Embeds/index.js';
 
 export async function checkStatus(interaction: ExtendedCommandInteraction) {
 	const embed = createInfoEmbed('Checking Server');
@@ -22,9 +22,10 @@ export async function checkStatus(interaction: ExtendedCommandInteraction) {
 	if (channelsData) {
 		const field: EmbedField = { name: 'Channels', value: '', inline: false };
 		const channelsType = ['LOGS', 'COMMANDS', 'INTRODUCE'];
-		channelsType.forEach((x) => {
+		for (const x of channelsType) {
 			field.value += `__**${x} Channel**__  : ${channelsData.get(x) ? `<#${channelsData.get(x)!}>` : '❌'}\n`;
-		});
+		}
+
 		embedFields.push(field);
 	}
 
@@ -32,15 +33,15 @@ export async function checkStatus(interaction: ExtendedCommandInteraction) {
 	if (rolesData) {
 		const rolesArray = [...rolesData.values()].map((x) => `<@&${x}> `);
 		const total = rolesArray.reduce((acc, x) => acc + x.length, 0);
-		const n = total % 1024 === 0 && total > 0 ? Math.floor(total / 1024) : Math.ceil(total / 1024);
-		const pageSize = Math.floor(rolesArray.length / n);
-		for (let i = 0; i < n; i++) {
-			const field: EmbedField = { name: `Roles${n === 1 ? '' : ` ${i + 1}`}`, value: '', inline: true };
-			const data = rolesArray.slice(i * pageSize, (i + 1) * pageSize);
+		const len = total % 1_024 === 0 && total > 0 ? Math.floor(total / 1_024) : Math.ceil(total / 1_024);
+		const pageSize = Math.floor(rolesArray.length / len);
+		for (let ii = 0; ii < len; ii++) {
+			const field: EmbedField = { name: `Roles${len === 1 ? '' : ` ${ii + 1}`}`, value: '', inline: true };
+			const data = rolesArray.slice(ii * pageSize, (ii + 1) * pageSize);
 
-			data.forEach((role) => {
+			for (const role of data) {
 				field.value += `${role}`;
-			});
+			}
 
 			embedFields.push(field);
 		}
@@ -49,12 +50,13 @@ export async function checkStatus(interaction: ExtendedCommandInteraction) {
 	const autoReactData = await autoReactChannels.find({ guildId: interaction.guild?.id });
 	if (autoReactData.length !== 0) {
 		const field: EmbedField = { name: 'Auto React Channels', value: '', inline: false };
-		autoReactData.forEach((channelData) => {
+		for (const channelData of autoReactData) {
 			field.value += `<#${channelData.channelId}> :\n`;
 			field.value += `__**Reactions**__ ${channelData.reactions.join(', ')}; `;
 			field.value += `__**Random?**__ : ${channelData.random ? '✅' : '❌'}; `;
 			field.value += `__**Number**__ : ${channelData.numberOfReactions}/${channelData.reactions.length}\n`;
-		});
+		}
+
 		embedFields.push(field);
 	}
 

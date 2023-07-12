@@ -1,6 +1,6 @@
-import gRoles from '../../Models/guildRoles';
-import { Event } from '../../Structures';
-import { logsEmbed } from '../../utils';
+import gRoles from '../../Models/guildRoles.js';
+import type { Event } from '../../Structures';
+import { logsEmbed } from '../../utils/index.js';
 
 const defaultExport: Event<'roleDelete'> = {
 	name: 'roleDelete',
@@ -11,12 +11,14 @@ const defaultExport: Event<'roleDelete'> = {
 			if (!guildData) {
 				return;
 			}
+
 			guildData.roles.delete(`${role.name}`);
 			await guildData.save();
 			log = `${role.name} has been deleted.`;
-		} catch (e) {
+		} catch {
 			log = `${role.name} was not in data.`;
 		}
+
 		await logsEmbed(log, role.guild, 'warn');
 	},
 };

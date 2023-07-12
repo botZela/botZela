@@ -1,7 +1,8 @@
-import { GuildMember, Interaction, InteractionType } from 'discord.js';
-import { client } from '../..';
-import { Event } from '../../Structures';
-import { ExtendedModalSubmitInteraction } from '../../Typings';
+import type { GuildMember, Interaction } from 'discord.js';
+import { InteractionType } from 'discord.js';
+import type { Event } from '../../Structures';
+import type { ExtendedModalSubmitInteraction } from '../../Typings';
+import { client } from '../../index.js';
 
 const defaultExport: Event<'interactionCreate'> = {
 	name: 'interactionCreate',

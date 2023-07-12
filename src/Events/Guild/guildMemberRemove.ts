@@ -1,7 +1,7 @@
-import linksModel from '../../Models/guildLinks';
-import { GSpreadSheet } from '../../OtherModules/GSpreadSheet';
-import { Event } from '../../Structures';
-import { logsEmbed } from '../../utils';
+import linksModel from '../../Models/guildLinks.js';
+import { GSpreadSheet } from '../../OtherModules/GSpreadSheet/index.js';
+import type { Event } from '../../Structures';
+import { logsEmbed } from '../../utils/index.js';
 
 const defaultExport: Event<'guildMemberRemove'> = {
 	name: 'guildMemberRemove',
@@ -15,6 +15,7 @@ const defaultExport: Event<'guildMemberRemove'> = {
 			await logsEmbed(logs, guild, 'error');
 			return;
 		}
+
 		try {
 			const activeSheet = await GSpreadSheet.createFromUrl(worksheetUrl, 0);
 			if (user.bot) {
@@ -22,6 +23,7 @@ const defaultExport: Event<'guildMemberRemove'> = {
 				await logsEmbed(logs, guild, 'warn');
 				return;
 			}
+
 			let index = await activeSheet.findCellCol(`${user.tag}`, 'F');
 			if (index === 0) {
 				index = await activeSheet.findCellCol(`${user.id}`, 'G');
@@ -30,13 +32,15 @@ const defaultExport: Event<'guildMemberRemove'> = {
 					await logsEmbed(logs, guild, 'warn');
 					return;
 				}
+
 				await activeSheet.updateCell(`F${index}`, `${user.tag}`);
 			}
+
 			await activeSheet.updateCell(`G${index}`, `${member.id}`);
 			await activeSheet.colorRow(index, '#FF00FF');
 			logs = `${member.nickname ?? member.user.tag} Left the server`;
 			await logsEmbed(logs, guild, 'warn');
-		} catch (e) {
+		} catch {
 			console.log(`[INFO] Sheet does not exist for server ${guild.name}`);
 			logs = `[INFO] .${member.nickname ?? member.user.tag} Left the server`;
 			await logsEmbed(logs, guild, 'info');

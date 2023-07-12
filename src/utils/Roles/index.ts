@@ -1,3 +1,3 @@
-export * from './updateRoles';
-export * from './resetRoles';
-export * from './downgradeRoles';
+export * from './updateRoles.js';
+export * from './resetRoles.js';
+export * from './downgradeRoles.js';

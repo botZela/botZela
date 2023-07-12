@@ -1,5 +1,12 @@
-fly.toml
-Dockerfile
 .dockerignore
-node_modules
+.env*
 .git
+.vscode
+Dockerfile
+README.md
+credentials
+data
+dist
+fly.toml
+node_modules
+npm-debug.log

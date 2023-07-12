@@ -1,1 +1,1 @@
-export * from './gdr';
+export * from './gdr.js';

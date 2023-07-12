@@ -1,5 +1,5 @@
 import { ApplicationCommandType, EmbedBuilder } from 'discord.js';
-import { IContextCommand } from '../../../Typings';
+import type { IContextCommand } from '../../../Typings';
 
 const defaultExport: IContextCommand = {
 	name: 'User Info',
@@ -11,6 +11,7 @@ const defaultExport: IContextCommand = {
 			await interaction.reply({ content: 'This command is used inside a server ...', ephemeral: true });
 			return;
 		}
+
 		const target = await interaction.guild.members.fetch(interaction.targetId);
 
 		const response = new EmbedBuilder()
@@ -26,13 +27,17 @@ const defaultExport: IContextCommand = {
 					name: 'Roles',
 					value: `${
 						target.roles.cache
-							.map((r) => r)
+							.map((role) => role)
 							.join(' ')
 							.replace('@everyone', '') || 'None'
 					}`,
 				},
-				{ name: 'Member Since', value: `<t:${Math.floor((target.joinedTimestamp ?? 0) / 1000)}:R>`, inline: true },
-				{ name: 'Discord User Since', value: `<t:${Math.floor(target.user.createdTimestamp / 1000)}:R>`, inline: true },
+				{ name: 'Member Since', value: `<t:${Math.floor((target.joinedTimestamp ?? 0) / 1_000)}:R>`, inline: true },
+				{
+					name: 'Discord User Since',
+					value: `<t:${Math.floor(target.user.createdTimestamp / 1_000)}:R>`,
+					inline: true,
+				},
 			]);
 
 		await interaction.reply({ embeds: [response], ephemeral: true });

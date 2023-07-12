@@ -1,10 +1,10 @@
-import { IButtonCommand } from '../../../Typings';
+import type { IButtonCommand } from '../../../Typings';
 
 const defaultExport: IButtonCommand = {
 	id: 'confirmSchedule',
-	cooldown: 15 * 60 * 1000,
+	cooldown: 15 * 60 * 1_000,
 	defaultMemberPermissions: ['Administrator'],
-	execute({ interaction }) {
+	async execute({ interaction }) {
 		return interaction.reply({ content: 'aaaaaa' });
 	},
 };

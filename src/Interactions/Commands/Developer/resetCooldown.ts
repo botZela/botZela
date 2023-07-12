@@ -1,6 +1,7 @@
-import { ApplicationCommandOptionType, GuildMember } from 'discord.js';
-import { client } from '../../..';
-import { ICommand } from '../../../Typings';
+import type { GuildMember } from 'discord.js';
+import { ApplicationCommandOptionType } from 'discord.js';
+import type { ICommand } from '../../../Typings';
+import { client } from '../../../index.js';
 
 const defaultExport: ICommand = {
 	name: 'resetcooldown',
@@ -20,23 +21,24 @@ const defaultExport: ICommand = {
 		const member = interaction.options.getMember('member') as GuildMember | null;
 
 		if (member) {
-			client.buttonsCooldown.forEach((guilds) => {
-				guilds.forEach((members) => {
+			for (const guilds of client.buttonsCooldown.values()) {
+				for (const members of guilds.values()) {
 					if (members.includes(member.id)) {
 						const index = members.indexOf(member.id);
 						if (index > -1) {
 							members.splice(index, 1);
 						}
 					}
-				});
-			});
+				}
+			}
 		} else {
-			client.buttonsCooldown.forEach((guilds) => {
-				guilds.forEach((members) => {
+			for (const guilds of client.buttonsCooldown.values()) {
+				for (const members of guilds.values()) {
 					members.splice(0, members.length);
-				});
-			});
+				}
+			}
 		}
+
 		await interaction.reply({
 			content: `Reseted the cooldowns for ${member?.toString() ?? 'everyone'}`,
 			ephemeral: true,

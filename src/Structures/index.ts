@@ -1,3 +1,3 @@
-export { Client } from './Client';
-export { Event } from './Event';
-export { Command } from './Command';
+export { Client } from './Client.js';
+export { Event } from './Event.js';
+export { Command } from './Command.js';

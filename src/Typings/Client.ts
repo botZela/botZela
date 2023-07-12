@@ -1,19 +1,19 @@
-import { ApplicationCommandDataResolvable, Snowflake } from 'discord.js';
+import type { ApplicationCommandDataResolvable, Snowflake } from 'discord.js';
 
 export interface RegisterCommandsOptions {
-	guildId?: string;
 	commands: ApplicationCommandDataResolvable[];
+	guildId?: string;
 }
 
 export interface ItestGuild {
-	name: string;
 	id: string;
+	name: string;
 }
 
-export type ExtendedApplicationCommandDataResolvable = {
-	ownerOnly?: boolean;
+export type ExtendedApplicationCommandDataResolvable = ApplicationCommandDataResolvable & {
 	context?: boolean;
-	guilds?: Snowflake[];
-	privateGuilds?: boolean;
 	cooldown?: number;
-} & ApplicationCommandDataResolvable;
+	guilds?: Snowflake[];
+	ownerOnly?: boolean;
+	privateGuilds?: boolean;
+};

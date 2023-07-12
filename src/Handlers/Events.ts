@@ -2,15 +2,16 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
-import { ClientEvents } from 'discord.js';
-import { Client, Event } from '../Structures';
-import { Events } from '../Validation';
-import { importFile } from '../utils';
+import type { ClientEvents } from 'discord.js';
+import type { Client, Event } from '../Structures';
+import { Events } from '../Validation/index.js';
+import { importFile } from '../utils/index.js';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function eventHandler(client: Client, PG: any, Ascii: any): Promise<void> {
 	const Table = new Ascii('Events Loaded');
 
+	// eslint-disable-next-line n/no-path-concat
 	const eventFiles: string[] = await PG(`${__dirname}/../Events/**/*.{ts,js}`);
 	if (!eventFiles.length) return;
 
@@ -23,10 +24,11 @@ export async function eventHandler(client: Client, PG: any, Ascii: any): Promise
 		}
 
 		if (event.once) {
-			client.once(event.name, (...args) => event.execute(...args));
+			client.once(event.name, async (...args) => event.execute(...args));
 		} else {
-			client.on(event.name, (...args) => event.execute(...args));
+			client.on(event.name, async (...args) => event.execute(...args));
 		}
+
 		await Table.addRow(event.alias ?? event.name, '🟢 SUCCESSFUL');
 		count++;
 	}

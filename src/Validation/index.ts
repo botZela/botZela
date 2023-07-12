@@ -1,1 +1,1 @@
-export { Events } from './EventNames';
+export { Events } from './EventNames.js';

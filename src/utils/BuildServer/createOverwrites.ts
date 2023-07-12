@@ -1,13 +1,14 @@
-import { Guild, OverwriteResolvable } from 'discord.js';
-import { client } from '../..';
-import gRoles from '../../Models/guildRoles';
-import { logsEmbed } from '../Logger';
+import type { Guild, OverwriteResolvable } from 'discord.js';
+import gRoles from '../../Models/guildRoles.js';
+import { client } from '../../index.js';
+import { logsEmbed } from '../Logger/index.js';
 
 export async function createOverwrites(guild: Guild, rolesList: string[]): Promise<OverwriteResolvable[]> {
 	const guildData = await gRoles.findOne({ guildId: guild.id });
 	if (!guildData) {
 		return [];
 	}
+
 	const guildRoles = guildData.roles;
 	const overwrites: OverwriteResolvable[] = [
 		{
@@ -33,5 +34,6 @@ export async function createOverwrites(guild: Guild, rolesList: string[]): Promi
 			await logsEmbed(`Role "${role}" was not found in guild ${guild.name}`, guild, 'warn');
 		}
 	}
+
 	return overwrites;
 }

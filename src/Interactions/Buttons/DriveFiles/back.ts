@@ -1,8 +1,8 @@
-import { client } from '../../..';
-import ensiasDrive from '../../../Models/guildDrive-Ensias';
-import { DriveFileInterface, IButtonCommand, IPath } from '../../../Typings';
-import { createErrorEmbed } from '../../../utils';
-import { driveFilesEmbed } from '../../../utils/DriveFiles';
+import ensiasDrive from '../../../Models/guildDrive-Ensias.js';
+import type { DriveFileInterface, IButtonCommand, IPath } from '../../../Typings';
+import { client } from '../../../index.js';
+import { driveFilesEmbed } from '../../../utils/DriveFiles/index.js';
+import { createErrorEmbed } from '../../../utils/index.js';
 
 const defaultExport: IButtonCommand = {
 	id: 'button-drivefiles-back',
@@ -13,6 +13,7 @@ const defaultExport: IButtonCommand = {
 		if (!interaction.guild) {
 			return interaction.editReply({ content: 'This command is used inside a server ...' });
 		}
+
 		const stack = client.gdFolderStack.get(interaction.member.id);
 		if (!stack) {
 			const embed = createErrorEmbed('Get Files', 'Use the button (__**Get Files**__) again.');
@@ -25,7 +26,7 @@ const defaultExport: IButtonCommand = {
 
 		if (folder.id === 'ensiasDrive') {
 			const [year, filiere] = folder.name.split('_');
-			const driveData = await ensiasDrive.findOne({ filiere: filiere, year: year });
+			const driveData = await ensiasDrive.findOne({ filiere, year });
 			const driveArray: DriveFileInterface[] = driveData!.drivesArray.map((drive) => ({
 				id: drive.driveId,
 				name: drive.driveName,

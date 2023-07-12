@@ -1,3 +1,3 @@
-export * from './genEmbed';
-export * from './makeComponents';
-export * from './makeSelectMenuOption';
+export * from './genEmbed.js';
+export * from './makeComponents.js';
+export * from './makeSelectMenuOption.js';

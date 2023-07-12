@@ -1,6 +1,7 @@
-import { ApplicationCommandOptionType, GuildMember } from 'discord.js';
-import { client } from '../../..';
-import { ICommand } from '../../../Typings';
+import type { GuildMember } from 'discord.js';
+import { ApplicationCommandOptionType } from 'discord.js';
+import type { ICommand } from '../../../Typings';
+import { client } from '../../../index.js';
 
 const defaultExport: ICommand = {
 	name: 'emit',
@@ -47,18 +48,22 @@ const defaultExport: ICommand = {
 				client.emit('guildMemberAdd', member);
 				break;
 			}
+
 			case 'guildMemberRemove': {
 				client.emit('guildMemberRemove', member);
 				break;
 			}
+
 			case 'guildCreate': {
 				if (interaction.guild) client.emit('guildCreate', interaction.guild);
 				break;
 			}
+
 			case 'guildDelete': {
 				if (interaction.guild) client.emit('guildDelete', interaction.guild);
 				break;
 			}
+
 			default: {
 				break;
 			}

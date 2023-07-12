@@ -1,11 +1,12 @@
-import { isDeepStrictEqual } from 'util';
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, MessageActionRowComponentBuilder } from 'discord.js';
-import ensiasData from '../../Models/ensiasData';
-import { driveSearchName, getFile, givePermissionsToAnyone } from '../../OtherModules/GDrive';
-import { DriveFileInterface, ExtendedButtonInteraction, ExtendedCommandInteraction } from '../../Typings';
-import { FiliereNameType, GroupeNameType, YearNameType } from '../../Typings/Ensias';
-import { createEmbed } from '../Embeds';
-import { logsEmbed } from '../Logger';
+import { isDeepStrictEqual } from 'node:util';
+import type { MessageActionRowComponentBuilder } from 'discord.js';
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle } from 'discord.js';
+import ensiasData from '../../Models/ensiasData.js';
+import { driveSearchName, getFile, givePermissionsToAnyone } from '../../OtherModules/GDrive/index.js';
+import type { DriveFileInterface, ExtendedButtonInteraction, ExtendedCommandInteraction } from '../../Typings';
+import type { FiliereNameType, GroupeNameType, YearNameType } from '../../Typings/Ensias';
+import { createEmbed } from '../Embeds/index.js';
+import { logsEmbed } from '../Logger/index.js';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function sendSchedule(
@@ -19,6 +20,7 @@ export async function sendSchedule(
 	if (!guild) {
 		return interaction.followUp({ content: 'This command is used inside a server ...', ephemeral: true });
 	}
+
 	if (!year || !filiere || (year === '1A' && !groupe)) {
 		return interaction.followUp({
 			content: 'A HSSLTIII',
@@ -58,12 +60,12 @@ export async function sendSchedule(
 				name: file.name ?? '',
 				resourceKey: file.resourceKey ?? '',
 			}))
-			.map((file) => getFile(file, ['id', 'mimeType', 'webViewLink', 'webContentLink', 'permissions'])),
+			.map(async (file) => getFile(file, ['id', 'mimeType', 'webViewLink', 'webContentLink', 'permissions'])),
 	);
 
-	let pngLink: string | undefined = undefined;
-	const pngLinks: { webViewLink?: string; webContentLink?: string } = {};
-	const pdfLinks: { webViewLink?: string; webContentLink?: string } = {};
+	let pngLink: string | undefined;
+	const pngLinks: { webContentLink?: string; webViewLink?: string } = {};
+	const pdfLinks: { webContentLink?: string; webViewLink?: string } = {};
 	const anyonePerm = {
 		kind: 'drive#permission',
 		id: 'anyoneWithLink',
@@ -94,6 +96,7 @@ export async function sendSchedule(
 			new ButtonBuilder({ style: ButtonStyle.Link, url: pdfLinks.webViewLink, label: 'View PDF', emoji: '📃' }),
 		);
 	}
+
 	if (pdfLinks.webContentLink) {
 		component.addComponents(
 			new ButtonBuilder({
@@ -104,6 +107,7 @@ export async function sendSchedule(
 			}),
 		);
 	}
+
 	component.addComponents(
 		new ButtonBuilder({
 			style: ButtonStyle.Success,

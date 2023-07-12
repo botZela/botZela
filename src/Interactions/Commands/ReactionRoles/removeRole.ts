@@ -1,6 +1,6 @@
 import { ApplicationCommandOptionType } from 'discord.js';
-import rrModel from '../../../Models/reactionRoles';
-import { ICommand } from '../../../Typings';
+import rrModel from '../../../Models/reactionRoles.js';
+import type { ICommand } from '../../../Typings';
 
 const defaultExport: ICommand = {
 	name: 'remove-role',
@@ -20,6 +20,7 @@ const defaultExport: ICommand = {
 		if (!guild?.members.me) {
 			return interaction.reply({ content: 'This command is used inside a server ...', ephemeral: true });
 		}
+
 		const role = options.getRole('role');
 
 		const guildData = await rrModel.findOne({ guildId: guild.id });

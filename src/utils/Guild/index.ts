@@ -1,3 +1,3 @@
-export * from './kick';
-export * from './greetings';
-export * from './welcomeMsg';
+export * from './kick.js';
+export * from './greetings.js';
+export * from './welcomeMsg.js';

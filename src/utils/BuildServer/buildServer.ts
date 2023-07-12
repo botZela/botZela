@@ -1,81 +1,104 @@
-import { Message } from 'discord.js';
-import { batchCreate } from './batchCreate';
-import { batchVisualize } from './batchVisualize';
-import { convertYaml } from './convertYaml';
-import { ExtendedCommandInteraction } from '../../Typings';
-import { createEmbed, createErrorEmbed, createInfoEmbed } from '../Embeds';
+import type { Message } from 'discord.js';
+import type { ExtendedCommandInteraction } from '../../Typings';
+import { createEmbed, createErrorEmbed, createInfoEmbed } from '../Embeds/index.js';
+import { batchCreate } from './batchCreate.js';
+import { batchVisualize } from './batchVisualize.js';
+import { convertYaml } from './convertYaml.js';
 
-export async function buildServer(message: Message | ExtendedCommandInteraction): Promise<void> {
-	if (!message.channel || !message.guild) {
-		await message.reply("Can't do this");
+export async function buildServer(interaction: ExtendedCommandInteraction): Promise<void> {
+	if (!interaction.channel || !interaction.guild) {
+		await interaction.reply("Can't do this");
 		return;
 	}
-	console.log(`[INFO] Building ${message.guild.name} Server `);
+
+	console.log(`[INFO] Building ${interaction.guild.name} Server `);
 	const structure = `- category: 
-        - categoryName,role1,role2
-        - channels :
-            - channel : channelName1,voice
-            - channel : channelName2,text,role1
-            - channel : channelName3,voice
-            - channel : channelName4,stage`;
-	const filter = (m: Message) => m.member?.id === message.member?.id;
+	- categoryName,role1,role2
+	- channels :
+		- channel : channelName1,voice
+		- channel : channelName2,text,role1
+		- channel : channelName3,voice
+		- channel : channelName4,stage`;
+	const filter = (msg: Message) => msg.member?.id === interaction.member.id;
 	// eslint-disable-next-line no-constant-condition, @typescript-eslint/no-unnecessary-condition
 	while (true) {
 		const embed = createEmbed('', `\`\`\`${structure}\`\`\`\n**Cancel**: to stop the command.`);
-		await message.channel.send({ embeds: [embed] });
+		await interaction.channel.send({
+			embeds: [embed],
+		});
 		try {
-			const collected = await message.channel.awaitMessages({ filter: filter, max: 1, time: 60000, errors: ['time'] });
+			const collected = await interaction.channel.awaitMessages({
+				filter,
+				max: 1,
+				time: 60_000,
+				errors: ['time'],
+			});
 			const msg = collected.first()?.content;
 			if (msg === undefined) {
 				continue;
 			}
+
 			if (msg.toLowerCase() === 'cancel') {
-				console.log(`[INFO] Build Server command was canceled in server ${message.guild.name}`);
+				console.log(`[INFO] Build Server command was canceled in server ${interaction.guild.name}`);
 				const embed = createErrorEmbed('Build Server command was canceled');
-				await message.channel.send({ embeds: [embed] });
+				await interaction.channel.send({
+					embeds: [embed],
+				});
 				break;
 			}
+
 			const channelFormat = convertYaml(msg);
 			console.log('[INFO] Structure given');
 			console.log(`------\n${msg}\n------`);
 			if (!channelFormat) {
 				console.log('[INFO] Bad structure given !!');
 				const embed = createErrorEmbed('Bad structure given !!');
-				await message.channel.send({ embeds: [embed] });
+				await interaction.channel.send({
+					embeds: [embed],
+				});
 				continue;
 			}
+
 			const visualization = batchVisualize(channelFormat);
 			let embed = createEmbed(
 				'Build Visualization',
 				`Please confim your structure: \n\`\`\` ${visualization}\`\`\`\n ** YES / NO ** `,
 			);
-			await message.channel.send({ embeds: [embed] });
-			console.log(`[INFO] Structure of ${message.guild.name} Server \n------\n${visualization}\n------`);
+			await interaction.channel.send({
+				embeds: [embed],
+			});
+			console.log(`[INFO] Structure of ${interaction.guild.name} Server \n------\n${visualization}\n------`);
 			try {
-				const collected = await message.channel.awaitMessages({
-					filter: filter,
+				const collected = await interaction.channel.awaitMessages({
+					filter,
 					max: 1,
-					time: 60000,
+					time: 60_000,
 					errors: ['time'],
 				});
 
 				if (collected.first()?.content.toLowerCase() === 'yes') {
-					await batchCreate(message.guild, channelFormat);
+					await batchCreate(interaction.guild, channelFormat);
 					embed = createInfoEmbed('Sructure Created Succesfully');
-					await message.channel.send({ embeds: [embed] });
-					console.log(`[INFO] ${message.guild.name} Server structure was created successfully`);
+					await interaction.channel.send({
+						embeds: [embed],
+					});
+					console.log(`[INFO] ${interaction.guild.name} Server structure was created successfully`);
 					break;
 				}
-			} catch (e) {
+			} catch {
 				embed = createErrorEmbed('Bot timed Out!!!');
-				await message.channel.send({ embeds: [embed] });
-				console.log(`[INFO] Bot timed out in server ${message.guild.name}`);
+				await interaction.channel.send({
+					embeds: [embed],
+				});
+				console.log(`[INFO] Bot timed out in server ${interaction.guild.name}`);
 				break;
 			}
-		} catch (e) {
+		} catch {
 			const embed = createErrorEmbed('Bot timed Out!!!');
-			await message.channel.send({ embeds: [embed] });
-			console.log(`[INFO] Bot timed out in server ${message.guild.name}`);
+			await interaction.channel.send({
+				embeds: [embed],
+			});
+			console.log(`[INFO] Bot timed out in server ${interaction.guild.name}`);
 			return;
 		}
 	}

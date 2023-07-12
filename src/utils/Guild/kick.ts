@@ -1,6 +1,7 @@
-import { ChannelType, Guild, GuildMember } from 'discord.js';
-import linksModel from '../../Models/guildLinks';
-import { createEmbed } from '../Embeds';
+import type { Guild, GuildMember } from 'discord.js';
+import { ChannelType } from 'discord.js';
+import linksModel from '../../Models/guildLinks.js';
+import { createEmbed } from '../Embeds/index.js';
 
 export async function kick(member: GuildMember, guild: Guild) {
 	let formLink = '';
@@ -9,6 +10,7 @@ export async function kick(member: GuildMember, guild: Guild) {
 	if (linksData) {
 		formLink = linksData.form ?? '';
 	}
+
 	const inviteOptions = {
 		maxAge: 30 * 60,
 		maxUses: 1,
@@ -19,6 +21,7 @@ export async function kick(member: GuildMember, guild: Guild) {
 	} else {
 		channelId = guild.channels.cache.filter((channel) => channel.type === ChannelType.GuildText).first()?.id ?? '';
 	}
+
 	const inviteLink = (await guild.invites.create(channelId, inviteOptions)).url;
 	const embed = createEmbed(
 		`${guild.members.me?.user.username ?? 'BOT'}`,

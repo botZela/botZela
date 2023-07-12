@@ -1,13 +1,13 @@
 import { ApplicationCommandOptionType, ChannelType } from 'discord.js';
 import { z } from 'zod';
-import autoReactChannels from '../../../Models/autoReactChannels';
-import gChannels from '../../../Models/guildChannels';
-import linksModel from '../../../Models/guildLinks';
-import gRoles from '../../../Models/guildRoles';
-import { ICommand } from '../../../Typings';
-import { checkSpreadsheet } from '../../../utils/SetupServer/checkLinks';
-import { checkStatus } from '../../../utils/SetupServer/checkStatus';
-import { setupServer } from '../../../utils/SetupServer/setupServer';
+import autoReactChannels from '../../../Models/autoReactChannels.js';
+import gChannels from '../../../Models/guildChannels.js';
+import linksModel from '../../../Models/guildLinks.js';
+import gRoles from '../../../Models/guildRoles.js';
+import type { ICommand } from '../../../Typings';
+import { checkSpreadsheet } from '../../../utils/SetupServer/checkLinks.js';
+import { checkStatus } from '../../../utils/SetupServer/checkStatus.js';
+import { setupServer } from '../../../utils/SetupServer/setupServer.js';
 
 type TChannelObj = { COMMAND: string } | { INTRODUCE: string } | { LOGS: string };
 
@@ -181,6 +181,7 @@ const defaultExport: ICommand = {
 		if (!guild) {
 			return interaction.followUp({ content: 'This command is used inside a server ...', ephemeral: true });
 		}
+
 		const subCommand = interaction.options.getSubcommand();
 		if (subCommand === 'server') {
 			await setupServer(interaction);
@@ -193,10 +194,12 @@ const defaultExport: ICommand = {
 			if (!roleData) {
 				return interaction.followUp({ content: 'Choose a valid role', ephemeral: true });
 			}
+
 			if (guildData) {
 				guildData.defaultRole = roleData.id;
 				await guildData.save();
 			}
+
 			return interaction.followUp({ content: 'Default Role Added Successfully', ephemeral: true });
 		}
 
@@ -219,6 +222,7 @@ const defaultExport: ICommand = {
 					channels: channelsObj,
 				});
 			}
+
 			await channel.send('This channel is Up and running');
 			return interaction.followUp({
 				content: `[INFO] ${channelType} Added Successfully`,
@@ -229,9 +233,10 @@ const defaultExport: ICommand = {
 			let link;
 			try {
 				link = linkChecker.parse(interaction.options.getString('url'));
-			} catch (e) {
+			} catch {
 				return await interaction.followUp({ content: `Please enter a valid Link ( https://....) `, ephemeral: true });
 			}
+
 			if (subCommand === 'spreadsheet') {
 				await checkSpreadsheet(interaction, link);
 			} else if (subCommand === 'form') {
@@ -246,6 +251,7 @@ const defaultExport: ICommand = {
 						form: link,
 					});
 				}
+
 				return interaction.followUp({ content: `This server's Form Link Added Successfully.`, ephemeral: true });
 			}
 		} else if (subCommandGroup === 'autoreact') {
@@ -273,6 +279,7 @@ const defaultExport: ICommand = {
 						numberOfReactions,
 					});
 				}
+
 				await interaction.followUp({
 					content: `Created an auto reaction in <#${channel.id}> with these emojis ${JSON.stringify(emojisArray)} `,
 					ephemeral: true,
@@ -293,6 +300,7 @@ const defaultExport: ICommand = {
 					});
 				}
 			}
+
 			return;
 		}
 

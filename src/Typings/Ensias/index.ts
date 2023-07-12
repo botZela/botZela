@@ -1,8 +1,8 @@
-import { Snowflake } from 'discord.js';
+import type { Snowflake } from 'discord.js';
 
 export interface ObjType<T> {
-	name: T;
 	id: Snowflake;
+	name: T;
 }
 
 export type FiliereNameType = '2IA' | '2SCL' | 'BI&A' | 'GD' | 'GL' | 'IDF' | 'IDSIT' | 'SSE' | 'SSI' | undefined;

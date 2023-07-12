@@ -1,3 +1,3 @@
-export * from './createCommandsChannel';
-export * from './createLogsChannel';
-export * from './setupLogsCommandsChannel';
+export * from './createCommandsChannel.js';
+export * from './createLogsChannel.js';
+export * from './setupLogsCommandsChannel.js';

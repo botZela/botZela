@@ -1,6 +1,6 @@
-import { Event } from '../../Structures';
-import { announcements, introduceYourSelf } from '../../utils/AutoReacts';
-import { autoReact } from '../../utils/AutoReacts/autoReact';
+import type { Event } from '../../Structures';
+import { autoReact } from '../../utils/AutoReacts/autoReact.js';
+import { announcements, introduceYourSelf } from '../../utils/AutoReacts/index.js';
 
 const defaultExport: Event<'messageCreate'> = {
 	name: 'messageCreate',
@@ -17,11 +17,12 @@ const defaultExport: Event<'messageCreate'> = {
 				if (author.bot) return;
 				await introduceYourSelf(message);
 			}
+
 			if (message.content.startsWith('test') && message.author.id === '381238047527927808') {
 				const totalMembers = guild.members.cache.size;
-				const onlineMembers = guild.members.cache.filter((m) => m.presence?.status === 'online').size;
-				const idleMembers = guild.members.cache.filter((m) => m.presence?.status === 'idle').size;
-				const dndMembers = guild.members.cache.filter((m) => m.presence?.status === 'dnd').size;
+				const onlineMembers = guild.members.cache.filter((msg) => msg.presence?.status === 'online').size;
+				const idleMembers = guild.members.cache.filter((msg) => msg.presence?.status === 'idle').size;
+				const dndMembers = guild.members.cache.filter((msg) => msg.presence?.status === 'dnd').size;
 				const offlineMembers = totalMembers - onlineMembers - idleMembers - dndMembers;
 				const online = `🟢 ${onlineMembers}`;
 				const idle = `🌙 ${idleMembers}`;

@@ -1,9 +1,9 @@
 import { ComponentType } from 'discord.js';
-import { client } from '../../..';
-import ensiasDrive from '../../../Models/guildDrive-Ensias';
-import { DriveFileInterface, IButtonCommand, IPath } from '../../../Typings';
-import { createErrorEmbed } from '../../../utils';
-import { driveFilesEmbed } from '../../../utils/DriveFiles';
+import ensiasDrive from '../../../Models/guildDrive-Ensias.js';
+import type { DriveFileInterface, IButtonCommand, IPath } from '../../../Typings';
+import { client } from '../../../index.js';
+import { driveFilesEmbed } from '../../../utils/DriveFiles/index.js';
+import { createErrorEmbed } from '../../../utils/index.js';
 
 const defaultExport: IButtonCommand = {
 	id: 'button-drivefiles-prev',
@@ -22,15 +22,16 @@ const defaultExport: IButtonCommand = {
 			const embed = createErrorEmbed('Get Files', 'Use the button (__**Get Files**__) again.');
 			return interaction.editReply({ embeds: [embed], components: [] });
 		}
+
 		const folder = stack.at(-1)!;
 
 		let page = 1;
 		if (messageComponents[1].components[1].type === ComponentType.Button)
-			page = parseInt(messageComponents[1].components[1].customId!, 10) - 1;
+			page = Number.parseInt(messageComponents[1].components[1].customId!, 10) - 1;
 
 		if (folder.id === 'ensiasDrive') {
 			const [year, filiere] = folder.name.split('_');
-			const driveData = await ensiasDrive.findOne({ filiere: filiere, year: year });
+			const driveData = await ensiasDrive.findOne({ filiere, year });
 			const driveArray: DriveFileInterface[] = driveData!.drivesArray.map((drive) => ({
 				id: drive.driveId,
 				name: drive.driveName,

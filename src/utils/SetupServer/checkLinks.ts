@@ -1,22 +1,23 @@
-import { CommandInteraction, Message } from 'discord.js';
-import { createEmbed } from '../';
-import { client } from '../..';
-import linksModel from '../../Models/guildLinks';
-import { GSpreadSheet } from '../../OtherModules/GSpreadSheet/gsp';
+import type { Message } from 'discord.js';
+import { CommandInteraction } from 'discord.js';
+import { createEmbed } from '..';
+import linksModel from '../../Models/guildLinks.js';
+import { GSpreadSheet } from '../../OtherModules/GSpreadSheet/gsp.js';
+import { client } from '../../index.js';
 
-export async function checkSpreadsheet(message: Message | CommandInteraction, link: string): Promise<void> {
+export async function checkSpreadsheet(message: CommandInteraction | Message, link: string): Promise<void> {
 	const { guild } = message;
-	if (message instanceof CommandInteraction) {
-		if (!message.channel) {
-			await message.reply({
-				content: "Can't use this outside a guild",
-			});
-			return;
-		}
+	if (message instanceof CommandInteraction && !message.channel) {
+		await message.reply({
+			content: "Can't use this outside a guild",
+		});
+		return;
 	}
+
 	if (!client.user) {
 		return;
 	}
+
 	if (!guild) {
 		await message.channel?.send({
 			content: "Can't use this outside a guild",
@@ -38,6 +39,7 @@ export async function checkSpreadsheet(message: Message | CommandInteraction, li
 					spreadsheet: link,
 				});
 			}
+
 			const embed = createEmbed(
 				"Setup Spreadsheet's link",
 				`${client.user.tag} has connected successfully to the SpreadSheet`,
@@ -48,13 +50,13 @@ export async function checkSpreadsheet(message: Message | CommandInteraction, li
 			);
 			return;
 		}
+
 		const embed = createEmbed(
 			"Setup Spreadsheet's link",
 			`${client.user.tag} has connected successfully to the SpreadSheet, but spreadsheet's columns do not match with ours:\n["Timestamp", "First Name", "Last Name", "Email", "Phone Number", "Discord Username", "ID Discord"]`,
 		);
 		await message.channel?.send({ embeds: [embed] });
-		return;
-	} catch (e) {
+	} catch {
 		console.log(`[INFO] Can't access the url of guild ${guild.name}.`);
 		const gspBotMail = 'rolebot@woven-justice-335518.iam.gserviceaccount.com';
 		const embed1 = createEmbed("Setup Spreadsheet's link", "**Can't access the url**");

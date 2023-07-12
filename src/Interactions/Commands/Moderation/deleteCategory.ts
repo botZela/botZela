@@ -1,6 +1,6 @@
 import { ApplicationCommandOptionType, CategoryChannel, ChannelType } from 'discord.js';
-import { client } from '../../..';
-import { ICommand } from '../../../Typings';
+import type { ICommand } from '../../../Typings';
+import { client } from '../../../index.js';
 
 const defaultExport: ICommand = {
 	name: 'delete_category',
@@ -25,11 +25,16 @@ const defaultExport: ICommand = {
 		if (!(category instanceof CategoryChannel)) {
 			return interaction.followUp('Please select a category');
 		}
-		category.children.cache.forEach((child) => {
-			if (child.deletable) {
-				child.delete().catch(console.error);
-			}
-		});
+
+		for (const child of category.children.cache.values()) {
+			if (child.deletable)
+				try {
+					await child.delete();
+				} catch (error) {
+					console.error(error);
+				}
+		}
+
 		await category.delete();
 		await interaction.followUp({
 			content: 'Deleted the Category Successfully.',

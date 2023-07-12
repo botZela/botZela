@@ -1,6 +1,6 @@
-import { client } from '../..';
-import { Event } from '../../Structures';
-import { logsEmbed } from '../../utils';
+import type { Event } from '../../Structures';
+import { client } from '../../index.js';
+import { logsEmbed } from '../../utils/index.js';
 
 const defaultExport: Event<'guildMemberUpdate'> = {
 	name: 'guildMemberUpdate',

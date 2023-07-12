@@ -1,5 +1,5 @@
-import { ICommand } from '../../../Typings';
-import { createInfoEmbed } from '../../../utils';
+import type { ICommand } from '../../../Typings';
+import { createInfoEmbed } from '../../../utils/index.js';
 
 const defaultExport: ICommand = {
 	name: 'ping',
@@ -8,11 +8,11 @@ const defaultExport: ICommand = {
 	async execute({ interaction }) {
 		// Await interaction.reply({ content: `PONG after \`${client.ws.ping}ms\``, ephemeral: true });
 		const { client } = interaction;
-		let totalSeconds = client.uptime / 1000;
-		const days = Math.floor(totalSeconds / 86400);
-		totalSeconds %= 86400;
-		const hours = Math.floor(totalSeconds / 3600);
-		totalSeconds %= 3600;
+		let totalSeconds = client.uptime / 1_000;
+		const days = Math.floor(totalSeconds / 86_400);
+		totalSeconds %= 86_400;
+		const hours = Math.floor(totalSeconds / 3_600);
+		totalSeconds %= 3_600;
 		const minutes = Math.floor(totalSeconds / 60);
 		const seconds = Math.floor(totalSeconds % 60);
 		const uptime = `\`${days}\` days, \`${hours}\` hours, \`${minutes}\` minutes and \`${seconds}\` seconds`;

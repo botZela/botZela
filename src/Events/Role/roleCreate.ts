@@ -1,6 +1,6 @@
-import gRoles from '../../Models/guildRoles';
-import { Event } from '../../Structures';
-import { logsEmbed } from '../../utils/Logger';
+import gRoles from '../../Models/guildRoles.js';
+import type { Event } from '../../Structures';
+import { logsEmbed } from '../../utils/Logger/index.js';
 
 const defaultExport: Event<'roleCreate'> = {
 	name: 'roleCreate',
@@ -18,6 +18,7 @@ const defaultExport: Event<'roleCreate'> = {
 				roles: roleObj,
 			});
 		}
+
 		const log = `${role.name} has been created. (${role.toString()})`;
 		await logsEmbed(log, role.guild, 'info');
 	},

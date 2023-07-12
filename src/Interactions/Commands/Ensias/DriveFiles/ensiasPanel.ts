@@ -1,15 +1,10 @@
-import {
-	ActionRowBuilder,
-	ApplicationCommandOptionType,
-	ButtonBuilder,
-	ButtonStyle,
-	MessageActionRowComponentBuilder,
-} from 'discord.js';
-import { client } from '../../../..';
-import ensiasDrive from '../../../../Models/guildDrive-Ensias';
-import { checkDriveId, getFile, getIdResourceKey } from '../../../../OtherModules/GDrive';
-import { DriveFileInterface, ICommand } from '../../../../Typings';
-import { createEmbed, createErrorEmbed, createInfoEmbed } from '../../../../utils';
+import type { MessageActionRowComponentBuilder } from 'discord.js';
+import { ActionRowBuilder, ApplicationCommandOptionType, ButtonBuilder, ButtonStyle } from 'discord.js';
+import ensiasDrive from '../../../../Models/guildDrive-Ensias.js';
+import { checkDriveId, getFile, getIdResourceKey } from '../../../../OtherModules/GDrive/index.js';
+import type { DriveFileInterface, ICommand } from '../../../../Typings';
+import { client } from '../../../../index.js';
+import { createEmbed, createErrorEmbed, createInfoEmbed } from '../../../../utils/index.js';
 
 const filieresArray = ['2IA', '2SCL', 'BI&A', 'GD', 'GL', 'IDF', 'IDSIT', 'SSE', 'SSI'];
 const yearArray = ['1A', '2A', '3A'];
@@ -75,6 +70,7 @@ const defaultExport: ICommand = {
 			const embed = createErrorEmbed('Get Files', 'This command is used inside a server ...');
 			return interaction.followUp({ embeds: [embed], ephemeral: true });
 		}
+
 		const subCommand = options.getSubcommand();
 
 		if (subCommand === 'add') {
@@ -152,6 +148,7 @@ const defaultExport: ICommand = {
 				ephemeral: true,
 			});
 		}
+
 		if (subCommand === 'panel') {
 			const msgId = options.getString('message');
 			const panelEmbed = createEmbed(
@@ -178,6 +175,7 @@ const defaultExport: ICommand = {
 			} else {
 				await channel.send({ embeds: [panelEmbed], components });
 			}
+
 			return interaction.followUp({ content: 'The panel was created successfully', ephemeral: true });
 		}
 	},

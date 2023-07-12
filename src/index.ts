@@ -1,6 +1,6 @@
 import 'dotenv/config';
 
-import { Client } from './Structures/Client';
+import { Client } from './Structures/Client.js';
 
 export const client = new Client();
 

@@ -1,10 +1,11 @@
-import { CategoryChannelResolvable, ChannelType, Guild, OverwriteResolvable } from 'discord.js';
-import { logsEmbed } from '../Logger';
+import type { CategoryChannelResolvable, Guild, OverwriteResolvable } from 'discord.js';
+import { ChannelType } from 'discord.js';
+import { logsEmbed } from '../Logger/index.js';
 
 export async function createChannel(
 	guild: Guild,
 	name: string,
-	channelType: 'text' | 'voice' | 'stage' = 'text',
+	channelType: 'stage' | 'text' | 'voice' = 'text',
 	category?: CategoryChannelResolvable,
 	overwrites?: OverwriteResolvable[],
 	position?: number,
@@ -18,7 +19,7 @@ export async function createChannel(
 	try {
 		const out = await guild.channels.create({
 			name,
-			type: types[channelType] as ChannelType.GuildText | ChannelType.GuildVoice | ChannelType.GuildStageVoice,
+			type: types[channelType] as ChannelType.GuildStageVoice | ChannelType.GuildText | ChannelType.GuildVoice,
 			permissionOverwrites: overwrites,
 			position,
 			parent: category,
@@ -26,8 +27,8 @@ export async function createChannel(
 		message += `<#${out.id}> Was Created Succesfully.`;
 		await logsEmbed(message, guild, 'info');
 		return out;
-	} catch (e) {
-		console.log(e);
+	} catch (error) {
+		console.log(error);
 		message += ' Was not created';
 		await logsEmbed(message, guild, 'error');
 		return undefined;

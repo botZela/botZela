@@ -1,22 +1,24 @@
 /* eslint-disable no-await-in-loop */
-import { Message } from 'discord.js';
-import { client } from '../..';
-import linksModel from '../../Models/guildLinks';
-import { GSpreadSheet } from '../../OtherModules/GSpreadSheet/gsp';
-import { ExtendedCommandInteraction } from '../../Typings';
-import { createEmbed } from '../Embeds';
+import type { Message } from 'discord.js';
+import linksModel from '../../Models/guildLinks.js';
+import { GSpreadSheet } from '../../OtherModules/GSpreadSheet/gsp.js';
+import type { ExtendedCommandInteraction } from '../../Typings';
+import { client } from '../../index.js';
+import { createEmbed } from '../Embeds/index.js';
 
-export async function setupServer(message: Message | ExtendedCommandInteraction): Promise<void> {
+export async function setupServer(message: ExtendedCommandInteraction | Message): Promise<void> {
 	const { channel, guild } = message;
 	if (!guild || !channel) {
 		return;
 	}
+
 	console.log(`[INFO] Setup for guild ${guild.name}`);
 	const gspBotMail = 'rolebot@woven-justice-335518.iam.gserviceaccount.com';
 
-	function filter(m: Message) {
-		return m.member?.id === message.member?.id;
+	function filter(msg: Message) {
+		return msg.member?.id === message.member?.id;
 	}
+
 	let msg = '';
 	while (msg !== 'done') {
 		const embed = createEmbed(
@@ -26,9 +28,9 @@ export async function setupServer(message: Message | ExtendedCommandInteraction)
 		await channel.send({ embeds: [embed] });
 		try {
 			const collected = await channel.awaitMessages({
-				filter: filter,
+				filter,
 				max: 1,
-				time: 60000,
+				time: 60_000,
 				errors: ['time'],
 			});
 			msg = collected.first()?.content.toLowerCase() ?? '';
@@ -38,22 +40,23 @@ export async function setupServer(message: Message | ExtendedCommandInteraction)
 				await channel.send({ embeds: [embed] });
 				return;
 			}
-		} catch (e) {
+		} catch {
 			const embed = createEmbed('Bot timed Out !!');
 			console.log(`[INFO] Bot timed out in server ${guild.name}`);
 			await channel.send({ embeds: [embed] });
 			return;
 		}
 	}
+
 	// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 	while (true) {
 		const embed = createEmbed('Setup Server', '**Please enter your sheet link**\n\nSend **"cancel"** to stop command.');
 		await channel.send({ embeds: [embed] });
 		try {
 			const collected = await channel.awaitMessages({
-				filter: filter,
+				filter,
 				max: 1,
-				time: 60000,
+				time: 60_000,
 				errors: ['time'],
 			});
 			const sheetUrl = collected.first()?.content ?? '';
@@ -63,6 +66,7 @@ export async function setupServer(message: Message | ExtendedCommandInteraction)
 				await channel.send({ embeds: [embed] });
 				return;
 			}
+
 			console.log(`[INFO] SpreadSheet URL of guild ${guild.name}.\n${sheetUrl}`);
 			const testSheet = await GSpreadSheet.createFromUrl(sheetUrl, 0);
 			try {
@@ -78,6 +82,7 @@ export async function setupServer(message: Message | ExtendedCommandInteraction)
 							url: sheetUrl,
 						});
 					}
+
 					const embed = createEmbed(
 						'Setup Server',
 						`${client.user?.tag ?? 'Bot'} has connected successfully to the SpreadSheet`,
@@ -88,12 +93,12 @@ export async function setupServer(message: Message | ExtendedCommandInteraction)
 					);
 					break;
 				}
-			} catch (e) {
+			} catch {
 				const embed = createEmbed('Setup Server', "**Can't access the url**");
 				await channel.send({ embeds: [embed] });
 				console.log(`[INFO] Can't access the url of guild ${guild.name}.`);
 			}
-		} catch (e) {
+		} catch {
 			const embed = createEmbed('Bot timed Out !!!');
 			console.log(`[INFO] Bot timed out in server ${guild.name}`);
 			await channel.send({ embeds: [embed] });

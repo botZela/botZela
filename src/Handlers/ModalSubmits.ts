@@ -2,14 +2,15 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
-import { Client } from '../Structures';
-import { IModalSubmitCommand } from '../Typings';
-import { importFile } from '../utils';
+import type { Client } from '../Structures';
+import type { IModalSubmitCommand } from '../Typings';
+import { importFile } from '../utils/index.js';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function modalSubmitHandler(client: Client, PG: any, Ascii: any): Promise<void> {
 	const Table = new Ascii('Modal Submit Handler');
 
+	// eslint-disable-next-line n/no-path-concat
 	const modalSubmitFiles: string[] = await PG(`${__dirname}/../Interactions/ModalSubmits/**/*.{ts,js}`);
 	if (!modalSubmitFiles.length) return;
 

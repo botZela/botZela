@@ -1,1 +1,1 @@
-export { GSpreadSheet } from './gsp';
+export { GSpreadSheet } from './gsp.js';

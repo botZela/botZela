@@ -1,6 +1,7 @@
 import { ApplicationCommandOptionType } from 'discord.js';
-import rrModel, { RolesType } from '../../../Models/reactionRoles';
-import { ICommand } from '../../../Typings';
+import type { RolesType } from '../../../Models/reactionRoles';
+import rrModel from '../../../Models/reactionRoles.js';
+import type { ICommand } from '../../../Typings';
 
 const defaultExport: ICommand = {
 	name: 'add-role',
@@ -31,10 +32,12 @@ const defaultExport: ICommand = {
 		if (!guild?.members.me) {
 			return interaction.reply({ content: 'This command is used inside a server ...', ephemeral: true });
 		}
+
 		const role = options.getRole('role');
 		if (!role) {
 			return interaction.reply({ content: "Couldn't find the role.", ephemeral: true });
 		}
+
 		const roleDescription = options.getString('description') ?? undefined;
 		const roleEmoji = options.getString('emoji') ?? undefined;
 

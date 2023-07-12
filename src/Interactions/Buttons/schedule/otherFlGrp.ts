@@ -1,12 +1,7 @@
-import {
-	ActionRowBuilder,
-	ButtonBuilder,
-	ButtonStyle,
-	MessageActionRowComponentBuilder,
-	StringSelectMenuBuilder,
-} from 'discord.js';
-import { IButtonCommand } from '../../../Typings';
-import { createEmbed } from '../../../utils';
+import type { MessageActionRowComponentBuilder } from 'discord.js';
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, StringSelectMenuBuilder } from 'discord.js';
+import type { IButtonCommand } from '../../../Typings';
+import { createEmbed } from '../../../utils/index.js';
 
 const defaultExport: IButtonCommand = {
 	id: 'sendOtherFlGrp',

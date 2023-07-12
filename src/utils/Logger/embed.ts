@@ -1,8 +1,9 @@
-import { EmbedBuilder, Guild, GuildMember, TextChannel } from 'discord.js';
-import { client } from '../..';
-import gChannels from '../../Models/guildChannels';
+import type { Guild, GuildMember, TextChannel } from 'discord.js';
+import { EmbedBuilder } from 'discord.js';
+import gChannels from '../../Models/guildChannels.js';
+import { client } from '../../index.js';
 
-type logsType = 'info' | 'error' | 'warn' | 'other';
+type logsType = 'error' | 'info' | 'other' | 'warn';
 const embedColors = {
 	info: 'Green',
 	error: 'Red',
@@ -33,21 +34,29 @@ export async function logsEmbed(message: string, guild: Guild, type: logsType, m
 	try {
 		const guildChannels = (await gChannels.findOne({ guildId: guild.id }))?.channels;
 		if (!guildChannels) {
-			return console.log(`[ERROR] Logs channel not set in ${guild.name}`);
+			console.log(`[ERROR] Logs channel not set in ${guild.name}`);
+			return;
 		}
+
 		const logsId = guildChannels.get('LOGS');
 		if (!logsId) {
 			console.log(`[ERROR] Logs channel not set in ${guild.name}`);
 			return;
 		}
+
 		const logsChannel = client.channels.cache.get(logsId) as TextChannel;
 		await logsChannel.send({
 			embeds: [embed],
 		});
-	} catch (e) {
+	} catch {
 		console.log(`[ERROR] Logs channel not set in ${guild.name}`);
 	}
+
 	const infoChannel = client.channels.cache.get('1000544634046521416') as TextChannel;
 	embed.setTitle(`${guild.name}`).setThumbnail(guild.iconURL());
-	infoChannel.send({ embeds: [embed] }).catch(console.error);
+	try {
+		await infoChannel.send({ embeds: [embed] });
+	} catch (error) {
+		console.error(error);
+	}
 }

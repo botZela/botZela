@@ -1,16 +1,10 @@
 import { ZodError } from 'zod';
-import {
-	ChannelListType,
-	ChannelType,
-	StructureListType,
-	StructureType,
-	zCategoryType,
-	zChannelType,
-} from '../../Typings/buildServer';
+import type { ChannelListType, ChannelType, StructureListType, StructureType } from '../../Typings/buildServer';
+import { zCategoryType, zChannelType } from '../../Typings/buildServer/index.js';
 
 export function dictToList(structure: StructureType[]) {
-	const l: StructureListType[] = [];
-	let t: StructureListType;
+	const ll: StructureListType[] = [];
+	let tt: StructureListType;
 	let name;
 	let temp;
 	let channels: ChannelType[];
@@ -19,36 +13,37 @@ export function dictToList(structure: StructureType[]) {
 		try {
 			format = zCategoryType.parse(format);
 			name = format.category[0].split(',')[0];
-			t = [name, 'category'];
+			tt = [name, 'category'];
 			try {
 				channels = format.category[1].channels;
-				t[2] = dictToList(channels) as ChannelListType[];
-				l.push(t);
-			} catch (e) {
-				null;
-			}
+				tt[2] = dictToList(channels) as ChannelListType[];
+				ll.push(tt);
+			} catch {}
+
 			continue;
-		} catch (e) {
-			if (e instanceof ZodError) {
+		} catch (error) {
+			if (error instanceof ZodError) {
 				// Console.error('This is not a Category.');
 			} else {
-				console.error(e);
+				console.error(error);
 			}
 		}
+
 		try {
 			format = zChannelType.parse(format);
 			temp = format.channel.split(',').slice(0, 2);
 			name = temp[0];
-			subTypeElement = temp[1] as 'voice' | 'text' | 'stage';
-			t = [name, 'channel', subTypeElement];
-			l.push(t);
-		} catch (e) {
-			if (e instanceof ZodError) {
+			subTypeElement = temp[1] as 'stage' | 'text' | 'voice';
+			tt = [name, 'channel', subTypeElement];
+			ll.push(tt);
+		} catch (error) {
+			if (error instanceof ZodError) {
 				// Console.error('This is not a Channel.');
 			} else {
-				console.error(e);
+				console.error(error);
 			}
 		}
 	}
-	return l;
+
+	return ll;
 }

@@ -2,14 +2,15 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
-import { Client } from '../Structures';
-import { ISelectMenuCommand } from '../Typings';
-import { importFile } from '../utils';
+import type { Client } from '../Structures';
+import type { ISelectMenuCommand } from '../Typings';
+import { importFile } from '../utils/index.js';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function selectMenuHandler(client: Client, PG: any, Ascii: any): Promise<void> {
 	const Table = new Ascii('Selct Menu Handler');
 
+	// eslint-disable-next-line n/no-path-concat
 	const selectMenuFiles: string[] = await PG(`${__dirname}/../Interactions/SelectMenu/**/*.{ts,js}`);
 	if (!selectMenuFiles.length) return;
 
@@ -23,6 +24,7 @@ export async function selectMenuHandler(client: Client, PG: any, Ascii: any): Pr
 			);
 			continue;
 		}
+
 		if (selectMenu.cooldown) {
 			// Client.buttonsCooldown.set(buttonFile.id, new Collection());
 		}

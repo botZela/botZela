@@ -1,5 +1,6 @@
-import { ActionRowBuilder, ButtonBuilder, MessageActionRowComponentBuilder } from 'discord.js';
-import { IButtonCommand } from '../../../Typings';
+import type { MessageActionRowComponentBuilder } from 'discord.js';
+import { ActionRowBuilder, ButtonBuilder } from 'discord.js';
+import type { IButtonCommand } from '../../../Typings';
 
 const defaultExport: IButtonCommand = {
 	id: 'button-schedule-send',
@@ -9,6 +10,7 @@ const defaultExport: IButtonCommand = {
 		if (!interaction.guild) {
 			return interaction.followUp({ content: 'This command is used inside a server ...', ephemeral: true });
 		}
+
 		const { embeds, components } = interaction.message;
 		const component = new ActionRowBuilder<MessageActionRowComponentBuilder>();
 		const resComponents = components.at(0)?.components.filter((x) => x.customId !== 'button-schedule-send') ?? [];

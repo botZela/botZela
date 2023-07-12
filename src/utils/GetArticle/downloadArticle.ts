@@ -1,19 +1,20 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import fs from 'fs';
+import fs_sync from 'node:fs';
+import fs from 'node:fs/promises';
 import axios from 'axios';
 import cheerio from 'cheerio';
 
 const dir = './data/downloads/Articles';
 
-function getFilesizeInMegaBytes(filename: fs.PathLike): number {
-	const stats = fs.statSync(filename);
+async function getFilesizeInMegaBytes(filename: fs_sync.PathLike): Promise<number> {
+	const stats = await fs.stat(filename);
 	const fileSizeInBytes = stats.size;
 	return fileSizeInBytes / 2 ** 20;
 }
 
-async function downloadPDF(pdfURL: string | undefined, outputFilename: fs.PathLike): Promise<unknown> {
+async function downloadPDF(pdfURL: string | undefined, outputFilename: fs_sync.PathLike): Promise<unknown> {
 	const pdfBuffer = (
 		await axios({
 			method: 'GET',
@@ -23,12 +24,14 @@ async function downloadPDF(pdfURL: string | undefined, outputFilename: fs.PathLi
 	).data;
 
 	// Create Folder if it does not exist
-	if (!fs.existsSync(dir)) {
-		fs.mkdirSync(dir, { recursive: true });
+	try {
+		await fs.access(dir);
+	} catch {
+		await fs.mkdir(dir, { recursive: true });
 	}
 
 	// Write the stream(the pdf) to a file
-	pdfBuffer.pipe(fs.createWriteStream(outputFilename));
+	pdfBuffer.pipe(fs_sync.createWriteStream(outputFilename));
 
 	return new Promise((resolve, reject) => {
 		pdfBuffer.on('end', resolve);
@@ -36,7 +39,7 @@ async function downloadPDF(pdfURL: string | undefined, outputFilename: fs.PathLi
 	});
 }
 
-export async function getArticle(doi: string): Promise<string | 1 | 0 | undefined> {
+export async function getArticle(doi: string): Promise<string | 0 | 1 | undefined> {
 	try {
 		const baseUrl = 'https://sci-hub.hkvisa.net';
 		const htmlData = (await axios.get(`${baseUrl}/${doi}`)).data as string;
@@ -49,6 +52,7 @@ export async function getArticle(doi: string): Promise<string | 1 | 0 | undefine
 		if (!srcPdf) {
 			return 0;
 		}
+
 		let url;
 		if (srcPdf.startsWith('https://')) {
 			url = srcPdf;
@@ -57,6 +61,7 @@ export async function getArticle(doi: string): Promise<string | 1 | 0 | undefine
 		} else {
 			url = `${baseUrl}${srcPdf}`;
 		}
+
 		console.log(`[INFO] ${url}`);
 		// URL of the PDF
 		const article = url.split('/').at(-1);
@@ -64,15 +69,17 @@ export async function getArticle(doi: string): Promise<string | 1 | 0 | undefine
 		if (!article) return 0;
 		const filePath = `${dir}/${article}`;
 		await downloadPDF(url, filePath);
-		if (getFilesizeInMegaBytes(filePath) > 8) {
-			throw Error('SizeLimit');
+		if ((await getFilesizeInMegaBytes(filePath)) > 8) {
+			throw new Error('SizeLimit');
 		}
+
 		return article;
 	} catch (error) {
 		console.log(error);
 		if (error instanceof Error && error.message === 'SizeLimit') {
 			return 1;
 		}
+
 		return 0;
 	}
 }

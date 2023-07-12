@@ -1,8 +1,9 @@
 import process from 'node:process';
+import { AsciiTable3 } from 'ascii-table3';
 import { Client as DiscordClient, Collection, Partials } from 'discord.js';
-import glob from 'glob';
-import Handlers from '../Handlers';
-import {
+import { glob } from 'glob';
+import Handlers from '../Handlers/index.js';
+import type {
 	DriveFileInterface,
 	ExtendedApplicationCommandDataResolvable,
 	IButtonCommand,
@@ -12,26 +13,34 @@ import {
 	ISelectMenuCommand,
 	ItestGuild,
 } from '../Typings';
-import { testGuilds } from '../config';
-import { errors } from '../utils/Error';
+import { testGuilds } from '../config.js';
+import { errors } from '../utils/Error/index.js';
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
-const { AsciiTable3 } = require('ascii-table3');
 
 export class Client extends DiscordClient {
 	public commands: Collection<string, ICommand> = new Collection();
+
 	public contextMenuCommands: Collection<string, IContextCommand> = new Collection();
+
 	public buttons: Collection<string, IButtonCommand> = new Collection();
+
 	public buttonsCooldown: Collection<string, Collection<string, string[]>> = new Collection();
+
 	public selectMenus: Collection<string, ISelectMenuCommand> = new Collection();
+
 	public modalSubmits: Collection<string, IModalSubmitCommand> = new Collection();
+
 	public testGuilds: ItestGuild[] = testGuilds;
+
 	public commandsDataArray: ExtendedApplicationCommandDataResolvable[] = [];
+
 	public showTable: boolean | 'both' = false;
+
 	public gdFolderStack: Collection<string, DriveFileInterface[]> = new Collection();
 
 	public constructor() {
 		super({
-			intents: 3276799,
+			intents: 3_276_799,
 			partials: [Partials.Message],
 		});
 	}

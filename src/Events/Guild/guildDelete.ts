@@ -1,9 +1,9 @@
-import { Event } from '../../Structures';
+import type { Event } from '../../Structures';
 
 const defaultExport: Event<'guildDelete'> = {
 	name: 'guildDelete',
 	async execute(guild) {
-		return Promise.resolve(console.log(`[Info] Left server : ${guild.name}`));
+		console.log(`[Info] Left server : ${guild.name}`);
 	},
 };
 

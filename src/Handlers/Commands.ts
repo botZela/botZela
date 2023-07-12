@@ -1,14 +1,15 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
-import { Client } from '../Structures';
-import { ICommand } from '../Typings';
-import { importFile } from '../utils';
+import type { Client } from '../Structures';
+import type { ICommand } from '../Typings';
+import { importFile } from '../utils/index.js';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function commandHandler(client: Client, PG: any, Ascii: any): Promise<void> {
 	const Table = new Ascii('Command Loaded');
 
+	// eslint-disable-next-line n/no-path-concat
 	const commandsFiles: string[] = await PG(`${__dirname}/../Interactions/Commands/**/*.{ts,js}`);
 	if (!commandsFiles.length) return;
 
@@ -19,6 +20,7 @@ export async function commandHandler(client: Client, PG: any, Ascii: any): Promi
 			Table.addRow(file.split('/').at(-1), '🟠 FAILED', 'Missing a name.');
 			continue;
 		}
+
 		if (!command.context && !command.description) {
 			Table.addRow(command.name, '🟠 FAILED', 'Missing a description.');
 			continue;

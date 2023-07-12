@@ -1,6 +1,7 @@
 import { ApplicationCommandOptionType, EmbedBuilder, Message } from 'discord.js';
-import { ICommand } from '../../../Typings';
-import { buildEmbed } from '../../../utils/SendEmbed';
+import type { ICommand } from '../../../Typings';
+import { buildEmbed } from '../../../utils/SendEmbed/index.js';
+
 const defaultExport: ICommand = {
 	name: 'sendembed',
 	description: 'Sends Embed',
@@ -26,7 +27,7 @@ const defaultExport: ICommand = {
 		const embedJson = buildEmbed(structure);
 
 		if (!embedJson) return interaction.followUp({ content: 'Invalid Structure ...', ephemeral: true });
-		await interaction.fetchReply().then((inter) => {
+		await interaction.fetchReply().then(async (inter) => {
 			if (inter instanceof Message) return inter.delete();
 		});
 		const embed = EmbedBuilder.from(embedJson);

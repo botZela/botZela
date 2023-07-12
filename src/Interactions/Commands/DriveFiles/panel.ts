@@ -1,14 +1,9 @@
-import {
-	ActionRowBuilder,
-	ApplicationCommandOptionType,
-	ButtonBuilder,
-	ButtonStyle,
-	MessageActionRowComponentBuilder,
-} from 'discord.js';
-import guildDrive from '../../../Models/guildDrive';
-import { checkDriveId, getDriveName, getIdResourceKey } from '../../../OtherModules/GDrive';
-import { DriveFileInterface, ICommand } from '../../../Typings';
-import { createEmbed, createErrorEmbed, createInfoEmbed } from '../../../utils';
+import type { MessageActionRowComponentBuilder } from 'discord.js';
+import { ActionRowBuilder, ApplicationCommandOptionType, ButtonBuilder, ButtonStyle } from 'discord.js';
+import guildDrive from '../../../Models/guildDrive.js';
+import { checkDriveId, getDriveName, getIdResourceKey } from '../../../OtherModules/GDrive/index.js';
+import type { DriveFileInterface, ICommand } from '../../../Typings';
+import { createEmbed, createErrorEmbed, createInfoEmbed } from '../../../utils/index.js';
 
 const defaultExport: ICommand = {
 	name: 'drivefiles-panel',
@@ -69,6 +64,7 @@ const defaultExport: ICommand = {
 			const embed = createErrorEmbed('Get Files', 'The drive url that you provided is not valid');
 			return interaction.followUp({ embeds: [embed], ephemeral: true });
 		}
+
 		folder.name = options.getString('name') ?? (await getDriveName(folder));
 		const driveData = await guildDrive.find({ guildId: guild.id, channelId: channel.id });
 
@@ -113,6 +109,7 @@ const defaultExport: ICommand = {
 		} else {
 			sentMessage = await channel.send({ embeds: [panelEmbed], components });
 		}
+
 		await guildDrive.create({
 			guildId: guild.id,
 			channelId: channel.id,
@@ -129,6 +126,7 @@ const defaultExport: ICommand = {
 				ephemeral: true,
 			});
 		}
+
 		return interaction.followUp({ content: 'The panel was created successfully', ephemeral: true });
 	},
 };

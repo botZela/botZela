@@ -1,8 +1,8 @@
-import { client } from '../../..';
-import guildDrive from '../../../Models/guildDrive';
-import { DriveFileInterface, IButtonCommand, IPath } from '../../../Typings';
-import { logsEmbed } from '../../../utils';
-import { driveFilesEmbed } from '../../../utils/DriveFiles/genEmbed';
+import guildDrive from '../../../Models/guildDrive.js';
+import type { DriveFileInterface, IButtonCommand, IPath } from '../../../Typings';
+import { client } from '../../../index.js';
+import { driveFilesEmbed } from '../../../utils/DriveFiles/genEmbed.js';
+import { logsEmbed } from '../../../utils/index.js';
 
 const defaultExport: IButtonCommand = {
 	id: 'button-drivefiles-init',
@@ -25,6 +25,7 @@ const defaultExport: IButtonCommand = {
 		if (!driveData) {
 			return interaction.followUp({ content: 'Could not find the drive that you clicked on', ephemeral: true });
 		}
+
 		const { driveId, driveName, driveResourceKey } = driveData;
 		const folder: DriveFileInterface = {
 			id: driveId,

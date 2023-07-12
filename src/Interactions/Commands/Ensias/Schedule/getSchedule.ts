@@ -1,9 +1,9 @@
 import { ApplicationCommandOptionType } from 'discord.js';
-import { ICommand } from '../../../../Typings';
-import { FiliereNameType, GroupeNameType, YearNameType } from '../../../../Typings/Ensias';
-import { client } from '../../../../index';
-import { sendSchedule } from '../../../../utils/Schedule';
-import { flGrpYr } from '../../../../utils/Schedule/flGrp';
+import type { ICommand } from '../../../../Typings';
+import type { FiliereNameType, GroupeNameType, YearNameType } from '../../../../Typings/Ensias';
+import { client } from '../../../../index.js';
+import { flGrpYr } from '../../../../utils/Schedule/flGrp.js';
+import { sendSchedule } from '../../../../utils/Schedule/index.js';
 // import { sendSchedule } from '../../../../utils/Schedule/sendSchedule';
 
 const filieresArray = ['2IA', '2SCL', 'BI&A', 'GD', 'GL', 'IDF', 'IDSIT', 'SSE', 'SSI'];
@@ -14,7 +14,7 @@ const yearArray = ['1A'];
 const defaultExport: ICommand = {
 	name: 'getschedule',
 	description: 'Get your schedule based on your group and field.',
-	cooldown: 10 * 1000,
+	cooldown: 10 * 1_000,
 	// Permissions: [],
 	guilds: [client.testGuilds.find((guild) => guild.name.includes('ENSIAS'))?.id ?? ''],
 	options: [

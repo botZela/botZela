@@ -1,7 +1,9 @@
-import { Collection, GuildMember, Interaction } from 'discord.js';
-import { client } from '../..';
-import { Event } from '../../Structures';
-import { ExtendedButtonInteraction } from '../../Typings';
+import { setTimeout } from 'node:timers';
+import type { GuildMember, Interaction } from 'discord.js';
+import { Collection } from 'discord.js';
+import type { Event } from '../../Structures';
+import type { ExtendedButtonInteraction } from '../../Typings';
+import { client } from '../../index.js';
 
 const defaultExport: Event<'interactionCreate'> = {
 	name: 'interactionCreate',
@@ -38,9 +40,11 @@ const defaultExport: Event<'interactionCreate'> = {
 				client.buttonsCooldown.set(customId, new Collection());
 				client.buttonsCooldown.get(customId)?.set(guild.id, []);
 			}
+
 			if (!client.buttonsCooldown.get(customId)?.get(guild.id)) {
 				client.buttonsCooldown.get(customId)?.set(guild.id, []);
 			}
+
 			client.buttonsCooldown.get(customId)?.get(guild.id)?.push(member.id);
 			setTimeout(() => {
 				const index = client.buttonsCooldown.get(customId)?.get(guild.id)?.indexOf(member.id) ?? -1;

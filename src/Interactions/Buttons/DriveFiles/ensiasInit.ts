@@ -1,9 +1,9 @@
-import { client } from '../../..';
-import ensiasDrive from '../../../Models/guildDrive-Ensias';
-import { DriveFileInterface, IButtonCommand, IPath } from '../../../Typings';
-import { logsEmbed } from '../../../utils';
-import { driveFilesEmbed } from '../../../utils/DriveFiles/genEmbed';
-import { flGrpYr } from '../../../utils/Schedule/flGrp';
+import ensiasDrive from '../../../Models/guildDrive-Ensias.js';
+import type { DriveFileInterface, IButtonCommand, IPath } from '../../../Typings';
+import { client } from '../../../index.js';
+import { driveFilesEmbed } from '../../../utils/DriveFiles/genEmbed.js';
+import { flGrpYr } from '../../../utils/Schedule/flGrp.js';
+import { logsEmbed } from '../../../utils/index.js';
 
 const defaultExport: IButtonCommand = {
 	id: 'button-ensiasfiles-init',

@@ -1,1 +1,1 @@
-export * from './buildEmbed';
+export * from './buildEmbed.js';

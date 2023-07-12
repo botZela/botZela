@@ -1,6 +1,7 @@
-import { Message } from 'discord.js';
-import { client } from '../../..';
-import { IButtonCommand } from '../../../Typings';
+import { setTimeout } from 'node:timers';
+import type { Message } from 'discord.js';
+import type { IButtonCommand } from '../../../Typings';
+import { client } from '../../../index.js';
 
 const defaultExport: IButtonCommand = {
 	id: 'DeleteMsgSchedule',
@@ -10,17 +11,22 @@ const defaultExport: IButtonCommand = {
 		const dm = await interaction.user.createDM();
 		const toDel = await dm.send('You deleted the schedule from your dm.');
 		const msgsToDel = (await dm.messages.fetch({ limit: 10, before: toDel.id })).filter(
-			(m) => m.author.id === client.user?.id,
+			(msg) => msg.author.id === client.user?.id,
 		);
 		const Parray: (Promise<Message> | undefined)[] = [];
 
-		for (let i = 0; i < 2; i++) {
-			Parray.push(msgsToDel.at(i)?.delete());
+		for (let ii = 0; ii < 2; ii++) {
+			Parray.push(msgsToDel.at(ii)?.delete());
 		}
+
 		await Promise.all(Parray);
-		setTimeout(() => {
-			toDel.delete().catch(console.error);
-		}, 1000);
+		setTimeout(async () => {
+			try {
+				await toDel.delete();
+			} catch (error) {
+				console.error(error);
+			}
+		}, 1_000);
 	},
 };
 

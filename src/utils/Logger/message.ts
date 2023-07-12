@@ -1,7 +1,7 @@
-import { Guild, TextChannel } from 'discord.js';
-import { client } from '../..';
-import gChannels from '../../Models/guildChannels';
-import { createInfoEmbed } from '../Embeds';
+import type { Guild, TextChannel } from 'discord.js';
+import gChannels from '../../Models/guildChannels.js';
+import { client } from '../../index.js';
+import { createInfoEmbed } from '../Embeds/index.js';
 
 export async function logsMessage(message: string, guild: Guild): Promise<void> {
 	console.log(message);
@@ -10,16 +10,19 @@ export async function logsMessage(message: string, guild: Guild): Promise<void> 
 	try {
 		const guildChannels = (await gChannels.findOne({ guildId: guild.id }))?.channels;
 		if (!guildChannels) {
-			return console.log(`[ERROR] Logs channel not set in ${guild.name}`);
+			console.log(`[ERROR] Logs channel not set in ${guild.name}`);
+			return;
 		}
+
 		const logsId = guildChannels.get('LOGS');
 		if (!logsId) {
 			console.log(`[ERROR] Logs channel not set in ${guild.name}`);
 			return;
 		}
+
 		const channel = client.channels.cache.get(logsId) as TextChannel;
 		await channel.send(`\`\`\`css\n${message}\n\`\`\``);
-	} catch (e) {
+	} catch {
 		console.log(`[ERROR] Logs channel not set in ${guild.name}`);
 	}
 }

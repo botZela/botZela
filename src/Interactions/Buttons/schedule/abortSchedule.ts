@@ -1,4 +1,4 @@
-import { IButtonCommand } from '../../../Typings';
+import type { IButtonCommand } from '../../../Typings';
 
 const defaultExport: IButtonCommand = {
 	id: 'abortSchedule',

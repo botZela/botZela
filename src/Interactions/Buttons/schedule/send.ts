@@ -1,6 +1,6 @@
-import { IButtonCommand } from '../../../Typings';
-import { sendSchedule } from '../../../utils/Schedule';
-import { flGrpYr } from '../../../utils/Schedule/flGrp';
+import type { IButtonCommand } from '../../../Typings';
+import { flGrpYr } from '../../../utils/Schedule/flGrp.js';
+import { sendSchedule } from '../../../utils/Schedule/index.js';
 
 const defaultExport: IButtonCommand = {
 	id: 'sendSchedule',

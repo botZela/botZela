@@ -1,32 +1,33 @@
 // Convert a number 0 ... 25 to alphabets A ... Z
 function num2alpha(number: number): string {
-	const code = 'A'.charCodeAt(0) + number;
-	return String.fromCharCode(code);
+	const code = 'A'.codePointAt(0)! + number;
+	return String.fromCodePoint(code);
 }
 
-function dec2alpha(number: number): string {
-	number -= 1;
+function dec2alpha(number_param: number): string {
+	let number = number_param - 1;
 	const out: string[] = [];
 	const base = 26;
-	let r = number % base;
-	out.push(num2alpha(r));
+	let rest = number % base;
+	out.push(num2alpha(rest));
 	while (Math.floor(number / base) > 0) {
 		number = Math.floor((number - base) / base);
-		r = number % base;
-		out.push(num2alpha(r));
+		rest = number % base;
+		out.push(num2alpha(rest));
 	}
+
 	return out.reverse().join('');
 }
 
-function hexToRgb(hex: string) {
+function hexToRgb(hex_param: string) {
 	// Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
-	const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
-	hex = hex.replace(shorthandRegex, (m, r: string, g: string, b: string) => r + r + g + g + b + b);
-	const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex) ?? ['1', '1', '1'];
+	const shorthandRegex = /^#?(?<red>[\da-f])(?<green>[\da-f])(?<blue>[\da-f])$/i;
+	const hex = hex_param.replace(shorthandRegex, (_, rr: string, gg: string, bb: string) => rr + rr + gg + gg + bb + bb);
+	const result = /^#?(?<red>[\da-f]{2})(?<green>[\da-f]{2})(?<blue>[\da-f]{2})$/i.exec(hex) ?? ['1', '1', '1'];
 	return {
-		r: parseInt(result[1], 16) / 255,
-		g: parseInt(result[2], 16) / 255,
-		b: parseInt(result[3], 16) / 255,
+		red: Number.parseInt(result[1], 16) / 255,
+		green: Number.parseInt(result[2], 16) / 255,
+		blue: Number.parseInt(result[3], 16) / 255,
 	};
 }
 

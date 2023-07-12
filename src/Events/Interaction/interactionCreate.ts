@@ -1,8 +1,8 @@
-import { CommandInteractionOptionResolver, Interaction } from 'discord.js';
-import { client } from '../..';
-import { Event } from '../../Structures';
-import { ExtendedCommandInteraction } from '../../Typings';
-import { createErrorEmbed } from '../../utils';
+import type { CommandInteractionOptionResolver, Interaction } from 'discord.js';
+import type { Event } from '../../Structures';
+import type { ExtendedCommandInteraction } from '../../Typings';
+import { client } from '../../index.js';
+import { createErrorEmbed } from '../../utils/index.js';
 
 const defaultExport: Event<'interactionCreate'> = {
 	name: 'interactionCreate',

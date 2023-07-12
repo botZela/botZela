@@ -1,14 +1,15 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
-import { Client } from '../Structures';
-import { IContextCommand } from '../Typings';
-import { importFile } from '../utils';
+import type { Client } from '../Structures';
+import type { IContextCommand } from '../Typings';
+import { importFile } from '../utils/index.js';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function contextMenuHandler(client: Client, PG: any, Ascii: any): Promise<void> {
 	const Table = new Ascii('Context Menu Command Loaded');
 
+	// eslint-disable-next-line n/no-path-concat
 	const commandsFiles: string[] = await PG(`${__dirname}/../Interactions/ContextMenu/**/*.{ts,js}`);
 	if (!commandsFiles.length) return;
 
