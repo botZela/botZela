@@ -45,3 +45,6 @@ coverage/
 .prettiercache
 .eslintcache
 data/
+
+# Direnv
+.direnv
