@@ -91,6 +91,10 @@ const defaultExport: ICommand = {
 				for (const member of members.values()) {
 					try {
 						await resetRoles(member, userArray);
+						await interaction.followUp({
+							content: `updated ${member.displayName}`,
+							ephemeral: true,
+						});
 					} catch (error) {
 						await logsEmbed(
 							`Error while updating the role for <@${member.id}>.\nWith Error \`\`\`${error}\`\`\``,
@@ -129,6 +133,10 @@ const defaultExport: ICommand = {
 				for (const member of members.values()) {
 					try {
 						await updateRole(member);
+						await interaction.followUp({
+							content: `updated ${member.displayName}`,
+							ephemeral: true,
+						});
 					} catch (error) {
 						await logsEmbed(
 							`Error while updating the role for <@${member.id}>.\nWith Error \`\`\`${error}\`\`\``,
@@ -155,6 +163,10 @@ const defaultExport: ICommand = {
 				for (const member of members.values()) {
 					try {
 						await downgradeRoles(member);
+						await interaction.followUp({
+							content: `updated ${member.displayName}`,
+							ephemeral: true,
+						});
 					} catch (error) {
 						await logsEmbed(
 							`Error while updating the role for <@${member.id}>.\nWith Error \`\`\`${error}\`\`\``,
