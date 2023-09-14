@@ -3,7 +3,11 @@ import gRoles from '../../Models/guildRoles.js';
 import { client } from '../../index.js';
 import { logsEmbed } from '../Logger/index.js';
 
-export async function createOverwrites(guild: Guild, rolesList: string[]): Promise<OverwriteResolvable[]> {
+export async function createOverwrites(
+	guild: Guild,
+	rolesList: string[],
+	createRole: boolean,
+): Promise<OverwriteResolvable[]> {
 	const guildData = await gRoles.findOne({ guildId: guild.id });
 	if (!guildData) {
 		return [];
@@ -28,6 +32,12 @@ export async function createOverwrites(guild: Guild, rolesList: string[]): Promi
 		if (roleId) {
 			overwrites.push({
 				id: roleId,
+				allow: ['ViewChannel'],
+			});
+		} else if (createRole) {
+			const new_role = await guild.roles.create({ name: role });
+			overwrites.push({
+				id: new_role.id,
 				allow: ['ViewChannel'],
 			});
 		} else {

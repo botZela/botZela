@@ -24,10 +24,21 @@ const defaultExport: Event<'interactionCreate'> = {
 				interaction: interaction as ExtendedCommandInteraction,
 			});
 		} catch (error) {
-			await interaction.reply({
-				content: 'There was an error while executing this command!',
-				ephemeral: true,
-			});
+			if (interaction.deferred) {
+				await interaction.followUp({
+					content: 'There was an error while executing this command!',
+				});
+			} else if (interaction.replied) {
+				await interaction.editReply({
+					content: 'There was an error while executing this command!',
+				});
+			} else {
+				await interaction.reply({
+					content: 'There was an error while executing this command!',
+					ephemeral: true,
+				});
+			}
+
 			throw error;
 		}
 	},

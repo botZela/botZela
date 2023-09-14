@@ -31,7 +31,7 @@ export async function createDictStructure(
 				.map((ee) => ee.trim());
 			name = tempArray[0];
 			rolesList = tempArray.slice(1);
-			overwritesList = await createOverwrites(guild, rolesList);
+			overwritesList = await createOverwrites(guild, rolesList, true);
 		} catch (error) {
 			console.error(error);
 		}
@@ -66,7 +66,7 @@ export async function createDictStructure(
 			name = tempArray[0];
 			type = tempArray[1] as 'stage' | 'text' | 'voice';
 			rolesList = tempArray.slice(2);
-			const channelOverwrites = await createOverwrites(guild, rolesList);
+			const channelOverwrites = await createOverwrites(guild, rolesList, true);
 			overwritesList = overwrites ? channelOverwrites.concat(overwrites) : channelOverwrites;
 			await createChannel(guild, name, type, category, overwritesList);
 		} catch {

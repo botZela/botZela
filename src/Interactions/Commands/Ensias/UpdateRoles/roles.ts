@@ -7,14 +7,14 @@ import { Person } from '../../../../OtherModules/Member/index.js';
 import type { ICommand } from '../../../../Typings';
 import { client } from '../../../../index.js';
 import { downgradeRoles, resetRoles, updateRole } from '../../../../utils/Roles/index.js';
-import { createErrorEmbed, createInfoEmbed } from '../../../../utils/index.js';
+import { createErrorEmbed, createInfoEmbed, logsEmbed } from '../../../../utils/index.js';
 
 const defaultExport: ICommand = {
 	name: 'roles',
 	description: 'Update or Reset the roles for a member or everyone ( if the member is not specified)',
 	defaultMemberPermissions: ['Administrator'],
 	dmPermission: false,
-	guilds: [client.testGuilds.find((guild) => guild.name.includes('ENSIAS'))?.id ?? ''],
+	guilds: [client.testGuilds.find((guild) => guild.name.includes('TEST'))?.id ?? ''],
 	options: [
 		{
 			name: 'reset',
@@ -65,34 +65,44 @@ const defaultExport: ICommand = {
 			const worksheetUrl = (await linksModel.findOne({ guildId: interaction.guildId }))?.spreadsheet;
 			if (!worksheetUrl)
 				return interaction.followUp({
-					embeds: [createErrorEmbed("Couldn't find the spreadsheeat link")],
+					embeds: [createErrorEmbed("Couldn't find the spreadsheet link")],
 					ephemeral: true,
 				});
 			const activeSheet = await GSpreadSheet.createFromUrl(worksheetUrl, 0);
 			if (target) {
-				let index = await activeSheet.findCellCol(`${target.user.tag}`, 'F');
-				if (index === 0) {
-					index = await activeSheet.findCellCol(`${target.user.id}`, 'G');
-					if (index === 0) {
-						return;
-					}
-
-					await activeSheet.updateCell(`F${index}`, `${target.user.tag}`);
-				}
-
-				await activeSheet.updateCell(`G${index}`, `${target.id}`);
-
-				const newMem = await Person.create(index, interaction.guild, activeSheet);
-				await resetRoles(target, [newMem], 0);
+				// let index = await activeSheet.findCellCol(`${target.user.tag}`, 'F');
+				// if (index === 0) {
+				//   index = await activeSheet.findCellCol(`${target.user.id}`, 'G');
+				//   if (index === 0) {
+				//     return;
+				//   }
+				//
+				//   await activeSheet.updateCell(`F${index}`, `${target.user.tag}`);
+				// }
+				//
+				// await activeSheet.updateCell(`G${index}`, `${target.id}`);
+				//
+				// const newMem = await Person.create(index, interaction.guild, activeSheet);
+				// await resetRoles(target, [newMem], 0);
+				await resetRoles(target, activeSheet);
 			} else {
 				const userArray = await Person.getAll(interaction.guild, activeSheet);
-				await Promise.all(
-					(await interaction.guild.members.fetch()).map(async (user) => resetRoles(user, userArray.slice(1))),
-				);
+				const members = await interaction.guild.members.fetch();
+				for (const member of members.values()) {
+					try {
+						await resetRoles(member, userArray);
+					} catch (error) {
+						await logsEmbed(
+							`Error while updating the role for <@${member.id}>.\nWith Error \`\`\`${error}\`\`\``,
+							member.guild,
+							'error',
+						);
+					}
+				}
 			}
 
 			await interaction.followUp({
-				content: `Congratulations for our new laureats of year ${new Date().getFullYear()} `,
+				content: `Congratulations for our new laureates of year ${new Date().getFullYear()} `,
 				ephemeral: true,
 			});
 		} else if (subCommand === 'upgrade') {
@@ -115,13 +125,25 @@ const defaultExport: ICommand = {
 				await updateRole(target);
 				msg = `<@${target.id}> Passed to the **Next Year**`;
 			} else {
-				await Promise.all((await interaction.guild.members.fetch()).map(async (user) => updateRole(user)));
+				const members = await interaction.guild.members.fetch();
+				for (const member of members.values()) {
+					try {
+						await updateRole(member);
+					} catch (error) {
+						await logsEmbed(
+							`Error while updating the role for <@${member.id}>.\nWith Error \`\`\`${error}\`\`\``,
+							member.guild,
+							'error',
+						);
+					}
+				}
+
+				// const result = await Promise.allSettled(members.map(async (user) => updateRole(user)));
 				msg = `Everyone on the server Passed to the **Next Year**`;
 			}
 
 			await interaction.followUp({
 				embeds: [createInfoEmbed(`Role Upgrade`, msg)],
-				ephemeral: true,
 			});
 		} else if (subCommand === 'downgrade') {
 			let msg = '';
@@ -129,7 +151,20 @@ const defaultExport: ICommand = {
 				await downgradeRoles(target);
 				msg = `<@${target.id}> Got **Downgraded**`;
 			} else {
-				await Promise.all((await interaction.guild.members.fetch()).map(async (user) => downgradeRoles(user)));
+				const members = await interaction.guild.members.fetch();
+				for (const member of members.values()) {
+					try {
+						await downgradeRoles(member);
+					} catch (error) {
+						await logsEmbed(
+							`Error while updating the role for <@${member.id}>.\nWith Error \`\`\`${error}\`\`\``,
+							member.guild,
+							'error',
+						);
+					}
+				}
+
+				// const result = await Promise.all( (await interaction.guild.members.fetch()).map(async (user) => downgradeRoles(user)),);
 				msg = `Everyone on the server Got **Downgraded**`;
 			}
 

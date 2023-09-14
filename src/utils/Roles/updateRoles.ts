@@ -4,6 +4,7 @@ import { flGrpYr } from '../Schedule/flGrp.js';
 
 export async function updateRole(member: GuildMember) {
 	if (member.user.bot) return;
+	if (member.user.id === member.guild.ownerId) return;
 	const { year, filiere: fl, groupe } = flGrpYr(member);
 	if (!fl || !year) return;
 	const guildData = await guildRoles.findOne({ guildId: member.guild.id });
@@ -31,6 +32,6 @@ export async function updateRole(member: GuildMember) {
 
 		const currentGroupe = groupe?.name ? roles.get(groupe.name) : '';
 		if (nextYear) await member.roles.add(nextYear);
-		await member.roles.remove([year.id, currentGroupe ?? '']);
+		await member.roles.remove([year.id, currentGroupe ?? ''].filter((role) => role !== ''));
 	}
 }

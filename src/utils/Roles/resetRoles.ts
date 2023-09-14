@@ -6,7 +6,7 @@ export async function resetRoles(member: GuildMember, sheetOrArray: GSpreadSheet
 	if (member.user.bot) return;
 	if (member.id === member.guild.ownerId) return;
 	const { user, guild } = member;
-
+	let newMem: Person | null;
 	let ind = index;
 
 	if (sheetOrArray instanceof GSpreadSheet) {
@@ -24,11 +24,7 @@ export async function resetRoles(member: GuildMember, sheetOrArray: GSpreadSheet
 			await sheetOrArray.updateCell(`G${ind}`, `${member.id}`);
 		}
 
-		const newMem = await Person.create(ind, guild, sheetOrArray);
-		const nickName = newMem.nickName;
-		await member.setNickname(nickName);
-		await member.roles.remove(member.roles.cache);
-		await member.roles.add(newMem.rolesId);
+		newMem = await Person.create(ind, guild, sheetOrArray);
 	} else {
 		if (ind === undefined) {
 			ind = sheetOrArray.map((pers) => pers.discordId).indexOf(member.id);
@@ -38,10 +34,10 @@ export async function resetRoles(member: GuildMember, sheetOrArray: GSpreadSheet
 		}
 
 		if (ind === -1) return;
-		const newMem = sheetOrArray[ind];
-		const nickName = newMem.nickName;
-		await member.setNickname(nickName);
-		await member.roles.remove(member.roles.cache);
-		await member.roles.add(newMem.rolesId);
+		newMem = sheetOrArray[ind];
 	}
+
+	await member.setNickname(newMem.nickName);
+	await member.roles.remove(member.roles.cache);
+	await member.roles.add(newMem.rolesId);
 }

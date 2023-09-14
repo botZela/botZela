@@ -26,6 +26,7 @@
             # You can choose pnpm, yarn, or none (npm).
             nodePackages.pnpm
             # yarn
+            flyctl
           ];
         };
       });
