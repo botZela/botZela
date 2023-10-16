@@ -31,7 +31,6 @@ const defaultExport: Event<'ready'> = {
 
 		try {
 			await mongoose.connect(process.env.DatabaseUri, {
-				keepAlive: true,
 				useNewUrlParser: true,
 				useUnifiedTopology: true,
 			} as ConnectOptions);
