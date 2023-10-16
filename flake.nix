@@ -28,6 +28,10 @@
             # yarn
             flyctl
           ];
-        };
+
+          shellHook = ''
+            pnpm i
+          '';
+      };
       });
 }

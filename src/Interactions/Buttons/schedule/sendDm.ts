@@ -1,4 +1,4 @@
-import type { MessageActionRowComponentBuilder } from 'discord.js';
+import type { ButtonComponent, MessageActionRowComponentBuilder } from 'discord.js';
 import { ActionRowBuilder, ButtonBuilder } from 'discord.js';
 import type { IButtonCommand } from '../../../Typings';
 
@@ -14,7 +14,7 @@ const defaultExport: IButtonCommand = {
 		const { embeds, components } = interaction.message;
 		const component = new ActionRowBuilder<MessageActionRowComponentBuilder>();
 		const resComponents = components.at(0)?.components.filter((x) => x.customId !== 'button-schedule-send') ?? [];
-		component.addComponents(resComponents.map((x) => new ButtonBuilder(x.data)));
+		component.addComponents(resComponents.map((x) => new ButtonBuilder((x as ButtonComponent).data)));
 
 		await interaction.member.send({
 			components: [component],
