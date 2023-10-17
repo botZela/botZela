@@ -31,7 +31,11 @@ const defaultExport: ICommand = {
 			]);
 
 		row.addComponents(
-			new ButtonBuilder().setLabel("Waa Tarii9 Siift 'Assurance'").setStyle(ButtonStyle.Success).setEmoji('📥'),
+			new ButtonBuilder()
+				.setCustomId('sendAssurance')
+				.setLabel("Waa Tarii9 Siift 'Assurance'")
+				.setStyle(ButtonStyle.Success)
+				.setEmoji('📥'),
 		);
 
 		if (!channel) {
