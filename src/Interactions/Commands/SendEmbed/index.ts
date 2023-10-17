@@ -13,6 +13,12 @@ const defaultExport: ICommand = {
 			type: ApplicationCommandOptionType.String,
 			required: true,
 		},
+		{
+			name: 'message',
+			description: 'The message id you want to edit,(it must be sent by the bot).',
+			type: ApplicationCommandOptionType.String,
+			required: false,
+		},
 	],
 	async execute({ interaction }) {
 		await interaction.deferReply();
