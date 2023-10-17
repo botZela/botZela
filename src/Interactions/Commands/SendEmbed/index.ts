@@ -27,9 +27,7 @@ const defaultExport: ICommand = {
 		const embedJson = buildEmbed(structure);
 
 		if (!embedJson) return interaction.followUp({ content: 'Invalid Structure ...', ephemeral: true });
-		await interaction.fetchReply().then(async (inter) => {
-			if (inter instanceof Message) return inter.delete();
-		});
+		const inter = await interaction.fetchReply();
 		const embed = EmbedBuilder.from(embedJson);
 
 		if (channel) {
@@ -40,6 +38,8 @@ const defaultExport: ICommand = {
 				await channel.send({ embeds: [embed] });
 			}
 		}
+
+		if (inter instanceof Message) return inter.delete();
 	},
 };
 

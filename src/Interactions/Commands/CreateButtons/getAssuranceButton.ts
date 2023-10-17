@@ -43,7 +43,6 @@ const defaultExport: ICommand = {
 
 		await interaction.deferReply();
 		const inter = await interaction.fetchReply();
-		if (inter instanceof Message) return inter.delete();
 
 		if (msgId) {
 			const message = await channel.messages.fetch(msgId);
@@ -51,6 +50,8 @@ const defaultExport: ICommand = {
 		} else {
 			await channel.send({ embeds: [embed], components: [row] });
 		}
+
+		if (inter instanceof Message) return inter.delete();
 	},
 };
 
