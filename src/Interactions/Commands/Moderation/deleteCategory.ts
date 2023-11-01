@@ -26,16 +26,24 @@ const defaultExport: ICommand = {
 			return interaction.followUp('Please select a category');
 		}
 
+		let check = true;
+
 		for (const child of category.children.cache.values()) {
 			if (child.deletable)
 				try {
-					await child.delete();
+					const messages = await child.messages.fetch();
+					if (messages.size === 0) {
+						await child.delete();
+					} else {
+						check = false;
+					}
 				} catch (error) {
 					console.error(error);
+					check = false;
 				}
 		}
 
-		await category.delete();
+		if (check) await category.delete();
 		await interaction.followUp({
 			content: 'Deleted the Category Successfully.',
 			ephemeral: true,

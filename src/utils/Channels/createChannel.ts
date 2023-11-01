@@ -34,7 +34,11 @@ export async function createChannel(
 			await out.setAvailableTags(
 				tags
 					.map((tag) => tag.split(/\s*,\s*/).map((tag) => tag.trim()))
-					.map((tag) => (tag.length === 2 ? { name: tag[0], emoji: { id: null, name: tag[1] } } : { name: tag[0] })),
+					.map((tag) =>
+						tag.length === 2
+							? { name: tag[0].slice(0, 20), emoji: { id: null, name: tag[1] } }
+							: { name: tag[0].slice(0, 20) },
+					),
 			);
 		}
 
