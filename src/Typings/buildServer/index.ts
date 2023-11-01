@@ -11,12 +11,26 @@ export const zChannelType = z
 	})
 	.strict();
 
+export const zForumType = z
+	.object({
+		forum: z.union([
+			z.tuple([
+				z.string(),
+				z.object({
+					tags: z.string(),
+				}),
+			]),
+			z.tuple([z.string()]),
+		]),
+	})
+	.strict();
+
 export const zCategoryType = z
 	.object({
 		category: z.tuple([
 			z.string(),
 			z.object({
-				channels: z.array(zChannelType),
+				channels: z.array(z.union([zChannelType, zForumType])),
 			}),
 		]),
 	})
@@ -26,12 +40,16 @@ export type ChannelType = z.infer<typeof zChannelType>;
 
 export type CategoryType = z.infer<typeof zCategoryType>;
 
-export const zStructureType = z.union([zCategoryType, zChannelType]);
+export type ForumType = z.infer<typeof zForumType>;
+
+export const zStructureType = z.union([zCategoryType, zChannelType, zForumType]);
 
 export type StructureType = z.infer<typeof zStructureType>;
 
-export type ChannelListType = [string, 'channel', 'forum' | 'stage' | 'text' | 'voice'];
+export type ChannelListType = [string, 'channel', 'stage' | 'text' | 'voice'];
 
 export type CategoryListType = [string, 'category', ChannelListType[]?];
 
-export type StructureListType = CategoryListType | ChannelListType;
+export type ForumListType = [string, 'channel', 'forum', string?];
+
+export type StructureListType = CategoryListType | ChannelListType | ForumListType;
