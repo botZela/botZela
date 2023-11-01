@@ -5,7 +5,7 @@ import { logsEmbed } from '../Logger/index.js';
 export async function createChannel(
 	guild: Guild,
 	name: string,
-	channelType: 'stage' | 'text' | 'voice' = 'text',
+	channelType: 'forum' | 'stage' | 'text' | 'voice' = 'text',
 	category?: CategoryChannelResolvable,
 	overwrites?: OverwriteResolvable[],
 	position?: number,
@@ -15,11 +15,16 @@ export async function createChannel(
 		text: ChannelType.GuildText,
 		voice: ChannelType.GuildVoice,
 		stage: ChannelType.GuildStageVoice,
+		forum: ChannelType.GuildForum,
 	};
 	try {
 		const out = await guild.channels.create({
 			name,
-			type: types[channelType] as ChannelType.GuildStageVoice | ChannelType.GuildText | ChannelType.GuildVoice,
+			type: types[channelType] as
+				| ChannelType.GuildForum
+				| ChannelType.GuildStageVoice
+				| ChannelType.GuildText
+				| ChannelType.GuildVoice,
 			permissionOverwrites: overwrites,
 			position,
 			parent: category,

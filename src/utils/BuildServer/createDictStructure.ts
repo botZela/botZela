@@ -17,7 +17,7 @@ export async function createDictStructure(
 	let overwritesList: OverwriteResolvable[] = [];
 	let channels: ChannelType[];
 	let channelArg: string;
-	let type: 'stage' | 'text' | 'voice';
+	let type: 'forum' | 'stage' | 'text' | 'voice';
 	let categoryDict;
 	let format = format_param;
 	let category = category_param;
@@ -64,7 +64,7 @@ export async function createDictStructure(
 				.filter((ee) => ee.length !== 0)
 				.map((ee) => ee.trim());
 			name = tempArray[0];
-			type = tempArray[1] as 'stage' | 'text' | 'voice';
+			type = tempArray[1] as 'forum' | 'stage' | 'text' | 'voice';
 			rolesList = tempArray.slice(2);
 			const channelOverwrites = await createOverwrites(guild, rolesList, true);
 			overwritesList = overwrites ? channelOverwrites.concat(overwrites) : channelOverwrites;

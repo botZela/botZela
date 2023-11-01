@@ -31,9 +31,9 @@ export function dictToList(structure: StructureType[]) {
 
 		try {
 			format = zChannelType.parse(format);
-			temp = format.channel.split(',').slice(0, 2);
+			temp = format.channel.split(/,\s*/).slice(0, 2);
 			name = temp[0];
-			subTypeElement = temp[1] as 'stage' | 'text' | 'voice';
+			subTypeElement = temp[1] as 'forum' | 'stage' | 'text' | 'voice';
 			tt = [name, 'channel', subTypeElement];
 			ll.push(tt);
 		} catch (error) {
