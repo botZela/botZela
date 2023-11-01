@@ -23,10 +23,24 @@ export function batchCreateVisualization(listFormat: StructureListType[], prefix
 			try {
 				output += batchCreateVisualization(element[2]!, prefix);
 			} catch {}
-		} else if (['voice', 'stage'].includes((element as ChannelListType)[2])) {
+		} else if (element[2] === 'forum') {
+			output += newLine + branchPrefix + '💭' + element[0];
+			output +=
+				element[3]
+					?.map((tag, index, tags) => {
+						if (index === tags.length - 1) {
+							return newLine + prefix + '└── 🏷️  ' + tag;
+						} else {
+							return newLine + prefix + '├── 🏷️  ' + tag;
+						}
+					})
+					.join('') ?? '';
+		} else if (['voice'].includes((element as ChannelListType)[2])) {
 			output += `${newLine + branchPrefix}🔊 ${element[0]}`;
+		} else if (['stage'].includes((element as ChannelListType)[2])) {
+			output += `${newLine + branchPrefix}🎙️ ${element[0]}`;
 		} else {
-			output += `${newLine + branchPrefix}# ${element[0]}`;
+			output += `${newLine + branchPrefix}#️⃣ ${element[0]}`;
 		}
 
 		len -= 1;

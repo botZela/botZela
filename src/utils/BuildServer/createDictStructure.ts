@@ -1,7 +1,7 @@
 import type { CategoryChannelResolvable, Guild, OverwriteResolvable } from 'discord.js';
 import { ZodError } from 'zod';
-import type { ChannelType, StructureType } from '../../Typings/buildServer';
-import { zCategoryType, zChannelType } from '../../Typings/buildServer/index.js';
+import type { ChannelType, ForumType, StructureType } from '../../Typings/buildServer';
+import { zCategoryType, zChannelType, zForumType } from '../../Typings/buildServer/index.js';
 import { createCategory } from '../Channels/createCategory.js';
 import { createChannel } from '../Channels/createChannel.js';
 import { createOverwrites } from './createOverwrites.js';
@@ -15,9 +15,9 @@ export async function createDictStructure(
 	let name = '';
 	let rolesList: string[];
 	let overwritesList: OverwriteResolvable[] = [];
-	let channels: ChannelType[];
+	let channels: (ChannelType | ForumType)[];
 	let channelArg: string;
-	let type: 'stage' | 'text' | 'voice';
+	let type: 'forum' | 'stage' | 'text' | 'voice';
 	let categoryDict;
 	let format = format_param;
 	let category = category_param;
@@ -69,6 +69,31 @@ export async function createDictStructure(
 			const channelOverwrites = await createOverwrites(guild, rolesList, true);
 			overwritesList = overwrites ? channelOverwrites.concat(overwrites) : channelOverwrites;
 			await createChannel(guild, name, type, category, overwritesList);
+		} catch {
+			console.log(`[INFO] roles was not set for the channel ${name} in guild ${guild.name}`);
+		}
+	} catch (error) {
+		if (error instanceof ZodError) {
+			// Console.error('This is not a Channel.');
+		} else {
+			console.error(error);
+		}
+	}
+
+	try {
+		format = zForumType.parse(format);
+		channelArg = format.forum[0];
+		try {
+			const tempArray = channelArg
+				.split(',')
+				.filter((ee) => ee.length !== 0)
+				.map((ee) => ee.trim());
+			[name, ...rolesList] = tempArray;
+			const channelOverwrites = await createOverwrites(guild, rolesList, true);
+			overwritesList = overwrites ? channelOverwrites.concat(overwrites) : channelOverwrites;
+
+			const tags = format.forum[1]?.tags ?? [];
+			await createChannel(guild, name, 'forum', category, overwritesList, undefined, tags);
 		} catch {
 			console.log(`[INFO] roles was not set for the channel ${name} in guild ${guild.name}`);
 		}
