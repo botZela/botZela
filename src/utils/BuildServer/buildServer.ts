@@ -21,7 +21,9 @@ export async function buildServer(interaction: ExtendedCommandInteraction): Prom
 		- channel : channelName4,stage
 		- forum : 
 			- channelName2, role1
-			- tags: tag1,tag2`;
+			- tags: 
+				- tag1,🏷️
+				- tag2`;
 	const filter = (msg: Message) => msg.member?.id === interaction.member.id;
 	// eslint-disable-next-line no-constant-condition, @typescript-eslint/no-unnecessary-condition
 	while (true) {

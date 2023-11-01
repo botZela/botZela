@@ -7,7 +7,7 @@ export const zChannelType = z
 				// eslint-disable-next-line camelcase
 				required_error: 'You need to insert Channel',
 			})
-			.regex(/.+,.+/),
+			.regex(/.+,\s*(?<type>voice|text|stage)(?<roles>\s*,.*)?$/),
 	})
 	.strict();
 
@@ -17,7 +17,7 @@ export const zForumType = z
 			z.tuple([
 				z.string(),
 				z.object({
-					tags: z.string(),
+					tags: z.array(z.string()),
 				}),
 			]),
 			z.tuple([z.string()]),
@@ -50,6 +50,6 @@ export type ChannelListType = [string, 'channel', 'stage' | 'text' | 'voice'];
 
 export type CategoryListType = [string, 'category', ChannelListType[]?];
 
-export type ForumListType = [string, 'channel', 'forum', string?];
+export type ForumListType = [string, 'channel', 'forum', string[]?];
 
 export type StructureListType = CategoryListType | ChannelListType | ForumListType;

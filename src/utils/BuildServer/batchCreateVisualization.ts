@@ -27,12 +27,11 @@ export function batchCreateVisualization(listFormat: StructureListType[], prefix
 			output += newLine + branchPrefix + '💭' + element[0];
 			output +=
 				element[3]
-					?.split(/,\s*/)
-					.map((tag, index, tags) => {
+					?.map((tag, index, tags) => {
 						if (index === tags.length - 1) {
-							return newLine + prefix + '└── 🏷️ ' + tag;
+							return newLine + prefix + '└── 🏷️  ' + tag;
 						} else {
-							return newLine + prefix + '├── 🏷️ ' + tag;
+							return newLine + prefix + '├── 🏷️  ' + tag;
 						}
 					})
 					.join('') ?? '';

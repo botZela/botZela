@@ -1,5 +1,5 @@
 import type { CategoryChannelResolvable, Guild, OverwriteResolvable } from 'discord.js';
-import { ChannelType } from 'discord.js';
+import { ChannelType, ForumChannel } from 'discord.js';
 import { logsEmbed } from '../Logger/index.js';
 
 export async function createChannel(
@@ -9,6 +9,7 @@ export async function createChannel(
 	category?: CategoryChannelResolvable,
 	overwrites?: OverwriteResolvable[],
 	position?: number,
+	tags?: string[],
 ) {
 	let message = `__${channelType}_channel__ (${name}) : `;
 	const types = {
@@ -29,6 +30,14 @@ export async function createChannel(
 			position,
 			parent: category,
 		});
+		if (out instanceof ForumChannel && tags) {
+			await out.setAvailableTags(
+				tags
+					.map((tag) => tag.split(/\s*,\s*/).map((tag) => tag.trim()))
+					.map((tag) => (tag.length === 2 ? { name: tag[0], emoji: { id: null, name: tag[1] } } : { name: tag[0] })),
+			);
+		}
+
 		message += `<#${out.id}> Was Created Succesfully.`;
 		await logsEmbed(message, guild, 'info');
 		return out;
