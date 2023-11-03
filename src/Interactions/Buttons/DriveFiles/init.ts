@@ -30,7 +30,7 @@ const defaultExport: IButtonCommand = {
 		const folder: DriveFileInterface = {
 			id: driveId,
 			name: driveName,
-			resourceKey: driveResourceKey,
+			resourceKey: driveResourceKey ?? undefined,
 		};
 		client.gdFolderStack.set(interaction.member.id, []);
 		client.gdFolderStack.get(interaction.member.id)!.push(folder);

@@ -30,10 +30,7 @@ const defaultExport: Event<'ready'> = {
 		}
 
 		try {
-			await mongoose.connect(process.env.DatabaseUri, {
-				useNewUrlParser: true,
-				useUnifiedTopology: true,
-			} as ConnectOptions);
+			await mongoose.connect(process.env.DatabaseUri);
 			mongoose.set('strictQuery', false);
 			console.log('[INFO] The Client is now connected to the DataBase.');
 		} catch {

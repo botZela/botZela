@@ -40,7 +40,7 @@ export async function sendSchedule(
 	const folder: DriveFileInterface = {
 		id: folderData.driveId,
 		name: folderData.driveName,
-		resourceKey: folderData.driveResourceKey,
+		resourceKey: folderData.driveResourceKey ?? undefined,
 	};
 
 	const fileName = `${filiere}${year === '1A' ? `_${groupe ?? ''}` : ''}`;

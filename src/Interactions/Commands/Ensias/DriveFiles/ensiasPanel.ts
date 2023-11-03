@@ -112,7 +112,7 @@ const defaultExport: ICommand = {
 			if (driveData) {
 				driveData.drivesArray.push({
 					driveId: folder.id,
-					driveResourceKey: folder.resourceKey,
+					driveResourceKey: folder.resourceKey ?? undefined,
 					driveName: folder.name,
 					driveMimeType: folder.mimeType,
 				});
