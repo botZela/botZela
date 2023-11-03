@@ -1,2 +1,2 @@
-export * from './announcements.js';
-export * from './introduceYouSelf.js';
+export * from './announcements';
+export * from './introduceYouSelf';

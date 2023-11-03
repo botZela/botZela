@@ -1,5 +1,5 @@
 import type { Snowflake } from 'discord.js';
-import { choice } from '../choice.js';
+import { choice } from '../choice';
 
 export function greetings(memberId: Snowflake) {
 	const emojis = [`:confetti_ball:`, `:tada:`, `:partying_face:`, `:innocent:`, `:sparkles:`];

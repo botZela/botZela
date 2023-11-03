@@ -1,10 +1,10 @@
 import type { MessageActionRowComponentBuilder, StringSelectMenuComponent } from 'discord.js';
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle } from 'discord.js';
-import { generatePublicUrl } from '../../../OtherModules/GDrive/index.js';
+import { client } from '../../..';
+import { generatePublicUrl } from '../../../OtherModules/GDrive';
 import type { DriveFileInterface, IPath, ISelectMenuCommand } from '../../../Typings';
-import { client } from '../../../index.js';
-import { makeComponents, driveFilesSelectMenuOptions } from '../../../utils/DriveFiles/index.js';
-import { createEmbed, createErrorEmbed } from '../../../utils/index.js';
+import { createEmbed, createErrorEmbed } from '../../../utils';
+import { makeComponents, driveFilesSelectMenuOptions } from '../../../utils/DriveFiles';
 
 const defaultExport: ISelectMenuCommand = {
 	id: 'drivefiles-menu',

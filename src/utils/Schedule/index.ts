@@ -1,3 +1,3 @@
-export * from './sendSchedule.js';
+export * from './sendSchedule';
 
-export * from './autoResponceSchedule.js';
+export * from './autoResponceSchedule';

@@ -1,5 +1,5 @@
 import type { ExtendedCommandInteraction, IButtonCommand } from '../../../Typings';
-import getAssuranceCommand from '../../Commands/Ensias/Assurance/getAssurance.js';
+import getAssuranceCommand from '../../Commands/Ensias/Assurance/getAssurance';
 
 const { execute: sendInsurance } = getAssuranceCommand;
 

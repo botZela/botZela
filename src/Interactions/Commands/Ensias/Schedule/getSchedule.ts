@@ -1,9 +1,9 @@
 import { ApplicationCommandOptionType } from 'discord.js';
+import { client } from '../../../..';
 import type { ICommand } from '../../../../Typings';
 import type { FiliereNameType, GroupeNameType, YearNameType } from '../../../../Typings/Ensias';
-import { client } from '../../../../index.js';
-import { flGrpYr } from '../../../../utils/Schedule/flGrp.js';
-import { sendSchedule } from '../../../../utils/Schedule/index.js';
+import { sendSchedule } from '../../../../utils/Schedule';
+import { flGrpYr } from '../../../../utils/Schedule/flGrp';
 // import { sendSchedule } from '../../../../utils/Schedule/sendSchedule';
 
 const filieresArray = ['2IA', '2SCL', 'BI&A', 'GD', 'GL', 'IDF', 'IDSIT', 'SSE', 'SSI'];

@@ -1,13 +1,13 @@
 import { ApplicationCommandOptionType, ChannelType } from 'discord.js';
 import { z } from 'zod';
-import autoReactChannels from '../../../Models/autoReactChannels.js';
-import gChannels from '../../../Models/guildChannels.js';
-import linksModel from '../../../Models/guildLinks.js';
-import gRoles from '../../../Models/guildRoles.js';
+import autoReactChannels from '../../../Models/autoReactChannels';
+import gChannels from '../../../Models/guildChannels';
+import linksModel from '../../../Models/guildLinks';
+import gRoles from '../../../Models/guildRoles';
 import type { ICommand } from '../../../Typings';
-import { checkSpreadsheet } from '../../../utils/SetupServer/checkLinks.js';
-import { checkStatus } from '../../../utils/SetupServer/checkStatus.js';
-import { setupServer } from '../../../utils/SetupServer/setupServer.js';
+import { checkSpreadsheet } from '../../../utils/SetupServer/checkLinks';
+import { checkStatus } from '../../../utils/SetupServer/checkStatus';
+import { setupServer } from '../../../utils/SetupServer/setupServer';
 
 type TChannelObj = { COMMAND: string } | { INTRODUCE: string } | { LOGS: string };
 

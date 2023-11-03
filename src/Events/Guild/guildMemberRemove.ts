@@ -1,7 +1,7 @@
-import linksModel from '../../Models/guildLinks.js';
-import { GSpreadSheet } from '../../OtherModules/GSpreadSheet/index.js';
+import linksModel from '../../Models/guildLinks';
+import { GSpreadSheet } from '../../OtherModules/GSpreadSheet';
 import type { Event } from '../../Structures';
-import { logsEmbed } from '../../utils/index.js';
+import { logsEmbed } from '../../utils';
 
 const defaultExport: Event<'guildMemberRemove'> = {
 	name: 'guildMemberRemove',

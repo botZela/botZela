@@ -1,7 +1,7 @@
 import type { MessageActionRowComponentBuilder } from 'discord.js';
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, StringSelectMenuBuilder } from 'discord.js';
 import type { IButtonCommand } from '../../../Typings';
-import { createEmbed } from '../../../utils/index.js';
+import { createEmbed } from '../../../utils';
 
 const defaultExport: IButtonCommand = {
 	id: 'sendOtherFlGrp',

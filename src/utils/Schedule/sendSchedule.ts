@@ -1,12 +1,12 @@
 import { isDeepStrictEqual } from 'node:util';
 import type { MessageActionRowComponentBuilder } from 'discord.js';
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle } from 'discord.js';
-import ensiasData from '../../Models/ensiasData.js';
-import { driveSearchName, getFile, givePermissionsToAnyone } from '../../OtherModules/GDrive/index.js';
+import ensiasData from '../../Models/ensiasData';
+import { driveSearchName, getFile, givePermissionsToAnyone } from '../../OtherModules/GDrive';
 import type { DriveFileInterface, ExtendedButtonInteraction, ExtendedCommandInteraction } from '../../Typings';
 import type { FiliereNameType, GroupeNameType, YearNameType } from '../../Typings/Ensias';
-import { createEmbed } from '../Embeds/index.js';
-import { logsEmbed } from '../Logger/index.js';
+import { createEmbed } from '../Embeds';
+import { logsEmbed } from '../Logger';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function sendSchedule(

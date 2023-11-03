@@ -1,4 +1,4 @@
-export * from './Files.js';
+export * from './Files';
 
 export interface IPath {
 	link: string;

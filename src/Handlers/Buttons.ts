@@ -5,7 +5,7 @@
 import { Collection } from 'discord.js';
 import type { Client } from '../Structures';
 import type { IButtonCommand } from '../Typings';
-import { importFile } from '../utils/index.js';
+import { importFile } from '../utils';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function buttonHandler(client: Client, PG: any, Ascii: any): Promise<void> {

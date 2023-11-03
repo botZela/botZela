@@ -1,5 +1,5 @@
 import type { ICommand } from '../../../Typings';
-import { setupServer } from '../../../utils/SetupServer/setupServer.js';
+import { setupServer } from '../../../utils/SetupServer/setupServer';
 
 const defaultExport: ICommand = {
 	name: 'setup_server',

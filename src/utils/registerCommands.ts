@@ -1,5 +1,5 @@
+import { client } from '..';
 import type { RegisterCommandsOptions } from '../Typings';
-import { client } from '../index.js';
 
 export async function registerCommands({ commands, guildId }: RegisterCommandsOptions) {
 	if (guildId) {

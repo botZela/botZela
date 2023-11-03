@@ -1,4 +1,4 @@
-export { choice } from './choice.js';
-export * from './Import/index.js';
-export * from './Embeds/index.js';
-export * from './Logger/index.js';
+export { choice } from './choice';
+export * from './Import';
+export * from './Embeds';
+export * from './Logger';

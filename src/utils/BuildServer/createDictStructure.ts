@@ -1,10 +1,10 @@
 import type { CategoryChannelResolvable, Guild, OverwriteResolvable } from 'discord.js';
 import { ZodError } from 'zod';
 import type { ChannelType, ForumType, StructureType } from '../../Typings/buildServer';
-import { zCategoryType, zChannelType, zForumType } from '../../Typings/buildServer/index.js';
-import { createCategory } from '../Channels/createCategory.js';
-import { createChannel } from '../Channels/createChannel.js';
-import { createOverwrites } from './createOverwrites.js';
+import { zCategoryType, zChannelType, zForumType } from '../../Typings/buildServer';
+import { createCategory } from '../Channels/createCategory';
+import { createChannel } from '../Channels/createChannel';
+import { createOverwrites } from './createOverwrites';
 
 export async function createDictStructure(
 	guild: Guild,

@@ -1,6 +1,6 @@
 import { ApplicationCommandOptionType } from 'discord.js';
 import type { RolesType } from '../../../Models/reactionRoles';
-import rrModel from '../../../Models/reactionRoles.js';
+import rrModel from '../../../Models/reactionRoles';
 import type { ICommand } from '../../../Typings';
 
 const defaultExport: ICommand = {

@@ -1,9 +1,9 @@
 import type { Message } from 'discord.js';
 import type { ExtendedCommandInteraction } from '../../Typings';
-import { createEmbed, createErrorEmbed, createInfoEmbed } from '../Embeds/index.js';
-import { batchCreate } from './batchCreate.js';
-import { batchVisualize } from './batchVisualize.js';
-import { convertYaml } from './convertYaml.js';
+import { createEmbed, createErrorEmbed, createInfoEmbed } from '../Embeds';
+import { batchCreate } from './batchCreate';
+import { batchVisualize } from './batchVisualize';
+import { convertYaml } from './convertYaml';
 
 export async function buildServer(interaction: ExtendedCommandInteraction): Promise<void> {
 	if (!interaction.channel || !interaction.guild) {

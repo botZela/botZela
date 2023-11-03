@@ -1,6 +1,6 @@
 import type { Message } from 'discord.js';
-import { client } from '../../index.js';
-import { choice } from '../index.js';
+import { choice } from '..';
+import { client } from '../..';
 
 export async function introduceYourSelf(message: Message) {
 	const SUPPORTED_GUILDS = client.testGuilds.map((guild) => guild.id);

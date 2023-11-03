@@ -1,6 +1,6 @@
-import gRoles from '../../Models/guildRoles.js';
+import gRoles from '../../Models/guildRoles';
 import type { Event } from '../../Structures';
-import { setupLogsCommandsChannels } from '../../utils/Command&LogsChannels/index.js';
+import { setupLogsCommandsChannels } from '../../utils/Command&LogsChannels';
 
 const defaultExport: Event<'guildCreate'> = {
 	name: 'guildCreate',

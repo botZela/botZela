@@ -1,5 +1,5 @@
 import type { SelectMenuComponentOptionData } from 'discord.js';
-import { driveSearch } from '../../OtherModules/GDrive/index.js';
+import { driveSearch } from '../../OtherModules/GDrive';
 import type { DriveFileInterface } from '../../Typings';
 
 export function driveFilesSelectMenuOptionsFromArray(folders: DriveFileInterface[] | undefined) {

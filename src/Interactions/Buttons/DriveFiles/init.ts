@@ -1,8 +1,8 @@
-import guildDrive from '../../../Models/guildDrive.js';
+import { client } from '../../..';
+import guildDrive from '../../../Models/guildDrive';
 import type { DriveFileInterface, IButtonCommand, IPath } from '../../../Typings';
-import { client } from '../../../index.js';
-import { driveFilesEmbed } from '../../../utils/DriveFiles/genEmbed.js';
-import { logsEmbed } from '../../../utils/index.js';
+import { logsEmbed } from '../../../utils';
+import { driveFilesEmbed } from '../../../utils/DriveFiles/genEmbed';
 
 const defaultExport: IButtonCommand = {
 	id: 'button-drivefiles-init',

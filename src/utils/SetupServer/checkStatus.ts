@@ -1,10 +1,10 @@
 import type { EmbedField } from 'discord.js';
-import autoReactChannels from '../../Models/autoReactChannels.js';
-import gChannels from '../../Models/guildChannels.js';
-import linksModel from '../../Models/guildLinks.js';
-import gRoles from '../../Models/guildRoles.js';
+import autoReactChannels from '../../Models/autoReactChannels';
+import gChannels from '../../Models/guildChannels';
+import linksModel from '../../Models/guildLinks';
+import gRoles from '../../Models/guildRoles';
 import type { ExtendedCommandInteraction } from '../../Typings';
-import { createInfoEmbed } from '../Embeds/index.js';
+import { createInfoEmbed } from '../Embeds';
 
 export async function checkStatus(interaction: ExtendedCommandInteraction) {
 	const embed = createInfoEmbed('Checking Server');

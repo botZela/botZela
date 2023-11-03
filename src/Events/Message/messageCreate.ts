@@ -1,6 +1,6 @@
 import type { Event } from '../../Structures';
-import { autoReact } from '../../utils/AutoReacts/autoReact.js';
-import { announcements, introduceYourSelf } from '../../utils/AutoReacts/index.js';
+import { announcements, introduceYourSelf } from '../../utils/AutoReacts';
+import { autoReact } from '../../utils/AutoReacts/autoReact';
 
 const defaultExport: Event<'messageCreate'> = {
 	name: 'messageCreate',

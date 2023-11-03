@@ -1,6 +1,6 @@
 import type { GuildMember } from 'discord.js';
-import { GSpreadSheet } from '../../OtherModules/GSpreadSheet/index.js';
-import { Person } from '../../OtherModules/Member/index.js';
+import { GSpreadSheet } from '../../OtherModules/GSpreadSheet';
+import { Person } from '../../OtherModules/Member';
 
 export async function resetRoles(member: GuildMember, sheetOrArray: GSpreadSheet | Person[], index?: number) {
 	if (member.user.bot) return;

@@ -1,5 +1,5 @@
 import type { ICommand } from '../../../Typings';
-import { createInfoEmbed } from '../../../utils/index.js';
+import { createInfoEmbed } from '../../../utils';
 
 const defaultExport: ICommand = {
 	name: 'ping',

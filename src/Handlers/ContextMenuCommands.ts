@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import type { Client } from '../Structures';
 import type { IContextCommand } from '../Typings';
-import { importFile } from '../utils/index.js';
+import { importFile } from '../utils';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function contextMenuHandler(client: Client, PG: any, Ascii: any): Promise<void> {

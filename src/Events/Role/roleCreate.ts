@@ -1,6 +1,6 @@
-import gRoles from '../../Models/guildRoles.js';
+import gRoles from '../../Models/guildRoles';
 import type { Event } from '../../Structures';
-import { logsEmbed } from '../../utils/Logger/index.js';
+import { logsEmbed } from '../../utils/Logger';
 
 const defaultExport: Event<'roleCreate'> = {
 	name: 'roleCreate',

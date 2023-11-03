@@ -1,7 +1,7 @@
 import type { Guild, OverwriteResolvable } from 'discord.js';
-import gRoles from '../../Models/guildRoles.js';
-import { client } from '../../index.js';
-import { logsEmbed } from '../Logger/index.js';
+import { client } from '../..';
+import gRoles from '../../Models/guildRoles';
+import { logsEmbed } from '../Logger';
 
 export async function createOverwrites(
 	guild: Guild,

@@ -1,10 +1,10 @@
 import type { InteractionReplyOptions, MessageActionRowComponentBuilder } from 'discord.js';
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle } from 'discord.js';
-import { generatePublicUrl } from '../../OtherModules/GDrive/index.js';
+import { generatePublicUrl } from '../../OtherModules/GDrive';
 import type { DriveFileInterface, IPath } from '../../Typings';
-import { createEmbed } from '../Embeds/index.js';
-import { makeComponents } from './makeComponents.js';
-import { driveFilesSelectMenuOptions } from './makeSelectMenuOption.js';
+import { createEmbed } from '../Embeds';
+import { makeComponents } from './makeComponents';
+import { driveFilesSelectMenuOptions } from './makeSelectMenuOption';
 
 export async function fileEmbed(file: DriveFileInterface): Promise<InteractionReplyOptions> {
 	const fileObj = await generatePublicUrl({ name: file.name, id: file.id, resourceKey: file.resourceKey });

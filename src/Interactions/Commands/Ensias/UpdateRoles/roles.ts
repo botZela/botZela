@@ -1,13 +1,13 @@
 import type { GuildMember } from 'discord.js';
 import { ApplicationCommandOptionType } from 'discord.js';
-import linksModel from '../../../../Models/guildLinks.js';
-import guildRoles from '../../../../Models/guildRoles.js';
-import { GSpreadSheet } from '../../../../OtherModules/GSpreadSheet/index.js';
-import { Person } from '../../../../OtherModules/Member/index.js';
+import { client } from '../../../..';
+import linksModel from '../../../../Models/guildLinks';
+import guildRoles from '../../../../Models/guildRoles';
+import { GSpreadSheet } from '../../../../OtherModules/GSpreadSheet';
+import { Person } from '../../../../OtherModules/Member';
 import type { ICommand } from '../../../../Typings';
-import { client } from '../../../../index.js';
-import { downgradeRoles, resetRoles, updateRole } from '../../../../utils/Roles/index.js';
-import { createErrorEmbed, createInfoEmbed, logsEmbed } from '../../../../utils/index.js';
+import { createErrorEmbed, createInfoEmbed, logsEmbed } from '../../../../utils';
+import { downgradeRoles, resetRoles, updateRole } from '../../../../utils/Roles';
 
 const defaultExport: ICommand = {
 	name: 'roles',

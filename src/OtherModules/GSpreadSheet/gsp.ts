@@ -3,7 +3,7 @@ import process from 'node:process';
 import type { sheets_v4 } from '@googleapis/sheets';
 import { sheets as GoogleSheets } from '@googleapis/sheets';
 import { GoogleAuth } from 'googleapis-common';
-import { dec2alpha, hexToRgb } from './cal.js';
+import { dec2alpha, hexToRgb } from './cal';
 
 export class GSpreadSheet {
 	public authFile: string | undefined;

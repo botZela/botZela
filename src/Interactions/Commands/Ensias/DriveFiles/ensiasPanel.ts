@@ -1,10 +1,10 @@
 import type { MessageActionRowComponentBuilder } from 'discord.js';
 import { ActionRowBuilder, ApplicationCommandOptionType, ButtonBuilder, ButtonStyle } from 'discord.js';
-import ensiasDrive from '../../../../Models/guildDrive-Ensias.js';
-import { checkDriveId, getFile, getIdResourceKey } from '../../../../OtherModules/GDrive/index.js';
+import { client } from '../../../..';
+import ensiasDrive from '../../../../Models/guildDrive-Ensias';
+import { checkDriveId, getFile, getIdResourceKey } from '../../../../OtherModules/GDrive';
 import type { DriveFileInterface, ICommand } from '../../../../Typings';
-import { client } from '../../../../index.js';
-import { createEmbed, createErrorEmbed, createInfoEmbed } from '../../../../utils/index.js';
+import { createEmbed, createErrorEmbed, createInfoEmbed } from '../../../../utils';
 
 const filieresArray = ['2IA', '2SCL', 'BI&A', 'GD', 'GL', 'IDF', 'IDSIT', 'SSE', 'SSI'];
 const yearArray = ['1A', '2A', '3A'];

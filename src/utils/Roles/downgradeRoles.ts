@@ -1,6 +1,6 @@
 import type { GuildMember } from 'discord.js';
-import guildRoles from '../../Models/guildRoles.js';
-import { flGrpYr } from '../Schedule/flGrp.js';
+import guildRoles from '../../Models/guildRoles';
+import { flGrpYr } from '../Schedule/flGrp';
 
 const filieresArray = ['2IA', '2SCL', 'BI&A', 'GD', 'GL', 'IDF', 'IDSIT', 'SSE', 'SSI'];
 const firstPromo = 1_995;

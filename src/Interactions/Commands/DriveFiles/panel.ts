@@ -1,9 +1,9 @@
 import type { MessageActionRowComponentBuilder } from 'discord.js';
 import { ActionRowBuilder, ApplicationCommandOptionType, ButtonBuilder, ButtonStyle } from 'discord.js';
-import guildDrive from '../../../Models/guildDrive.js';
-import { checkDriveId, getDriveName, getIdResourceKey } from '../../../OtherModules/GDrive/index.js';
+import guildDrive from '../../../Models/guildDrive';
+import { checkDriveId, getDriveName, getIdResourceKey } from '../../../OtherModules/GDrive';
 import type { DriveFileInterface, ICommand } from '../../../Typings';
-import { createEmbed, createErrorEmbed, createInfoEmbed } from '../../../utils/index.js';
+import { createEmbed, createErrorEmbed, createInfoEmbed } from '../../../utils';
 
 const defaultExport: ICommand = {
 	name: 'drivefiles-panel',

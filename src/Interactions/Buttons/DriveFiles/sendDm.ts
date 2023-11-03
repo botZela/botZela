@@ -1,9 +1,9 @@
 import type { MessageActionRowComponentBuilder } from 'discord.js';
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle } from 'discord.js';
-import { generatePublicUrl } from '../../../OtherModules/GDrive/index.js';
+import { client } from '../../..';
+import { generatePublicUrl } from '../../../OtherModules/GDrive';
 import type { IButtonCommand } from '../../../Typings';
-import { client } from '../../../index.js';
-import { createEmbed, createErrorEmbed, logsEmbed } from '../../../utils/index.js';
+import { createEmbed, createErrorEmbed, logsEmbed } from '../../../utils';
 
 const defaultExport: IButtonCommand = {
 	id: 'button-drivefiles-send',

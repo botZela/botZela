@@ -1,8 +1,8 @@
 import type { Guild, OverwriteResolvable } from 'discord.js';
-import { client } from '../../index.js';
-import { createCategory } from '../Channels/createCategory.js';
-import { createCommandsChannel } from './createCommandsChannel.js';
-import { createLogsChannel } from './createLogsChannel.js';
+import { client } from '../..';
+import { createCategory } from '../Channels/createCategory';
+import { createCommandsChannel } from './createCommandsChannel';
+import { createLogsChannel } from './createLogsChannel';
 
 export async function setupLogsCommandsChannels(guild: Guild) {
 	const overwrites: OverwriteResolvable[] = [

@@ -1,7 +1,7 @@
 import type { GuildMember, Interaction } from 'discord.js';
+import { client } from '../..';
 import type { Event } from '../../Structures';
 import type { ExtendedSelectMenuInteraction } from '../../Typings';
-import { client } from '../../index.js';
 
 const defaultExport: Event<'interactionCreate'> = {
 	name: 'interactionCreate',

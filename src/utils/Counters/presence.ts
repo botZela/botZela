@@ -1,6 +1,6 @@
 import { setTimeout } from 'node:timers';
 import { ChannelType } from 'discord.js';
-import { client } from '../../index.js';
+import { client } from '../..';
 
 export async function presenceUpdate() {
 	const presChannel = await client.channels.fetch('1000733341529673728');

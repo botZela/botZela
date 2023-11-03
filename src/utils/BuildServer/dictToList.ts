@@ -6,7 +6,7 @@ import type {
 	StructureListType,
 	StructureType,
 } from '../../Typings/buildServer';
-import { zCategoryType, zChannelType, zForumType } from '../../Typings/buildServer/index.js';
+import { zCategoryType, zChannelType, zForumType } from '../../Typings/buildServer';
 
 export function dictToList(structure: StructureType[]) {
 	const ll: StructureListType[] = [];

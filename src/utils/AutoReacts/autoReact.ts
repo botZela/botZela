@@ -1,8 +1,8 @@
 import type { Message } from 'discord.js';
 import { DiscordAPIError, MessageType } from 'discord.js';
-import autoReactChannels from '../../Models/autoReactChannels.js';
-import { logsEmbed } from '../Logger/index.js';
-import { shuffle } from '../choice.js';
+import autoReactChannels from '../../Models/autoReactChannels';
+import { logsEmbed } from '../Logger';
+import { shuffle } from '../choice';
 
 export async function autoReact(message: Message) {
 	if (!message.inGuild() || (message.type !== MessageType.Default && message.type !== MessageType.Reply)) return;

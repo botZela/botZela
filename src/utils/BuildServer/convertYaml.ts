@@ -1,6 +1,6 @@
 import yaml from 'js-yaml';
 import type { StructureType } from '../../Typings/buildServer';
-import { zStructureType } from '../../Typings/buildServer/index.js';
+import { zStructureType } from '../../Typings/buildServer';
 
 export function convertYaml(message: string): StructureType[] | 0 {
 	try {

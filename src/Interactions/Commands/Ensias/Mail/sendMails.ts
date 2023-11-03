@@ -1,12 +1,12 @@
 import fs from 'node:fs/promises';
 import process from 'node:process';
-import linksModel from '../../../../Models/guildLinks.js';
-import { GSpreadSheet } from '../../../../OtherModules/GSpreadSheet/index.js';
-import { titleCase } from '../../../../OtherModules/Member/stringFunc.js';
+import { client } from '../../../..';
+import linksModel from '../../../../Models/guildLinks';
+import { GSpreadSheet } from '../../../../OtherModules/GSpreadSheet';
+import { titleCase } from '../../../../OtherModules/Member/stringFunc';
 import type { ICommand } from '../../../../Typings';
-import { client } from '../../../../index.js';
-import { sendMail } from '../../../../utils/Mail/sendMail.js';
-import { createErrorEmbed, logsEmbed } from '../../../../utils/index.js';
+import { createErrorEmbed, logsEmbed } from '../../../../utils';
+import { sendMail } from '../../../../utils/Mail/sendMail';
 
 const defaultExport: ICommand = {
 	name: 'mail',

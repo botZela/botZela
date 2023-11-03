@@ -1,7 +1,7 @@
 import type { Guild, GuildMember, TextChannel } from 'discord.js';
 import { EmbedBuilder } from 'discord.js';
-import gChannels from '../../Models/guildChannels.js';
-import { client } from '../../index.js';
+import { client } from '../..';
+import gChannels from '../../Models/guildChannels';
 
 type logsType = 'error' | 'info' | 'other' | 'warn';
 const embedColors = {

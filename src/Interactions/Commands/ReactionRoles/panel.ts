@@ -1,7 +1,7 @@
 import type { SelectMenuComponentOptionData, MessageActionRowComponentBuilder } from 'discord.js';
 import { EmbedBuilder, ActionRowBuilder, StringSelectMenuBuilder } from 'discord.js';
 import type { RolesType } from '../../../Models/reactionRoles';
-import rrModel from '../../../Models/reactionRoles.js';
+import rrModel from '../../../Models/reactionRoles';
 import type { ICommand } from '../../../Typings';
 
 const defaultExport: ICommand = {

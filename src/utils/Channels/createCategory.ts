@@ -1,6 +1,6 @@
 import type { Guild, OverwriteResolvable } from 'discord.js';
 import { ChannelType } from 'discord.js';
-import { logsEmbed } from '../Logger/index.js';
+import { logsEmbed } from '../Logger';
 
 export async function createCategory(
 	guild: Guild,

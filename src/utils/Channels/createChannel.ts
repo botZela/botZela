@@ -1,6 +1,6 @@
 import type { CategoryChannelResolvable, Guild, OverwriteResolvable } from 'discord.js';
 import { ChannelType, ForumChannel } from 'discord.js';
-import { logsEmbed } from '../Logger/index.js';
+import { logsEmbed } from '../Logger';
 
 export async function createChannel(
 	guild: Guild,

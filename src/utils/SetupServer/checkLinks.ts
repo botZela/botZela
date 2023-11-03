@@ -1,9 +1,9 @@
 import type { Message } from 'discord.js';
 import { CommandInteraction } from 'discord.js';
-import linksModel from '../../Models/guildLinks.js';
-import { GSpreadSheet } from '../../OtherModules/GSpreadSheet/gsp.js';
-import { client } from '../../index.js';
-import { createEmbed } from '../index.js';
+import { createEmbed } from '..';
+import { client } from '../..';
+import linksModel from '../../Models/guildLinks';
+import { GSpreadSheet } from '../../OtherModules/GSpreadSheet/gsp';
 
 export async function checkSpreadsheet(message: CommandInteraction | Message, link: string): Promise<void> {
 	const { guild } = message;

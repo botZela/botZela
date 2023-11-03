@@ -1,8 +1,8 @@
-import ensiasDrive from '../../../Models/guildDrive-Ensias.js';
+import { client } from '../../..';
+import ensiasDrive from '../../../Models/guildDrive-Ensias';
 import type { DriveFileInterface, IButtonCommand, IPath } from '../../../Typings';
-import { client } from '../../../index.js';
-import { driveFilesEmbed } from '../../../utils/DriveFiles/index.js';
-import { createErrorEmbed } from '../../../utils/index.js';
+import { createErrorEmbed } from '../../../utils';
+import { driveFilesEmbed } from '../../../utils/DriveFiles';
 
 const defaultExport: IButtonCommand = {
 	id: 'button-drivefiles-back',

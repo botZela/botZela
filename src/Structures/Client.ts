@@ -2,7 +2,7 @@ import process from 'node:process';
 import { AsciiTable3 } from 'ascii-table3';
 import { Client as DiscordClient, Collection, Partials } from 'discord.js';
 import { glob } from 'glob';
-import Handlers from '../Handlers/index.js';
+import Handlers from '../Handlers';
 import type {
 	DriveFileInterface,
 	ExtendedApplicationCommandDataResolvable,
@@ -13,8 +13,8 @@ import type {
 	ISelectMenuCommand,
 	ItestGuild,
 } from '../Typings';
-import { testGuilds } from '../config.js';
-import { errors } from '../utils/Error/index.js';
+import { testGuilds } from '../config';
+import { errors } from '../utils/Error';
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
 
 export class Client extends DiscordClient {

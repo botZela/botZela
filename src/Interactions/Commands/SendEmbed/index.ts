@@ -1,6 +1,6 @@
 import { ApplicationCommandOptionType, EmbedBuilder, Message } from 'discord.js';
 import type { ICommand } from '../../../Typings';
-import { buildEmbed } from '../../../utils/SendEmbed/index.js';
+import { buildEmbed } from '../../../utils/SendEmbed';
 
 const defaultExport: ICommand = {
 	name: 'sendembed',

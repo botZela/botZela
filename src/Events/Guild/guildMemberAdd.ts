@@ -1,10 +1,10 @@
-import linksModel from '../../Models/guildLinks.js';
-import gRoles from '../../Models/guildRoles.js';
-import { GSpreadSheet } from '../../OtherModules/GSpreadSheet/index.js';
-import { Person } from '../../OtherModules/Member/index.js';
+import linksModel from '../../Models/guildLinks';
+import gRoles from '../../Models/guildRoles';
+import { GSpreadSheet } from '../../OtherModules/GSpreadSheet';
+import { Person } from '../../OtherModules/Member';
 import type { Event } from '../../Structures';
-import { welcomeMsg, kick } from '../../utils/Guild/index.js';
-import { logsEmbed } from '../../utils/Logger/index.js';
+import { welcomeMsg, kick } from '../../utils/Guild';
+import { logsEmbed } from '../../utils/Logger';
 
 const defaultExport: Event<'guildMemberAdd'> = {
 	name: 'guildMemberAdd',

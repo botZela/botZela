@@ -1,7 +1,7 @@
 import type { CategoryChannelResolvable, Guild, OverwriteResolvable, TextChannel } from 'discord.js';
-import gChannels from '../../Models/guildChannels.js';
-import { client } from '../../index.js';
-import { createChannel } from '../Channels/createChannel.js';
+import { client } from '../..';
+import gChannels from '../../Models/guildChannels';
+import { createChannel } from '../Channels/createChannel';
 
 export async function createLogsChannel(
 	guild: Guild,

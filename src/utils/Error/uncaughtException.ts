@@ -1,7 +1,7 @@
 import process from 'node:process';
 import type { TextChannel } from 'discord.js';
-import { client } from '../../index.js';
-import { createErrorEmbed } from '../Embeds/index.js';
+import { client } from '../..';
+import { createErrorEmbed } from '../Embeds';
 
 export const errors = () => {
 	process.on(`uncaughtException`, async (error: Error) => {

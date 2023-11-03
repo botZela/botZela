@@ -1,7 +1,7 @@
 import type { Guild, TextChannel } from 'discord.js';
-import gChannels from '../../Models/guildChannels.js';
-import { client } from '../../index.js';
-import { createInfoEmbed } from '../Embeds/index.js';
+import { client } from '../..';
+import gChannels from '../../Models/guildChannels';
+import { createInfoEmbed } from '../Embeds';
 
 export async function logsMessage(message: string, guild: Guild): Promise<void> {
 	console.log(message);

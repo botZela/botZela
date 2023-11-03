@@ -1,7 +1,7 @@
 import { setTimeout } from 'node:timers';
 import type { Message } from 'discord.js';
-import { logsEmbed } from '../Logger/index.js';
-import { flGrpYr } from './flGrp.js';
+import { logsEmbed } from '../Logger';
+import { flGrpYr } from './flGrp';
 // import { sendSchedule } from './sendSchedule';
 
 export async function messageSchedule(message: Message) {

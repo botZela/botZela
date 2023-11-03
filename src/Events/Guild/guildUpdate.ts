@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { glob } from 'glob';
 import type { Event } from '../../Structures';
-import { importFile, logsEmbed } from '../../utils/index.js';
+import { importFile, logsEmbed } from '../../utils';
 
 const defaultExport: Event<'guildUpdate'> = {
 	name: 'guildUpdate',

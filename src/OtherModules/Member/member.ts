@@ -2,10 +2,10 @@ import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import type { Guild, Snowflake } from 'discord.js';
 import type { Document } from 'mongoose';
-import gRoles from '../../Models/guildRoles.js';
-import { ADMINS, PRV_ROLES } from '../../config.js';
-import type { GSpreadSheet } from '../GSpreadSheet/index.js';
-import { titleCase } from './stringFunc.js';
+import gRoles from '../../Models/guildRoles';
+import { ADMINS, PRV_ROLES } from '../../config';
+import type { GSpreadSheet } from '../GSpreadSheet';
+import { titleCase } from './stringFunc';
 
 dayjs.extend(customParseFormat);
 

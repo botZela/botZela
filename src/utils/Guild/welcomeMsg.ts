@@ -1,6 +1,6 @@
 import type { GuildMember } from 'discord.js';
-import gChannels from '../../Models/guildChannels.js';
-import { greetings } from './greetings.js';
+import gChannels from '../../Models/guildChannels';
+import { greetings } from './greetings';
 
 export async function welcomeMsg(member: GuildMember) {
 	let msg = greetings(member.id);

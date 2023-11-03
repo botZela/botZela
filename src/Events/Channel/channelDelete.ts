@@ -1,9 +1,9 @@
 import { DMChannel } from 'discord.js';
-import autoReactChannels from '../../Models/autoReactChannels.js';
-import gChannels from '../../Models/guildChannels.js';
+import autoReactChannels from '../../Models/autoReactChannels';
+import gChannels from '../../Models/guildChannels';
 import type { Event } from '../../Structures';
-import { createCommandsChannel, createLogsChannel } from '../../utils/Command&LogsChannels/index.js';
-import { logsEmbed } from '../../utils/index.js';
+import { logsEmbed } from '../../utils';
+import { createCommandsChannel, createLogsChannel } from '../../utils/Command&LogsChannels';
 
 const defaultExport: Event<'channelDelete'> = {
 	name: 'channelDelete',

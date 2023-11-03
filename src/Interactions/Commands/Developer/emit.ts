@@ -1,7 +1,7 @@
 import type { GuildMember } from 'discord.js';
 import { ApplicationCommandOptionType } from 'discord.js';
+import { client } from '../../..';
 import type { ICommand } from '../../../Typings';
-import { client } from '../../../index.js';
 
 const defaultExport: ICommand = {
 	name: 'emit',

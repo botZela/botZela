@@ -1,6 +1,6 @@
 import { ApplicationCommandOptionType } from 'discord.js';
 import type { ICommand } from '../../../Typings';
-import { buildServer } from '../../../utils/BuildServer/buildServer.js';
+import { buildServer } from '../../../utils/BuildServer/buildServer';
 // import { buildServerFromFile } from '../../../utils/BuildServer/buildServerFile';
 
 const defaultExport: ICommand = {

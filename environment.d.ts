@@ -3,17 +3,17 @@ export {};
 declare global {
 	namespace NodeJS {
 		interface ProcessEnv {
-			TOKEN: string;
-			TEST_GUILDS: string;
 			ADMINS: string;
-			PRV_ROLES: string;
-			guildId: string;
-			environment: 'dev' | 'prod' | 'debug';
 			DatabaseUri: string;
-			EmailUser: string;
 			EmailPass: string;
+			EmailUser: string;
 			GOOGLE_CLIENT_EMAIL: string;
 			GOOGLE_PRIVATE_KEY: string;
+			PRV_ROLES: string;
+			TEST_GUILDS: string;
+			TOKEN: string;
+			environment: 'debug' | 'dev' | 'prod';
+			guildId: string;
 		}
 	}
 }

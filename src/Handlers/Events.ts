@@ -4,8 +4,8 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import type { ClientEvents } from 'discord.js';
 import type { Client, Event } from '../Structures';
-import { Events } from '../Validation/index.js';
-import { importFile } from '../utils/index.js';
+import { Events } from '../Validation';
+import { importFile } from '../utils';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function eventHandler(client: Client, PG: any, Ascii: any): Promise<void> {

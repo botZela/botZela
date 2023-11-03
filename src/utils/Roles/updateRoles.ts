@@ -1,6 +1,6 @@
 import type { GuildMember } from 'discord.js';
-import guildRoles from '../../Models/guildRoles.js';
-import { flGrpYr } from '../Schedule/flGrp.js';
+import guildRoles from '../../Models/guildRoles';
+import { flGrpYr } from '../Schedule/flGrp';
 
 export async function updateRole(member: GuildMember) {
 	if (member.user.bot) return;

@@ -1,9 +1,9 @@
 import fs from 'node:fs/promises';
 import { ApplicationCommandOptionType } from 'discord.js';
+import { client } from '../../../..';
 import type { ICommand } from '../../../../Typings';
-import { client } from '../../../../index.js';
-import { flGrpYr } from '../../../../utils/Schedule/flGrp.js';
-import { createEmbed, logsEmbed } from '../../../../utils/index.js';
+import { createEmbed, logsEmbed } from '../../../../utils';
+import { flGrpYr } from '../../../../utils/Schedule/flGrp';
 
 function firstLastName(nickname: string) {
 	const arrayName = nickname.split(/ +/g);

@@ -1,9 +1,9 @@
 import { ApplicationCommandOptionType } from 'discord.js';
-import ensiasData from '../../../../Models/ensiasData.js';
-import { checkDriveId, getIdResourceKey } from '../../../../OtherModules/GDrive/index.js';
+import { client } from '../../../..';
+import ensiasData from '../../../../Models/ensiasData';
+import { checkDriveId, getIdResourceKey } from '../../../../OtherModules/GDrive';
 import type { DriveFileInterface, ICommand } from '../../../../Typings';
-import { client } from '../../../../index.js';
-import { createErrorEmbed, createInfoEmbed } from '../../../../utils/index.js';
+import { createErrorEmbed, createInfoEmbed } from '../../../../utils';
 
 const defaultExport: ICommand = {
 	name: 'ensiasdata',

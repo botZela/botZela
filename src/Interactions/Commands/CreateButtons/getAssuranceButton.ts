@@ -1,8 +1,8 @@
 import type { MessageActionRowComponentBuilder } from 'discord.js';
 import { ActionRowBuilder, ApplicationCommandOptionType, ButtonBuilder, ButtonStyle, Message } from 'discord.js';
+import { client } from '../../..';
 import type { ICommand } from '../../../Typings';
-import { client } from '../../../index.js';
-import { createEmbed } from '../../../utils/index.js';
+import { createEmbed } from '../../../utils';
 
 const defaultExport: ICommand = {
 	name: 'button_assurance',

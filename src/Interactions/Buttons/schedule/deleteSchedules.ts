@@ -1,6 +1,6 @@
+import { client } from '../../..';
 import type { IButtonCommand } from '../../../Typings';
-import { client } from '../../../index.js';
-import { logsEmbed } from '../../../utils/Logger/index.js';
+import { logsEmbed } from '../../../utils/Logger';
 
 const defaultExport: IButtonCommand = {
 	id: 'schedule_delete_old',

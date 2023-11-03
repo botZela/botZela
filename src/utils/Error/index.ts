@@ -1,1 +1,1 @@
-export * from './uncaughtException.js';
+export * from './uncaughtException';

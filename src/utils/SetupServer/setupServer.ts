@@ -1,10 +1,10 @@
 /* eslint-disable no-await-in-loop */
 import type { Message } from 'discord.js';
-import linksModel from '../../Models/guildLinks.js';
-import { GSpreadSheet } from '../../OtherModules/GSpreadSheet/gsp.js';
+import { client } from '../..';
+import linksModel from '../../Models/guildLinks';
+import { GSpreadSheet } from '../../OtherModules/GSpreadSheet/gsp';
 import type { ExtendedCommandInteraction } from '../../Typings';
-import { client } from '../../index.js';
-import { createEmbed } from '../Embeds/index.js';
+import { createEmbed } from '../Embeds';
 
 export async function setupServer(message: ExtendedCommandInteraction | Message): Promise<void> {
 	const { channel, guild } = message;

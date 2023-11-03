@@ -1,7 +1,7 @@
 import { setTimeout } from 'node:timers';
 import type { Message } from 'discord.js';
+import { client } from '../../..';
 import type { IButtonCommand } from '../../../Typings';
-import { client } from '../../../index.js';
 
 const defaultExport: IButtonCommand = {
 	id: 'DeleteMsgSchedule',
