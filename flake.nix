@@ -30,7 +30,7 @@
           ];
 
           shellHook = ''
-            pnpm i
+            [ -d node_modules ] || pnpm i
           '';
       };
       });
