@@ -1,5 +1,12 @@
 import type { MessageActionRowComponentBuilder } from 'discord.js';
-import { ActionRowBuilder, ApplicationCommandOptionType, ButtonBuilder, ButtonStyle } from 'discord.js';
+import {
+	ThreadAutoArchiveDuration,
+	ChannelType,
+	ActionRowBuilder,
+	ApplicationCommandOptionType,
+	ButtonBuilder,
+	ButtonStyle,
+} from 'discord.js';
 import { client } from '../../../..';
 import ensiasDrive from '../../../../Models/guildDrive-Ensias';
 import { checkDriveId, getFile, getIdResourceKey } from '../../../../OtherModules/GDrive';
@@ -57,6 +64,27 @@ const defaultExport: ICommand = {
 					name: 'message',
 					description: 'The message id you want to edit,(it must be sent by the bot).',
 					type: ApplicationCommandOptionType.String,
+					required: false,
+				},
+			],
+		},
+		{
+			name: 'panel_post',
+			type: ApplicationCommandOptionType.Subcommand,
+			description: 'Send the Embed in a Forum Channel.',
+			options: [
+				{
+					name: 'forum',
+					description: 'The Form in which you want to create the Button',
+					type: ApplicationCommandOptionType.Channel,
+					channel_types: [ChannelType.GuildForum],
+					required: true,
+				},
+				{
+					name: 'thread',
+					description: 'The id of the Thread you want to modify',
+					type: ApplicationCommandOptionType.Channel,
+					channel_types: [ChannelType.PublicThread, ChannelType.PrivateThread, ChannelType.AnnouncementThread],
 					required: false,
 				},
 			],
@@ -149,9 +177,8 @@ const defaultExport: ICommand = {
 			});
 		}
 
-		if (subCommand === 'panel') {
-			const msgId = options.getString('message');
-			const panelEmbed = createEmbed(
+		if (subCommand.startsWith('panel')) {
+			const embed = createEmbed(
 				`Get Files `,
 				`The easiest way to get access directly to the files that you are looking for.\n(Cours, TD, TP, Exams, Lasse9at, ...)`,
 			).addFields(
@@ -169,11 +196,45 @@ const defaultExport: ICommand = {
 				),
 			];
 
-			if (msgId) {
-				const sentMessage = await channel.messages.fetch(msgId);
-				await sentMessage.edit({ embeds: [panelEmbed], components });
+			if (subCommand === 'panel') {
+				const msgId = options.getString('message');
+
+				if (msgId) {
+					const sentMessage = await channel.messages.fetch(msgId);
+					await sentMessage.edit({ embeds: [embed], components });
+				} else {
+					await channel.send({ embeds: [embed], components });
+				}
 			} else {
-				await channel.send({ embeds: [panelEmbed], components });
+				const forum = options.getChannel('forum', true, [ChannelType.GuildForum]);
+				const thread = options.getChannel('thread', false, [
+					ChannelType.PublicThread,
+					ChannelType.PrivateThread,
+					ChannelType.AnnouncementThread,
+				]);
+
+				if (thread) {
+					// We can use this if we can find a way to remove system messages
+					// await thread.edit({
+					// 	name: '『📁』 Ensias Drive',
+					// 	autoArchiveDuration: ThreadAutoArchiveDuration.OneWeek,
+					// });
+					await (
+						await thread.fetchStarterMessage()
+					)?.edit({
+						embeds: [embed],
+						components,
+					});
+				} else {
+					await forum.threads.create({
+						name: '『📁』 Ensias Drive',
+						autoArchiveDuration: ThreadAutoArchiveDuration.OneWeek,
+						message: {
+							embeds: [embed],
+							components,
+						},
+					});
+				}
 			}
 
 			return interaction.followUp({ content: 'The panel was created successfully', ephemeral: true });

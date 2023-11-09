@@ -1,26 +1,47 @@
 import type { MessageActionRowComponentBuilder } from 'discord.js';
-import { ActionRowBuilder, ApplicationCommandOptionType, ButtonBuilder, ButtonStyle, Message } from 'discord.js';
-import { client } from '../../..';
-import type { ICommand } from '../../../Typings';
-import { createEmbed } from '../../../utils';
+import {
+	ActionRowBuilder,
+	ApplicationCommandOptionType,
+	ButtonBuilder,
+	ButtonStyle,
+	ChannelType,
+	Message,
+	ThreadAutoArchiveDuration,
+} from 'discord.js';
+import { client } from '../../../..';
+import type { ICommand } from '../../../../Typings';
+import { createEmbed } from '../../../../utils';
 
 const defaultExport: ICommand = {
-	name: 'button_schedule',
-	description: 'Create the Schedule button',
+	name: 'button_schedule_forum',
+	description: 'Create the Schedule button in a Forum Channel',
 	defaultMemberPermissions: ['Administrator'],
-	guilds: [client.testGuilds.find((guild) => guild.name.includes('ENSIAS'))?.id ?? ''],
+	// guilds: [client.testGuilds.find((guild) => guild.name.includes('ENSIAS'))?.id ?? ''],
 	options: [
 		{
-			name: 'message',
-			description: 'The message id you want to edit,(it must be sent by the bot).',
-			type: ApplicationCommandOptionType.String,
+			name: 'forum',
+			description: 'The Form in which you want to create the Button',
+			type: ApplicationCommandOptionType.Channel,
+			channel_types: [ChannelType.GuildForum],
+			required: true,
+		},
+		{
+			name: 'thread',
+			description: 'The id of the Thread you want to modify',
+			type: ApplicationCommandOptionType.Channel,
+			channel_types: [ChannelType.PublicThread, ChannelType.PrivateThread, ChannelType.AnnouncementThread],
 			required: false,
 		},
 	],
 
 	async execute({ interaction }) {
 		const { channel, options } = interaction;
-		const msgId = options.getString('message');
+		const forum = options.getChannel('forum', true, [ChannelType.GuildForum]);
+		const thread = options.getChannel('thread', false, [
+			ChannelType.PublicThread,
+			ChannelType.PrivateThread,
+			ChannelType.AnnouncementThread,
+		]);
 		const row = new ActionRowBuilder<MessageActionRowComponentBuilder>();
 		const embed = createEmbed('Get your Schedule Customized for You')
 			.setColor('Red')
@@ -70,18 +91,40 @@ const defaultExport: ICommand = {
 		await interaction.deferReply();
 		const inter = await interaction.fetchReply();
 
-		if (msgId) {
-			const message = await channel.messages.fetch(msgId);
-			await message.edit({
+		if (thread) {
+			// We can use this if we can find a way to remove system messages
+			// await thread.edit({
+			// 	name: '『📅』 Get Schedule',
+			// 	autoArchiveDuration: ThreadAutoArchiveDuration.OneWeek,
+			// });
+			await (
+				await thread.fetchStarterMessage()
+			)?.edit({
 				embeds: [embed],
 				components: [row],
 			});
 		} else {
-			await channel.send({
-				embeds: [embed],
-				components: [row],
+			await forum.threads.create({
+				name: '『📅』 Get Schedule',
+				autoArchiveDuration: ThreadAutoArchiveDuration.OneWeek,
+				message: {
+					embeds: [embed],
+					components: [row],
+				},
 			});
 		}
+		// if (msgId) {
+		// 	const message = await channel.messages.fetch(msgId);
+		// 	await message.edit({
+		// 		embeds: [embed],
+		// 		components: [row],
+		// 	});
+		// } else {
+		// 	await channel.send({
+		// 		embeds: [embed],
+		// 		components: [row],
+		// 	});
+		// }
 
 		if (inter instanceof Message) return inter.delete();
 	},
