@@ -43,24 +43,27 @@ export async function downgradeRoles(member: GuildMember) {
 
 		const currentYear = roles.get('3A');
 		const currentFl = roles.get(`_${fl}_`);
-		await member.roles.add([currentYear ?? '', currentFl ?? ''].filter((role) => role !== ''));
+		const currentYrFl = roles.get(`3A_${fl}`);
+		await member.roles.add([currentYear ?? '', currentFl ?? '', currentYrFl ?? ''].filter((role) => role !== ''));
 
 		return;
 	}
 
-	const { year, filiere: fl } = flGrpYr(member);
-	if (!fl || !year) return;
+	const { year, filiere: fl, year_filiere: yr_fl } = flGrpYr(member.roles.cache);
+	if (!fl || !year || !yr_fl) return;
 	if (year.name === '3A') {
-		const currentYear = roles.get('3A');
+		let yr_fl_new = yr_fl.name?.replace('3A', '2A');
+		if (yr_fl_new) yr_fl_new = roles.get(yr_fl_new);
 		const prevYear = roles.get('2A');
 
-		if (prevYear) await member.roles.add(prevYear);
-		if (currentYear) await member.roles.remove(currentYear);
+		await member.roles.add([prevYear ?? '', yr_fl.id].filter((x) => x !== ''));
+		await member.roles.remove([year.id, yr_fl_new ?? ''].filter((x) => x !== ''));
 	} else if (year.name === '2A') {
-		const currentYear = roles.get('2A');
+		let yr_fl_new = yr_fl.name?.replace('2A', '1A');
+		if (yr_fl_new) yr_fl_new = roles.get(yr_fl_new);
 		const prevYear = roles.get('1A');
 
-		if (prevYear) await member.roles.add(prevYear);
-		if (currentYear) await member.roles.remove(currentYear);
+		await member.roles.add([prevYear ?? '', yr_fl.id].filter((x) => x !== ''));
+		await member.roles.remove([year.id, yr_fl_new ?? ''].filter((x) => x !== ''));
 	}
 }

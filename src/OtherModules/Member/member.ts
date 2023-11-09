@@ -1,9 +1,11 @@
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
-import type { Guild, Snowflake } from 'discord.js';
+import type { Guild, Role, Snowflake } from 'discord.js';
+import { Collection } from 'discord.js';
 import type { Document } from 'mongoose';
 import gRoles from '../../Models/guildRoles';
 import { ADMINS, PRV_ROLES } from '../../config';
+import { flGrpYr } from '../../utils/Schedule/flGrp';
 import type { GSpreadSheet } from '../GSpreadSheet';
 import { titleCase } from './stringFunc';
 
@@ -73,7 +75,7 @@ export class Person {
 		const out = new Person();
 		// Handle the timestamp
 		if (user.get('Timestamp')) {
-			out.timestamp = dayjs(user.get('Timestamp'), 'DD-MM-YYYY HH:mm:ss').toDate();
+			out.timestamp = dayjs(user.get('Timestamp'), ['DD-MM-YYYY HH:mm:ss', 'MM/DD/YYYY HH:mm:ss']).toDate();
 		}
 
 		out.firstName = user.get('First Name')?.trim() ?? '';
@@ -104,7 +106,7 @@ export class Person {
 	public static async createFromArray(user_data: string[], guild: Guild) {
 		const out = new Person();
 		const user = user_data.map((x) => x.trim());
-		out.timestamp = dayjs(user[0], 'DD-MM-YYYY HH:mm:ss').toDate();
+		out.timestamp = dayjs(user[0], ['DD-MM-YYYY HH:mm:ss', 'MM/DD/YYYY HH:mm:ss']).toDate();
 		out.firstName = user[1];
 		out.lastName = user[2];
 		out.mail = user[3];
@@ -154,6 +156,20 @@ export class Person {
 		if (guildId === '921408078983876678' && ADMINS.includes(this.discordId)) {
 			roleIds.push(PRV_ROLES[`${guildId}`].Admin);
 			this.rolesNames.push('Admin');
+		}
+
+		if (guildId === '921408078983876678') {
+			const { filiere, year } = flGrpYr(
+				new Collection(this.rolesNames.map((x, id) => [`${id}`, { id: id.toString(), name: x } as unknown as Role])),
+			);
+			const yr_fl = `${year?.name ?? ''}_${filiere?.name ?? ''}`;
+			const yr_fl_id = guildRoles.get(yr_fl);
+			if (yr_fl_id) {
+				this.rolesNames.push(yr_fl);
+				roleIds.push(yr_fl_id);
+			} else {
+				console.log(`[INFO] Role was not found ${yr_fl}`);
+			}
 		}
 
 		return roleIds;
