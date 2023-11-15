@@ -30,7 +30,7 @@ export async function messageSchedule(message: Message) {
 		}, 10 * 1_000);
 	}
 
-	const { filiere: fl, groupe: grp } = flGrpYr(member);
+	const { filiere: fl, groupe: grp } = flGrpYr(member.roles.cache);
 	if (!fl || !grp) {
 		const response = await message.reply(
 			'You are not elegible to get your schedule, you are missing the "groupe" or "filiere", try contacting server admins.',

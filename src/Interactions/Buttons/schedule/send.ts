@@ -7,7 +7,7 @@ const defaultExport: IButtonCommand = {
 	// cooldown: 15 * 60 * 1000,
 	async execute({ interaction }) {
 		await interaction.deferReply({ ephemeral: true });
-		const { filiere, groupe, year } = flGrpYr(interaction.member);
+		const { filiere, groupe, year } = flGrpYr(interaction.member.roles.cache);
 		await sendSchedule(interaction, filiere?.name, groupe?.name, year?.name);
 	},
 };

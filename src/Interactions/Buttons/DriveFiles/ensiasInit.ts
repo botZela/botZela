@@ -21,7 +21,7 @@ const defaultExport: IButtonCommand = {
 			return interaction.followUp({ content: 'This command is used inside a server ...', ephemeral: true });
 		}
 
-		const { filiere, year } = flGrpYr(interaction.member);
+		const { filiere, year } = flGrpYr(interaction.member.roles.cache);
 
 		const driveData = await ensiasDrive.findOne({ filiere: filiere!.name, year: year!.name });
 

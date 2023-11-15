@@ -1,9 +1,7 @@
-import type { GuildMember } from 'discord.js';
-import type { FiliereType, GroupeType, YearType } from '../../Typings/Ensias';
+import type { Collection, Role } from 'discord.js';
+import type { FiliereType, GroupeType, YearFiliereType, YearType } from '../../Typings/Ensias';
 
-export function flGrpYr(member: GuildMember) {
-	const roles = member.roles.cache.map((role) => ({ name: role.name, id: role.id }));
-
+export function flGrpYr(roles: Collection<string, Role>) {
 	const filieresArray = ['_2IA_', '_2SCL_', '_BI&A_', '_GD_', '_GL_', '_IDF_', '_IDSIT_', '_SSE_', '_SSI_'];
 	const fl = roles
 		.filter(({ name }) => filieresArray.includes(name))
@@ -15,5 +13,9 @@ export function flGrpYr(member: GuildMember) {
 
 	const yearArray = ['1A', '2A', '3A'];
 	const yr = roles.filter(({ name }) => yearArray.includes(name)).at(0) as YearType;
-	return { filiere: fl, groupe: grp, year: yr };
+
+	const yr_fl = roles
+		.filter(({ name }) => yearArray.some((x) => name.startsWith(x) && name.length > 2))
+		.at(0) as YearFiliereType;
+	return { filiere: fl, groupe: grp, year: yr, year_filiere: yr_fl };
 }
