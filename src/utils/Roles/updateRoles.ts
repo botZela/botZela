@@ -27,13 +27,13 @@ export async function updateRole(member: GuildMember) {
 		const nextYear = roles.get('3A');
 
 		if (nextYear && nextYrFl) await member.roles.add([nextYear, nextYrFl]);
-		await member.roles.remove(year.id);
+		await member.roles.remove([year.id, yr_fl.id].filter((role) => role !== ''));
 	} else {
 		const nextYrFl = roles.get(yr_fl.name?.replace('1A', '2A') ?? '');
 		const nextYear = roles.get('2A');
 
 		const currentGroupe = groupe?.name ? roles.get(groupe.name) : '';
 		if (nextYear && nextYrFl) await member.roles.add([nextYear, nextYrFl]);
-		await member.roles.remove([year.id, currentGroupe ?? ''].filter((role) => role !== ''));
+		await member.roles.remove([year.id, currentGroupe ?? '', yr_fl.id].filter((role) => role !== ''));
 	}
 }

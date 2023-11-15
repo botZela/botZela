@@ -14,6 +14,8 @@ export function flGrpYr(roles: Collection<string, Role>) {
 	const yearArray = ['1A', '2A', '3A'];
 	const yr = roles.filter(({ name }) => yearArray.includes(name)).at(0) as YearType;
 
-	const yr_fl = roles.filter(({ name }) => yearArray.some((x) => name.startsWith(x))).at(0) as YearFiliereType;
+	const yr_fl = roles
+		.filter(({ name }) => yearArray.some((x) => name.startsWith(x) && name.length > 2))
+		.at(0) as YearFiliereType;
 	return { filiere: fl, groupe: grp, year: yr, year_filiere: yr_fl };
 }
