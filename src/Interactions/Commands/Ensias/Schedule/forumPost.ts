@@ -39,7 +39,7 @@ const defaultExport: ICommand = {
 		const forum = options.getChannel('forum', true, [ChannelType.GuildForum]);
 		const thread = options.getChannel('thread', false, [
 			ChannelType.PublicThread,
-			ChannelType.PrivateThread,
+			// ChannelType.PrivateThread,
 			ChannelType.AnnouncementThread,
 		]);
 		const row = new ActionRowBuilder<MessageActionRowComponentBuilder>();

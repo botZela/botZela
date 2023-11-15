@@ -84,7 +84,7 @@ const defaultExport: ICommand = {
 					name: 'thread',
 					description: 'The id of the Thread you want to modify',
 					type: ApplicationCommandOptionType.Channel,
-					channel_types: [ChannelType.PublicThread, ChannelType.PrivateThread, ChannelType.AnnouncementThread],
+					channel_types: [ChannelType.PublicThread, ChannelType.AnnouncementThread],
 					required: false,
 				},
 			],
@@ -209,7 +209,7 @@ const defaultExport: ICommand = {
 				const forum = options.getChannel('forum', true, [ChannelType.GuildForum]);
 				const thread = options.getChannel('thread', false, [
 					ChannelType.PublicThread,
-					ChannelType.PrivateThread,
+					// ChannelType.PrivateThread,
 					ChannelType.AnnouncementThread,
 				]);
 

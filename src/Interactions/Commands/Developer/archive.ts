@@ -6,7 +6,7 @@ const channelTypes = [
 	ChannelType.AnnouncementThread,
 	ChannelType.PublicThread,
 	ChannelType.GuildText,
-	ChannelType.PrivateThread,
+	// ChannelType.PrivateThread,
 ] as const;
 
 const defaultExport: ICommand = {
