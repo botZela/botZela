@@ -1,4 +1,4 @@
-import { sheets_v4 } from '@googleapis/sheets';
+import type { sheets_v4 } from '@googleapis/sheets';
 
 // Convert a number 0 ... 25 to alphabets A ... Z
 function num2alpha(number: number): string {
@@ -6,8 +6,8 @@ function num2alpha(number: number): string {
 	return String.fromCodePoint(code);
 }
 
-export function dec2alpha(number: number): string {
-	number--;
+export function dec2alpha(number_param: number): string {
+	let number = number_param - 1;
 	const out: string[] = [];
 	const base = 26;
 	let rest = number % base;
@@ -21,7 +21,7 @@ export function dec2alpha(number: number): string {
 	return out.reverse().join('');
 }
 
-export function hexToRgb(hex: string) {
+export function hexToRgb(hex_param: string) {
 	// Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
 	const shorthandRegex = /^#?(?<red>[\da-f])(?<green>[\da-f])(?<blue>[\da-f])$/i;
 	const hex = hex_param.replace(shorthandRegex, (_, rr: string, gg: string, bb: string) => rr + rr + gg + gg + bb + bb);
@@ -34,19 +34,44 @@ export function hexToRgb(hex: string) {
 }
 
 export function gridRangeDimensions(cell: sheets_v4.Schema$GridRange): [number, number] {
-	// TODO: handle the undefined and null cases
-	const rows = cell.endRowIndex! - cell.startRowIndex!;
-	const cols = cell.endColumnIndex! - cell.startColumnIndex!;
+	const { endRowIndex, startRowIndex, endColumnIndex, startColumnIndex } = cell;
+	if (
+		startRowIndex === null ||
+		endRowIndex === null ||
+		startColumnIndex === null ||
+		endColumnIndex === null ||
+		startRowIndex === undefined ||
+		endRowIndex === undefined ||
+		startColumnIndex === undefined ||
+		endColumnIndex === undefined
+	) {
+		return [0, 0];
+	}
+
+	const rows = endRowIndex - startRowIndex;
+	const cols = endColumnIndex - startColumnIndex;
 	return [rows, cols];
 }
 
 export function gridRangeToA1(cell: sheets_v4.Schema$GridRange) {
-	// TODO: handle the undefined and null cases
+	const { endRowIndex, startRowIndex, endColumnIndex, startColumnIndex } = cell;
+	if (
+		startRowIndex === null ||
+		endRowIndex === null ||
+		startColumnIndex === null ||
+		endColumnIndex === null ||
+		startRowIndex === undefined ||
+		endRowIndex === undefined ||
+		startColumnIndex === undefined ||
+		endColumnIndex === undefined
+	) {
+		return 'A1:A1';
+	}
 
-	const startColumn = dec2alpha(cell.startColumnIndex! + 1);
-	const endColumn = dec2alpha(cell.endColumnIndex!);
-	const startRow = cell.startRowIndex! + 1;
-	const endRow = cell.endRowIndex!;
+	const startColumn = dec2alpha(startColumnIndex + 1);
+	const endColumn = dec2alpha(endColumnIndex);
+	const startRow = startRowIndex + 1;
+	const endRow = endRowIndex;
 
 	const isCell = startRow === endRow && startColumn === endColumn;
 	if (isCell) return `${startRow}${startColumn}`;

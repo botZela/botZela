@@ -1,9 +1,10 @@
 import 'dotenv/config';
-import { sheets_v4 } from '@googleapis/sheets';
-import ensiasSchedules, { ISchedule, ISeance } from '../../Models/ensiasSchedules';
+import type { sheets_v4 } from '@googleapis/sheets';
+import type { ISchedule, ISeance } from '../../Models/ensiasSchedules';
+import ensiasSchedules from '../../Models/ensiasSchedules';
 import { GSpreadSheet } from '../../OtherModules/GSpreadSheet';
 import { gridRangeDimensions, gridRangeToA1 } from '../../OtherModules/GSpreadSheet/cal';
-import { YearNameType } from '../../Typings/Ensias';
+import type { YearNameType } from '../../Typings/Ensias';
 
 const filieresArray = ['2IA', '2SCL', 'BI&A', 'GD', 'GL', 'IDF', 'IDSIT', 'SSE', 'SSI'] as const;
 const groupesArray = ['G1', 'G2', 'G3', 'G4', 'G5', 'G6', 'G7', 'G8'] as const;
@@ -32,15 +33,17 @@ async function saveSchedule(data: ScheduleDay, year: YearNameType & string, week
 			if (dayArray === undefined) continue;
 
 			const day: ISeance[] = [];
-			for (let i = 0; 2 * i < dayArray.length; i++) {
+			for (let ii = 0; 2 * ii < dayArray.length; ii++) {
 				const seance: ISeance = {
-					class: dayArray[2 * i],
-					name: dayArray[2 * i + 1],
+					class: dayArray[2 * ii],
+					name: dayArray[2 * ii + 1],
 				};
 				day.push(seance);
 			}
+
 			to_add.days.push(day);
 		}
+
 		output.push(to_add);
 	}
 
@@ -57,39 +60,43 @@ async function saveSchedule(data: ScheduleDay, year: YearNameType & string, week
 
 function extractSchedule(data: string[][]) {
 	const out: ScheduleDay = new Map(
-		daysArray.map((day) => [day, new Map<FlGrpType, string[]>(flGrpArray.map((flGrp) => [flGrp, Array(8).fill('')]))]),
+		daysArray.map((day) => [
+			day,
+			new Map<FlGrpType, string[]>(flGrpArray.map((flGrp) => [flGrp, Array.from<string>({ length: 8 }).fill('')])),
+		]),
 	);
 
 	for (const row of data) {
 		const day = row[0]?.trim().toUpperCase() as DayType;
 		const dayMap = out.get(day);
 		if (dayMap === undefined) continue;
-		for (let i = 0; i * 3 < row.length; i++) {
-			const A1 = (row[i * 3 + 1]?.trim().split(/\s+|\s*\+\s*/) as FlGrpType[] | undefined) ?? [];
-			const A2 = (row[i * 3 + 2]?.trim() as string | undefined) ?? '';
-			const A3 = (row[i * 3 + 3]?.trim() as string | undefined) ?? '';
-			A1.forEach((flgrp, index) => {
+		for (let ii = 0; ii * 3 < row.length; ii++) {
+			const A1 = (row[ii * 3 + 1]?.trim().split(/\s+|\s*\+\s*/) as FlGrpType[] | undefined) ?? [];
+			const A2 = (row[ii * 3 + 2]?.trim() as string | undefined) ?? '';
+			const A3 = (row[ii * 3 + 3]?.trim() as string | undefined) ?? '';
+			for (const [index, flgrp] of A1.entries()) {
 				let flgrpArr = dayMap.get(flgrp);
 				if (flgrpArr === undefined) {
-					if (A3 === '') return;
-					if (!['1', '2'].includes(flgrp.at(-1) ?? '')) return;
+					if (A3 === '') continue;
+					if (!['1', '2'].includes(flgrp.at(-1) ?? '')) continue;
 					flgrpArr = dayMap.get(flgrp.slice(0, -1) as FlGrpType);
-					if (flgrpArr === undefined) return;
+					if (flgrpArr === undefined) continue;
 					const custom = `(${flgrp})`;
-					flgrpArr[i * 2] += `${custom} ${A2}\n`;
-					flgrpArr[i * 2 + 1] += `${custom} ${A3}\n`;
+					flgrpArr[ii * 2] += `${custom} ${A2}\n`;
+					flgrpArr[ii * 2 + 1] += `${custom} ${A3}\n`;
 				} else if (['1', '2'].includes(A1[index + 1])) {
-					if (A3 === '') return;
+					if (A3 === '') continue;
 					const custom = `(${flgrp}${A1[index + 1]})`;
-					flgrpArr[i * 2] += `${custom} ${A2}\n`;
-					flgrpArr[i * 2 + 1] += `${custom} ${A3}\n`;
+					flgrpArr[ii * 2] += `${custom} ${A2}\n`;
+					flgrpArr[ii * 2 + 1] += `${custom} ${A3}\n`;
 				} else {
-					flgrpArr[i * 2] = `${A2}`;
-					flgrpArr[i * 2 + 1] = `${A3}`;
+					flgrpArr[ii * 2] = `${A2}`;
+					flgrpArr[ii * 2 + 1] = `${A3}`;
 				}
-			});
+			}
 		}
 	}
+
 	return out;
 }
 
@@ -102,7 +109,7 @@ async function unmergeFill(activesheet: GSpreadSheet, cells: sheets_v4.Schema$Gr
 		const range = cellValues?.at(index)?.range ?? '';
 		return {
 			range,
-			values: Array<string[]>(dim[0]).fill(Array<string>(dim[1]).fill(value)),
+			values: Array.from<string[]>({ length: dim[0] }).fill(Array.from<string>({ length: dim[1] }).fill(value)),
 		};
 	});
 	await activesheet.unMerge(cells);

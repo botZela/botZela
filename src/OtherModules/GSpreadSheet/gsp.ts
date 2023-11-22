@@ -93,10 +93,11 @@ export class GSpreadSheet {
 		if (!worksheets) {
 			return undefined;
 		}
+
 		try {
 			return worksheets[this.worksheetIndex].merges;
-		} catch (err) {
-			console.log(err);
+		} catch (error) {
+			console.log(error);
 			return undefined;
 		}
 	}
@@ -193,8 +194,8 @@ export class GSpreadSheet {
 		try {
 			const res = (await this.sheets.spreadsheets.values.batchGet(request)).data;
 			return res.valueRanges;
-		} catch (err) {
-			console.log(err);
+		} catch (error) {
+			console.log(error);
 			return [];
 		}
 	}
@@ -250,8 +251,8 @@ export class GSpreadSheet {
 			await this.sheets.spreadsheets.values.batchUpdate({ spreadsheetId: this.spId, requestBody: request });
 			// Const result = (await this.sheets.spreadsheets.values.update(request)).data;
 			// Console.log('%d cells updated.', result.updatedCells);
-		} catch (err) {
-			console.log(err);
+		} catch (error) {
+			console.log(error);
 		}
 	}
 
@@ -297,8 +298,8 @@ export class GSpreadSheet {
 				spreadsheetId: this.spId,
 				resource: batchUpdateRequest,
 			} as sheets_v4.Params$Resource$Spreadsheets$Batchupdate);
-		} catch (err) {
-			console.error(err);
+		} catch (error) {
+			console.error(error);
 		}
 	}
 

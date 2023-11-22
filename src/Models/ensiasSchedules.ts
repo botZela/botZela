@@ -3,15 +3,15 @@ import { Schema as _Schema, model } from 'mongoose';
 export interface ISeance {
 	class: string;
 	name: string;
-	professor?: string;
 	otherFilieres?: string[];
+	professor?: string;
 }
 
 export interface ISchedule {
-	year: string;
+	days: ISeance[][];
 	filiere: string;
 	week?: string;
-	days: ISeance[][];
+	year: string;
 }
 
 const seanceSchema = new _Schema({
