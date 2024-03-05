@@ -21,7 +21,6 @@ export function makeComponents(
 				customId: 'button-drivefiles-prev',
 				label: '◀ PREVIOUS',
 				style: page === 1 ? ButtonStyle.Secondary : ButtonStyle.Success,
-				emoji: '',
 				disabled: page === 1,
 			}),
 			new ButtonBuilder({
@@ -34,7 +33,6 @@ export function makeComponents(
 				customId: 'button-drivefiles-next',
 				label: 'NEXT ▶',
 				style: page === totalPages ? ButtonStyle.Secondary : ButtonStyle.Success,
-				emoji: '',
 				disabled: page === totalPages,
 			}),
 		),
