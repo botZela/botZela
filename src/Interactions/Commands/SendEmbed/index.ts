@@ -21,6 +21,10 @@ const defaultExport: ICommand = {
 		},
 	],
 	async execute({ interaction }) {
+		if (!interaction.inGuild()) {
+			return interaction.followUp({ content: 'This command is used inside a server ...', ephemeral: true });
+		}
+
 		await interaction.deferReply();
 		const { guild, channel, options } = interaction;
 		const msgId = options.getString('message');

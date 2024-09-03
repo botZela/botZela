@@ -5,6 +5,10 @@ import { flGrpYr } from './flGrp';
 // import { sendSchedule } from './sendSchedule';
 
 export async function messageSchedule(message: Message) {
+	if (!message.inGuild()) {
+		return;
+	}
+
 	const { member, channel } = message;
 	if (!member || !message.guild) {
 		console.error('[ERROR] Member or Guild is not defined');

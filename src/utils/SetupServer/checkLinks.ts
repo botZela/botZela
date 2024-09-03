@@ -6,6 +6,10 @@ import linksModel from '../../Models/guildLinks';
 import { GSpreadSheet } from '../../OtherModules/GSpreadSheet/gsp';
 
 export async function checkSpreadsheet(message: CommandInteraction | Message, link: string): Promise<void> {
+	if (!message.inGuild()) {
+		return;
+	}
+
 	const { guild } = message;
 	if (message instanceof CommandInteraction && !message.channel) {
 		await message.reply({

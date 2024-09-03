@@ -18,6 +18,10 @@ const defaultExport: ICommand = {
 		},
 	],
 	async execute({ interaction }) {
+		if (!interaction.inGuild()) {
+			return interaction.followUp({ content: 'This command is used inside a server ...', ephemeral: true });
+		}
+
 		const { channel, options } = interaction;
 		const msgId = options.getString('message');
 		const row = new ActionRowBuilder<MessageActionRowComponentBuilder>();

@@ -7,6 +7,10 @@ import type { ExtendedCommandInteraction } from '../../Typings';
 import { createEmbed } from '../Embeds';
 
 export async function setupServer(message: ExtendedCommandInteraction | Message): Promise<void> {
+	if (!message.inGuild()) {
+		return;
+	}
+
 	const { channel, guild } = message;
 	if (!guild || !channel) {
 		return;

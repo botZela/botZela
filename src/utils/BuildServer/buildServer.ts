@@ -6,7 +6,7 @@ import { batchVisualize } from './batchVisualize';
 import { convertYaml } from './convertYaml';
 
 export async function buildServer(interaction: ExtendedCommandInteraction): Promise<void> {
-	if (!interaction.channel || !interaction.guild) {
+	if (!interaction.channel || !interaction.guild || !interaction.inGuild()) {
 		await interaction.reply("Can't do this");
 		return;
 	}

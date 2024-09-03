@@ -32,6 +32,10 @@ const defaultExport: ICommand = {
 
 	execute: async ({ interaction }) => {
 		await interaction.deferReply({ ephemeral: true });
+		if (!interaction.inGuild()) {
+			const embed = createErrorEmbed('Get Files', 'This command is used inside a server ...');
+			return interaction.followUp({ embeds: [embed], ephemeral: true });
+		}
 
 		const { channel, options, guild } = interaction;
 		if (!guild || !channel) {
