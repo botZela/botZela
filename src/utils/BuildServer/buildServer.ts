@@ -25,14 +25,14 @@ export async function buildServer(interaction: ExtendedCommandInteraction): Prom
 				- tag1,🏷️
 				- tag2`;
 	const filter = (msg: Message) => msg.member?.id === interaction.member.id;
-	// eslint-disable-next-line no-constant-condition, @typescript-eslint/no-unnecessary-condition
+
 	while (true) {
-		const embed = createEmbed('', `\`\`\`${structure}\`\`\`\n**Cancel**: to stop the command.`);
+		let embed = createEmbed('', `\`\`\`${structure}\`\`\`\n**Cancel**: to stop the command.`);
 		await interaction.channel.send({
 			embeds: [embed],
 		});
 		try {
-			const collected = await interaction.channel.awaitMessages({
+			let collected = await interaction.channel.awaitMessages({
 				filter,
 				max: 1,
 				time: 60_000,
@@ -45,7 +45,7 @@ export async function buildServer(interaction: ExtendedCommandInteraction): Prom
 
 			if (msg.toLowerCase() === 'cancel') {
 				console.log(`[INFO] Build Server command was canceled in server ${interaction.guild.name}`);
-				const embed = createErrorEmbed('Build Server command was canceled');
+				embed = createErrorEmbed('Build Server command was canceled');
 				await interaction.channel.send({
 					embeds: [embed],
 				});
@@ -57,7 +57,7 @@ export async function buildServer(interaction: ExtendedCommandInteraction): Prom
 			console.log(`------\n${msg}\n------`);
 			if (!channelFormat) {
 				console.log('[INFO] Bad structure given !!');
-				const embed = createErrorEmbed('Bad structure given !!');
+				embed = createErrorEmbed('Bad structure given !!');
 				await interaction.channel.send({
 					embeds: [embed],
 				});
@@ -65,7 +65,7 @@ export async function buildServer(interaction: ExtendedCommandInteraction): Prom
 			}
 
 			const visualization = batchVisualize(channelFormat);
-			let embed = createEmbed(
+			embed = createEmbed(
 				'Build Visualization',
 				`Please confim your structure: \n\`\`\` ${visualization}\`\`\`\n ** YES / NO ** `,
 			);
@@ -74,7 +74,7 @@ export async function buildServer(interaction: ExtendedCommandInteraction): Prom
 			});
 			console.log(`[INFO] Structure of ${interaction.guild.name} Server \n------\n${visualization}\n------`);
 			try {
-				const collected = await interaction.channel.awaitMessages({
+				collected = await interaction.channel.awaitMessages({
 					filter,
 					max: 1,
 					time: 60_000,
@@ -99,7 +99,7 @@ export async function buildServer(interaction: ExtendedCommandInteraction): Prom
 				break;
 			}
 		} catch {
-			const embed = createErrorEmbed('Bot timed Out!!!');
+			embed = createErrorEmbed('Bot timed Out!!!');
 			await interaction.channel.send({
 				embeds: [embed],
 			});

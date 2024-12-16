@@ -15,7 +15,6 @@ import type {
 } from '../Typings';
 import { testGuilds } from '../config';
 import { errors } from '../utils/Error';
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
 
 export class Client extends DiscordClient {
 	public commands: Collection<string, ICommand> = new Collection();
@@ -48,7 +47,8 @@ export class Client extends DiscordClient {
 	public async start() {
 		await this.registerModules();
 		await this.login(process.env.TOKEN);
-		errors(); // Handle the uncaught Errors
+		// Handle the uncaught Errors
+		errors();
 	}
 
 	public async registerModules() {

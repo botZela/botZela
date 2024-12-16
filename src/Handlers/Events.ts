@@ -1,7 +1,3 @@
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 import type { ClientEvents } from 'discord.js';
 import type { Client, Event } from '../Structures';
 import { Events } from '../Validation';
@@ -11,7 +7,6 @@ import { importFile } from '../utils';
 export async function eventHandler(client: Client, PG: any, Ascii: any): Promise<void> {
 	const Table = new Ascii('Events Loaded');
 
-	// eslint-disable-next-line n/no-path-concat
 	const eventFiles: string[] = await PG(`${__dirname}/../Events/**/*.{ts,js}`);
 	if (!eventFiles.length) return;
 

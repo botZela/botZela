@@ -7,7 +7,9 @@ export function structureSort(structure: StructureListType[]) {
 		if (structure[ii][1] === 'category') {
 			try {
 				structureSort(structure[ii][2] as ChannelListType[]);
-			} catch {}
+			} catch (err) {
+				console.error(err);
+			}
 		}
 
 		for (let ss = 0; ss < len; ss++) {

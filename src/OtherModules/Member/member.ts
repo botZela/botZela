@@ -14,7 +14,7 @@ dayjs.extend(customParseFormat);
 type GuildDataType =
 	| (Document<
 			unknown,
-			any,
+			unknown,
 			{
 				defaultRole?: string | undefined;
 				guildId: string;
@@ -132,9 +132,9 @@ export class Person {
 	}
 
 	private async roles(guildId: string) {
-		if (Person.guildData === null || Person.guildData.guildId !== guildId)
-			// eslint-disable-next-line require-atomic-updates
+		if (Person.guildData === null || Person.guildData.guildId !== guildId) {
 			Person.guildData = await gRoles.findOne({ guildId });
+		}
 
 		if (!Person.guildData) return [];
 		const guildRoles = Person.guildData.roles;
@@ -216,14 +216,14 @@ export class Person {
 					} else {
 						newYear -= 3;
 						for (const filiere of filieresArray) {
-							const index = this.rolesNames.indexOf(filiere);
-							if (index > -1) {
+							const fl_index = this.rolesNames.indexOf(filiere);
+							if (fl_index > -1) {
 								newArray.push(`L_${filiere.slice(1, -1)}`);
-								this.rolesNames.splice(index, 1);
+								this.rolesNames.splice(fl_index, 1);
 							}
 						}
 
-						newArray.push(`Laureate`);
+						newArray.push('Laureate');
 						newArray.push(`${refDate.getFullYear() - newYear}`);
 					}
 				} else {

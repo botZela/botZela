@@ -1,7 +1,3 @@
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Collection } from 'discord.js';
 import type { Client } from '../Structures';
 import type { IButtonCommand } from '../Typings';
@@ -11,7 +7,6 @@ import { importFile } from '../utils';
 export async function buttonHandler(client: Client, PG: any, Ascii: any): Promise<void> {
 	const Table = new Ascii('Buttons Handled');
 
-	// eslint-disable-next-line n/no-path-concat
 	const buttonsFolder: string[] = await PG(`${__dirname}/../Interactions/Buttons/**/*.{ts,js}`);
 	if (!buttonsFolder.length) return;
 

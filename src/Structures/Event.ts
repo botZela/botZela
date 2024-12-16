@@ -6,5 +6,7 @@ export class Event<Key extends keyof ClientEvents> {
 		public execute: (...args: ClientEvents[Key]) => Promise<void>,
 		public once?: boolean,
 		public alias?: string,
-	) {}
+	) {
+		// Event Constructor
+	}
 }

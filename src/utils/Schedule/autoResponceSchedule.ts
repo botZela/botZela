@@ -23,7 +23,7 @@ export async function messageSchedule(message: Message) {
 		}
 	}, 1_000);
 	if (!member.roles.cache.map((role) => role.name).includes('1A')) {
-		const response = await channel.send(`We are sorry, this feature is only available for 1A students.`);
+		const response = await channel.send('We are sorry, this feature is only available for 1A students.');
 		return setTimeout(async () => {
 			try {
 				await response.delete();

@@ -1,7 +1,3 @@
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 import type { Client } from '../Structures';
 import type { ISelectMenuCommand } from '../Typings';
 import { importFile } from '../utils';
@@ -10,7 +6,6 @@ import { importFile } from '../utils';
 export async function selectMenuHandler(client: Client, PG: any, Ascii: any): Promise<void> {
 	const Table = new Ascii('Selct Menu Handler');
 
-	// eslint-disable-next-line n/no-path-concat
 	const selectMenuFiles: string[] = await PG(`${__dirname}/../Interactions/SelectMenu/**/*.{ts,js}`);
 	if (!selectMenuFiles.length) return;
 

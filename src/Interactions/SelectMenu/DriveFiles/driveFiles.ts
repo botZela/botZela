@@ -35,8 +35,8 @@ const defaultExport: ISelectMenuCommand = {
 
 		if (fileEmoji?.name === '📄') {
 			const fileObj = await generatePublicUrl(driveFile);
-			const resultEmbed = createEmbed(`Get Files `, `📄 ${fileName ?? 'File'}`);
-			const component = new ActionRowBuilder<MessageActionRowComponentBuilder>().addComponents(
+			const resultEmbed = createEmbed('Get Files ', `📄 ${fileName ?? 'File'}`);
+			const action_component = new ActionRowBuilder<MessageActionRowComponentBuilder>().addComponents(
 				new ButtonBuilder({
 					customId: 'button-drivefiles-back',
 					label: 'Back',
@@ -45,17 +45,17 @@ const defaultExport: ISelectMenuCommand = {
 				}),
 			);
 			if (fileObj.webViewLink) {
-				resultEmbed.addFields([{ name: `View File`, value: `Click [here](${fileObj.webViewLink}) to view the file.` }]);
-				component.addComponents(
+				resultEmbed.addFields([{ name: 'View File', value: `Click [here](${fileObj.webViewLink}) to view the file.` }]);
+				action_component.addComponents(
 					new ButtonBuilder({ style: ButtonStyle.Link, url: fileObj.webViewLink, label: 'View File', emoji: '📃' }),
 				);
 			}
 
 			if (fileObj.webContentLink) {
 				resultEmbed.addFields([
-					{ name: `Download File`, value: `Click [here](${fileObj.webContentLink}) to download the file.` },
+					{ name: 'Download File', value: `Click [here](${fileObj.webContentLink}) to download the file.` },
 				]);
-				component.addComponents(
+				action_component.addComponents(
 					new ButtonBuilder({
 						style: ButtonStyle.Link,
 						url: fileObj.webContentLink,
@@ -76,7 +76,7 @@ const defaultExport: ISelectMenuCommand = {
 				{ name: 'Any Errors', value: 'Consider sending us your feedback in <#939564676038140004>, Thanks.' },
 			);
 			await interaction.editReply({
-				components: [component],
+				components: [action_component],
 				embeds: [resultEmbed],
 			});
 			userStack.push(driveFile);
@@ -85,7 +85,7 @@ const defaultExport: ISelectMenuCommand = {
 
 		const options = await driveFilesSelectMenuOptions({ id: file.id, name: '', resourceKey: file.rk });
 		if (!options) {
-			const errorEmbed = createEmbed(`Get Files`, 'This Folder is Empty.').addFields(
+			const errorEmbed = createEmbed('Get Files', 'This Folder is Empty.').addFields(
 				{ name: 'Any Suggestions', value: 'Consider sending us your feedback in <#922875567357984768>, Thanks.' },
 				{ name: 'Any Errors', value: 'Consider sending us your feedback in <#939564676038140004>, Thanks.' },
 			);
@@ -100,7 +100,7 @@ const defaultExport: ISelectMenuCommand = {
 		};
 
 		const panelEmbed = createEmbed(
-			`Get Files `,
+			'Get Files ',
 			`📁 [${path.name}](${path.link})\nThe easiest way to get access directly to the files that you are looking for.\n`,
 		).addFields(
 			{ name: 'Any Suggestions', value: 'Consider sending us your feedback in <#922875567357984768>, Thanks.' },

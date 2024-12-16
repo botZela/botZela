@@ -36,7 +36,7 @@ const defaultExport: ICommand = {
 				// },
 				{
 					name: 'Any Suggestions',
-					value: `Consider sending us your feedback in <#922875567357984768>, Thanks.`,
+					value: 'Consider sending us your feedback in <#922875567357984768>, Thanks.',
 				},
 			]);
 

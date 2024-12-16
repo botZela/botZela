@@ -8,7 +8,7 @@ import {
 	Message,
 	ThreadAutoArchiveDuration,
 } from 'discord.js';
-import { client } from '../../../..';
+// import { client } from '../../../..';
 import type { ICommand } from '../../../../Typings';
 import { createEmbed } from '../../../../utils';
 
@@ -53,7 +53,7 @@ const defaultExport: ICommand = {
 				// },
 				{
 					name: 'Any Suggestions',
-					value: `Consider sending us your feedback in <#922875567357984768>, Thanks.`,
+					value: 'Consider sending us your feedback in <#922875567357984768>, Thanks.',
 				},
 			]);
 

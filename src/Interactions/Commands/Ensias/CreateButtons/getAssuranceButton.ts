@@ -31,7 +31,7 @@ const defaultExport: ICommand = {
 				"To get your Custom __**Assurance**__ press the button below `📥 Waa Tarii9 Siift l'Assurance`, to get your Insurance.\n",
 			)
 			.addFields([
-				{ name: 'Any Suggestions', value: `Consider sending us your feedback in <#922875567357984768>, Thanks.` },
+				{ name: 'Any Suggestions', value: 'Consider sending us your feedback in <#922875567357984768>, Thanks.' },
 			]);
 
 		row.addComponents(

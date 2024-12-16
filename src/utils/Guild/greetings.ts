@@ -2,7 +2,7 @@ import type { Snowflake } from 'discord.js';
 import { choice } from '../choice';
 
 export function greetings(memberId: Snowflake) {
-	const emojis = [`:confetti_ball:`, `:tada:`, `:partying_face:`, `:innocent:`, `:sparkles:`];
+	const emojis = [':confetti_ball:', ':tada:', ':partying_face:', ':innocent:', ':sparkles:'];
 	const emoji = choice(emojis);
 	const welcomeMsgs = [
 		`<@${memberId}> just joined the server ${emoji}- glhf!`,

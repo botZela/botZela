@@ -1,9 +1,9 @@
 import type { ChannelListType, StructureListType } from '../../Typings/buildServer';
 
-export function batchCreateVisualization(listFormat: StructureListType[], prefix = ''): string {
-	const middlePrefix = `${prefix}├── `;
-	const lastPrefix = `${prefix}└── `;
-	const parentsPrefix = `${prefix}│    `;
+export function batchCreateVisualization(listFormat: StructureListType[], prefix_arg = ''): string {
+	const middlePrefix = `${prefix_arg}├── `;
+	const lastPrefix = `${prefix_arg}└── `;
+	const parentsPrefix = `${prefix_arg}│    `;
 	const newLine = '\n';
 	let output = '';
 	let len = listFormat.length - 1;
@@ -22,7 +22,9 @@ export function batchCreateVisualization(listFormat: StructureListType[], prefix
 			output += newLine + branchPrefix + element[0];
 			try {
 				output += batchCreateVisualization(element[2]!, prefix);
-			} catch {}
+			} catch (err) {
+				console.error(err);
+			}
 		} else if (element[2] === 'forum') {
 			output += newLine + branchPrefix + '💭' + element[0];
 			output +=

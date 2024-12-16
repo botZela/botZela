@@ -1,6 +1,5 @@
 import process from 'node:process';
 import { ActivityType } from 'discord.js';
-import type { ConnectOptions } from 'mongoose';
 import mongoose from 'mongoose';
 import { client } from '../..';
 import type { Event } from '../../Structures';

@@ -1,4 +1,3 @@
-/* eslint-disable id-length */
 import process from 'node:process';
 import type { drive_v3 } from '@googleapis/drive';
 import { drive as GoogleDrive } from '@googleapis/drive';
@@ -147,7 +146,6 @@ function getQueryParam(param: string, url: string) {
 }
 
 export function getIdResourceKey(url: string) {
-	// eslint-disable-next-line unicorn/no-unsafe-regex
 	const regExResults = /\/drive\/(?<u>\/0\/)?folders\/(?<id>[\w-]+)(?<a>\?resourcekey=(?<resourcekey>[\w-]+))?/.exec(
 		url,
 	);
@@ -168,7 +166,7 @@ export async function driveSearchRec(driveId: string, path: string[]) {
 		});
 		const key = path.shift();
 		if (key) {
-			if (res.data.files)
+			if (res.data.files) {
 				for (const file of res.data.files) {
 					if (file.name === key) {
 						console.log('found', file.name);
@@ -176,6 +174,7 @@ export async function driveSearchRec(driveId: string, path: string[]) {
 						if (file.id) await driveSearchRec(file.id, path);
 					}
 				}
+			}
 		} else {
 			return driveId;
 		}

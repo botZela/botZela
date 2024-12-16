@@ -63,11 +63,12 @@ const defaultExport: ICommand = {
 		const subCommand = interaction.options.getSubcommand();
 		if (subCommand === 'reset') {
 			const worksheetUrl = (await linksModel.findOne({ guildId: interaction.guildId }))?.spreadsheet;
-			if (!worksheetUrl)
+			if (!worksheetUrl) {
 				return interaction.followUp({
 					embeds: [createErrorEmbed("Couldn't find the spreadsheet link")],
 					ephemeral: true,
 				});
+			}
 			const activeSheet = await GSpreadSheet.createFromUrl(worksheetUrl, 0);
 			if (target) {
 				// let index = await activeSheet.findCellCol(`${target.user.tag}`, 'F');
@@ -147,11 +148,11 @@ const defaultExport: ICommand = {
 				}
 
 				// const result = await Promise.allSettled(members.map(async (user) => updateRole(user)));
-				msg = `Everyone on the server Passed to the **Next Year**`;
+				msg = 'Everyone on the server Passed to the **Next Year**';
 			}
 
 			await interaction.followUp({
-				embeds: [createInfoEmbed(`Role Upgrade`, msg)],
+				embeds: [createInfoEmbed('Role Upgrade', msg)],
 			});
 		} else if (subCommand === 'downgrade') {
 			let msg = '';
@@ -177,11 +178,11 @@ const defaultExport: ICommand = {
 				}
 
 				// const result = await Promise.all( (await interaction.guild.members.fetch()).map(async (user) => downgradeRoles(user)),);
-				msg = `Everyone on the server Got **Downgraded**`;
+				msg = 'Everyone on the server Got **Downgraded**';
 			}
 
 			await interaction.followUp({
-				embeds: [createInfoEmbed(`Role Downgrade`, msg)],
+				embeds: [createInfoEmbed('Role Downgrade', msg)],
 				ephemeral: true,
 			});
 		}

@@ -11,7 +11,7 @@ const defaultExport: IButtonCommand = {
 
 	execute: async ({ interaction }) => {
 		if (interaction.guild) {
-			const logs = `%user% used ENSIAS DRIVE button.`;
+			const logs = '%user% used ENSIAS DRIVE button.';
 			await logsEmbed(logs, interaction.guild, 'info', interaction.member);
 		}
 

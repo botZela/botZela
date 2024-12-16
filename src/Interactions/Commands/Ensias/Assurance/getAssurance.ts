@@ -103,7 +103,6 @@ const defaultExport: ICommand = {
 			ephemeral: true,
 		});
 
-		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 		const dm = options ? (options.getBoolean('dm') === null ? true : options.getBoolean('dm')) : true;
 		if (dm) {
 			await member.send({
@@ -114,7 +113,7 @@ const defaultExport: ICommand = {
 			});
 		}
 
-		const logs = `%user% got their Insurance.`;
+		const logs = '%user% got their Insurance.';
 		await logsEmbed(logs, guild, 'info', member);
 	},
 };

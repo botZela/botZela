@@ -24,7 +24,9 @@ export function dictToList(structure: StructureType[]) {
 				channels = format.category[1].channels;
 				tt[2] = dictToList(channels) as ChannelListType[];
 				ll.push(tt);
-			} catch {}
+			} catch (err) {
+				console.error(err);
+			}
 
 			continue;
 		} catch (error) {
@@ -57,7 +59,9 @@ export function dictToList(structure: StructureType[]) {
 			try {
 				tt[3] = format.forum[1]?.tags;
 				ll.push(tt);
-			} catch {}
+			} catch (err) {
+				console.error(err);
+			}
 
 			continue;
 		} catch (error) {

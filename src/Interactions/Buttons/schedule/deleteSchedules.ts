@@ -10,13 +10,13 @@ const defaultExport: IButtonCommand = {
 		const { member, guild } = interaction;
 		if (!guild) {
 			return interaction.reply({
-				content: `I dont know how you got this button ...`,
+				content: 'I dont know how you got this button ...',
 				ephemeral: true,
 			});
 		}
 
 		await interaction.reply({
-			content: `Removing Old Schedules ... Please wait.`,
+			content: 'Removing Old Schedules ... Please wait.',
 			ephemeral: true,
 		});
 

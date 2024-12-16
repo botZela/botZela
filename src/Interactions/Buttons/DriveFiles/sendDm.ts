@@ -8,7 +8,7 @@ import { createEmbed, createErrorEmbed, logsEmbed } from '../../../utils';
 const defaultExport: IButtonCommand = {
 	id: 'button-drivefiles-send',
 	execute: async ({ interaction }) => {
-		const logs = `%user% have received a file from the drive.`;
+		const logs = '%user% have received a file from the drive.';
 		if (interaction.guild) await logsEmbed(logs, interaction.guild, 'info', interaction.member);
 
 		await interaction.deferReply({ ephemeral: true });
@@ -25,10 +25,10 @@ const defaultExport: IButtonCommand = {
 
 		const folder = userStack.at(-1)!;
 		const fileObj = await generatePublicUrl(folder);
-		const resultEmbed = createEmbed(`Get Files `, `📄 ${folder.name}`);
+		const resultEmbed = createEmbed('Get Files ', `📄 ${folder.name}`);
 		const component = new ActionRowBuilder<MessageActionRowComponentBuilder>();
 		if (fileObj.webViewLink) {
-			resultEmbed.addFields([{ name: `View File`, value: `Click [here](${fileObj.webViewLink}) to view the file.` }]);
+			resultEmbed.addFields([{ name: 'View File', value: `Click [here](${fileObj.webViewLink}) to view the file.` }]);
 			component.addComponents(
 				new ButtonBuilder({ style: ButtonStyle.Link, url: fileObj.webViewLink, label: 'View File', emoji: '📃' }),
 			);
@@ -36,7 +36,7 @@ const defaultExport: IButtonCommand = {
 
 		if (fileObj.webContentLink) {
 			resultEmbed.addFields([
-				{ name: `Download File`, value: `Click [here](${fileObj.webContentLink}) to download the file.` },
+				{ name: 'Download File', value: `Click [here](${fileObj.webContentLink}) to download the file.` },
 			]);
 			component.addComponents(
 				new ButtonBuilder({

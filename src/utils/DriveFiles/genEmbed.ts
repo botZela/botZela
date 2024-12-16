@@ -8,7 +8,7 @@ import { driveFilesSelectMenuOptions } from './makeSelectMenuOption';
 
 export async function fileEmbed(file: DriveFileInterface): Promise<InteractionReplyOptions> {
 	const fileObj = await generatePublicUrl({ name: file.name, id: file.id, resourceKey: file.resourceKey });
-	const resultEmbed = createEmbed(`Get Files `, `📄 ${file.name}`);
+	const resultEmbed = createEmbed('Get Files ', `📄 ${file.name}`);
 	const component = new ActionRowBuilder<MessageActionRowComponentBuilder>().addComponents(
 		new ButtonBuilder({
 			customId: 'button-drivefiles-back',
@@ -18,7 +18,7 @@ export async function fileEmbed(file: DriveFileInterface): Promise<InteractionRe
 		}),
 	);
 	if (fileObj.webViewLink) {
-		resultEmbed.addFields([{ name: `View File`, value: `Click [here](${fileObj.webViewLink}) to view the file.` }]);
+		resultEmbed.addFields([{ name: 'View File', value: `Click [here](${fileObj.webViewLink}) to view the file.` }]);
 		component.addComponents(
 			new ButtonBuilder({ style: ButtonStyle.Link, url: fileObj.webViewLink, label: 'View File', emoji: '📃' }),
 		);
@@ -26,7 +26,7 @@ export async function fileEmbed(file: DriveFileInterface): Promise<InteractionRe
 
 	if (fileObj.webContentLink) {
 		resultEmbed.addFields([
-			{ name: `Download File`, value: `Click [here](${fileObj.webContentLink}) to download the file.` },
+			{ name: 'Download File', value: `Click [here](${fileObj.webContentLink}) to download the file.` },
 		]);
 		component.addComponents(
 			new ButtonBuilder({
@@ -62,7 +62,7 @@ export async function driveFilesEmbed(
 ): Promise<InteractionReplyOptions> {
 	const options = await driveFilesSelectMenuOptions(folder);
 	if (!options) {
-		const errorEmbed = createEmbed(`Get Files`, 'This Folder is Empty.').addFields(
+		const errorEmbed = createEmbed('Get Files', 'This Folder is Empty.').addFields(
 			{ name: 'Any Suggestions', value: 'Consider sending us your feedback in <#922875567357984768>, Thanks.' },
 			{ name: 'Any Errors', value: 'Consider sending us your feedback in <#939564676038140004>, Thanks.' },
 		);
@@ -70,7 +70,7 @@ export async function driveFilesEmbed(
 	}
 
 	const panelEmbed = createEmbed(
-		`Get Files `,
+		'Get Files ',
 		`📁 [${path.name}](${path.link})\nThe easiest way to get access directly to the files that you are looking for.\n`,
 	).addFields(
 		{ name: 'Any Suggestions', value: 'Consider sending us your feedback in <#922875567357984768>, Thanks.' },

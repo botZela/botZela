@@ -91,7 +91,7 @@ const defaultExport: ICommand = {
 
 		if (threads) {
 			for (const thread of threads.threads.values()) {
-				const messages = await fetchAllMessages(thread, true);
+				const thread_messages = await fetchAllMessages(thread, true);
 				const threadOwner = await thread.fetchOwner();
 				try {
 					await webhookDest.send({
@@ -106,14 +106,14 @@ const defaultExport: ICommand = {
 					console.error(error);
 				}
 
-				for (const msg of messages) {
+				for (const msg of thread_messages) {
 					try {
 						if (
 							msg.embeds.length > 0 ||
 							msg.attachments.size > 0 ||
 							msg.content.length > 0 ||
 							msg.components.length > 0
-						)
+						) {
 							await webhookDest.send({
 								// Webhook params
 								username: msg.member?.displayName,
@@ -125,6 +125,7 @@ const defaultExport: ICommand = {
 								embeds: msg.embeds,
 								files: msg.attachments.toJSON(),
 							});
+						}
 					} catch (error) {
 						console.error(error);
 					}

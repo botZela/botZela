@@ -27,13 +27,13 @@ export function driveFilesSelectMenuOptionsFromArray(folders: DriveFileInterface
 				}
 
 				if (!description) description = file.mimeType === 'application/vnd.google-apps.folder' ? 'Folder' : 'File';
-				const output: SelectMenuComponentOptionData = {
+				const component_option_data: SelectMenuComponentOptionData = {
 					label,
 					value,
 					description,
 					emoji: description === 'Folder' ? '📁' : '📄',
 				};
-				return output;
+				return component_option_data;
 			}
 
 			return undefined;

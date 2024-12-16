@@ -183,8 +183,8 @@ const defaultExport: ICommand = {
 
 		if (subCommand.startsWith('panel')) {
 			const embed = createEmbed(
-				`Get Files `,
-				`The easiest way to get access directly to the files that you are looking for.\n(Cours, TD, TP, Exams, Lasse9at, ...)`,
+				'Get Files ',
+				'The easiest way to get access directly to the files that you are looking for.\n(Cours, TD, TP, Exams, Lasse9at, ...)',
 			).addFields(
 				{ name: 'Any Suggestions', value: 'Consider sending us your feedback in <#922875567357984768>, Thanks.' },
 				{ name: 'Any Errors', value: 'Consider sending us your feedback in <#939564676038140004>, Thanks.' },

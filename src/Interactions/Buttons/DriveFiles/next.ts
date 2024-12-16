@@ -26,8 +26,9 @@ const defaultExport: IButtonCommand = {
 		const folder = stack.at(-1)!;
 
 		let page = 1;
-		if (messageComponents[1].components[1].type === ComponentType.Button)
+		if (messageComponents[1].components[1].type === ComponentType.Button) {
 			page = Number.parseInt(messageComponents[1].components[1].customId!, 10) + 1;
+		}
 
 		if (folder.id === 'ensiasDrive') {
 			const [year, filiere] = folder.name.split('_');

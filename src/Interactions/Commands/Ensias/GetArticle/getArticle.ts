@@ -22,9 +22,9 @@ const defaultExport: ICommand = {
 		const article = await getArticle(doi);
 		const { member } = interaction;
 		const embed = createEmbed('Article Finder', 'The article is sent to your DMs ');
-		const embed2 = createEmbed(`Article Finder`, 'Your article is ready ');
-		const embed3 = createEmbed(`Article Finder`, 'Article or DOI is unavailable.');
-		const embed4 = createEmbed(`Article Finder`, 'Size of the article is bigger than 8MB.');
+		const embed2 = createEmbed('Article Finder', 'Your article is ready ');
+		const embed3 = createEmbed('Article Finder', 'Article or DOI is unavailable.');
+		const embed4 = createEmbed('Article Finder', 'Size of the article is bigger than 8MB.');
 		if (article === undefined || article === 0) {
 			await interaction.followUp({
 				ephemeral: true,

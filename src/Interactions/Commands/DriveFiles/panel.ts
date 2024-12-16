@@ -73,7 +73,7 @@ const defaultExport: ICommand = {
 		const driveData = await guildDrive.find({ guildId: guild.id, channelId: channel.id });
 
 		const panelEmbed = createEmbed(
-			`Get Files `,
+			'Get Files ',
 			`The easiest way to get access directly to the files that you are looking for.\nCurrent folder : __**${folder.name}**__.\n`,
 		).addFields(
 			{ name: 'Any Suggestions', value: 'Consider sending us your feedback in <#922875567357984768>, Thanks.' },

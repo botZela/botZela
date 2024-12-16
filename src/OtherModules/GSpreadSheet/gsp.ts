@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import process from 'node:process';
 import type { sheets_v4 } from '@googleapis/sheets';
 import { sheets as GoogleSheets } from '@googleapis/sheets';

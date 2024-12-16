@@ -182,7 +182,7 @@ const defaultExport: ICommand = {
 			return interaction.followUp({ content: 'This command is used inside a server ...', ephemeral: true });
 		}
 
-		const subCommand = interaction.options.getSubcommand();
+		let subCommand = interaction.options.getSubcommand();
 		if (subCommand === 'server') {
 			await setupServer(interaction);
 			return interaction.followUp({ content: 'Setting up the server .... ', ephemeral: true });
@@ -234,7 +234,7 @@ const defaultExport: ICommand = {
 			try {
 				link = linkChecker.parse(interaction.options.getString('url'));
 			} catch {
-				return await interaction.followUp({ content: `Please enter a valid Link ( https://....) `, ephemeral: true });
+				return await interaction.followUp({ content: 'Please enter a valid Link ( https://....) ', ephemeral: true });
 			}
 
 			if (subCommand === 'spreadsheet') {
@@ -252,10 +252,10 @@ const defaultExport: ICommand = {
 					});
 				}
 
-				return interaction.followUp({ content: `This server's Form Link Added Successfully.`, ephemeral: true });
+				return interaction.followUp({ content: "This server's Form Link Added Successfully.", ephemeral: true });
 			}
 		} else if (subCommandGroup === 'autoreact') {
-			const subCommand = interaction.options.getSubcommand();
+			subCommand = interaction.options.getSubcommand();
 			if (subCommand === 'enable') {
 				const channel = interaction.options.getChannel('channel', true);
 				const emojis = interaction.options.getString('emojis', true);

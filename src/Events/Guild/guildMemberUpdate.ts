@@ -8,7 +8,7 @@ const defaultExport: Event<'guildMemberUpdate'> = {
 		if (oldMember.pending && !newMember.pending) {
 			client.emit('guildMemberAdd', newMember);
 			await logsEmbed(
-				`%user% completed the Membership Screening. (Accepted the rules)`,
+				'%user% completed the Membership Screening. (Accepted the rules)',
 				newMember.guild,
 				'info',
 				newMember,

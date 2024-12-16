@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { glob } from 'glob';
 import type { Event } from '../../Structures';
 import { importFile, logsEmbed } from '../../utils';
@@ -10,7 +7,6 @@ const defaultExport: Event<'guildUpdate'> = {
 	async execute(oldGuild, newGuild): Promise<void> {
 		if (oldGuild.name === newGuild.name) return;
 
-		// eslint-disable-next-line n/no-path-concat
 		const modelsFolder = await glob(`${__dirname}/../../Models/*.{ts,js}`);
 		if (!modelsFolder.length) return;
 

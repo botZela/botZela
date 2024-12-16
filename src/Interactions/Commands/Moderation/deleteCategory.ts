@@ -29,7 +29,7 @@ const defaultExport: ICommand = {
 		let check = true;
 
 		for (const child of category.children.cache.values()) {
-			if (child.deletable)
+			if (child.deletable) {
 				try {
 					const messages = await child.messages.fetch();
 					if (messages.size === 0) {
@@ -41,6 +41,7 @@ const defaultExport: ICommand = {
 					console.error(error);
 					check = false;
 				}
+			}
 		}
 
 		if (check) await category.delete();

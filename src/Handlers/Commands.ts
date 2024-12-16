@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 import type { Client } from '../Structures';
 import type { ICommand } from '../Typings';
 import { importFile } from '../utils';
@@ -9,7 +6,6 @@ import { importFile } from '../utils';
 export async function commandHandler(client: Client, PG: any, Ascii: any): Promise<void> {
 	const Table = new Ascii('Command Loaded');
 
-	// eslint-disable-next-line n/no-path-concat
 	const commandsFiles: string[] = await PG(`${__dirname}/../Interactions/Commands/**/*.{ts,js}`);
 	if (!commandsFiles.length) return;
 

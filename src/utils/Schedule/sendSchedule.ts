@@ -8,7 +8,6 @@ import type { FiliereNameType, GroupeNameType, YearNameType } from '../../Typing
 import { createEmbed } from '../Embeds';
 import { logsEmbed } from '../Logger';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function sendSchedule(
 	interaction: ExtendedButtonInteraction | ExtendedCommandInteraction,
 	filiere: FiliereNameType,
@@ -75,8 +74,9 @@ export async function sendSchedule(
 	};
 
 	for (const fileObj of filesObjList) {
-		if (!fileObj.permissions?.some((y) => isDeepStrictEqual(y, anyonePerm)))
+		if (!fileObj.permissions?.some((y) => isDeepStrictEqual(y, anyonePerm))) {
 			await givePermissionsToAnyone(fileObj.id ?? '');
+		}
 
 		if (fileObj.mimeType === 'application/pdf') {
 			pdfLinks.webContentLink = fileObj.webContentLink ?? undefined;

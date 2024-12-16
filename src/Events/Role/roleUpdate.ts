@@ -8,7 +8,7 @@ const defaultExport: Event<'roleUpdate'> = {
 		if (oldRole.name === newRole.name) return;
 		const guildData = await gRoles.findOne({ guildId: newRole.guild.id });
 		if (!guildData) {
-			const log = `Could not find the guild in DB.`;
+			const log = 'Could not find the guild in DB.';
 			return logsEmbed(log, oldRole.guild, 'error');
 		}
 

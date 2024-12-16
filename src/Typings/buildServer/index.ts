@@ -4,7 +4,6 @@ export const zChannelType = z
 	.object({
 		channel: z
 			.string({
-				// eslint-disable-next-line camelcase
 				required_error: 'You need to insert Channel',
 			})
 			.regex(/.+,\s*(?<type>voice|text|stage)(?<roles>\s*,.*)?$/),
